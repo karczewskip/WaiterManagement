@@ -37,7 +37,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Label Content="Manage Weiters" Margin="10 0"/>
+            <Label Content="Manage Waiters" Margin="10 0"/>
             <Button Content="Open Manager" Grid.Row="1" Margin="10"/>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="4">
