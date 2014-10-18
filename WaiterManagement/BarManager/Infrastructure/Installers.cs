@@ -1,5 +1,5 @@
 ﻿using BarManager.Abstract;
-using BarManager.Concrete;
+using BarManager.View;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace BarManager.Infrastructure
 {
-    class Installers
+    public class Installers
     {
         internal static void ConfigureContainer(out IKernel container)
         {
             container = new StandardKernel();
             container.Bind<IMainWindow>().To<MainWindow>().InSingletonScope();
+            container.Bind<IMenuManager>().To<MenuManager>().InSingletonScope();
+            container.Bind<ITableManager>().To<TableManager>().InSingletonScope();
+            container.Bind<IWaiterManager>().To<WaiterManager>().InSingletonScope();
         }
     }
 }

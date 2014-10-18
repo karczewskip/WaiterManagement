@@ -11,17 +11,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BarManager.Concrete
+namespace BarManager.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TableManager.xaml
     /// </summary>
-    public partial class MainWindow : Window, IMainWindow
+    public partial class TableManager : Window, ITableManager
     {
-        public MainWindow()
+        public TableManager()
         {
             InitializeComponent();
         }
