@@ -14,12 +14,12 @@ namespace WcfServiceLib
     [DataContract]
     public class MenuItem
     {
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public int CategoryId { get; private set; }
-        public virtual MenuItemCategory Category { get; private set; }
-        public Money Price { get; private set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int CategoryId { get; set; }
+        public virtual MenuItemCategory Category { get; set; }
+        public Money Price { get; set; }
     }
 
     /// <summary>
@@ -28,9 +28,9 @@ namespace WcfServiceLib
     [DataContract]
     public class MenuItemCategory
     {
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public string Description { get; private set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     /// <summary>
@@ -40,8 +40,8 @@ namespace WcfServiceLib
     [ComplexType]
     public class Money
     {
-        public float Amount { get; private set; }
-        public string Currency { get; private set; }
+        public float Amount { get; set; }
+        public string Currency { get; set; }
     }
 
     /// <summary>
