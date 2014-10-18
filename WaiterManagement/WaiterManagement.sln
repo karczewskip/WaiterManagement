@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostService_doprzerobienia", "HostService_2\HostService_doprzerobienia.csproj", "{A087CB52-58EC-444F-9950-FEB472A0273B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostService_doprzerobienia", "HostService_doprzerobienia\HostService_doprzerobienia.csproj", "{A087CB52-58EC-444F-9950-FEB472A0273B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "WcfServiceLib\ClassLib.csproj", "{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "ClassLib\ClassLib.csproj", "{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
