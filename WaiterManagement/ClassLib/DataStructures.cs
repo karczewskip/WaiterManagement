@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -16,7 +17,8 @@ namespace WcfServiceLib
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public MenuItemCategory Category { get; private set; }
+        public int CategoryId { get; private set; }
+        public virtual MenuItemCategory Category { get; private set; }
         public Money Price { get; private set; }
     }
 
@@ -35,6 +37,7 @@ namespace WcfServiceLib
     /// Klasa pomocnicza do reprezentująca wartości pieniężne
     /// </summary>
     [DataContract]
+    [ComplexType]
     public class Money
     {
         public float Amount { get; private set; }
@@ -47,6 +50,10 @@ namespace WcfServiceLib
     [DataContract]
     public class Order
     {
+        public Order()
+        {
+            MenuItems = new HashSet<MenuItem>();
+        }
         public int Id { get; private set; }
         public int UserId { get; private set; }
         public int WaiterId { get; private set; }
