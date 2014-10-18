@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BarManager.Abstract
 {
-    interface IWaiterManager
+    public interface IWaiterManager
     {
+        void Show();
     }
 }

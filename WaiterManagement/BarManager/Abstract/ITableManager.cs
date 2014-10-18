@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BarManager.Abstract
 {
-    interface ITableManager
+    public interface ITableManager
     {
+        void Show();
     }
 }

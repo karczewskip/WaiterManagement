@@ -22,10 +22,14 @@ namespace BarManager.View
     public partial class MainWindow : Window, IMainWindow
     {
         IMenuManager MenuManager;
+        ITableManager TableManager;
+        IWaiterManager WaiterManager;
 
-        public MainWindow(IMenuManager menuManager)
+        public MainWindow(IMenuManager menuManager,ITableManager tableManager, IWaiterManager waiterManager)
         {
             MenuManager = menuManager;
+            TableManager = tableManager;
+            WaiterManager = waiterManager;
 
             InitializeComponent();
         }
@@ -35,11 +39,19 @@ namespace BarManager.View
             MenuManager.Show();
         }
 
+        private void TableManagerButton_Click(object sender, RoutedEventArgs e)
+        {
+            TableManager.Show();
+        }
+
+        private void WaiterManagerButton_Click(object sender, RoutedEventArgs e)
+        {
+            WaiterManager.Show();
+        }
+
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            //MenuManager.Close();
-
-            base.OnClosing(e);
+            Application.Current.Shutdown();
         }
 
         
