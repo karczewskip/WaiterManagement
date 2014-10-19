@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
-using WcfServiceLib;
+using ClassLib.DbDataStructures;
 using System.Collections.ObjectModel;
 
 namespace BarManager.ViewModel
