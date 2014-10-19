@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace BarManager.View
 {
     /// <summary>
-    /// Interaction logic for TableManager.xaml
+    /// Interaction logic for AddMenuItemWindow.xaml
     /// </summary>
-    public partial class TableManager : Window, ITableManager
+    public partial class AddMenuItemWindow : Window, IAddMenuItemWindow
     {
-        public TableManager()
+        public AddMenuItemWindow()
         {
             InitializeComponent();
         }
@@ -28,7 +28,7 @@ namespace BarManager.View
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            Hide();
+            this.Hide();
         }
     }
 }

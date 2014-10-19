@@ -1,5 +1,6 @@
 ﻿using BarManager.Abstract;
 using BarManager.View;
+using BarManager.ViewModel;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace BarManager.Infrastructure
             container.Bind<IMenuManager>().To<MenuManager>().InSingletonScope();
             container.Bind<ITableManager>().To<TableManager>().InSingletonScope();
             container.Bind<IWaiterManager>().To<WaiterManager>().InSingletonScope();
+            container.Bind<IAddMenuItemWindow>().To<AddMenuItemWindow>().InSingletonScope();
+
+            container.Bind<IMenuManagerViewModel>().To<MenuManagerViewModel>().InTransientScope();
         }
     }
 }

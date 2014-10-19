@@ -20,9 +20,39 @@ namespace BarManager.View
     /// </summary>
     public partial class MenuManager : Window, IMenuManager
     {
-        public MenuManager()
+        IMenuManagerViewModel MenuManagerViewModel;
+        IAddMenuItemWindow AddMenuItemWindow;
+
+        public MenuManager(IMenuManagerViewModel menuManagerViewModel, IAddMenuItemWindow addMenuItemView)
         {
+            MenuManagerViewModel = menuManagerViewModel;
+            AddMenuItemWindow = addMenuItemView;
+
+            this.DataContext = menuManagerViewModel;
+
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Close button reaction
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddMenuItemWindow.ShowDialog();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

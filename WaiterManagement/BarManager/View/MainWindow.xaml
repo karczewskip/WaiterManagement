@@ -31,7 +31,7 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <Label Content="Manage Weiters" Margin="10 0"/>
-                <Button Content="Open Manager" Grid.Row="1" Margin="10"/>
+                <Button Name="WaiterManagerButton" Content="Open Manager" Grid.Row="1" Margin="10" Click="WaiterManagerButton_Click"/>
             </Grid>
             <Grid Grid.Row="1" Grid.Column="3">
                 <Grid.RowDefinitions>
@@ -39,7 +39,7 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <Label Content="Manage Bar" Margin="10 0"/>
-                <Button Content="Open Manager" Grid.Row="1" Margin="10"/>
+                <Button Name="TableManagerButton" Content="Open Manager" Grid.Row="1" Margin="10" Click="TableManagerButton_Click"/>
             </Grid>
         </Grid>
     </Grid>

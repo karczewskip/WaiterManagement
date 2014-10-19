@@ -1,8 +1,63 @@
 ﻿<Window x:Class="BarManager.View.MenuManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MenuManager" Height="300" Width="300">
+        Title="MenuManager" Height="300" Width="600">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="20"/>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ListOfMenuItems}" SelectionMode="Single" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="NameColumn" Width="150" DisplayMemberBinding="{Binding Name}" >
+                        <GridViewColumnHeader Tag="Name" Content="Name" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="CategoryColumn" Width="150" DisplayMemberBinding="{Binding Category.Name}" >
+                        <GridViewColumnHeader Tag="Category" Content="Category" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="DescriptionColumn" Width="150" DisplayMemberBinding="{Binding Description}" >
+                        <GridViewColumnHeader Tag="Description" Content="Description" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="PriceColumn" Width="150">
+                        <GridViewColumnHeader Tag="Price" Content="Price" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate >
+                                <TextBlock Tag="{Binding}">
+                                    <Run Text="{Binding Price.Amount}"/>
+                                    <!--<Run Text=" " />-->
+                                    <Run Text="{Binding Price.Currency}" />
+                                </TextBlock>
+                            </DataTemplate>
+
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+
+                </GridView>
+            </ListView.View>
+            
+        </ListView>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="110"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="AddButton" Grid.Column="0" Margin="0" Height="25" Width="80" Click="AddButton_Click" HorizontalAlignment="Left">
+                Add</Button>
+            <Button Name="DeleteButton" Grid.Column="1" Height="25" Width="80" Click="DeleteButton_Click" HorizontalAlignment="Left">
+                Delete</Button>
+            <Button Name="CloseButton" Grid.Column="3" Height="25" Width="100" Click="CloseButton_Click" HorizontalAlignment="Right">
+                Close</Button>
+        </Grid>
     </Grid>
 </Window>
