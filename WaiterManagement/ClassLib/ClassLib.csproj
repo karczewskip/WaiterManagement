@@ -54,7 +54,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructures\DataStructures.cs" />
     <Compile Include="DbDataStructures\DbDataStructures.cs" />
     <Compile Include="ServiceContracts\IWCFService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +63,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataStructures\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
