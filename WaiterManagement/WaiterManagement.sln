@@ -5,11 +5,13 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "ClassLib\ClassLib.csproj", "{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessProvider", "DataAccessProvider\DataAccessProvider.csproj", "{41F66C53-CD5D-4459-A05E-68ABFE7F697A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{41F66C53-CD5D-4459-A05E-68ABFE7F697A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarManager", "BarManager\BarManager.csproj", "{5F853BF4-96E1-4C06-8F50-898E77C3C9B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaiterClient", "WaiterClient\WaiterClient.csproj", "{4FF01898-26EE-4172-9691-A39B5E77A32F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.UnitTests", "DataAccess.UnitTests\DataAccess.UnitTests.csproj", "{035A8554-C8F1-4577-A66C-2FF4F8CDED51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4FF01898-26EE-4172-9691-A39B5E77A32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FF01898-26EE-4172-9691-A39B5E77A32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FF01898-26EE-4172-9691-A39B5E77A32F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

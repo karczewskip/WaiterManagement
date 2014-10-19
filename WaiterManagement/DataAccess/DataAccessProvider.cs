@@ -4,9 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WcfServiceLib;
+using ClassLib.DbDataStructures;
 
-namespace DataAccessProvider
+namespace DataAccess
 {
     class DataAccessProvider : DbContext
     {
