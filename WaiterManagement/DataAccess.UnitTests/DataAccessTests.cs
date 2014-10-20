@@ -47,7 +47,7 @@ namespace DataAccess.UnitTests
             Assert.IsNotNull(categories);
             Assert.IsTrue(categories.Any());
 
-            MenuItem newMenuItem = managerDataAccess.AddMenuItem(name, description, categories.First(), price);
+            MenuItem newMenuItem = managerDataAccess.AddMenuItem(name, description, categories.First().Id, price);
 
             Assert.IsNotNull(newMenuItem);
             Assert.AreNotEqual(newMenuItem.Id, 0);
@@ -76,7 +76,7 @@ namespace DataAccess.UnitTests
             Assert.IsNotNull(categories);
             Assert.IsTrue(categories.Any());
 
-            MenuItem newMenuItem = managerDataAccess.AddMenuItem(name, description, categories.First(), price);
+            MenuItem newMenuItem = managerDataAccess.AddMenuItem(name, description, categories.First().Id, price);
 
             Assert.IsNotNull(newMenuItem);
             Assert.AreNotEqual(newMenuItem.Id, 0);
@@ -176,7 +176,7 @@ namespace DataAccess.UnitTests
             Assert.IsNotNull(categories);
             Assert.IsTrue(categories.Any());
 
-            MenuItem newMenuItem = managerDataAccess.AddMenuItem(name, description, categories.First(), price);
+            MenuItem newMenuItem = managerDataAccess.AddMenuItem(name, description, categories.First().Id, price);
 
             Assert.IsNotNull(newMenuItem);
             Assert.AreNotEqual(newMenuItem.Id, 0);

@@ -19,7 +19,7 @@ namespace DataAccess
         MenuItemCategory AddMenuItemCategory(string name, string description);
         bool EditMenuItemCategory(MenuItemCategory menuItemCategoryToEdit);
         bool RemoveMenuItemCategory(int categoryId);
-        MenuItem AddMenuItem(string name, string description, MenuItemCategory category, Money price);
+        MenuItem AddMenuItem(string name, string description, int categoryId, Money price);
         bool EditMenuItem(MenuItem menuItemToEdit);
         bool RemoveMenuItem(int menuItemId);
         WaiterContext AddWaiter(string firstName, string lastName, string login, string password);
