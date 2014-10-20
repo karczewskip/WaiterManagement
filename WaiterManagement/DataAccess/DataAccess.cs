@@ -67,19 +67,20 @@ namespace DataAccess
             }
         }
 
-        public MenuItem AddMenuItem(string name, string description, MenuItemCategory category, Money price)
+        public MenuItem AddMenuItem(string name, string description, int categoryId, Money price)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name is null");
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException("description is null");
-            if (category == null)
-                throw new ArgumentNullException("category is null");
 
             MenuItem newMenuItem = null;
 
             using (var db = new DataAccessProvider())
             {
+                MenuItemCategory category = db.MenuItemCategories.Find(categoryId);
+                if (category == null)
+                    return null;
                 newMenuItem = new MenuItem() {Name = name, Description = description, Category = category, Price = price};
                 db.MenuItems.Add(newMenuItem);
                 db.SaveChanges();

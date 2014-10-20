@@ -6,19 +6,31 @@ using System.Threading.Tasks;
 using BarManager.Abstract;
 using ClassLib.DbDataStructures;
 using System.Collections.ObjectModel;
+using DataAccess;
 
 namespace BarManager.ViewModel
 {
     public class MenuManagerViewModel : IMenuManagerViewModel
     {
+        private IBarDataModel DataModel;
+
         public IList<MenuItem> ListOfMenuItems { get; set; }
+        public IList<MenuItemCategory> ListOfCategories { get; set; }
 
-        public MenuManagerViewModel()
+        public MenuManagerViewModel(IBarDataModel dataModel)
         {
-            ListOfMenuItems = new ObservableCollection<MenuItem>();
+            DataModel = dataModel;
 
-            ListOfMenuItems.Add(new MenuItem() { Id = 1, Name = "Piwo", Category = new MenuItemCategory() { Id = 1, Name = "Drinks" }, Description = "0,5L", Price = new Money() { Amount = 6, Currency = "zl" } });
-            ListOfMenuItems.Add(new MenuItem() { Id = 2, Name = "Wódka", Category = new MenuItemCategory() { Id = 1, Name = "Drinks" }, Description = "0,5L", Price = new Money() { Amount = 30, Currency = "zl" } });
+            ListOfMenuItems = new ObservableCollection<MenuItem>();
+            ListOfCategories = new ObservableCollection<MenuItemCategory>();
+
+            InitializeData();
+        }
+
+        private void InitializeData()
+        {
+            ListOfCategories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
+            ListOfMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
         }
         
     }

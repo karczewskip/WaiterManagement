@@ -34,10 +34,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,12 +64,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\IAddCategoryItemWindow.cs" />
+    <Compile Include="Abstract\IAddMenuItemViewModel.cs" />
     <Compile Include="Abstract\IAddMenuItemWindow.cs" />
     <Compile Include="Abstract\IMenuManager.cs" />
     <Compile Include="Abstract\IMenuManagerViewModel.cs" />
     <Compile Include="Abstract\ITableManager.cs" />
     <Compile Include="Abstract\IWaiterManager.cs" />
+    <Compile Include="Abstract\IBarDataModel.cs" />
+    <Compile Include="Abstract\IAddCategoryViewModel.cs" />
+    <Compile Include="Model\BarDataModel.cs" />
+    <Compile Include="ViewModel\AddCategoryViewModel.cs" />
+    <Compile Include="ViewModel\AddMenuItemViewModel.cs" />
     <Compile Include="ViewModel\MenuManagerViewModel.cs" />
+    <Compile Include="View\AddCategoryItemWindow.xaml.cs">
+      <DependentUpon>AddCategoryItemWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddMenuItemWindow.xaml.cs">
       <DependentUpon>AddMenuItemWindow.xaml</DependentUpon>
     </Compile>
@@ -74,6 +92,10 @@
     <Compile Include="View\WaiterManager.xaml.cs">
       <DependentUpon>WaiterManager.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\AddCategoryItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddMenuItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,7 +161,12 @@
       <Project>{acbba626-fc2a-4d24-a53e-cc0cd42823aa}</Project>
       <Name>ClassLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{41f66c53-cd5d-4459-a05e-68abfe7f697a}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

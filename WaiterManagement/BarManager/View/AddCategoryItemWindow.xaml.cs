@@ -1,5 +1,4 @@
-﻿using BarManager.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,28 +11,29 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BarManager.Abstract;
 
 namespace BarManager.View
 {
     /// <summary>
-    /// Interaction logic for AddMenuItemWindow.xaml
+    /// Interaction logic for AddCategoryItemWindow.xaml
     /// </summary>
-    public partial class AddMenuItemWindow : Window, IAddMenuItemWindow
+    public partial class AddCategoryItemWindow : Window, IAddCategoryItemWindow
     {
-        private IAddMenuItemViewModel AddMenuItemViewModel;
+        private IAddCategoryViewModel AddCategoryViewModel;
 
-        public AddMenuItemWindow(IAddMenuItemViewModel addMenuItemViewModel)
+        public AddCategoryItemWindow(IAddCategoryViewModel addCategoryViewModel)
         {
-            AddMenuItemViewModel = addMenuItemViewModel;
+            AddCategoryViewModel = addCategoryViewModel;
 
-            this.DataContext = AddMenuItemViewModel;
+            this.DataContext = AddCategoryViewModel;
 
             InitializeComponent();
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (AddMenuItemViewModel.AddMenuItem())
+            if (AddCategoryViewModel.AddCategory())
                 Close();
         }
 
