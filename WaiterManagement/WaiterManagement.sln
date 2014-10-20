@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "ClassLib\ClassLib.csproj", "{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{41F66C53-CD5D-4459-A05E-68ABFE7F697A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarManager", "BarManager\BarManager.csproj", "{5F853BF4-96E1-4C06-8F50-898E77C3C9B9}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaiterClient", "WaiterClien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.UnitTests", "DataAccess.UnitTests\DataAccess.UnitTests.csproj", "{035A8554-C8F1-4577-A66C-2FF4F8CDED51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "ClassLib\ClassLib.csproj", "{0F2C99C2-914C-40D5-A0FE-FF4A79854ACE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACBBA626-FC2A-4D24-A53E-CC0CD42823AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41F66C53-CD5D-4459-A05E-68ABFE7F697A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41F66C53-CD5D-4459-A05E-68ABFE7F697A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41F66C53-CD5D-4459-A05E-68ABFE7F697A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2C99C2-914C-40D5-A0FE-FF4A79854ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2C99C2-914C-40D5-A0FE-FF4A79854ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2C99C2-914C-40D5-A0FE-FF4A79854ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2C99C2-914C-40D5-A0FE-FF4A79854ACE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
