@@ -65,6 +65,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Abstract\IAddCategoryItemWindow.cs" />
+    <Compile Include="Abstract\IAddMenuItemViewModel.cs" />
     <Compile Include="Abstract\IAddMenuItemWindow.cs" />
     <Compile Include="Abstract\IMenuManager.cs" />
     <Compile Include="Abstract\IMenuManagerViewModel.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Abstract\IAddCategoryViewModel.cs" />
     <Compile Include="Model\BarDataModel.cs" />
     <Compile Include="ViewModel\AddCategoryViewModel.cs" />
+    <Compile Include="ViewModel\AddMenuItemViewModel.cs" />
     <Compile Include="ViewModel\MenuManagerViewModel.cs" />
     <Compile Include="View\AddCategoryItemWindow.xaml.cs">
       <DependentUpon>AddCategoryItemWindow.xaml</DependentUpon>

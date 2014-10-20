@@ -43,5 +43,21 @@ namespace BarManager.Model
         {
             return ManagerDataAccess.GetMenuItems().ToList();
         }
+
+
+        public MenuItem AddMenuItem(string menuItemName, int categoryId, double price, string menuItemDescription)
+        {
+            MenuItem AddingMenuItem;
+            try
+            {
+                //AddingMenuItem = ManagerDataAccess.AddMenuItem()
+            }
+            catch
+            {
+
+            }
+
+            return null;
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace BarManager.Infrastructure
             container.Bind<IAddCategoryItemWindow>().To<AddCategoryItemWindow>().InSingletonScope();
             container.Bind<IBarDataModel>().To<BarDataModel>().InSingletonScope();
             container.Bind<IAddCategoryViewModel>().To<AddCategoryViewModel>().InSingletonScope();
+            container.Bind<IAddMenuItemViewModel>().To<AddMenuItemViewModel>().InSingletonScope();
             
 
             container.Bind<IMenuManagerViewModel>().To<MenuManagerViewModel>().InSingletonScope();

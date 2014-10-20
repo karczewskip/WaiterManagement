@@ -24,10 +24,11 @@ namespace BarManager.ViewModel
 
         public bool AddCategory()
         {
-            if (string.IsNullOrEmpty(CategoryName))
+            if (string.IsNullOrEmpty(CategoryName) || string.IsNullOrEmpty(CategoryDescription))
+            {
+                MessageBox.Show("Some Fields are empty");
                 return false;
-
-            
+            }
 
             if( MenuManagerViewModel.ListOfCategories.Any(cat => cat.Name.Equals(CategoryName)))
             {

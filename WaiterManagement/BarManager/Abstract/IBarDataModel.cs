@@ -10,8 +10,10 @@ namespace BarManager.Abstract
     public interface IBarDataModel
     {
         IList<MenuItemCategory> GetAllCategories();
-        MenuItemCategory AddCategoryItem(string CategoryName, string CategoryDescription);
+        MenuItemCategory AddCategoryItem(string categoryName, string categoryDescription);
 
         IList<MenuItem> GetAllMenuItems();
+
+        MenuItem AddMenuItem(string menuItemName, int categoryId, double price, string menuItemDescription);
     }
 }

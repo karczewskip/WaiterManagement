@@ -20,9 +20,21 @@ namespace BarManager.View
     /// </summary>
     public partial class AddMenuItemWindow : Window, IAddMenuItemWindow
     {
-        public AddMenuItemWindow()
+        private IAddMenuItemViewModel AddMenuItemViewModel;
+
+        public AddMenuItemWindow(IAddMenuItemViewModel addMenuItemViewModel)
         {
+            AddMenuItemViewModel = addMenuItemViewModel;
+
+            this.DataContext = AddMenuItemViewModel;
+
             InitializeComponent();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddMenuItemViewModel.AddMenuItem())
+                Close();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
