@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BarManager.Model;
+using DataAccess;
 
 namespace BarManager.Infrastructure
 {
@@ -20,8 +22,16 @@ namespace BarManager.Infrastructure
             container.Bind<ITableManager>().To<TableManager>().InSingletonScope();
             container.Bind<IWaiterManager>().To<WaiterManager>().InSingletonScope();
             container.Bind<IAddMenuItemWindow>().To<AddMenuItemWindow>().InSingletonScope();
+            container.Bind<IAddCategoryItemWindow>().To<AddCategoryItemWindow>().InSingletonScope();
+            container.Bind<IBarDataModel>().To<BarDataModel>().InSingletonScope();
+            container.Bind<IAddCategoryViewModel>().To<AddCategoryViewModel>().InSingletonScope();
+            
 
-            container.Bind<IMenuManagerViewModel>().To<MenuManagerViewModel>().InTransientScope();
+            container.Bind<IMenuManagerViewModel>().To<MenuManagerViewModel>().InSingletonScope();
+
+
+            // Data access
+            container.Bind<IManagerDataAccess>().To<DataAccess.DataAccess>().InSingletonScope();
         }
     }
 }

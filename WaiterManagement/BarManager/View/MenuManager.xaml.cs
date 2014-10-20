@@ -22,11 +22,14 @@ namespace BarManager.View
     {
         IMenuManagerViewModel MenuManagerViewModel;
         IAddMenuItemWindow AddMenuItemWindow;
+        IAddCategoryItemWindow AddCategoryItemWindow;
+        
 
-        public MenuManager(IMenuManagerViewModel menuManagerViewModel, IAddMenuItemWindow addMenuItemView)
+        public MenuManager(IMenuManagerViewModel menuManagerViewModel, IAddMenuItemWindow addMenuItemView, IAddCategoryItemWindow addCategoryItemWindow)
         {
             MenuManagerViewModel = menuManagerViewModel;
             AddMenuItemWindow = addMenuItemView;
+            AddCategoryItemWindow = addCategoryItemWindow;
 
             this.DataContext = menuManagerViewModel;
 
@@ -59,6 +62,11 @@ namespace BarManager.View
         {
             e.Cancel = true;
             Hide();
+        }
+
+        private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddCategoryItemWindow.ShowDialog();
         }
 
         
