@@ -30,4 +30,12 @@ namespace DataAccess
         bool EditTable(Table tableToEdit);
         bool RemoveTable(int tableId);
     }
+
+    public interface IWaiterDataAccess : IBaseDataAccess
+    {
+        WaiterContext LogIn(string login, string password);
+        bool LogOut(int waiterId);
+        Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems);
+        IEnumerable<Order> GetPastOrders(int waiterId);
+    }
 }

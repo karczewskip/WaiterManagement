@@ -61,13 +61,14 @@ namespace ClassLib.DbDataStructures
     {
         public Order()
         {
-            MenuItems = new HashSet<MenuItem>();
+            MenuItems = new HashSet<Tuple<int, int>>();
         }
         public int Id { get; private set; }
-        public int UserId { get; private set; }
-        public int WaiterId { get; private set; }
-        public int TableId { get; private set; }
-        public virtual IEnumerable<MenuItem> MenuItems { get; private set; }
+        public int UserId { get; set; }
+        public int WaiterId { get; set; }
+        public int TableId { get; set; }
+        //Item1 - menuItemId, Item2 - quantity
+        public virtual HashSet<Tuple<int, int>> MenuItems { get; set; }
     }
 
     /// <summary>
