@@ -6,20 +6,74 @@ using System.Threading.Tasks;
 using BarManager.Abstract;
 using ClassLib.DbDataStructures;
 using System.Windows;
+using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
-    class EditMenuItemViewModel: IEditMenuItemViewModel
+    class EditMenuItemViewModel : IEditMenuItemViewModel, INotifyPropertyChanged
     {
         private IMenuManagerViewModel MenuManagerViewModel;
         private IBarDataModel DataModel;
 
         private MenuItem MenuItem;
 
-        public string MenuItemName { get; set; }
-        public string PriceString { get; set; }
-        public MenuItemCategory SelectedCategory { get; set; }
-        public string MenuItemDescription { get; set; }
+        private string menuItemName;
+        public string MenuItemName 
+        {
+            get { return menuItemName; }
+            set
+            {
+                menuItemName = value;
+                if (null != this.PropertyChanged)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("MenuItemName"));
+                }
+            }
+        }
+
+        private string priceString;
+        public string PriceString 
+        {
+            get { return priceString; }
+            set 
+            {
+                priceString = value;
+                if (null != this.PropertyChanged)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("PriceString"));
+                }
+            }
+        }
+
+        private MenuItemCategory selectedCategory;
+        public MenuItemCategory SelectedCategory 
+        {
+            get { return selectedCategory; }
+            set
+            {
+                selectedCategory = value;
+                if (null != this.PropertyChanged)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("SelectedCategory"));
+                }
+            }
+        }
+
+        private string menuItemDiscription;
+        public string MenuItemDescription 
+        {
+            get { return menuItemDiscription; }
+            set 
+            {
+                menuItemDiscription = value;
+                if (null != this.PropertyChanged)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("MenuItemDescription"));
+                }
+            }
+        }
+
+        public IList<MenuItemCategory> ListOfCategories { get { return MenuManagerViewModel.ListOfCategories; } }
 
         public EditMenuItemViewModel(IBarDataModel dateModel, IMenuManagerViewModel menuManagerViewModel)
         {
@@ -71,5 +125,9 @@ namespace BarManager.ViewModel
 
             return result;
         }
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
     }
 }

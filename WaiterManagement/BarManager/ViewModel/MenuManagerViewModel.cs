@@ -35,10 +35,21 @@ namespace BarManager.ViewModel
             ListOfCategories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
             ListOfMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
 
-            //for (int i = 0; i < ListOfMenuItems.Count; i++ )
+            //for (int i = 0; i < ListOfMenuItems.Count; i++)
             //{
-            //    //ListOfMenuItems[i].Category = FindCategor(ListOfMenuItems[i].Category)
+            //    ListOfMenuItems[i].Category = FindCategor(ListOfMenuItems[i].Category.Id);
             //}
+        }
+
+        private MenuItemCategory FindCategor(int id)
+        {
+            foreach(var cat in ListOfCategories)
+            {
+                if (cat.Id == id)
+                    return cat;
+            }
+
+            return null;
         }
 
 
