@@ -50,14 +50,15 @@ namespace BarManager.Model
             MenuItem AddingMenuItem;
             try
             {
-                //AddingMenuItem = ManagerDataAccess.AddMenuItem()
+                AddingMenuItem = ManagerDataAccess.AddMenuItem(menuItemName, menuItemDescription, categoryId, new Money() { Amount = (float)price, Currency = "PLN" });
             }
             catch
             {
-
+                MessageBox.Show("Failed");
+                return null;
             }
 
-            return null;
+            return AddingMenuItem;
         }
     }
 }

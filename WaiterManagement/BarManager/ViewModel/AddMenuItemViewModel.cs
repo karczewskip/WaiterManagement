@@ -57,10 +57,14 @@ namespace BarManager.ViewModel
                 return false;
             }
 
+            
             var AddingMenuItem = DataModel.AddMenuItem(MenuItemName, SelectedCategory.Id, Price, MenuItemDescription);
 
             if (AddingMenuItem != null)
+            {
+                MenuManagerViewModel.ListOfMenuItems.Add(AddingMenuItem);
                 return true;
+            }
 
             return false;
 
