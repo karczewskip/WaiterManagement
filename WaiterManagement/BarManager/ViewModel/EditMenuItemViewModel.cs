@@ -51,6 +51,7 @@ namespace BarManager.ViewModel
             get { return selectedCategory; }
             set
             {
+                MessageBox.Show("Ustawia na: " + value.Name);
                 selectedCategory = value;
                 if (null != this.PropertyChanged)
                 {
@@ -121,7 +122,6 @@ namespace BarManager.ViewModel
             }
 
             var result = DataModel.EditMenuItem(MenuItem, MenuItemName, Price, SelectedCategory, MenuItemDescription);
-            
 
             return result;
         }
@@ -129,5 +129,7 @@ namespace BarManager.ViewModel
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
+
+
     }
 }

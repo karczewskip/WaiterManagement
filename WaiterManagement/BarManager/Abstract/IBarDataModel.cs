@@ -14,7 +14,7 @@ namespace BarManager.Abstract
 
         IList<MenuItem> GetAllMenuItems();
 
-        MenuItem AddMenuItem(string menuItemName, int categoryId, double price, string menuItemDescription);
+        MenuItem AddMenuItem(string menuItemName, MenuItemCategory category, double price, string menuItemDescription);
 
         bool DeleteItem(int id);
 

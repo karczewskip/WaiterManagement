@@ -45,17 +45,22 @@ namespace BarManager.Model
         }
 
 
-        public MenuItem AddMenuItem(string menuItemName, int categoryId, double price, string menuItemDescription)
+        public MenuItem AddMenuItem(string menuItemName, MenuItemCategory category, double price, string menuItemDescription)
         {
             MenuItem AddingMenuItem;
             try
             {
-                AddingMenuItem = ManagerDataAccess.AddMenuItem(menuItemName, menuItemDescription, categoryId, new Money() { Amount = (float)price, Currency = "PLN" });
+                AddingMenuItem = ManagerDataAccess.AddMenuItem(menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = "PLN" });
             }
             catch
             {
                 MessageBox.Show("Failed");
                 return null;
+            }
+
+            if(AddingMenuItem != null)
+            {
+                AddingMenuItem.Category = category;
             }
 
             return AddingMenuItem;
@@ -104,13 +109,15 @@ namespace BarManager.Model
                 return false;
             }
 
-            if(!result)
+            if (!result)
             {
                 menuItemToEdit.Name = oldName;
                 menuItemToEdit.Price = oldPrice;
                 menuItemToEdit.Category = oldCategory;
                 menuItemToEdit.Description = oldDescription;
             }
+            else
+                menuItemToEdit.Category = newCategory;
 
             return result;
         }

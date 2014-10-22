@@ -8,10 +8,11 @@ using ClassLib.DbDataStructures;
 using System.Collections.ObjectModel;
 using DataAccess;
 using System.Windows;
+using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
-    public class MenuManagerViewModel : IMenuManagerViewModel
+    public class MenuManagerViewModel : IMenuManagerViewModel, INotifyPropertyChanged
     {
         private IBarDataModel DataModel;
 
@@ -41,7 +42,7 @@ namespace BarManager.ViewModel
             //}
         }
 
-        private MenuItemCategory FindCategor(int id)
+        private MenuItemCategory FindCategory(int id)
         {
             foreach(var cat in ListOfCategories)
             {
@@ -66,5 +67,9 @@ namespace BarManager.ViewModel
                     MessageBox.Show("Failed");
             }
         }
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
     }
 }
