@@ -85,7 +85,9 @@ namespace DataAccess
                 MenuItemCategory editedMenuItemCategory = db.MenuItemCategories.Find(menuItemCategoryToEdit.Id);
                 if (editedMenuItemCategory == null)
                     return false;
-                editedMenuItemCategory.CopyData(menuItemCategoryToEdit);
+                db.Entry(editedMenuItemCategory).State = System.Data.Entity.EntityState.Detached;
+                db.MenuItemCategories.Attach(menuItemCategoryToEdit);
+                db.Entry(menuItemCategoryToEdit).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
@@ -136,7 +138,9 @@ namespace DataAccess
                 MenuItem editedMenuItem = db.MenuItems.Find(menuItemToEdit.Id);
                 if (editedMenuItem == null)
                     return false;
-                editedMenuItem.CopyData(menuItemToEdit);
+                db.Entry(editedMenuItem).State = System.Data.Entity.EntityState.Detached;
+                db.MenuItems.Attach(menuItemToEdit);
+                db.Entry(menuItemToEdit).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
@@ -189,7 +193,9 @@ namespace DataAccess
                 WaiterContext editedWaiterContext = db.Waiters.Find(waiterToEdit.Id);
                 if (editedWaiterContext == null)
                     return false;
-                editedWaiterContext.CopyData(waiterToEdit);
+                db.Entry(editedWaiterContext).State = System.Data.Entity.EntityState.Detached;
+                db.Waiters.Attach(waiterToEdit);
+                db.Entry(waiterToEdit).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
@@ -246,8 +252,9 @@ namespace DataAccess
                 Table editedTable = db.Tables.Find(tableToEdit.Id);
                 if (editedTable == null)
                     return false;
-
-                editedTable.CopyData(tableToEdit);
+                db.Entry(editedTable).State = System.Data.Entity.EntityState.Detached;
+                db.Tables.Attach(tableToEdit);
+                db.Entry(tableToEdit).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
