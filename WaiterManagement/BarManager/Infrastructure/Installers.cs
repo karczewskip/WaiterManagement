@@ -34,7 +34,7 @@ namespace BarManager.Infrastructure
 
 
             // Data access
-            container.Bind<IManagerDataAccess>().To<DataAccess.DataAccess>().InSingletonScope();
+            container.Bind<IManagerDataAccess>().To<DataAccess.DataAccessClass>().InSingletonScope();
         }
     }
 }

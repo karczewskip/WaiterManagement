@@ -8,14 +8,14 @@ using System.Security;
 
 namespace DataAccess
 {
-    public class DataAccess : IManagerDataAccess, IWaiterDataAccess
+    public class DataAccessClass : IManagerDataAccess, IWaiterDataAccess
     {
         #region Private Fields
         private HashSet<int> loggedInWaiterIds;
         #endregion
 
         #region Constructors
-        public DataAccess()
+        public DataAccessClass()
         {
             loggedInWaiterIds = new HashSet<int>();
         }
@@ -26,9 +26,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                IList<MenuItemCategory> menuItemCategoryList = new List<MenuItemCategory>();
-                foreach (MenuItemCategory menuItemCategory in db.MenuItemCategories)
-                    menuItemCategoryList.Add(menuItemCategory);
+                var menuItemCategoryList = db.MenuItemCategories.ToList();
                 return menuItemCategoryList;
             }
         }
@@ -37,9 +35,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                IList<MenuItem> menuItemList = new List<MenuItem>();
-                foreach (MenuItem menuItem in db.MenuItems)
-                    menuItemList.Add(menuItem);
+                var menuItemList = db.MenuItems.Include("Category").ToList();
                 return menuItemList;
             }
         }
@@ -48,9 +44,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                IList<Table> tableList = new List<Table>();
-                foreach (Table table in db.Tables)
-                    tableList.Add(table);
+                var tableList = db.Tables.ToList();
                 return tableList;
             }
         }
@@ -69,7 +63,7 @@ namespace DataAccess
             using( var db = new DataAccessProvider())
             {
                 newCategory = new MenuItemCategory() {Name = name, Description = description};
-                db.MenuItemCategories.Add(newCategory);
+                newCategory = db.MenuItemCategories.Add(newCategory);
                 db.SaveChanges();
             }
 
@@ -114,14 +108,15 @@ namespace DataAccess
                 throw new ArgumentNullException("description is null");
 
             MenuItem newMenuItem = null;
+            MenuItemCategory category = null;
 
             using (var db = new DataAccessProvider())
             {
-                MenuItemCategory category = db.MenuItemCategories.Find(categoryId);
+                category = db.MenuItemCategories.Find(categoryId);
                 if (category == null)
                     return null;
                 newMenuItem = new MenuItem() {Name = name, Description = description, Category = category, Price = price};
-                db.MenuItems.Add(newMenuItem);
+                newMenuItem = db.MenuItems.Add(newMenuItem);
                 db.SaveChanges();
             }
 
@@ -176,7 +171,7 @@ namespace DataAccess
             using (var db = new DataAccessProvider())
             {
                 newWaiterContext = new WaiterContext() { FirstName = firstName, LastName = lastName, Login = login, Password = password };
-                db.Waiters.Add(newWaiterContext);
+                newWaiterContext = db.Waiters.Add(newWaiterContext);
                 db.SaveChanges();
             }
 
@@ -218,9 +213,7 @@ namespace DataAccess
         {
             using(var db = new DataAccessProvider())
             {
-                IList<WaiterContext> waiterList = new List<WaiterContext>();
-                foreach (WaiterContext waiterContext in db.Waiters)
-                    waiterList.Add(waiterContext);
+                var waiterList = db.Waiters.ToList();
                 return waiterList;
             }
         }
@@ -235,7 +228,7 @@ namespace DataAccess
             using (var db = new DataAccessProvider())
             {
                 newTable = new Table() { Number = tableNumber, Description = description };
-                db.Tables.Add(newTable);
+                newTable = db.Tables.Add(newTable);
                 db.SaveChanges();
             }
 
@@ -329,8 +322,12 @@ namespace DataAccess
 
                 order = new Order() { UserId = userId, TableId = tableId, WaiterId = waiterId };
                 foreach (var tuple in menuItems)
-                    order.MenuItems.Add(tuple);
-                db.Orders.Add(order);
+                {
+                    MenuItemQuantity menuItemQuantity = new MenuItemQuantity() { MenuItemId = tuple.Item1, Quantity = tuple.Item2 };
+                    order.MenuItems.Add(menuItemQuantity);
+                }
+                   
+                order = db.Orders.Add(order);
                 db.SaveChanges();
             }
 
@@ -342,14 +339,12 @@ namespace DataAccess
             if(!loggedInWaiterIds.Contains(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
 
-            IEnumerable<Order> orders = null;
-
             using(var db = new DataAccessProvider())
             {
-                orders = db.Orders.Where(o => o.WaiterId == waiterId).ToList();
+                var orders = db.Orders.Include("MenuItems").Where(o => o.WaiterId == waiterId);
+                return orders;
             }
 
-            return orders;
         }
         #endregion
     }

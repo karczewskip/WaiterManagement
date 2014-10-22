@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -61,14 +62,22 @@ namespace ClassLib.DbDataStructures
     {
         public Order()
         {
-            MenuItems = new HashSet<Tuple<int, int>>();
+            MenuItems = new HashSet<MenuItemQuantity>();
         }
         public int Id { get; private set; }
         public int UserId { get; set; }
         public int WaiterId { get; set; }
         public int TableId { get; set; }
         //Item1 - menuItemId, Item2 - quantity
-        public virtual HashSet<Tuple<int, int>> MenuItems { get; set; }
+        public virtual ICollection<MenuItemQuantity> MenuItems { get; set; }
+    }
+
+    public class MenuItemQuantity
+    {
+        public int Id { get; private set; }
+        public int MenuItemId { get; set; }
+        public int Quantity { get; set; }
+        public virtual Order Order { get; private set;}
     }
 
     /// <summary>

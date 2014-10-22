@@ -10,8 +10,8 @@ namespace DataAccess.UnitTests
     [TestClass]
     public class DataAccessTests
     {
-        IManagerDataAccess managerDataAccess = new DataAccess();
-        IWaiterDataAccess waiterDataAccess = new DataAccess();
+        IManagerDataAccess managerDataAccess = new DataAccessClass();
+        IWaiterDataAccess waiterDataAccess = new DataAccessClass();
 
         [TestMethod]
         public void AddNewWaiterTest()
