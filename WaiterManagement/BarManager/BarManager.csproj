@@ -67,6 +67,8 @@
     <Compile Include="Abstract\IAddCategoryItemWindow.cs" />
     <Compile Include="Abstract\IAddMenuItemViewModel.cs" />
     <Compile Include="Abstract\IAddMenuItemWindow.cs" />
+    <Compile Include="Abstract\IEditMenuItemViewModel.cs" />
+    <Compile Include="Abstract\IEditMenuItemWindow.cs" />
     <Compile Include="Abstract\IMenuManager.cs" />
     <Compile Include="Abstract\IMenuManagerViewModel.cs" />
     <Compile Include="Abstract\ITableManager.cs" />
@@ -76,12 +78,16 @@
     <Compile Include="Model\BarDataModel.cs" />
     <Compile Include="ViewModel\AddCategoryViewModel.cs" />
     <Compile Include="ViewModel\AddMenuItemViewModel.cs" />
+    <Compile Include="ViewModel\EditMenuItemViewModel.cs" />
     <Compile Include="ViewModel\MenuManagerViewModel.cs" />
     <Compile Include="View\AddCategoryItemWindow.xaml.cs">
       <DependentUpon>AddCategoryItemWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AddMenuItemWindow.xaml.cs">
       <DependentUpon>AddMenuItemWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditMenuItemWindow.xaml.cs">
+      <DependentUpon>EditMenuItemWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MenuManager.xaml.cs">
       <DependentUpon>MenuManager.xaml</DependentUpon>
@@ -97,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddMenuItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditMenuItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

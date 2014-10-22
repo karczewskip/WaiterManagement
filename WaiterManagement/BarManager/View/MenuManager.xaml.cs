@@ -22,13 +22,15 @@ namespace BarManager.View
     {
         IMenuManagerViewModel MenuManagerViewModel;
         IAddMenuItemWindow AddMenuItemWindow;
+        IEditMenuItemWindow EditMenuItemWindow;
         IAddCategoryItemWindow AddCategoryItemWindow;
         
 
-        public MenuManager(IMenuManagerViewModel menuManagerViewModel, IAddMenuItemWindow addMenuItemView, IAddCategoryItemWindow addCategoryItemWindow)
+        public MenuManager(IMenuManagerViewModel menuManagerViewModel, IAddMenuItemWindow addMenuItemView, IEditMenuItemWindow editMenuItemWindow, IAddCategoryItemWindow addCategoryItemWindow)
         {
             MenuManagerViewModel = menuManagerViewModel;
             AddMenuItemWindow = addMenuItemView;
+            EditMenuItemWindow = editMenuItemWindow;
             AddCategoryItemWindow = addCategoryItemWindow;
 
             this.DataContext = menuManagerViewModel;
@@ -50,7 +52,7 @@ namespace BarManager.View
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MenuManagerViewModel.DeleteSelectedItem();
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -67,6 +69,12 @@ namespace BarManager.View
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             AddCategoryItemWindow.ShowDialog();
+        }
+
+        private void MenuItemsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (MenuItemsListView.SelectedItem != null)
+                EditMenuItemWindow.ShowDialog(MenuItemsListView.SelectedItem as ClassLib.DbDataStructures.MenuItem);
         }
 
         

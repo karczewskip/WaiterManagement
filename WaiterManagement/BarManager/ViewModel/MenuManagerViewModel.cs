@@ -7,12 +7,15 @@ using BarManager.Abstract;
 using ClassLib.DbDataStructures;
 using System.Collections.ObjectModel;
 using DataAccess;
+using System.Windows;
 
 namespace BarManager.ViewModel
 {
     public class MenuManagerViewModel : IMenuManagerViewModel
     {
         private IBarDataModel DataModel;
+
+        public MenuItem SelectedMenuItem { get; set; }
 
         public IList<MenuItem> ListOfMenuItems { get; set; }
         public IList<MenuItemCategory> ListOfCategories { get; set; }
@@ -37,6 +40,20 @@ namespace BarManager.ViewModel
             //    //ListOfMenuItems[i].Category = FindCategor(ListOfMenuItems[i].Category)
             //}
         }
-        
+
+
+
+        public void DeleteSelectedItem()
+        {
+            if (SelectedMenuItem == null)
+                MessageBox.Show("No Item Is Sellected");
+            else 
+            {
+                if (DataModel.DeleteItem(SelectedMenuItem.Id))
+                    ListOfMenuItems.Remove(SelectedMenuItem);
+                else
+                    MessageBox.Show("Failed");
+            }
+        }
     }
 }

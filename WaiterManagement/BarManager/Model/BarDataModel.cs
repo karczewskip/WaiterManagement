@@ -60,5 +60,59 @@ namespace BarManager.Model
 
             return AddingMenuItem;
         }
+
+
+        public bool DeleteItem(int id)
+        {
+            try
+            {
+                ManagerDataAccess.RemoveMenuItem(id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool EditMenuItem(MenuItem menuItemToEdit, string newName, double newPrice, MenuItemCategory newCategory, string newMenuItemDescription)
+        {
+            bool result;
+
+            var oldName = menuItemToEdit.Name;
+            var oldPrice = menuItemToEdit.Price;
+            var oldCategory = menuItemToEdit.Category;
+            var oldDescription = menuItemToEdit.Description;
+
+            menuItemToEdit.Name = newName;
+            menuItemToEdit.Price = new Money() { Amount = (float)newPrice, Currency = "PLN" };
+            menuItemToEdit.Category = newCategory;
+            menuItemToEdit.Description = newMenuItemDescription;
+
+            try
+            {
+                result = ManagerDataAccess.EditMenuItem(menuItemToEdit);
+            }
+            catch
+            {
+                menuItemToEdit.Name = oldName;
+                menuItemToEdit.Price = oldPrice;
+                menuItemToEdit.Category = oldCategory;
+                menuItemToEdit.Description = oldDescription;
+
+                return false;
+            }
+
+            if(!result)
+            {
+                menuItemToEdit.Name = oldName;
+                menuItemToEdit.Price = oldPrice;
+                menuItemToEdit.Category = oldCategory;
+                menuItemToEdit.Description = oldDescription;
+            }
+
+            return result;
+        }
     }
 }

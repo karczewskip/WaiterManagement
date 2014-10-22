@@ -34,7 +34,7 @@
             <Button Name="AddCategoryButton" Grid.Column="2" Margin="0 5 0 10" Width="100" Click="AddCategoryButton_Click"  HorizontalAlignment="Right">
                 Add Category</Button>
         </Grid>
-        <ListView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListOfMenuItems}" SelectionMode="Single" >
+        <ListView Name="MenuItemsListView" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListOfMenuItems}" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMenuItem}" MouseDoubleClick="MenuItemsListView_MouseDoubleClick"  >
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="NameColumn" Width="150" DisplayMemberBinding="{Binding Name}" >

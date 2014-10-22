@@ -7,11 +7,8 @@ using ClassLib.DbDataStructures;
 
 namespace BarManager.Abstract
 {
-    public interface IMenuManagerViewModel
+    public interface IEditMenuItemWindow
     {
-        IList<MenuItem> ListOfMenuItems { get; set; }
-        IList<MenuItemCategory> ListOfCategories { get; set; }
-
-        void DeleteSelectedItem();
+        void ShowDialog(MenuItem menuItem);
     }
 }
