@@ -58,7 +58,7 @@ namespace BarManager.ViewModel
             }
 
             
-            var AddingMenuItem = DataModel.AddMenuItem(MenuItemName, SelectedCategory.Id, Price, MenuItemDescription);
+            var AddingMenuItem = DataModel.AddMenuItem(MenuItemName, SelectedCategory, Price, MenuItemDescription);
 
             if (AddingMenuItem != null)
             {

@@ -75,6 +75,10 @@ namespace BarManager.View
         {
             if (MenuItemsListView.SelectedItem != null)
                 EditMenuItemWindow.ShowDialog(MenuItemsListView.SelectedItem as ClassLib.DbDataStructures.MenuItem);
+
+            MenuItemsListView.Items.Refresh();
+
+            
         }
 
         
