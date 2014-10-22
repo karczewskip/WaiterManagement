@@ -27,6 +27,8 @@ namespace BarManager.View
         {
             EditMenuItemViewModel = editMenuItemViewModel;
 
+            this.DataContext = EditMenuItemViewModel;
+
             InitializeComponent();
         }
 
