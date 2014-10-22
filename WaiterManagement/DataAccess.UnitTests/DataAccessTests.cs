@@ -92,6 +92,7 @@ namespace DataAccess.UnitTests
         [TestMethod]
         public void EditMenuItemCategoryTest()
         {
+            CleanUpDatabaseTest();
             string name = "Wykwintne bimbry ziem wschodnich";
             string description = "Najwybitniejsze selekcja trunków wysokoprocentowych pędzonych po lasach w nocy, gwarantujące niesamowite wrażenia oraz ciężki, ale to bardzo ciężki powrót to domu.";
 
@@ -104,11 +105,17 @@ namespace DataAccess.UnitTests
             newMenuItemCategory.Description = newDescription;
             bool result = managerDataAccess.EditMenuItemCategory(newMenuItemCategory);
             Assert.IsTrue(result);
+
+            MenuItemCategory wrongMenuItemCategory = new MenuItemCategory();
+            result = managerDataAccess.EditMenuItemCategory(wrongMenuItemCategory);
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
         public void EditTableTest()
         {
+            CleanUpDatabaseTest();
+
             int oldNumber = 999;
             string oldDescription = "oldDescription";
 
@@ -123,12 +130,16 @@ namespace DataAccess.UnitTests
             table.Description = newDescription;
 
             bool result = managerDataAccess.EditTable(table);
-            Assert.IsTrue(result);   
+            Assert.IsTrue(result);
+            result = managerDataAccess.EditTable(new Table());
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
         public void EditWaiterTest()
         {
+            CleanUpDatabaseTest();
+
             string oldFirstName = "oldFirstName";
             string oldLastName = "oldLastName";
             string oldlogin = "oldLogin";
@@ -146,6 +157,8 @@ namespace DataAccess.UnitTests
 
             bool result = managerDataAccess.EditWaiter(waiterContext);
             Assert.IsTrue(result);
+            result = managerDataAccess.EditWaiter(new WaiterContext());
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
@@ -172,8 +185,9 @@ namespace DataAccess.UnitTests
             string name = "Pędzonka DeLuxe Babci Jadzi";
             string description = "40 ml trunku tak mocnego, że nie sprzedajemy więcej niż jednej porcji każdemu klientowi.";
             Money price = new Money() { Amount = 100.99f, Currency = "PLN" };
+            AddNewCategoryTest();
 
-            IEnumerable<MenuItemCategory> categories = managerDataAccess.GetMenuItemCategories();
+            IEnumerable<MenuItemCategory> categories = managerDataAccess.GetMenuItemCategories();            
             Assert.IsNotNull(categories);
             Assert.IsTrue(categories.Any());
 
