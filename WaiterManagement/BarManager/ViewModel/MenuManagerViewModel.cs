@@ -12,7 +12,7 @@ using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
-    public class MenuManagerViewModel : IMenuManagerViewModel, INotifyPropertyChanged
+    public class MenuManagerViewModel : IMenuManagerViewModel
     {
         private IBarDataModel DataModel;
 
@@ -68,8 +68,5 @@ namespace BarManager.ViewModel
             }
         }
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
     }
 }

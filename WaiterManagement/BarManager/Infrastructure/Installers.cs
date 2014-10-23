@@ -28,6 +28,13 @@ namespace BarManager.Infrastructure
             container.Bind<IAddMenuItemViewModel>().To<AddMenuItemViewModel>().InSingletonScope();
             container.Bind<IEditMenuItemWindow>().To<EditMenuItemWindow>().InSingletonScope();
             container.Bind<IEditMenuItemViewModel>().To<EditMenuItemViewModel>().InSingletonScope();
+            container.Bind<IWaiterManagerViewModel>().To<WaiterManagerViewModel>().InSingletonScope();
+            container.Bind<IAddWaiterWindow>().To<AddWaiterWindow>().InSingletonScope();
+            container.Bind<IAddWaiterViewModel>().To<AddWaiterViewModel>().InSingletonScope();
+            container.Bind<IEditWaiterViewModel>().To<EditWaiterViewModel>().InSingletonScope();
+            container.Bind<IEditWaiterWindow>().To<EditWaiterWindow>().InSingletonScope();
+            
+
             
 
             container.Bind<IMenuManagerViewModel>().To<MenuManagerViewModel>().InSingletonScope();

@@ -121,5 +121,82 @@ namespace BarManager.Model
 
             return result;
         }
+
+
+        public IList<WaiterContext> GetAllWaiters()
+        {
+            return ManagerDataAccess.GetWaiters().ToList();
+        }
+
+        public bool DeleteWaiter(int id)
+        {
+            try
+            {
+                ManagerDataAccess.RemoveWaiter(id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public WaiterContext AddWaiter(string login, string firstName, string lastName, string password)
+        {
+            WaiterContext AddingWaiter;
+            try
+            {
+                AddingWaiter = ManagerDataAccess.AddWaiter(firstName, lastName, login, password);
+            }
+            catch
+            {
+                MessageBox.Show("Failed");
+                return null;
+            }
+
+            return AddingWaiter;
+        }
+
+
+        public bool EditMenuItem(WaiterContext Waiter, string Login, string FirstName, string LastName, string Password)
+        {
+            bool result;
+
+            var oldLogin = Waiter.Login;
+            var oldFirstName = Waiter.FirstName;
+            var oldSecondName = Waiter.LastName;
+            var oldPassword = Waiter.Password;
+
+            Waiter.Login = Login;
+            Waiter.FirstName = FirstName;
+            Waiter.LastName = LastName;
+            Waiter.Password = Password;
+
+            try
+            {
+                result = ManagerDataAccess.EditWaiter(Waiter);
+            }
+            catch
+            {
+                Waiter.Login = oldLogin;
+                Waiter.FirstName = oldFirstName;
+                Waiter.LastName = oldSecondName;
+                Waiter.Password = oldPassword;
+
+                return false;
+            }
+
+            if (!result)
+            {
+                Waiter.Login = oldLogin;
+                Waiter.FirstName = oldFirstName;
+                Waiter.LastName = oldSecondName;
+                Waiter.Password = oldPassword;
+            }
+
+            return result;
+        }
     }
 }

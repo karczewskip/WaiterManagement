@@ -19,5 +19,13 @@ namespace BarManager.Abstract
         bool DeleteItem(int id);
 
         bool EditMenuItem(MenuItem menuItemToEdit, string newName, double newPrice, MenuItemCategory newCategory, string newMenuItemDescription);
+
+        IList<WaiterContext> GetAllWaiters();
+
+        bool DeleteWaiter(int id);
+
+        WaiterContext AddWaiter(string login, string firstName, string lastName, string password);
+
+        bool EditMenuItem(WaiterContext Waiter, string Login, string FirstName, string LastName, string Password);
     }
 }

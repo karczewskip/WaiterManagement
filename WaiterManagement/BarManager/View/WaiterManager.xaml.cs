@@ -20,8 +20,18 @@ namespace BarManager.View
     /// </summary>
     public partial class WaiterManager : Window, IWaiterManager
     {
-        public WaiterManager()
+        private IWaiterManagerViewModel WaiterManagerViewModel;
+        private IAddWaiterWindow AddWaiterWindow;
+        private IEditWaiterWindow EditWaiterWindow;
+
+        public WaiterManager(IWaiterManagerViewModel waiterManagerViewModel, IAddWaiterWindow addWaiterWindow, IEditWaiterWindow editWaiterWindow)
         {
+            WaiterManagerViewModel = waiterManagerViewModel;
+            AddWaiterWindow = addWaiterWindow;
+            EditWaiterWindow = editWaiterWindow;
+
+            this.DataContext = WaiterManagerViewModel;
+
             InitializeComponent();
         }
 
@@ -29,6 +39,29 @@ namespace BarManager.View
         {
             e.Cancel = true;
             Hide();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            WaiterManagerViewModel.DeleteSelectedItem();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddWaiterWindow.ShowDialog();
+        }
+
+        private void WaitersListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (WaitersListView.SelectedItem != null)
+                EditWaiterWindow.ShowDialog(WaitersListView.SelectedItem as ClassLib.DbDataStructures.WaiterContext);
+
+            WaitersListView.Items.Refresh();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
