@@ -64,71 +64,93 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Abstract\IAddCategoryItemWindow.cs" />
-    <Compile Include="Abstract\IAddMenuItemViewModel.cs" />
-    <Compile Include="Abstract\IAddMenuItemWindow.cs" />
-    <Compile Include="Abstract\IAddWaiterViewModel.cs" />
-    <Compile Include="Abstract\IAddWaiterWindow.cs" />
-    <Compile Include="Abstract\IEditMenuItemViewModel.cs" />
-    <Compile Include="Abstract\IEditMenuItemWindow.cs" />
-    <Compile Include="Abstract\IEditWaiterViewModel.cs" />
-    <Compile Include="Abstract\IEditWaiterWindow.cs" />
-    <Compile Include="Abstract\IMenuManager.cs" />
-    <Compile Include="Abstract\IMenuManagerViewModel.cs" />
-    <Compile Include="Abstract\ITableManager.cs" />
-    <Compile Include="Abstract\IWaiterManager.cs" />
-    <Compile Include="Abstract\IBarDataModel.cs" />
-    <Compile Include="Abstract\IAddCategoryViewModel.cs" />
-    <Compile Include="Abstract\IWaiterManagerViewModel.cs" />
+    <Compile Include="Abstract\View\IAddCategoryItemWindow.cs" />
+    <Compile Include="Abstract\ViewModel\IAddMenuItemViewModel.cs" />
+    <Compile Include="Abstract\View\IAddMenuItemWindow.cs" />
+    <Compile Include="Abstract\ViewModel\IAddTableViewModel.cs" />
+    <Compile Include="Abstract\View\IAddTableWindow.cs" />
+    <Compile Include="Abstract\ViewModel\IAddWaiterViewModel.cs" />
+    <Compile Include="Abstract\View\IAddWaiterWindow.cs" />
+    <Compile Include="Abstract\ViewModel\IEditMenuItemViewModel.cs" />
+    <Compile Include="Abstract\View\IEditMenuItemWindow.cs" />
+    <Compile Include="Abstract\ViewModel\IEditTableViewModel.cs" />
+    <Compile Include="Abstract\View\IEditTableWindow.cs" />
+    <Compile Include="Abstract\ViewModel\IEditWaiterViewModel.cs" />
+    <Compile Include="Abstract\View\IEditWaiterWindow.cs" />
+    <Compile Include="Abstract\View\IMenuManager.cs" />
+    <Compile Include="Abstract\ViewModel\IMenuManagerViewModel.cs" />
+    <Compile Include="Abstract\View\ITableManager.cs" />
+    <Compile Include="Abstract\ViewModel\ITableManagerViewModel.cs" />
+    <Compile Include="Abstract\View\IWaiterManager.cs" />
+    <Compile Include="Abstract\Model\IBarDataModel.cs" />
+    <Compile Include="Abstract\ViewModel\IAddCategoryViewModel.cs" />
+    <Compile Include="Abstract\ViewModel\IWaiterManagerViewModel.cs" />
     <Compile Include="Model\BarDataModel.cs" />
-    <Compile Include="ViewModel\AddCategoryViewModel.cs" />
-    <Compile Include="ViewModel\AddMenuItemViewModel.cs" />
-    <Compile Include="ViewModel\AddWaiterViewModel.cs" />
-    <Compile Include="ViewModel\EditMenuItemViewModel.cs" />
-    <Compile Include="ViewModel\EditWaiterViewModel.cs" />
-    <Compile Include="ViewModel\MenuManagerViewModel.cs" />
-    <Compile Include="ViewModel\WaiterManagerViewModel.cs" />
-    <Compile Include="View\AddCategoryItemWindow.xaml.cs">
+    <Compile Include="ViewModel\MenuManager\AddCategoryViewModel.cs" />
+    <Compile Include="ViewModel\MenuManager\AddMenuItemViewModel.cs" />
+    <Compile Include="ViewModel\WaiterManager\AddWaiterViewModel.cs" />
+    <Compile Include="ViewModel\MenuManager\EditMenuItemViewModel.cs" />
+    <Compile Include="ViewModel\TableManager\EditTableViewModel.cs" />
+    <Compile Include="ViewModel\WaiterManager\EditWaiterViewModel.cs" />
+    <Compile Include="ViewModel\MenuManager\MenuManagerViewModel.cs" />
+    <Compile Include="ViewModel\TableManager\TableManagerViewModel.cs" />
+    <Compile Include="ViewModel\WaiterManager\WaiterManagerViewModel.cs" />
+    <Compile Include="View\MenuManager\AddCategoryItemWindow.xaml.cs">
       <DependentUpon>AddCategoryItemWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AddMenuItemWindow.xaml.cs">
+    <Compile Include="View\MenuManager\AddMenuItemWindow.xaml.cs">
       <DependentUpon>AddMenuItemWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AddWaiterWindow.xaml.cs">
+    <Compile Include="ViewModel\TableManager\AddTableViewModel.cs" />
+    <Compile Include="View\TableManager\AddTableWindow.xaml.cs">
+      <DependentUpon>AddTableWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaiterManager\AddWaiterWindow.xaml.cs">
       <DependentUpon>AddWaiterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\EditMenuItemWindow.xaml.cs">
+    <Compile Include="View\MenuManager\EditMenuItemWindow.xaml.cs">
       <DependentUpon>EditMenuItemWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\EditWaiterWindow.xaml.cs">
+    <Compile Include="View\TableManager\EditTableWindow.xaml.cs">
+      <DependentUpon>EditTableWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaiterManager\EditWaiterWindow.xaml.cs">
       <DependentUpon>EditWaiterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MenuManager.xaml.cs">
+    <Compile Include="View\MenuManager\MenuManager.xaml.cs">
       <DependentUpon>MenuManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TableManager.xaml.cs">
+    <Compile Include="View\TableManager\TableManager.xaml.cs">
       <DependentUpon>TableManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\WaiterManager.xaml.cs">
+    <Compile Include="View\WaiterManager\WaiterManager.xaml.cs">
       <DependentUpon>WaiterManager.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\AddCategoryItemWindow.xaml">
+    <Page Include="View\MenuManager\AddCategoryItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AddMenuItemWindow.xaml">
+    <Page Include="View\MenuManager\AddMenuItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AddWaiterWindow.xaml">
+    <Page Include="View\TableManager\AddTableWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditMenuItemWindow.xaml">
+    <Page Include="View\WaiterManager\AddWaiterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditWaiterWindow.xaml">
+    <Page Include="View\MenuManager\EditMenuItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TableManager\EditTableWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WaiterManager\EditWaiterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,8 +158,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Abstract\IMainWindow.cs" />
-    <Compile Include="Abstract\IMainWindowViewModel.cs" />
+    <Compile Include="Abstract\View\IMainWindow.cs" />
+    <Compile Include="Abstract\ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -146,15 +168,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\MenuManager.xaml">
+    <Page Include="View\MenuManager\MenuManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TableManager.xaml">
+    <Page Include="View\TableManager\TableManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\WaiterManager.xaml">
+    <Page Include="View\WaiterManager\WaiterManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,6 +223,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

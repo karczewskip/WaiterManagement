@@ -198,5 +198,74 @@ namespace BarManager.Model
 
             return result;
         }
+
+
+        public IList<Table> GetAllTables()
+        {
+            return ManagerDataAccess.GetTables().ToList();
+        }
+
+        public bool DeleteTable(int id)
+        {
+            try
+            {
+                ManagerDataAccess.RemoveTable(id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public Table AddTable(int number, string tableDescription)
+        {
+            Table AddingTable;
+            try
+            {
+                AddingTable = ManagerDataAccess.AddTable(number, tableDescription);
+            }
+            catch
+            {
+                MessageBox.Show("Failed");
+                return null;
+            }
+
+            return AddingTable;
+        }
+
+
+        public bool EditTable(Table table, int number, string tableDescription)
+        {
+            bool result;
+
+            var oldNumber = table.Number;
+            var oldDescription = table.Description;
+
+            table.Number = number;
+            table.Description = tableDescription;
+
+            try
+            {
+                result = ManagerDataAccess.EditTable(table);
+            }
+            catch
+            {
+                table.Number = oldNumber;
+                table.Description = oldDescription;
+
+                return false;
+            }
+
+            if (!result)
+            {
+                table.Number = oldNumber;
+                table.Description = oldDescription;
+            }
+
+            return result;
+        }
     }
 }

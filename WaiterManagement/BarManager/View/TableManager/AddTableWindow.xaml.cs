@@ -1,5 +1,4 @@
-﻿using BarManager.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,23 +11,36 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BarManager.Abstract;
 
 namespace BarManager.View
 {
     /// <summary>
-    /// Interaction logic for TableManager.xaml
+    /// Interaction logic for AddTableManager.xaml
     /// </summary>
-    public partial class TableManager : Window, ITableManager
+    public partial class AddTableWindow : Window, IAddTableWindow
     {
-        public TableManager()
+        private IAddTableViewModel AddTableViewModel;
+        
+        public AddTableWindow(IAddTableViewModel addTableViewmodel)
         {
+            AddTableViewModel = addTableViewmodel;
+
+            this.DataContext = AddTableViewModel;
+
             InitializeComponent();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddTableViewModel.AddTable())
+                Close();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            Hide();
+            this.Hide();
         }
     }
 }

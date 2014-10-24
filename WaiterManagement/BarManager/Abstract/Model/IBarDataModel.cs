@@ -27,5 +27,13 @@ namespace BarManager.Abstract
         WaiterContext AddWaiter(string login, string firstName, string lastName, string password);
 
         bool EditMenuItem(WaiterContext Waiter, string Login, string FirstName, string LastName, string Password);
+
+        IList<Table> GetAllTables();
+
+        bool DeleteTable(int id);
+
+        Table AddTable(int Number, string TableDescription);
+
+        bool EditTable(Table table, int number, string tableDescription);
     }
 }
