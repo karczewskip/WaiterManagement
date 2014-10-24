@@ -27,6 +27,17 @@ namespace ClassLib.DbDataStructures
             Category = original.Category;
             Price = original.Price;
         }
+
+        public MenuItem() { }
+
+        protected MenuItem(int id, string name, string description , MenuItemCategory category , Money price)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Category = category;
+            Price = price;
+        }
     }
 
     /// <summary>
@@ -42,6 +53,15 @@ namespace ClassLib.DbDataStructures
         {
             Name = original.Name;
             Description = original.Description;
+        }
+
+        public MenuItemCategory() { }
+
+        protected MenuItemCategory(int id , string name, string description)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
         }
     }
 

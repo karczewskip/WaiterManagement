@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace BarManager.Model
 {
-    class BarDataModel : IBarDataModel
+    public class BarDataModel : IBarDataModel
     {
         private IManagerDataAccess ManagerDataAccess;
 
@@ -33,7 +33,6 @@ namespace BarManager.Model
             }
             catch
             {
-                MessageBox.Show("Failed");
                 return null;
             }
             return AddingCategory;
