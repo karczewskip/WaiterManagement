@@ -105,7 +105,7 @@ namespace BarManager.ViewModel
                 return false;
             }
 
-            var result = DataModel.EditMenuItem(Waiter, Login, FirstName, LastName, Password);
+            var result = DataModel.EditWaiter(Waiter, Login, FirstName, LastName, Password);
 
             return result;
         }

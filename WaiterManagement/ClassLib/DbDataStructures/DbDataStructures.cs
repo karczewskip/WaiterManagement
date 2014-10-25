@@ -114,6 +114,15 @@ namespace ClassLib.DbDataStructures
             Number = original.Number;
             Description = original.Description;
         }
+
+        public Table() { }
+
+        protected Table(int id, int number, string description )
+        {
+            Id = id;
+            Number = number;
+            Description = description;
+        }
     }
 
     /// <summary>
@@ -133,6 +142,17 @@ namespace ClassLib.DbDataStructures
             LastName = original.LastName;
             Login = original.Login;
             Password = original.Password;
+        }
+
+        public WaiterContext() { }
+
+        protected WaiterContext(int id, string firstName, string lastName, string login, string password)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Login = login;
+            Password = password;
         }
     }
 }

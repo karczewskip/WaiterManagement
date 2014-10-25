@@ -25,9 +25,9 @@ namespace BarManager.UnitTests
             //Arrange List of Categories
             var Categories = new List<MenuItemCategory>();
 
-            var e1 = new MoqMenuItemCategory( 1, "Żarcie", "Schabowe i inne" );
-            var e2 = new MoqMenuItemCategory( 2, "Napoje", "Wódka i inne" );
-            var e3 = new MoqMenuItemCategory( 3, "Przystawki", "Mało tego" );
+            var e1 = new MoqMenuItemCategory(1, "Żarcie", "Schabowe i inne");
+            var e2 = new MoqMenuItemCategory(2, "Napoje", "Wódka i inne");
+            var e3 = new MoqMenuItemCategory(3, "Przystawki", "Mało tego");
 
             Categories.Add(e1);
             Categories.Add(e2);
@@ -38,7 +38,7 @@ namespace BarManager.UnitTests
 
             //Arrange Bar Data Model
             var BarDataModel = new BarDataModel(mock.Object);
-            
+
             //Act
             var ReturnedCategories = BarDataModel.GetAllCategories();
 
@@ -62,7 +62,7 @@ namespace BarManager.UnitTests
         public void AddCategoryItem_ValidExample()
         {
             //Arrange Adding Menu item Category
-            var category = new MoqMenuItemCategory(1,"Żarcie", "Różne");
+            var category = new MoqMenuItemCategory(1, "Żarcie", "Różne");
 
             var mock = new Mock<IManagerDataAccess>();
             mock.Setup(m => m.AddMenuItemCategory(It.IsAny<string>(), It.IsAny<string>())).Returns(category);
@@ -147,31 +147,742 @@ namespace BarManager.UnitTests
             var BarDataModel = new BarDataModel(mock.Object);
 
             //Act
-            var ReturnedCategories = BarDataModel.GetAllMenuItems();
+            var ReturnedMenuItems = BarDataModel.GetAllMenuItems();
 
             //Asserts
-            Assert.IsNotNull(ReturnedCategories);
+            Assert.IsNotNull(ReturnedMenuItems);
 
-            Assert.AreEqual(ReturnedCategories[0].Id, f1.Id);
-            Assert.AreEqual(ReturnedCategories[0].Name, f1.Name);
-            Assert.AreEqual(ReturnedCategories[0].Description, f1.Description);
-            Assert.AreEqual(ReturnedCategories[0].Category, e1);
-            Assert.AreEqual(ReturnedCategories[0].Price.Amount, 20);
-            Assert.AreEqual(ReturnedCategories[0].Price.Currency, "PLN");
+            Assert.AreEqual(ReturnedMenuItems[0].Id, f1.Id);
+            Assert.AreEqual(ReturnedMenuItems[0].Name, f1.Name);
+            Assert.AreEqual(ReturnedMenuItems[0].Description, f1.Description);
+            Assert.AreEqual(ReturnedMenuItems[0].Category, e1);
+            Assert.AreEqual(ReturnedMenuItems[0].Price.Amount, 20);
+            Assert.AreEqual(ReturnedMenuItems[0].Price.Currency, "PLN");
 
-            Assert.AreEqual(ReturnedCategories[1].Id, f2.Id);
-            Assert.AreEqual(ReturnedCategories[1].Name, f2.Name);
-            Assert.AreEqual(ReturnedCategories[1].Description, f2.Description);
-            Assert.AreEqual(ReturnedCategories[1].Category, e2);
-            Assert.AreEqual(ReturnedCategories[1].Price.Amount, 30);
-            Assert.AreEqual(ReturnedCategories[1].Price.Currency, "PLN");
+            Assert.AreEqual(ReturnedMenuItems[1].Id, f2.Id);
+            Assert.AreEqual(ReturnedMenuItems[1].Name, f2.Name);
+            Assert.AreEqual(ReturnedMenuItems[1].Description, f2.Description);
+            Assert.AreEqual(ReturnedMenuItems[1].Category, e2);
+            Assert.AreEqual(ReturnedMenuItems[1].Price.Amount, 30);
+            Assert.AreEqual(ReturnedMenuItems[1].Price.Currency, "PLN");
 
-            Assert.AreEqual(ReturnedCategories[2].Id, f3.Id);
-            Assert.AreEqual(ReturnedCategories[2].Name, f3.Name);
-            Assert.AreEqual(ReturnedCategories[2].Description, f3.Description);
-            Assert.AreEqual(ReturnedCategories[2].Category, e3);
-            Assert.AreEqual(ReturnedCategories[2].Price.Amount, 5);
-            Assert.AreEqual(ReturnedCategories[2].Price.Currency, "PLN");
+            Assert.AreEqual(ReturnedMenuItems[2].Id, f3.Id);
+            Assert.AreEqual(ReturnedMenuItems[2].Name, f3.Name);
+            Assert.AreEqual(ReturnedMenuItems[2].Description, f3.Description);
+            Assert.AreEqual(ReturnedMenuItems[2].Category, e3);
+            Assert.AreEqual(ReturnedMenuItems[2].Price.Amount, 5);
+            Assert.AreEqual(ReturnedMenuItems[2].Price.Currency, "PLN");
+        }
+
+        [TestMethod]
+        public void AddMenuItem_ValidExample()
+        {
+            //Arrange Adding Menu item Category
+            var category = new MoqMenuItemCategory(1, "Żarcie", "Różne");
+
+            //Arrange Menu Item
+            var menuItem = new MoqMenuItem(1, "Schabowy", "Bardzo dobry schabowy", category, new Money() { Amount = 20, Currency = "PLN" });
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddMenuItem(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Money>())).Returns(menuItem);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddMenuItem("Schabowy", category, 20, "Bardzo dobry schabowy");
+
+            //Assert
+            Assert.AreEqual(result, menuItem);
+        }
+
+        [TestMethod]
+        public void AddMenuItem_FailedAddinToDataBase()
+        {
+            //Arrange Adding Menu item Category
+            var category = new MoqMenuItemCategory(1, "Żarcie", "Różne");
+
+            //Arrange ManagerDataAccess
+            MenuItem menuItem = null;
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddMenuItem(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Money>())).Returns(menuItem);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddMenuItem("Schabowy", category, 20, "Bardzo dobry schabowy");
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void AddMenuItem_ExceptionFromDataAccess()
+        {
+            //Arrange Adding Menu item Category
+            var category = new MoqMenuItemCategory(1, "Żarcie", "Różne");
+
+            //Arrange Exception
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddMenuItem(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Money>())).Throws(new Exception());
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddMenuItem("Schabowy", category, 20, "Bardzo dobry schabowy");
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void DeleteItem_ValidExample()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveMenuItem(It.IsAny<int>())).Returns(true);
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteItem(1);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+
+        [TestMethod]
+        public void DeleteItem_FailedDeletingFromDataAccess()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveMenuItem(It.IsAny<int>())).Returns(false);
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteItem(1);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void DeleteItem_ExceptionFromDataAccess()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveMenuItem(It.IsAny<int>())).Throws(new Exception());
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteItem(1);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void EditMenuItem_ValidExample()
+        {
+            //Arrange Menu item Categories
+            var category1 = new MoqMenuItemCategory(1, "Żarcie", "Różne");
+            var category2 = new MoqMenuItemCategory(2, "Picie", "Owocowe i nie");
+
+            //Arrange other changes
+            var newName = "Wódka";
+            var newDescription = "Smakowa";
+            var newPrice = (double)30;
+
+            //Arrange Menu Item
+            var menuItem = new MoqMenuItem(1, "Schabowy", "Bardzo dobry schabowy", category1, new Money() { Amount = 20, Currency = "PLN" });
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditMenuItem(It.IsAny<MenuItem>())).Returns(true);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditMenuItem(menuItem, newName, newPrice, category2, newDescription);
+
+            //Assert
+            Assert.IsTrue(result);
+            Assert.AreEqual(menuItem.Name, newName);
+            Assert.AreEqual(menuItem.Price.Amount, newPrice);
+            Assert.AreEqual(menuItem.Category, category2);
+            Assert.AreEqual(menuItem.Description, newDescription);
+
+        }
+
+        [TestMethod]
+        public void EditMenuItem_FailedExample()
+        {
+            //Arrange Menu item Categories
+            var category1 = new MoqMenuItemCategory(1, "Żarcie", "Różne");
+            var category2 = new MoqMenuItemCategory(2, "Picie", "Owocowe i nie");
+
+            //Arrange other changes
+            var oldName = "Schabowy";
+            var oldDescription = "Bardzo dobry schabowy";
+            var oldPrice = 20;
+
+            var newName = "Wódka";
+            var newDescription = "Smakowa";
+            var newPrice = (double)30;
+
+            //Arrange Menu Item
+            var menuItem = new MoqMenuItem(1, oldName, oldDescription, category1, new Money() { Amount = oldPrice, Currency = "PLN" });
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditMenuItem(It.IsAny<MenuItem>())).Returns(false);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditMenuItem(menuItem, newName, newPrice, category2, newDescription);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.AreEqual(menuItem.Name, oldName);
+            Assert.AreEqual(menuItem.Price.Amount, oldPrice);
+            Assert.AreEqual(menuItem.Category, category1);
+            Assert.AreEqual(menuItem.Description, oldDescription);
+
+        }
+
+        [TestMethod]
+        public void EditMenuItem_ExceptionFromDataAccess()
+        {
+            //Arrange Menu item Categories
+            var category1 = new MoqMenuItemCategory(1, "Żarcie", "Różne");
+            var category2 = new MoqMenuItemCategory(2, "Picie", "Owocowe i nie");
+
+            //Arrange other changes
+            var oldName = "Schabowy";
+            var oldDescription = "Bardzo dobry schabowy";
+            var oldPrice = 20;
+
+            var newName = "Wódka";
+            var newDescription = "Smakowa";
+            var newPrice = (double)30;
+
+            //Arrange Menu Item
+            var menuItem = new MoqMenuItem(1, oldName, oldDescription, category1, new Money() { Amount = oldPrice, Currency = "PLN" });
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditMenuItem(It.IsAny<MenuItem>())).Throws(new Exception());
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditMenuItem(menuItem, newName, newPrice, category2, newDescription);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.AreEqual(menuItem.Name, oldName);
+            Assert.AreEqual(menuItem.Price.Amount, oldPrice);
+            Assert.AreEqual(menuItem.Category, category1);
+            Assert.AreEqual(menuItem.Description, oldDescription);
+
+        }
+
+
+        #endregion
+
+        #region Tables
+
+        private class MoqTable : Table
+        {
+            public MoqTable(int id, int number, string description) : base(id, number, description) { }
+        }
+
+        [TestMethod]
+        public void GetAllTables_ValidExample()
+        {
+            //Arrange List of Categories
+            var Tables = new List<Table>();
+
+            var f1 = new MoqTable(1, 1, "Po lewej");
+            var f2 = new MoqTable(2, 2, "Po środku");
+            var f3 = new MoqTable(3, 3, "Po prawej");
+
+            Tables.Add(f1);
+            Tables.Add(f2);
+            Tables.Add(f3);
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.GetTables()).Returns(Tables);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var ReturnedTables = BarDataModel.GetAllTables();
+
+            //Asserts
+            Assert.IsNotNull(ReturnedTables);
+
+            Assert.AreEqual(ReturnedTables[0].Id, f1.Id);
+            Assert.AreEqual(ReturnedTables[0].Number, f1.Number);
+            Assert.AreEqual(ReturnedTables[0].Description, f1.Description);
+
+            Assert.AreEqual(ReturnedTables[1].Id, f2.Id);
+            Assert.AreEqual(ReturnedTables[1].Number, f2.Number);
+            Assert.AreEqual(ReturnedTables[1].Description, f2.Description);
+
+            Assert.AreEqual(ReturnedTables[2].Id, f3.Id);
+            Assert.AreEqual(ReturnedTables[2].Number, f3.Number);
+            Assert.AreEqual(ReturnedTables[2].Description, f3.Description);
+        }
+
+        [TestMethod]
+        public void AddTable_ValidExample()
+        {
+            //Arrange Table
+            var table = new MoqTable(1, 1, "Po lewej");
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddTable(It.IsAny<int>(), It.IsAny<string>())).Returns(table);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddTable(table.Number, table.Description);
+
+            //Assert
+            Assert.AreEqual(result, table);
+        }
+
+        [TestMethod]
+        public void AddTable_FailedAddinToDataBase()
+        {
+            //Arrange Table
+            Table table = null;
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddTable(It.IsAny<int>(), It.IsAny<string>())).Returns(table);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddTable(1, "Po lewej");
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void AddTable_ExceptionFromDataAccess()
+        {
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddTable(It.IsAny<int>(), It.IsAny<string>())).Throws(new Exception());
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddTable(1, "Po lewej");
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void DeleteTable_ValidExample()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveTable(It.IsAny<int>())).Returns(true);
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteTable(1);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+
+        [TestMethod]
+        public void DeleteTable_FailedDeletingFromDataAccess()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveTable(It.IsAny<int>())).Returns(false);
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteTable(1);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void DeleteTable_ExceptionFromDataAccess()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveTable(It.IsAny<int>())).Throws(new Exception());
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteTable(1);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void EditTable_ValidExample()
+        {
+            //Arrange Changes
+            var newNumber = 2;
+            var newDescription = "Po prawej";
+
+            //Arrange Table
+            var table = new MoqTable(1, 1, "Po lewej");
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditTable(It.IsAny<Table>())).Returns(true);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditTable(table, newNumber, newDescription);
+
+            //Assert
+            Assert.IsTrue(result);
+            Assert.AreEqual(table.Number, newNumber);
+            Assert.AreEqual(table.Description, newDescription);
+
+        }
+
+        [TestMethod]
+        public void EditTable_FailedExample()
+        {
+            //Arrange Changes
+            var newNumber = 2;
+            var newDescription = "Po prawej";
+
+            //Arrange Table
+            var oldNumber = 1;
+            var oldDescription = "Po lewej";
+            var table = new MoqTable(1, oldNumber, oldDescription);
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditTable(It.IsAny<Table>())).Returns(false);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditTable(table, newNumber, newDescription);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.AreEqual(table.Number, oldNumber);
+            Assert.AreEqual(table.Description, oldDescription);
+
+        }
+
+        [TestMethod]
+        public void EditTable_ExceptionFromDataAccess()
+        {
+            //Arrange Changes
+            var newNumber = 2;
+            var newDescription = "Po prawej";
+
+            //Arrange Table
+            var oldNumber = 1;
+            var oldDescription = "Po lewej";
+            var table = new MoqTable(1, oldNumber, oldDescription);
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditTable(It.IsAny<Table>())).Throws(new Exception());
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditTable(table, newNumber, newDescription);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.AreEqual(table.Number, oldNumber);
+            Assert.AreEqual(table.Description, oldDescription);
+
+        }
+
+        #endregion
+
+        #region
+        private class MoqWaiter : WaiterContext
+        {
+            public MoqWaiter(int id, string firstName, string lastName, string login, string password) : base(id, firstName, lastName, login, password) { }
+        }
+
+        [TestMethod]
+        public void GetAllWaiters_ValidExample()
+        {
+            //Arrange List of Waiters
+            var Waiters = new List<WaiterContext>();
+
+            var f1 = new MoqWaiter(1, "Tom", "Dickens", "tDick", "lala");
+            var f2 = new MoqWaiter(2, "Wiliam", "Whatever", "Rockman", "lolo");
+            var f3 = new MoqWaiter(3, "Ken", "Hilary", "hili", "lipo");
+
+            Waiters.Add(f1);
+            Waiters.Add(f2);
+            Waiters.Add(f3);
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.GetWaiters()).Returns(Waiters);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var ReturnedTables = BarDataModel.GetAllWaiters();
+
+            //Asserts
+            Assert.IsNotNull(ReturnedTables);
+
+            Assert.AreEqual(ReturnedTables[0].Id, f1.Id);
+            Assert.AreEqual(ReturnedTables[0].FirstName, f1.FirstName);
+            Assert.AreEqual(ReturnedTables[0].LastName, f1.LastName);
+            Assert.AreEqual(ReturnedTables[0].Login, f1.Login);
+            Assert.AreEqual(ReturnedTables[0].Password, f1.Password);
+
+            Assert.AreEqual(ReturnedTables[1].Id, f2.Id);
+            Assert.AreEqual(ReturnedTables[1].FirstName, f2.FirstName);
+            Assert.AreEqual(ReturnedTables[1].LastName, f2.LastName);
+            Assert.AreEqual(ReturnedTables[1].Login, f2.Login);
+            Assert.AreEqual(ReturnedTables[1].Password, f2.Password);
+
+            Assert.AreEqual(ReturnedTables[2].Id, f3.Id);
+            Assert.AreEqual(ReturnedTables[2].FirstName, f3.FirstName);
+            Assert.AreEqual(ReturnedTables[2].LastName, f3.LastName);
+            Assert.AreEqual(ReturnedTables[2].Login, f3.Login);
+            Assert.AreEqual(ReturnedTables[2].Password, f3.Password);
+        }
+
+        [TestMethod]
+        public void AddWaiter_ValidExample()
+        {
+            //Arrange Waiter
+            var waiter = new MoqWaiter(1, "Tom", "Dickens", "tDick", "lala");
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddWaiter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(waiter);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddWaiter(waiter.FirstName, waiter.LastName, waiter.Login, waiter.Password);
+
+            //Assert
+            Assert.AreEqual(result, waiter);
+        }
+
+        [TestMethod]
+        public void AddWaiter_FailedAddinToDataBase()
+        {
+            //Arrange Waiter
+            WaiterContext waiter = null;
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddWaiter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(waiter);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddWaiter( "Tom", "Dickens", "tDick", "lala");
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void AddWaiter_ExceptionFromDataAccess()
+        {
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.AddWaiter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.AddWaiter("Tom", "Dickens", "tDick", "lala");
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void DeleteWaiter_ValidExample()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveWaiter(It.IsAny<int>())).Returns(true);
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteWaiter(1);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+
+        [TestMethod]
+        public void DeleteWaiter_FailedDeletingFromDataAccess()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveWaiter(It.IsAny<int>())).Returns(false);
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteWaiter(1);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void DeleteWaiter_ExceptionFromDataAccess()
+        {
+            //Arange 
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.RemoveWaiter(It.IsAny<int>())).Throws(new Exception());
+
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.DeleteWaiter(1);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void EditWaiter_ValidExample()
+        {
+            //Arrange Changes
+            var newFirstName = "Tony";
+            var newLastName = "Lombster";
+            var newLogin = "Lomb";
+            var newPassword = "123";
+
+            //Arrange waiter
+            var waiter = new MoqWaiter(1, "Keny", "Wall" , "wally" , "qwerty");
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditWaiter(It.IsAny<WaiterContext>())).Returns(true);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditWaiter(waiter,newLogin, newFirstName, newLastName, newPassword);
+
+            //Assert
+            Assert.IsTrue(result);
+            Assert.AreEqual(waiter.FirstName, newFirstName);
+            Assert.AreEqual(waiter.LastName, newLastName);
+            Assert.AreEqual(waiter.Login, newLogin);
+            Assert.AreEqual(waiter.Password, newPassword);
+
+        }
+
+        [TestMethod]
+        public void EditWaiter_FailedExample()
+        {
+            //Arrange Changes
+            var newFirstName = "Tony";
+            var newLastName = "Lombster";
+            var newLogin = "Lomb";
+            var newPassword = "123";
+
+            //Arrange waiter
+            var oldFirstName = "Keny";
+            var oldLastName = "Wall";
+            var oldLogin = "wally";
+            var oldPassword = "qwerty";
+            var waiter = new MoqWaiter(1, oldFirstName, oldLastName, oldLogin, oldPassword);
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditWaiter(It.IsAny<WaiterContext>())).Returns(false);
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditWaiter(waiter, newLogin, newFirstName, newLastName, newPassword);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.AreEqual(waiter.FirstName, oldFirstName);
+            Assert.AreEqual(waiter.LastName, oldLastName);
+            Assert.AreEqual(waiter.Login, oldLogin);
+            Assert.AreEqual(waiter.Password, oldPassword);
+
+        }
+
+        [TestMethod]
+        public void EditWaiter_ExceptionFromDataAccess()
+        {
+            //Arrange Changes
+            var newFirstName = "Tony";
+            var newLastName = "Lombster";
+            var newLogin = "Lomb";
+            var newPassword = "123";
+
+            //Arrange waiter
+            var oldFirstName = "Keny";
+            var oldLastName = "Wall";
+            var oldLogin = "wally";
+            var oldPassword = "qwerty";
+            var waiter = new MoqWaiter(1, oldFirstName, oldLastName, oldLogin, oldPassword);
+
+            var mock = new Mock<IManagerDataAccess>();
+            mock.Setup(m => m.EditWaiter(It.IsAny<WaiterContext>())).Throws(new Exception());
+
+            //Arrange Bar Data Model
+            var BarDataModel = new BarDataModel(mock.Object);
+
+            //Act
+            var result = BarDataModel.EditWaiter(waiter, newLogin, newFirstName, newLastName, newPassword);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.AreEqual(waiter.FirstName, oldFirstName);
+            Assert.AreEqual(waiter.LastName, oldLastName);
+            Assert.AreEqual(waiter.Login, oldLogin);
+            Assert.AreEqual(waiter.Password, oldPassword);
+
+
         }
 
         #endregion

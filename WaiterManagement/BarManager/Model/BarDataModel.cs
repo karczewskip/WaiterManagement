@@ -53,7 +53,6 @@ namespace BarManager.Model
             }
             catch
             {
-                MessageBox.Show("Failed");
                 return null;
             }
 
@@ -68,16 +67,17 @@ namespace BarManager.Model
 
         public bool DeleteItem(int id)
         {
+            bool result;
             try
             {
-                ManagerDataAccess.RemoveMenuItem(id);
+                result = ManagerDataAccess.RemoveMenuItem(id);
             }
             catch
             {
                 return false;
             }
 
-            return true;
+            return result;
         }
 
         public bool EditMenuItem(MenuItem menuItemToEdit, string newName, double newPrice, MenuItemCategory newCategory, string newMenuItemDescription)
@@ -129,16 +129,17 @@ namespace BarManager.Model
 
         public bool DeleteWaiter(int id)
         {
+            bool result;
             try
             {
-                ManagerDataAccess.RemoveWaiter(id);
+                result = ManagerDataAccess.RemoveWaiter(id);
             }
             catch
             {
                 return false;
             }
 
-            return true;
+            return result;
         }
 
 
@@ -151,7 +152,6 @@ namespace BarManager.Model
             }
             catch
             {
-                MessageBox.Show("Failed");
                 return null;
             }
 
@@ -159,7 +159,7 @@ namespace BarManager.Model
         }
 
 
-        public bool EditMenuItem(WaiterContext Waiter, string Login, string FirstName, string LastName, string Password)
+        public bool EditWaiter(WaiterContext Waiter, string Login, string FirstName, string LastName, string Password)
         {
             bool result;
 
@@ -206,16 +206,17 @@ namespace BarManager.Model
 
         public bool DeleteTable(int id)
         {
+            bool result;
             try
             {
-                ManagerDataAccess.RemoveTable(id);
+                result = ManagerDataAccess.RemoveTable(id);
             }
             catch
             {
                 return false;
             }
 
-            return true;
+            return result;
         }
 
 
@@ -228,7 +229,6 @@ namespace BarManager.Model
             }
             catch
             {
-                MessageBox.Show("Failed");
                 return null;
             }
 
