@@ -10,59 +10,31 @@ using System.Threading.Tasks;
 namespace ClassLib.DbDataStructures
 {
     /// <summary>
-    /// Klasa modelująca jeden element z menu.
+    /// Klasa bazowa dla klas bazodanowych
     /// </summary>
-    public class MenuItem
+    public class DbEntity
     {
         public int Id { get; private set; }
+    }
+
+    /// <summary>
+    /// Klasa modelująca jeden element z menu.
+    /// </summary>
+    public class MenuItem : DbEntity
+    {
         public string Name { get; set; }
         public string Description { get; set; }
         public virtual MenuItemCategory Category { get; set; }
         public Money Price { get; set; }
-
-        public void CopyData(MenuItem original)
-        {
-            Name = original.Name;
-            Description = original.Description;
-            Category = original.Category;
-            Price = original.Price;
-        }
-
-        public MenuItem() { }
-
-        protected MenuItem(int id, string name, string description , MenuItemCategory category , Money price)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            Category = category;
-            Price = price;
-        }
     }
 
     /// <summary>
     /// Reprezentuje kategorię, do której należy MenuItem
     /// </summary>
-    public class MenuItemCategory
+    public class MenuItemCategory : DbEntity
     {
-        public int Id { get; private set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
-        public void CopyData(MenuItemCategory original)
-        {
-            Name = original.Name;
-            Description = original.Description;
-        }
-
-        public MenuItemCategory() { }
-
-        protected MenuItemCategory(int id , string name, string description)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-        }
     }
 
     /// <summary>
@@ -78,81 +50,47 @@ namespace ClassLib.DbDataStructures
     /// <summary>
     /// Klasa reprezentująca zamówienie
     /// </summary>
-    public class Order
+    public class Order : DbEntity
     {
         public Order()
         {
             MenuItems = new HashSet<MenuItemQuantity>();
         }
-        public int Id { get; private set; }
+
         public int UserId { get; set; }
-        public int WaiterId { get; set; }
-        public int TableId { get; set; }
+        public virtual WaiterContext Waiter { get; set; }
+        public virtual Table Table { get; set; }
         //Item1 - menuItemId, Item2 - quantity
         public virtual ICollection<MenuItemQuantity> MenuItems { get; set; }
     }
 
-    public class MenuItemQuantity
+    /// <summary>
+    /// Klasa pośrednia pomiędzy zamówieniem a elementem z menu.
+    /// </summary>
+    public class MenuItemQuantity : DbEntity
     {
-        public int Id { get; private set; }
-        public int MenuItemId { get; set; }
+        public virtual MenuItem MenuItem { get; set; }
         public int Quantity { get; set; }
-        public virtual Order Order { get; private set;}
     }
 
     /// <summary>
     /// Klasa reprezentująca stolik/stół w barze/restauracji
     /// </summary>
-    public class Table
+    public class Table : DbEntity
     {
-        public int Id { get; private set; }
         public int Number { get; set; }
         public string Description { get; set; }
-
-        public void CopyData(Table original)
-        {
-            Number = original.Number;
-            Description = original.Description;
-        }
-
-        public Table() { }
-
-        protected Table(int id, int number, string description )
-        {
-            Id = id;
-            Number = number;
-            Description = description;
-        }
     }
 
     /// <summary>
     /// Reprezentuje dane kelnera. Jest zwracana po udanym zalogowaniu się
     /// </summary>
-    public class WaiterContext
+    public class WaiterContext : DbEntity
     {
         public int Id { get; private set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-
-        public void CopyData(WaiterContext original)
-        {
-            FirstName = original.FirstName;
-            LastName = original.LastName;
-            Login = original.Login;
-            Password = original.Password;
-        }
-
-        public WaiterContext() { }
-
-        protected WaiterContext(int id, string firstName, string lastName, string login, string password)
-        {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Login = login;
-            Password = password;
-        }
     }
 }

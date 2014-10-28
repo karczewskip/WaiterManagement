@@ -363,7 +363,7 @@ namespace DataAccess.UnitTests
         [TestMethod]
         public void GetPastOrdersTest()
         {
-            CleanUpDatabaseTest();
+            //CleanUpDatabaseTest();
             AddNewWaiterTest();
             AddNewCategoryTest();
             AddNewTableTest();
