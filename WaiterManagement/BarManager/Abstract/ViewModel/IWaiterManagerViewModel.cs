@@ -11,6 +11,6 @@ namespace BarManager.Abstract
     {
         IList<WaiterContext> ListOfWaiters { get; set; }
 
-        void DeleteSelectedItem();
+        bool DeleteSelectedItem(out string error);
     }
 }

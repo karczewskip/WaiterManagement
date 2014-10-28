@@ -8,6 +8,6 @@ namespace BarManager.Abstract
 {
     public interface IAddCategoryViewModel
     {
-        bool AddCategory();
+        bool AddCategory(out string error);
     }
 }

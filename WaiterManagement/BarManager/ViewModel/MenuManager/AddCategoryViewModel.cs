@@ -22,17 +22,17 @@ namespace BarManager.ViewModel
             MenuManagerViewModel = menuManagerViewModel;
         }
 
-        public bool AddCategory()
+        public bool AddCategory(out string error)
         {
             if (string.IsNullOrEmpty(CategoryName) || string.IsNullOrEmpty(CategoryDescription))
             {
-                MessageBox.Show("Some Fields are empty");
+                error = "Some Fields are empty";
                 return false;
             }
 
             if( MenuManagerViewModel.ListOfCategories.Any(cat => cat.Name.Equals(CategoryName)))
             {
-                MessageBox.Show("There is category named: " + CategoryName);
+                error = "There is category named: " + CategoryName;
                 return false;
             }
 
@@ -40,8 +40,11 @@ namespace BarManager.ViewModel
             if (AddingCategory != null)
             {
                 MenuManagerViewModel.ListOfCategories.Add(AddingCategory);
+                error = "";
                 return true;
             }
+
+            error = "Failed";
 
             return false;
         }

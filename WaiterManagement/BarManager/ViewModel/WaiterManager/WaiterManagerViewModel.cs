@@ -32,16 +32,26 @@ namespace BarManager.ViewModel
             ListOfWaiters = new ObservableCollection<WaiterContext>(DataModel.GetAllWaiters());
         }
 
-        public void DeleteSelectedItem()
+        public bool DeleteSelectedItem(out string error)
         {
             if (SelectedWaiter == null)
-                MessageBox.Show("No Item Is Sellected");
+            {
+                error = "No Item Is Sellected";
+                return false;
+            }
             else
             {
                 if (DataModel.DeleteWaiter(SelectedWaiter.Id))
+                {
                     ListOfWaiters.Remove(SelectedWaiter);
+                    error = "";
+                    return true;
+                }
                 else
-                    MessageBox.Show("Failed");
+                {
+                    error = "Failed";
+                    return false;
+                }
             }
         }
     }

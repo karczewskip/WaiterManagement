@@ -8,6 +8,6 @@ namespace BarManager.Abstract
 {
     public interface IAddMenuItemViewModel
     {
-        bool AddMenuItem();
+        bool AddMenuItem(out string error);
     }
 }

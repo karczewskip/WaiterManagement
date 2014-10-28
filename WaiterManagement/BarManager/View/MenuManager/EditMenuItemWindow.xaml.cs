@@ -47,8 +47,11 @@ namespace BarManager.View
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (EditMenuItemViewModel.EditMenuItem())
+            string error;
+            if (EditMenuItemViewModel.EditMenuItem(out error))
                 Close();
+            else
+                MessageBox.Show(error);
         }
 
 

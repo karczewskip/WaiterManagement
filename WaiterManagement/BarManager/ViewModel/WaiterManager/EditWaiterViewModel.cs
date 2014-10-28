@@ -91,21 +91,26 @@ namespace BarManager.ViewModel
             Password = waiter.Password;
         }
 
-        public bool EditWaiter()
+        public bool EditWaiter(out string error)
         {
             if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Password))
             {
-                MessageBox.Show("Some Fields are empty");
+                error = "Some Fields are empty";
                 return false;
             }
 
             if (WaiterManagerViewModel.ListOfWaiters.Any(waiter => (waiter.Login.Equals(Login) && waiter.Id != Waiter.Id)))
             {
-                MessageBox.Show("There is waiter named: " + Login);
+                error = "There is waiter named: " + Login;
                 return false;
             }
 
             var result = DataModel.EditWaiter(Waiter, Login, FirstName, LastName, Password);
+
+            if (result)
+                error = "";
+            else
+                error = "Failed";
 
             return result;
         }

@@ -8,6 +8,6 @@ namespace BarManager.Abstract
 {
     public interface IAddTableViewModel
     {
-        bool AddTable();
+        bool AddTable(out string error);
     }
 }

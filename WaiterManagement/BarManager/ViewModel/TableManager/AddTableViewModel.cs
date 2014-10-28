@@ -22,11 +22,11 @@ namespace BarManager.ViewModel
             TableManagerViewModel = tableManagerViewmodel;
         }
 
-        public bool AddTable()
+        public bool AddTable(out string error)
         {
             if (string.IsNullOrEmpty(NumberString) || string.IsNullOrEmpty(TableDescription))
             {
-                MessageBox.Show("Some Fields are empty");
+                error = "Some Fields are empty";
                 return false;
             }
 
@@ -34,13 +34,13 @@ namespace BarManager.ViewModel
 
             if (!int.TryParse(NumberString, out Number))
             {
-                MessageBox.Show("Number is wrong");
+                error = "Number is wrong";
                 return false;
             }
 
             if (TableManagerViewModel.ListOfTables.Any(table => table.Number.Equals(Number)))
             {
-                MessageBox.Show("There is table " + Number);
+                error = "There is table " + Number;
                 return false;
             }
 
@@ -48,9 +48,11 @@ namespace BarManager.ViewModel
             if (AddingTable!= null)
             {
                 TableManagerViewModel.ListOfTables.Add(AddingTable);
+                error = "";
                 return true;
             }
 
+            error = "Failed";
             return false;
         }
     }
