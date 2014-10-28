@@ -10,6 +10,6 @@ namespace BarManager.Abstract
     {
         void RefreshItem(ClassLib.DbDataStructures.MenuItem menuItem);
 
-        bool EditMenuItem();
+        bool EditMenuItem(out string error);
     }
 }

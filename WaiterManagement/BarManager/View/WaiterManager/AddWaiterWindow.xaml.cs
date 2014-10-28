@@ -33,8 +33,11 @@ namespace BarManager.View
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (AddWaiterViewModel.AddWaiter())
+            string error;
+            if (AddWaiterViewModel.AddWaiter(out error))
                 Close();
+            else
+                MessageBox.Show(error);
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

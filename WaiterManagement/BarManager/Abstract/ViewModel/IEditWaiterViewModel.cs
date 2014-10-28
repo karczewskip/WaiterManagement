@@ -10,6 +10,6 @@ namespace BarManager.Abstract
     {
         void RefreshItem(ClassLib.DbDataStructures.WaiterContext Waiter);
 
-        bool EditWaiter();
+        bool EditWaiter(out string error);
     }
 }

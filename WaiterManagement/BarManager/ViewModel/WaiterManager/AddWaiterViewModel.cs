@@ -24,17 +24,17 @@ namespace BarManager.ViewModel
             WaiterManagerViewModel = waiterManagerViewModel;
         }
 
-        public bool AddWaiter()
+        public bool AddWaiter(out string error)
         {
             if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Login))
             {
-                MessageBox.Show("Some Fields are empty");
+                error = "Some Fields are empty";
                 return false;
             }
 
             if (WaiterManagerViewModel.ListOfWaiters.Any(cat => cat.Login.Equals(Login)))
             {
-                MessageBox.Show("There is login named: " + Login);
+                error = "There is login named: " + Login;
                 return false;
             }
 
@@ -42,8 +42,11 @@ namespace BarManager.ViewModel
             if (AddingWaiter != null)
             {
                 WaiterManagerViewModel.ListOfWaiters.Add(AddingWaiter);
+                error = "";
                 return true;
             }
+
+            error = "Failed";
 
             return false;
         }

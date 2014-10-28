@@ -55,16 +55,26 @@ namespace BarManager.ViewModel
 
 
 
-        public void DeleteSelectedItem()
+        public bool DeleteSelectedItem(out string error)
         {
             if (SelectedMenuItem == null)
-                MessageBox.Show("No Item Is Sellected");
-            else 
+            {
+                error = "No Item Is Sellected";
+                return false;
+            }
+            else
             {
                 if (DataModel.DeleteItem(SelectedMenuItem.Id))
+                {
                     ListOfMenuItems.Remove(SelectedMenuItem);
+                    error = "";
+                    return true;
+                }
                 else
-                    MessageBox.Show("Failed");
+                {
+                    error = "Failed";
+                    return false;
+                }
             }
         }
 

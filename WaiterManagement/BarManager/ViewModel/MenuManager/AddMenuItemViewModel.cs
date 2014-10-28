@@ -29,23 +29,23 @@ namespace BarManager.ViewModel
             SelectedCategory = null;
         }
 
-        public bool AddMenuItem()
+        public bool AddMenuItem(out string error)
         {
             if(string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(PriceString) || string.IsNullOrEmpty(MenuItemDescription) )
             {
-                MessageBox.Show("Some Fields are empty");
+                error = "Some Fields are empty";
                 return false;
             }
 
             if(SelectedCategory == null)
             {
-                MessageBox.Show("No Category was selected");
+                error = "No Category was selected";
                 return false;
             }
 
             if (MenuManagerViewModel.ListOfMenuItems.Any(cat => cat.Name.Equals(MenuItemName)))
             {
-                MessageBox.Show("There is menu item named: " + MenuItemName);
+                error = "There is menu item named: " + MenuItemName;
                 return false;
             }
 
@@ -53,7 +53,7 @@ namespace BarManager.ViewModel
 
             if(!double.TryParse(PriceString, out Price))
             {
-                MessageBox.Show("Price is wrong");
+                error = "Price is wrong";
                 return false;
             }
 
@@ -63,8 +63,11 @@ namespace BarManager.ViewModel
             if (AddingMenuItem != null)
             {
                 MenuManagerViewModel.ListOfMenuItems.Add(AddingMenuItem);
+                error = "";
                 return true;
             }
+
+            error = "Falied";
 
             return false;
 

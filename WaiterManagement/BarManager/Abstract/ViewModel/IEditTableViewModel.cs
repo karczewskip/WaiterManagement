@@ -8,7 +8,7 @@ namespace BarManager.Abstract
 {
     public interface IEditTableViewModel
     {
-        bool EditTable();
+        bool EditTable(out string error);
 
         void RefreshItem(ClassLib.DbDataStructures.Table table);
     }

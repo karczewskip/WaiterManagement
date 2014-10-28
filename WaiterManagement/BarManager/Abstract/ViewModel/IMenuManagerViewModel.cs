@@ -12,7 +12,7 @@ namespace BarManager.Abstract
         IList<MenuItem> ListOfMenuItems { get; set; }
         IList<MenuItemCategory> ListOfCategories { get; set; }
 
-        void DeleteSelectedItem();
+        bool DeleteSelectedItem(out string error);
 
     }
 }

@@ -43,7 +43,9 @@ namespace BarManager.View
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            WaiterManagerViewModel.DeleteSelectedItem();
+            string error;
+            if (WaiterManagerViewModel.DeleteSelectedItem(out error))
+                MessageBox.Show(error);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

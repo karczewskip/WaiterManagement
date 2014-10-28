@@ -54,7 +54,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BarDataModelTests.cs" />
+    <Compile Include="Model\BarDataModelTests.cs" />
+    <Compile Include="ViewModel\AddCategoryViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

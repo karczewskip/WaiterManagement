@@ -32,16 +32,26 @@ namespace BarManager.ViewModel
             ListOfTables = new ObservableCollection<Table>(DataModel.GetAllTables());
         }
 
-        public void DeleteSelectedItem()
+        public bool DeleteSelectedItem(out string error)
         {
             if (SelectedTable == null)
-                MessageBox.Show("No Item Is Sellected");
+            {
+                error = "No Item Is Sellected";
+                return false;
+            }
             else
             {
                 if (DataModel.DeleteTable(SelectedTable.Id))
+                {
                     ListOfTables.Remove(SelectedTable);
+                    error = "";
+                    return false;
+                }
                 else
-                    MessageBox.Show("Failed");
+                {
+                    error = "Failed";
+                    return false;
+                }
             }
         }
     }

@@ -8,6 +8,6 @@ namespace BarManager.Abstract
 {
     public interface IAddWaiterViewModel
     {
-        bool AddWaiter();
+        bool AddWaiter(out string error);
     }
 }
