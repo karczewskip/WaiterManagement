@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using BarManager.Abstract;
@@ -16,14 +17,20 @@ namespace BarManager.UnitTests
         #region Categories
         private class MoqMenuItemCategory : MenuItemCategory
         {
-            public MoqMenuItemCategory(int id, string name, string description) : base(id, name, description) { }
+            public new int Id { get; set; }
+            public MoqMenuItemCategory(int id, string name, string description)
+            {
+                Id = id;
+                Name = name;
+                Description = description;
+            }
         }
 
         [TestMethod]
         public void GetAllCategories_ValidExample()
         {
             //Arrange List of Categories
-            var Categories = new List<MenuItemCategory>();
+            var Categories = new List<MoqMenuItemCategory>();
 
             var e1 = new MoqMenuItemCategory(1, "Żarcie", "Schabowe i inne");
             var e2 = new MoqMenuItemCategory(2, "Napoje", "Wódka i inne");
@@ -41,21 +48,22 @@ namespace BarManager.UnitTests
 
             //Act
             var ReturnedCategories = BarDataModel.GetAllCategories();
+            var ReturnedCategoriesCast = ReturnedCategories.Cast<MoqMenuItemCategory>().ToList();
 
             //Asserts
-            Assert.IsNotNull(ReturnedCategories);
+            Assert.IsNotNull(ReturnedCategoriesCast);
 
-            Assert.AreEqual(ReturnedCategories[0].Id, e1.Id);
-            Assert.AreEqual(ReturnedCategories[0].Name, e1.Name);
-            Assert.AreEqual(ReturnedCategories[0].Description, e1.Description);
+            Assert.AreEqual(ReturnedCategoriesCast[0].Id, e1.Id);
+            Assert.AreEqual(ReturnedCategoriesCast[0].Name, e1.Name);
+            Assert.AreEqual(ReturnedCategoriesCast[0].Description, e1.Description);
 
-            Assert.AreEqual(ReturnedCategories[1].Id, e2.Id);
-            Assert.AreEqual(ReturnedCategories[1].Name, e2.Name);
-            Assert.AreEqual(ReturnedCategories[1].Description, e2.Description);
+            Assert.AreEqual(ReturnedCategoriesCast[1].Id, e2.Id);
+            Assert.AreEqual(ReturnedCategoriesCast[1].Name, e2.Name);
+            Assert.AreEqual(ReturnedCategoriesCast[1].Description, e2.Description);
 
-            Assert.AreEqual(ReturnedCategories[2].Id, e3.Id);
-            Assert.AreEqual(ReturnedCategories[2].Name, e3.Name);
-            Assert.AreEqual(ReturnedCategories[2].Description, e3.Description);
+            Assert.AreEqual(ReturnedCategoriesCast[2].Id, e3.Id);
+            Assert.AreEqual(ReturnedCategoriesCast[2].Name, e3.Name);
+            Assert.AreEqual(ReturnedCategoriesCast[2].Description, e3.Description);
         }
 
         [TestMethod]
@@ -119,14 +127,24 @@ namespace BarManager.UnitTests
 
         private class MoqMenuItem : MenuItem
         {
-            public MoqMenuItem(int id, string name, string description, MenuItemCategory category, Money price) : base(id, name, description, category, price) { }
+            public new int Id { get; set; }
+            public MoqMenuItem(int id, string name, string description, MenuItemCategory category, Money price)
+            {
+                Id = id;
+                Name = name;
+                Description = description;
+                Category = category;
+                Price = price;
+            }
+
+
         }
 
         [TestMethod]
         public void GetAllMenuItems_ValidExample()
         {
             //Arrange List of Categories
-            var MenuItems = new List<MenuItem>();
+            var MenuItems = new List<MoqMenuItem>();
 
             var e1 = new MoqMenuItemCategory(1, "Żarcie", "Schabowe i inne");
             var e2 = new MoqMenuItemCategory(2, "Napoje", "Wódka i inne");
@@ -148,30 +166,31 @@ namespace BarManager.UnitTests
 
             //Act
             var ReturnedMenuItems = BarDataModel.GetAllMenuItems();
+            var ReturnedMenuItemsCast = ReturnedMenuItems.Cast<MoqMenuItem>().ToList();
 
             //Asserts
-            Assert.IsNotNull(ReturnedMenuItems);
+            Assert.IsNotNull(ReturnedMenuItemsCast);
 
-            Assert.AreEqual(ReturnedMenuItems[0].Id, f1.Id);
-            Assert.AreEqual(ReturnedMenuItems[0].Name, f1.Name);
-            Assert.AreEqual(ReturnedMenuItems[0].Description, f1.Description);
-            Assert.AreEqual(ReturnedMenuItems[0].Category, e1);
-            Assert.AreEqual(ReturnedMenuItems[0].Price.Amount, 20);
-            Assert.AreEqual(ReturnedMenuItems[0].Price.Currency, "PLN");
+            Assert.AreEqual(ReturnedMenuItemsCast[0].Id, f1.Id);
+            Assert.AreEqual(ReturnedMenuItemsCast[0].Name, f1.Name);
+            Assert.AreEqual(ReturnedMenuItemsCast[0].Description, f1.Description);
+            Assert.AreEqual(ReturnedMenuItemsCast[0].Category, e1);
+            Assert.AreEqual(ReturnedMenuItemsCast[0].Price.Amount, 20);
+            Assert.AreEqual(ReturnedMenuItemsCast[0].Price.Currency, "PLN");
 
-            Assert.AreEqual(ReturnedMenuItems[1].Id, f2.Id);
-            Assert.AreEqual(ReturnedMenuItems[1].Name, f2.Name);
-            Assert.AreEqual(ReturnedMenuItems[1].Description, f2.Description);
-            Assert.AreEqual(ReturnedMenuItems[1].Category, e2);
-            Assert.AreEqual(ReturnedMenuItems[1].Price.Amount, 30);
-            Assert.AreEqual(ReturnedMenuItems[1].Price.Currency, "PLN");
+            Assert.AreEqual(ReturnedMenuItemsCast[1].Id, f2.Id);
+            Assert.AreEqual(ReturnedMenuItemsCast[1].Name, f2.Name);
+            Assert.AreEqual(ReturnedMenuItemsCast[1].Description, f2.Description);
+            Assert.AreEqual(ReturnedMenuItemsCast[1].Category, e2);
+            Assert.AreEqual(ReturnedMenuItemsCast[1].Price.Amount, 30);
+            Assert.AreEqual(ReturnedMenuItemsCast[1].Price.Currency, "PLN");
 
-            Assert.AreEqual(ReturnedMenuItems[2].Id, f3.Id);
-            Assert.AreEqual(ReturnedMenuItems[2].Name, f3.Name);
-            Assert.AreEqual(ReturnedMenuItems[2].Description, f3.Description);
-            Assert.AreEqual(ReturnedMenuItems[2].Category, e3);
-            Assert.AreEqual(ReturnedMenuItems[2].Price.Amount, 5);
-            Assert.AreEqual(ReturnedMenuItems[2].Price.Currency, "PLN");
+            Assert.AreEqual(ReturnedMenuItemsCast[2].Id, f3.Id);
+            Assert.AreEqual(ReturnedMenuItemsCast[2].Name, f3.Name);
+            Assert.AreEqual(ReturnedMenuItemsCast[2].Description, f3.Description);
+            Assert.AreEqual(ReturnedMenuItemsCast[2].Category, e3);
+            Assert.AreEqual(ReturnedMenuItemsCast[2].Price.Amount, 5);
+            Assert.AreEqual(ReturnedMenuItemsCast[2].Price.Currency, "PLN");
         }
 
         [TestMethod]
@@ -401,14 +420,20 @@ namespace BarManager.UnitTests
 
         private class MoqTable : Table
         {
-            public MoqTable(int id, int number, string description) : base(id, number, description) { }
+            public new int Id { get; set; }
+            public MoqTable(int id, int number, string description)
+            {
+                Id = id;
+                Number = number;
+                Description = description;
+            }
         }
 
         [TestMethod]
         public void GetAllTables_ValidExample()
         {
             //Arrange List of Categories
-            var Tables = new List<Table>();
+            var Tables = new List<MoqTable>();
 
             var f1 = new MoqTable(1, 1, "Po lewej");
             var f2 = new MoqTable(2, 2, "Po środku");
@@ -426,21 +451,22 @@ namespace BarManager.UnitTests
 
             //Act
             var ReturnedTables = BarDataModel.GetAllTables();
+            var ReturnedTablesCast = ReturnedTables.Cast<MoqTable>().ToList();
 
             //Asserts
             Assert.IsNotNull(ReturnedTables);
 
-            Assert.AreEqual(ReturnedTables[0].Id, f1.Id);
-            Assert.AreEqual(ReturnedTables[0].Number, f1.Number);
-            Assert.AreEqual(ReturnedTables[0].Description, f1.Description);
+            Assert.AreEqual(ReturnedTablesCast[0].Id, f1.Id);
+            Assert.AreEqual(ReturnedTablesCast[0].Number, f1.Number);
+            Assert.AreEqual(ReturnedTablesCast[0].Description, f1.Description);
 
-            Assert.AreEqual(ReturnedTables[1].Id, f2.Id);
-            Assert.AreEqual(ReturnedTables[1].Number, f2.Number);
-            Assert.AreEqual(ReturnedTables[1].Description, f2.Description);
+            Assert.AreEqual(ReturnedTablesCast[1].Id, f2.Id);
+            Assert.AreEqual(ReturnedTablesCast[1].Number, f2.Number);
+            Assert.AreEqual(ReturnedTablesCast[1].Description, f2.Description);
 
-            Assert.AreEqual(ReturnedTables[2].Id, f3.Id);
-            Assert.AreEqual(ReturnedTables[2].Number, f3.Number);
-            Assert.AreEqual(ReturnedTables[2].Description, f3.Description);
+            Assert.AreEqual(ReturnedTablesCast[2].Id, f3.Id);
+            Assert.AreEqual(ReturnedTablesCast[2].Number, f3.Number);
+            Assert.AreEqual(ReturnedTablesCast[2].Description, f3.Description);
         }
 
         [TestMethod]
@@ -634,14 +660,22 @@ namespace BarManager.UnitTests
         #region
         private class MoqWaiter : WaiterContext
         {
-            public MoqWaiter(int id, string firstName, string lastName, string login, string password) : base(id, firstName, lastName, login, password) { }
+            public new int Id { get; set; }
+            public MoqWaiter(int id, string firstName, string lastName, string login, string password)
+            {
+                Id = id;
+                FirstName = firstName;
+                LastName = lastName;
+                Login = login;
+                Password = password;
+            }
         }
 
         [TestMethod]
         public void GetAllWaiters_ValidExample()
         {
             //Arrange List of Waiters
-            var Waiters = new List<WaiterContext>();
+            var Waiters = new List<MoqWaiter>();
 
             var f1 = new MoqWaiter(1, "Tom", "Dickens", "tDick", "lala");
             var f2 = new MoqWaiter(2, "Wiliam", "Whatever", "Rockman", "lolo");
@@ -658,28 +692,29 @@ namespace BarManager.UnitTests
             var BarDataModel = new BarDataModel(mock.Object);
 
             //Act
-            var ReturnedTables = BarDataModel.GetAllWaiters();
+            var ReturnedWaiters = BarDataModel.GetAllWaiters();
+            var ReturnedWaitersCast = ReturnedWaiters.Cast<MoqWaiter>().ToList();
 
             //Asserts
-            Assert.IsNotNull(ReturnedTables);
+            Assert.IsNotNull(ReturnedWaiters);
 
-            Assert.AreEqual(ReturnedTables[0].Id, f1.Id);
-            Assert.AreEqual(ReturnedTables[0].FirstName, f1.FirstName);
-            Assert.AreEqual(ReturnedTables[0].LastName, f1.LastName);
-            Assert.AreEqual(ReturnedTables[0].Login, f1.Login);
-            Assert.AreEqual(ReturnedTables[0].Password, f1.Password);
+            Assert.AreEqual(ReturnedWaitersCast[0].Id, f1.Id);
+            Assert.AreEqual(ReturnedWaitersCast[0].FirstName, f1.FirstName);
+            Assert.AreEqual(ReturnedWaitersCast[0].LastName, f1.LastName);
+            Assert.AreEqual(ReturnedWaitersCast[0].Login, f1.Login);
+            Assert.AreEqual(ReturnedWaitersCast[0].Password, f1.Password);
 
-            Assert.AreEqual(ReturnedTables[1].Id, f2.Id);
-            Assert.AreEqual(ReturnedTables[1].FirstName, f2.FirstName);
-            Assert.AreEqual(ReturnedTables[1].LastName, f2.LastName);
-            Assert.AreEqual(ReturnedTables[1].Login, f2.Login);
-            Assert.AreEqual(ReturnedTables[1].Password, f2.Password);
+            Assert.AreEqual(ReturnedWaitersCast[1].Id, f2.Id);
+            Assert.AreEqual(ReturnedWaitersCast[1].FirstName, f2.FirstName);
+            Assert.AreEqual(ReturnedWaitersCast[1].LastName, f2.LastName);
+            Assert.AreEqual(ReturnedWaitersCast[1].Login, f2.Login);
+            Assert.AreEqual(ReturnedWaitersCast[1].Password, f2.Password);
 
-            Assert.AreEqual(ReturnedTables[2].Id, f3.Id);
-            Assert.AreEqual(ReturnedTables[2].FirstName, f3.FirstName);
-            Assert.AreEqual(ReturnedTables[2].LastName, f3.LastName);
-            Assert.AreEqual(ReturnedTables[2].Login, f3.Login);
-            Assert.AreEqual(ReturnedTables[2].Password, f3.Password);
+            Assert.AreEqual(ReturnedWaitersCast[2].Id, f3.Id);
+            Assert.AreEqual(ReturnedWaitersCast[2].FirstName, f3.FirstName);
+            Assert.AreEqual(ReturnedWaitersCast[2].LastName, f3.LastName);
+            Assert.AreEqual(ReturnedWaitersCast[2].Login, f3.Login);
+            Assert.AreEqual(ReturnedWaitersCast[2].Password, f3.Password);
         }
 
         [TestMethod]

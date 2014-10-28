@@ -58,6 +58,18 @@
     <Compile Include="Migrations\201410221339261_Zmiana1.Designer.cs">
       <DependentUpon>201410221339261_Zmiana1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410281245598_dopelnienieModelu.cs" />
+    <Compile Include="Migrations\201410281245598_dopelnienieModelu.Designer.cs">
+      <DependentUpon>201410281245598_dopelnienieModelu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410281249505_dopelnienieModelu2.cs" />
+    <Compile Include="Migrations\201410281249505_dopelnienieModelu2.Designer.cs">
+      <DependentUpon>201410281249505_dopelnienieModelu2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410281254135_dopelnienieModelu3.cs" />
+    <Compile Include="Migrations\201410281254135_dopelnienieModelu3.Designer.cs">
+      <DependentUpon>201410281254135_dopelnienieModelu3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +84,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201410221339261_Zmiana1.resx">
       <DependentUpon>201410221339261_Zmiana1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410281245598_dopelnienieModelu.resx">
+      <DependentUpon>201410281245598_dopelnienieModelu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410281249505_dopelnienieModelu2.resx">
+      <DependentUpon>201410281249505_dopelnienieModelu2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410281254135_dopelnienieModelu3.resx">
+      <DependentUpon>201410281254135_dopelnienieModelu3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

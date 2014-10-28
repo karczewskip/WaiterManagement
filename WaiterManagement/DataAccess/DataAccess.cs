@@ -310,6 +310,13 @@ namespace DataAccess
                 Table table = db.Tables.Find(tableId);
                 if (table == null)
                     throw new ArgumentException(String.Format("No such table (id={0}) exists.", tableId));
+
+                WaiterContext waiter = db.Waiters.Find(waiterId);
+                if (waiter == null)
+                    throw new ArgumentException(String.Format("No such waiter (id={0}) exists.", waiterId));
+
+
+                order = new Order() { UserId = userId, Table = table, Waiter = waiter };
                             
                 foreach(var tuple in menuItems)
                 {
@@ -318,12 +325,8 @@ namespace DataAccess
                         throw new ArgumentException(String.Format("No such menuItem (id={0}) exists", tuple.Item1));
                     if (tuple.Item2 <= 0)
                         throw new ArgumentException(String.Format("MenuItem id={0} has quantity={1}", tuple.Item1, tuple.Item2));
-                }
 
-                order = new Order() { UserId = userId, TableId = tableId, WaiterId = waiterId };
-                foreach (var tuple in menuItems)
-                {
-                    MenuItemQuantity menuItemQuantity = new MenuItemQuantity() { MenuItemId = tuple.Item1, Quantity = tuple.Item2 };
+                    MenuItemQuantity menuItemQuantity = new MenuItemQuantity() { MenuItem = menuItem, Quantity = tuple.Item2};
                     order.MenuItems.Add(menuItemQuantity);
                 }
                    
@@ -341,7 +344,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var orders = db.Orders.Include("MenuItems").Where(o => o.WaiterId == waiterId);
+                var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId).ToList();
                 return orders;
             }
 
