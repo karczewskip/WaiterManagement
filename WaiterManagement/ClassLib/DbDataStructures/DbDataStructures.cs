@@ -62,6 +62,30 @@ namespace ClassLib.DbDataStructures
         public virtual Table Table { get; set; }
         //Item1 - menuItemId, Item2 - quantity
         public virtual ICollection<MenuItemQuantity> MenuItems { get; set; }
+        public OrderState State { get; set; }
+    }
+
+    /// <summary>
+    /// Stan Zamówienia
+    /// </summary>
+    public enum OrderState
+    {
+        /// <summary>
+        /// Złożone
+        /// </summary>
+        Placed,
+        /// <summary>
+        /// Zaakceptowane
+        /// </summary>
+        Accepted,
+        /// <summary>
+        /// Zrealizowane
+        /// </summary>
+        Realized,
+        /// <summary>
+        /// Nie zrealizowane
+        /// </summary>
+        NotRealized,
     }
 
     /// <summary>

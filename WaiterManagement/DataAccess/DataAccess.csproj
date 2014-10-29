@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201410281254135_dopelnienieModelu3.Designer.cs">
       <DependentUpon>201410281254135_dopelnienieModelu3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410291255017_DodanieStanuZamowienia.cs" />
+    <Compile Include="Migrations\201410291255017_DodanieStanuZamowienia.Designer.cs">
+      <DependentUpon>201410291255017_DodanieStanuZamowienia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410281254135_dopelnienieModelu3.resx">
       <DependentUpon>201410281254135_dopelnienieModelu3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410291255017_DodanieStanuZamowienia.resx">
+      <DependentUpon>201410291255017_DodanieStanuZamowienia.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
