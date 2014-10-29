@@ -270,6 +270,33 @@ namespace DataAccess
                 return true;
             }
         }        
+
+        public IEnumerable<Order> GetOrders()
+        {
+            using(var db = new DataAccessProvider())
+            {
+                var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").ToList();
+                return orderList;
+            }
+        }
+
+        public bool RemoveOrder(int orderId)
+        {
+            using(var db = new DataAccessProvider())
+            {
+                Order orderToRemove = db.Orders.Find(orderId);
+                if (orderToRemove == null)
+                    return false;
+
+                var quantityList = orderToRemove.MenuItems.ToList();
+                foreach (MenuItemQuantity quantity in quantityList)
+                    db.MenuItemQuantities.Remove(quantity);
+
+                db.Orders.Remove(orderToRemove);
+                db.SaveChanges();
+                return true;
+            }
+        }
         #endregion
 
         #region IWaiterDataAccess

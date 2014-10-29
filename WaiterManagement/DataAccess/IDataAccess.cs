@@ -29,6 +29,8 @@ namespace DataAccess
         Table AddTable(int tableNumber, string description);
         bool EditTable(Table tableToEdit);
         bool RemoveTable(int tableId);
+        IEnumerable<Order> GetOrders();
+        bool RemoveOrder(int orderId);
     }
 
     public interface IWaiterDataAccess : IBaseDataAccess
