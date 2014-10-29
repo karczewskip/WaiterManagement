@@ -303,7 +303,7 @@ namespace DataAccess.UnitTests
         [TestMethod]
         public void WaiterAddOrderTest()
         {
-            CleanUpDatabaseTest();
+            //CleanUpDatabaseTest();
             AddNewWaiterTest();
             AddNewCategoryTest();
             AddNewTableTest();

@@ -316,7 +316,7 @@ namespace DataAccess
                     throw new ArgumentException(String.Format("No such waiter (id={0}) exists.", waiterId));
 
 
-                order = new Order() { UserId = userId, Table = table, Waiter = waiter };
+                order = new Order() { UserId = userId, Table = table, Waiter = waiter, State = OrderState.Placed };
                             
                 foreach(var tuple in menuItems)
                 {
