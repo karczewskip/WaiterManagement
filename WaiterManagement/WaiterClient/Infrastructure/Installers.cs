@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaiterClient.Abstract;
-using WaiterClient.Concrete;
+using WaiterClient.Model;
+using WaiterClient.View;
+using WaiterClient.ViewModel;
+using DataAccess;
 
 namespace WaiterClient.Infrastructure
 {
@@ -15,6 +18,11 @@ namespace WaiterClient.Infrastructure
         {
             container = new StandardKernel();
             container.Bind<IMainWindow>().To<MainWindow>().InSingletonScope();
+            container.Bind<IOrderWindow>().To<OrderWindow>().InSingletonScope();
+            container.Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InSingletonScope();
+            container.Bind<IOrderWindowViewModel>().To<OrderWindowViewModel>().InSingletonScope();
+            container.Bind<IWaiterClientModel>().To<WaiterClientModel>().InSingletonScope();
+            container.Bind<IWaiterDataAccess>().To<DataAccessClass>().InSingletonScope();
         }
     }
 }
