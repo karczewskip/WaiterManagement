@@ -170,6 +170,11 @@ namespace DataAccess
 
             using (var db = new DataAccessProvider())
             {
+                var waiterSameLogin = db.Waiters.Where(w => w.Login.Equals(login));
+
+                if (waiterSameLogin != null && waiterSameLogin.Any())
+                    throw new ArgumentException(String.Format("login = {0} already exists in database!", login));
+
                 newWaiterContext = new WaiterContext() { FirstName = firstName, LastName = lastName, Login = login, Password = password };
                 newWaiterContext = db.Waiters.Add(newWaiterContext);
                 db.SaveChanges();
