@@ -27,6 +27,36 @@ namespace DataAccess.UnitTests
         }
 
         [TestMethod]
+        public void AddRepeatedWaiterTest()
+        {
+            string firstName = "Charles";
+            string lastName = "Bukowski";
+            string login = "Chinaski";
+            string password = "women";
+
+            WaiterContext waiterContext = managerDataAccess.AddWaiter(firstName, lastName, login, password);
+            Assert.IsNotNull(waiterContext);
+            Assert.AreNotEqual(waiterContext.Id, 0);
+
+            string firstName2 = "Bobby";
+            string lastName2 = "Brown";
+            string login2 = "Chinaski";
+            string password2 = "men";
+
+            try
+            {
+                WaiterContext waiterContext2 = managerDataAccess.AddWaiter(firstName2, lastName2, login2, password2);
+                Assert.Fail("waiterContext2 should not be created!");
+            }
+            catch(Exception e)
+            {
+                Assert.IsTrue(e is ArgumentException);
+            }
+
+            Assert.IsTrue(managerDataAccess.RemoveWaiter(waiterContext.Id));
+        }
+
+        [TestMethod]
         public void AddNewCategoryTest()
         {
             string name = "Wykwintne bimbry ziem wschodnich";

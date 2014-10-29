@@ -170,6 +170,11 @@ namespace DataAccess
 
             using (var db = new DataAccessProvider())
             {
+                var waiterSameLogin = db.Waiters.Where(w => w.Login.Equals(login));
+
+                if (waiterSameLogin != null && waiterSameLogin.Any())
+                    throw new ArgumentException(String.Format("login = {0} already exists in database!", login));
+
                 newWaiterContext = new WaiterContext() { FirstName = firstName, LastName = lastName, Login = login, Password = password };
                 newWaiterContext = db.Waiters.Add(newWaiterContext);
                 db.SaveChanges();
@@ -265,6 +270,33 @@ namespace DataAccess
                 return true;
             }
         }        
+
+        public IEnumerable<Order> GetOrders()
+        {
+            using(var db = new DataAccessProvider())
+            {
+                var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").ToList();
+                return orderList;
+            }
+        }
+
+        public bool RemoveOrder(int orderId)
+        {
+            using(var db = new DataAccessProvider())
+            {
+                Order orderToRemove = db.Orders.Find(orderId);
+                if (orderToRemove == null)
+                    return false;
+
+                var quantityList = orderToRemove.MenuItems.ToList();
+                foreach (MenuItemQuantity quantity in quantityList)
+                    db.MenuItemQuantities.Remove(quantity);
+
+                db.Orders.Remove(orderToRemove);
+                db.SaveChanges();
+                return true;
+            }
+        }
         #endregion
 
         #region IWaiterDataAccess
