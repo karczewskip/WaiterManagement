@@ -10,5 +10,13 @@ namespace WaiterClient.Abstract
     public interface IWaiterClientModel
     {
         WaiterContext CheckUser(string login, string password);
+
+        void LogOut(int WaiterId);
+
+        IList<Table> GetTables();
+
+        IList<MenuItem> GetMenuItems();
+
+        IList<MenuItemCategory> GetCategories();
     }
 }

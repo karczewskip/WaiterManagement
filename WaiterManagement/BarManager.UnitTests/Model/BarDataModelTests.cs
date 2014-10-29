@@ -657,7 +657,7 @@ namespace BarManager.UnitTests
 
         #endregion
 
-        #region
+        #region Waiters
         private class MoqWaiter : WaiterContext
         {
             public new int Id { get; set; }

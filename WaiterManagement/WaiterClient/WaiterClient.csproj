@@ -64,16 +64,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\IAddOrderViewModel.cs" />
+    <Compile Include="Abstract\IAddOrderWindow.cs" />
     <Compile Include="Abstract\IMainWindowViewModel.cs" />
     <Compile Include="Abstract\IOrderWindow.cs" />
     <Compile Include="Abstract\IOrderWindowViewModel.cs" />
     <Compile Include="Abstract\IWaiterClientModel.cs" />
     <Compile Include="Model\WaiterClientModel.cs" />
+    <Compile Include="ViewModel\AddOrderViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\OrderWindowViewModel.cs" />
+    <Compile Include="View\AddOrderWindow.xaml.cs">
+      <DependentUpon>AddOrderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OrderWindow.xaml.cs">
       <DependentUpon>OrderWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\AddOrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -30,5 +30,26 @@ namespace WaiterClient.Model
                 return null;
             }
         }
+
+
+        public void LogOut(int waiterId)
+        {
+            WaiterDataAccess.LogOut(waiterId);
+        }
+
+        public IList<Table> GetTables()
+        {
+            return WaiterDataAccess.GetTables().ToList();
+        }
+
+        public IList<MenuItem> GetMenuItems()
+        {
+            return WaiterDataAccess.GetMenuItems().ToList();
+        }
+
+        public IList<MenuItemCategory> GetCategories()
+        {
+            return WaiterDataAccess.GetMenuItemCategories().ToList();
+        }
     }
 }

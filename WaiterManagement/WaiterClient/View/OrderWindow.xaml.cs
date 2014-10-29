@@ -21,27 +21,25 @@ namespace WaiterClient.View
     public partial class OrderWindow : Window, IOrderWindow
     {
         private IOrderWindowViewModel OrderWindowViewModel;
+        private IAddOrderWindow AddOrderWindow;
 
-        public OrderWindow(IOrderWindowViewModel orderWindowViewModel)
+        public OrderWindow(IOrderWindowViewModel orderWindowViewModel, IAddOrderWindow addOrderWindow)
         {
             OrderWindowViewModel = orderWindowViewModel;
+
+            AddOrderWindow = addOrderWindow;
 
             InitializeComponent();
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-
+            AddOrderWindow.ShowDialog();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void ArchiveButton_Click(object sender, RoutedEventArgs e)
@@ -65,6 +63,11 @@ namespace WaiterClient.View
 
             e.Cancel = true;
             this.Hide();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

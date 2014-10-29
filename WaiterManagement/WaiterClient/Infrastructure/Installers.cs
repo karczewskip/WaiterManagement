@@ -23,6 +23,8 @@ namespace WaiterClient.Infrastructure
             container.Bind<IOrderWindowViewModel>().To<OrderWindowViewModel>().InSingletonScope();
             container.Bind<IWaiterClientModel>().To<WaiterClientModel>().InSingletonScope();
             container.Bind<IWaiterDataAccess>().To<DataAccessClass>().InSingletonScope();
+            container.Bind<IAddOrderWindow>().To<AddOrderWindow>().InSingletonScope();
+            container.Bind<IAddOrderViewModel>().To<AddOrderViewModel>().InSingletonScope();
         }
     }
 }
