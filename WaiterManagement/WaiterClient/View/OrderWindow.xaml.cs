@@ -22,12 +22,14 @@ namespace WaiterClient.View
     {
         private IOrderWindowViewModel OrderWindowViewModel;
         private IAddOrderWindow AddOrderWindow;
+        private IArchivedOrdersWindow ArchivedOrderWindow;
 
-        public OrderWindow(IOrderWindowViewModel orderWindowViewModel, IAddOrderWindow addOrderWindow)
+        public OrderWindow(IOrderWindowViewModel orderWindowViewModel, IAddOrderWindow addOrderWindow, IArchivedOrdersWindow archivedOrderWindow)
         {
             OrderWindowViewModel = orderWindowViewModel;
 
             AddOrderWindow = addOrderWindow;
+            ArchivedOrderWindow = archivedOrderWindow;
 
             InitializeComponent();
         }
@@ -44,7 +46,7 @@ namespace WaiterClient.View
 
         private void ArchiveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ArchivedOrderWindow.ShowDialog();
         }
 
         private void ShowButton_Click(object sender, RoutedEventArgs e)

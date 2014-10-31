@@ -14,6 +14,7 @@ namespace WaiterClient.ViewModel
     public class OrderWindowViewModel : IOrderWindowViewModel
     {
         private IWaiterClientModel WaiterClientModel;
+        private IArchivedOrdersViewModel ArchivedOrdersViewModel;
 
         private int WaiterId;
 
@@ -22,9 +23,10 @@ namespace WaiterClient.ViewModel
         public IList<MenuItemCategory> ListOfCategories { get; set; }
         public IList<Order> ListOfOrders { get; set; }
 
-        public OrderWindowViewModel(IWaiterClientModel waiterClientModel)
+        public OrderWindowViewModel(IWaiterClientModel waiterClientModel , IArchivedOrdersViewModel archivedOrdersViewModel)
         {
             WaiterClientModel = waiterClientModel;
+            ArchivedOrdersViewModel = archivedOrdersViewModel;
 
             Initialize();
         }
@@ -48,11 +50,12 @@ namespace WaiterClient.ViewModel
         {
             WaiterId = id;
 
+            ArchivedOrdersViewModel.InitializeUser(id);
+
             ListOfOrders.Clear();
 
             foreach (var o in WaiterClientModel.GetActiveOrders(id))
                 ListOfOrders.Add(o);
-            
         }
 
 
