@@ -18,5 +18,10 @@ namespace WaiterClient.Abstract
         IList<MenuItem> GetMenuItems();
 
         IList<MenuItemCategory> GetCategories();
+
+        IList<Order> GetActiveOrders(int waiterId);
+
+        Order AddNewOrder(int waiterId, int tableId, IList<MenuItemQuantity> listOfItems);
+
     }
 }

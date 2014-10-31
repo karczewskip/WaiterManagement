@@ -25,6 +25,8 @@ namespace WaiterClient.Infrastructure
             container.Bind<IWaiterDataAccess>().To<DataAccessClass>().InSingletonScope();
             container.Bind<IAddOrderWindow>().To<AddOrderWindow>().InSingletonScope();
             container.Bind<IAddOrderViewModel>().To<AddOrderViewModel>().InSingletonScope();
+            container.Bind<IAddItemWindow>().To<AddItemWindow>().InSingletonScope();
+            container.Bind<IAddItemViewModel>().To<AddItemViewModel>().InSingletonScope();
         }
     }
 }

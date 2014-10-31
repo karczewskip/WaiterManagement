@@ -34,7 +34,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </Grid>
-        <ListView Grid.Row="2" Grid.Column="1">
+        <ListView Name="ItemsListView" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListOfItems}" SelectedItem="{Binding Path=SelectedItem}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="NameColumn" Width="150" DisplayMemberBinding="{Binding MenuItem.Name}" >
@@ -53,8 +53,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button Name="AddItemButton" Grid.Column="0" Height="25" Width="90" HorizontalAlignment="Left" Click="AddItemButton_Click">Add Item</Button>
-            <Button Name="DeleteButton" Grid.Column="1" Height="25" Width="90" HorizontalAlignment="Left">Delete Item</Button>
+            <Button Name="DeleteButton" Grid.Column="1" Height="25" Width="90" HorizontalAlignment="Left" Click="DeleteButton_Click">Delete Item</Button>
         </Grid>
-        <Button Name="AddOrderButton" Grid.Row="4" Grid.Column="1" Width="100" Height="25">Add Order</Button>
+        <Button Name="AddOrderButton" Grid.Row="4" Grid.Column="1" Width="100" Height="25" Click="AddOrderButton_Click">Add Order</Button>
     </Grid>
 </Window>

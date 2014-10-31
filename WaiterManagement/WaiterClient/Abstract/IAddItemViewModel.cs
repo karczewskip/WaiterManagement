@@ -7,15 +7,8 @@ using System.Threading.Tasks;
 
 namespace WaiterClient.Abstract
 {
-    public interface IAddOrderViewModel
+    public interface IAddItemViewModel
     {
-
         void AddItem(MenuItem menuItem);
-
-        void AddObserverListView(System.Windows.Controls.ListView ItemsListView);
-
-        bool DeleteSelectedItem(out string error);
-
-        bool AddOrder(out string error);
     }
 }

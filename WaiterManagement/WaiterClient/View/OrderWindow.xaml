@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Button Name="ArchiveButton" Grid.Row="1" Grid.Column="1" Height="25" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ArchiveButton_Click">Check Archived Orders</Button>
         <Button Name="ShowButton" Grid.Row="1" Grid.Column="1" Height="25" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ShowButton_Click">Show Order</Button>
-        <ListView Name="OrdersListView" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListOfMenuItems}" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMenuItem}" MouseDoubleClick="OrdersListView_MouseDoubleClick"  >
+        <ListView Name="OrdersListView" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListOfOrders}" SelectionMode="Single" SelectedItem="{Binding Path=SelectedOrder}" MouseDoubleClick="OrdersListView_MouseDoubleClick"  >
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="TableColumn" Width="150" DisplayMemberBinding="{Binding Table.Number}" >

@@ -51,5 +51,24 @@ namespace WaiterClient.Model
         {
             return WaiterDataAccess.GetMenuItemCategories().ToList();
         }
+
+        public IList<Order> GetActiveOrders(int waiterId)
+        {
+            //WaiterDataAccess.ord
+
+            return new List<Order>();
+        }
+
+        public Order AddNewOrder(int waiterId ,int tableId, IList<MenuItemQuantity> listOfItems )
+        {
+            var list = new List<Tuple<int,int>>();
+
+            foreach(var i in listOfItems)
+            {
+                list.Add(new Tuple<int,int>(i.MenuItem.Id, i.Quantity ));
+            }
+
+            return WaiterDataAccess.AddOrder(0, tableId, waiterId, list);
+        }
     }
 }

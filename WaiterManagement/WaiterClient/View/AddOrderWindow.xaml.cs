@@ -21,25 +21,45 @@ namespace WaiterClient.View
     public partial class AddOrderWindow : Window, IAddOrderWindow
     {
         private IAddOrderViewModel AddOrderViewModel;
+        private IAddItemWindow AddItemWindow;
 
-        public AddOrderWindow(IAddOrderViewModel addOrderViewModel)
+        public AddOrderWindow(IAddOrderViewModel addOrderViewModel, IAddItemWindow addItemWindow)
         {
             AddOrderViewModel = addOrderViewModel;
+            AddItemWindow = addItemWindow;
 
             this.DataContext = AddOrderViewModel;
 
             InitializeComponent();
+
+            AddOrderViewModel.AddObserverListView(ItemsListView);
         }
 
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-
+            AddItemWindow.ShowDialog();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             this.Hide();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            string error;
+            if ( !AddOrderViewModel.DeleteSelectedItem(out error))
+                MessageBox.Show(error);
+        }
+
+        private void AddOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            string error;
+            if (!AddOrderViewModel.AddOrder(out error))
+                MessageBox.Show(error);
+            else
+                Close();
         }
     }
 }
