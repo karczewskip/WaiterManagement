@@ -126,6 +126,10 @@
     <Compile Include="View\WaiterManager\WaiterManager.xaml.cs">
       <DependentUpon>WaiterManager.xaml</DependentUpon>
     </Compile>
+    <Page Include="Style\Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MenuManager\AddCategoryItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

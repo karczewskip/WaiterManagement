@@ -31,6 +31,8 @@ namespace WaiterClient.View
             AddOrderWindow = addOrderWindow;
             ArchivedOrderWindow = archivedOrderWindow;
 
+            this.DataContext = OrderWindowViewModel;
+
             InitializeComponent();
         }
 

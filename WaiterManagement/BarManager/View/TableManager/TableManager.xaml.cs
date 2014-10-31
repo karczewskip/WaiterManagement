@@ -44,7 +44,7 @@ namespace BarManager.View
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             string error;
-            if (TableManagerViewModel.DeleteSelectedItem(out error))
+            if (!TableManagerViewModel.DeleteSelectedItem(out error))
                 MessageBox.Show(error);
         }
 

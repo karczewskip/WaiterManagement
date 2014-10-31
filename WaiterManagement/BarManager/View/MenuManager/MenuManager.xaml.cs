@@ -53,7 +53,7 @@ namespace BarManager.View
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             string error;
-            if (MenuManagerViewModel.DeleteSelectedItem(out error))
+            if (!MenuManagerViewModel.DeleteSelectedItem(out error))
                 MessageBox.Show(error);
         }
 
