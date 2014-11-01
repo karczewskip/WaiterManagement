@@ -63,6 +63,8 @@ namespace ClassLib.DbDataStructures
         //Item1 - menuItemId, Item2 - quantity
         public virtual ICollection<MenuItemQuantity> MenuItems { get; set; }
         public OrderState State { get; set; }
+        public DateTime PlacingDate { get; set; }
+        public DateTime ClosingDate { get; set; }
     }
 
     /// <summary>

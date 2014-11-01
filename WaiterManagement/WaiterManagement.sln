@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "ClassLib\ClassL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarManager.UnitTests", "BarManager.UnitTests\BarManager.UnitTests.csproj", "{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickDatabaseSetup", "QuickDatabaseSetup\QuickDatabaseSetup.csproj", "{2BB148A5-F3CB-4E42-915E-330A35C12164}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
