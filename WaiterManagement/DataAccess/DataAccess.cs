@@ -464,6 +464,8 @@ namespace DataAccess
                     //Nie można zakończyć zamówienie, które nie jest w stanie accepted
                     if (!order.State.Equals(OrderState.Accepted))
                         return false;
+
+                    order.ClosingDate = DateTime.Now;
                 }
 
                 order.State = state;
