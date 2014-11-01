@@ -39,5 +39,8 @@ namespace DataAccess
         bool LogOut(int waiterId);
         Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems);
         IEnumerable<Order> GetPastOrders(int waiterId);
+        IEnumerable<Order> GetPastOrders(int waiterId, int firstIndex, int lastIndex);
+        IEnumerable<Order> GetActiveOrders(int waiterId);
+        bool SetOrderState(int waiterId, int orderId, OrderState state);        
     }
 }

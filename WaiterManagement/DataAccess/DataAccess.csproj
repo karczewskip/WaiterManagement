@@ -74,6 +74,10 @@
     <Compile Include="Migrations\201410291255017_DodanieStanuZamowienia.Designer.cs">
       <DependentUpon>201410291255017_DodanieStanuZamowienia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411011113175_DodaneDatyDoZamowien.cs" />
+    <Compile Include="Migrations\201411011113175_DodaneDatyDoZamowien.Designer.cs">
+      <DependentUpon>201411011113175_DodaneDatyDoZamowien.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410291255017_DodanieStanuZamowienia.resx">
       <DependentUpon>201410291255017_DodanieStanuZamowienia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411011113175_DodaneDatyDoZamowien.resx">
+      <DependentUpon>201411011113175_DodaneDatyDoZamowien.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -315,14 +315,18 @@ namespace DataAccess
             }
 
             if (waiterContext != null)
+            {
+                if (CheckIsWaiterLoggedIn(waiterContext.Id))
+                    throw new SecurityException(String.Format("Waiter id={0} is already logged in", waiterContext.Id));
                 loggedInWaiterIds.Add(waiterContext.Id);
+            }
 
             return waiterContext;
         }
 
         public bool LogOut(int waiterId)
         {
-            if (!loggedInWaiterIds.Contains(waiterId))
+            if (!CheckIsWaiterLoggedIn(waiterId))
                 return false;
             loggedInWaiterIds.Remove(waiterId);
             return true;
@@ -330,7 +334,7 @@ namespace DataAccess
 
         public Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems)
         {
-            if (!loggedInWaiterIds.Contains(waiterId))
+            if (!CheckIsWaiterLoggedIn(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
             if (menuItems == null || !menuItems.Any())
                 throw new ArgumentNullException("menuItems is null");
@@ -347,8 +351,8 @@ namespace DataAccess
                 if (waiter == null)
                     throw new ArgumentException(String.Format("No such waiter (id={0}) exists.", waiterId));
 
-
-                order = new Order() { UserId = userId, Table = table, Waiter = waiter, State = OrderState.Placed };
+                //Na pierwszym etapie ustawiamy stan zamówienia od razu na Accepted (kelner dodający zamówienie jednocześnie je akceptuje), aczkolwiek w drugim etapie będzie ustawiany stan OrderState.Placed
+                order = new Order() { UserId = userId, Table = table, Waiter = waiter, State = OrderState.Accepted, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue};
                             
                 foreach(var tuple in menuItems)
                 {
@@ -371,16 +375,113 @@ namespace DataAccess
 
         public IEnumerable<Order> GetPastOrders(int waiterId)
         {
-            if(!loggedInWaiterIds.Contains(waiterId))
+            if(!CheckIsWaiterLoggedIn(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
 
             using(var db = new DataAccessProvider())
             {
-                var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId).ToList();
+                var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && (o.State.Equals(OrderState.NotRealized) || o.State.Equals(OrderState.Realized))).ToList();
                 return orders;
             }
 
         }
+
+        public IEnumerable<Order> GetPastOrders(int waiterId, int firstIndex, int lastIndex)
+        {
+            if(!CheckIsWaiterLoggedIn(waiterId))
+                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
+            if(firstIndex < 0)
+                throw new ArgumentException(String.Format("firstIndex ({0]) is smaller than zero", firstIndex));
+            if(lastIndex < 0)
+                throw new ArgumentException(String.Format("lastIndex ({0]) is smaller than zero", lastIndex));
+            if (firstIndex > lastIndex)
+                throw new ArgumentException(String.Format("firstIndex ({0}) is larger than lastIndex ({1})", firstIndex, lastIndex));
+
+            using(var db = new DataAccessProvider())
+            {
+                var sortedList = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Id == waiterId && (o.State == OrderState.Realized || o.State == OrderState.NotRealized)).OrderByDescending(o => o.ClosingDate).ToList();
+                
+                //Kelner obsłużył mniej zamówień niż pierwszy indeks
+                if (sortedList.Count < firstIndex + 1)
+                    return null;
+
+                //Indeks końcowy i początkowy taki sam - zwracamy jedną wartość
+                if (firstIndex == lastIndex)
+                    return new Order[1] { sortedList[firstIndex] };
+
+                //Kelner ma mniej zamówień niż indeks końcowy - zwracamy od indeksu początkowego do końca
+                if(sortedList.Count < lastIndex + 1)
+                {
+                    var result = new Order[sortedList.Count - firstIndex];
+                    sortedList.CopyTo(firstIndex, result, 0, sortedList.Count - firstIndex);
+                    return result;
+                }
+
+                var resultOrders = new Order[lastIndex - firstIndex + 1];
+                sortedList.CopyTo(firstIndex, resultOrders, 0, lastIndex - firstIndex + 1);
+                return resultOrders;                
+            }
+        }
+
+        public IEnumerable<Order> GetActiveOrders(int waiterId)
+        {
+            if(!CheckIsWaiterLoggedIn(waiterId))
+                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
+
+            using(var db = new DataAccessProvider())
+            {
+                var activeOrders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where( o => o.Id == waiterId && o.State.Equals(OrderState.Accepted)).ToList();
+                return activeOrders;
+            }
+        }
+
+        public bool SetOrderState(int waiterId, int orderId, OrderState state)
+        {
+            if (!CheckIsWaiterLoggedIn(waiterId))
+                throw new SecurityException(String.Format("Waiter id={0} is not logged in", waiterId));
+            if (state.Equals(OrderState.Placed))
+                throw new ArgumentException("Cannot change Order state to Placed");
+
+            using(var db = new DataAccessProvider())
+            {
+                var order = db.Orders.Find(orderId);
+                if (order == null)
+                    throw new ArgumentException(String.Format("No such Order (id={0}) exists", orderId));
+
+               
+                if (state.Equals(OrderState.Accepted))
+                {
+                    //Nie można zaakceptować zamówienia, który jest w stanie innym niż Placed
+                    if(!order.State.Equals(OrderState.Placed))
+                        return false;
+                }
+                else if(state.Equals(OrderState.Realized) || state.Equals(OrderState.NotRealized) )
+                {
+                    //Nie można zmienić stan zamówienia innego kelnera
+                    if (order.Waiter.Id != waiterId)
+                        return false;
+
+                    //Nie można zakończyć zamówienie, które nie jest w stanie accepted
+                    if (!order.State.Equals(OrderState.Accepted))
+                        return false;
+
+                    order.ClosingDate = DateTime.Now;
+                }
+
+                order.State = state;
+                db.SaveChanges();
+                return true;
+            }
+        }
+        #endregion
+
+        #region Private Methods
+
+        private bool CheckIsWaiterLoggedIn(int waiterId)
+        {
+            return loggedInWaiterIds.Contains(waiterId);
+        }
+
         #endregion
     }
 }
