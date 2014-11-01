@@ -20,29 +20,10 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
-            <Label Content="Manage menu" Margin="10 0"/>
-            <Button Name="MenuManagerButton" Content="Open Manager" Grid.Row="1" Margin="10" Click="MenuManagerButton_Click" />
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
-            <Label Content="Manage Weiters" Margin="10 0"/>
-            <Button Name="WaiterManagerButton" Content="Open Manager" Grid.Row="1" Margin="10" Click="WaiterManagerButton_Click"/>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
-            <Label Content="Manage Bar" Margin="10 0"/>
-            <Button Name="TableManagerButton" Content="Open Manager" Grid.Row="1" Margin="10" Click="TableManagerButton_Click"/>
-        </Grid>
+
+        <Button Name="MenuManagerButton" Content="Manage Menu" Grid.Row="1" Grid.Column="1" Margin="10" Click="MenuManagerButton_Click" />
+            <Button Name="WaiterManagerButton" Content="Manage Waiters" Grid.Row="1" Grid.Column="2" Margin="10" Click="WaiterManagerButton_Click"/>
+
+        <Button Name="TableManagerButton" Content="Manage Tables" Grid.Row="1" Grid.Column="3" Margin="10" Click="TableManagerButton_Click"/>
     </Grid>
 </Window>

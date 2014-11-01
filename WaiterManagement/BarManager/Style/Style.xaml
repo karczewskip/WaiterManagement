@@ -59,14 +59,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style TargetType="{x:Type Grid}" x:Key="BackgroundGrid">
-        <Setter Property="Background">
-            <Setter.Value>
+        <Setter Property="Background" Value="Chartreuse">
+            <!--<Setter.Value>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
                     <GradientStop Color="AliceBlue" Offset="0"/>
                     <GradientStop Color="Chartreuse" Offset="1"/>
                 </LinearGradientBrush>
-            </Setter.Value>
+            </Setter.Value>-->
         </Setter>
     </Style>
 
