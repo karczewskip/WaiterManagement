@@ -69,4 +69,17 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type ListView}">
+        <Setter Property="BorderThickness" Value="5"></Setter>
+        <Setter Property="BorderBrush" >
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
+                    <GradientStop Color="Chartreuse" Offset="0"/>
+                    <GradientStop Color="AliceBlue" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
 </ResourceDictionary>
