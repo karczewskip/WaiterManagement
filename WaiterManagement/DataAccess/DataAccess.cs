@@ -399,7 +399,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var sortedList = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Id == waiterId && (o.State == OrderState.Realized || o.State == OrderState.NotRealized)).OrderByDescending(o => o.ClosingDate).ToList();
+                var sortedList = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && (o.State == OrderState.Realized || o.State == OrderState.NotRealized)).OrderByDescending(o => o.ClosingDate).ToList();
                 
                 //Kelner obsłużył mniej zamówień niż pierwszy indeks
                 if (sortedList.Count < firstIndex + 1)
@@ -430,7 +430,8 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var activeOrders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where( o => o.Id == waiterId && o.State.Equals(OrderState.Accepted)).ToList();
+                var activeOrders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where( o => o.Waiter.Id == waiterId && (o.State == OrderState.Accepted || o.State == OrderState.Placed )).ToList();
+                
                 return activeOrders;
             }
         }

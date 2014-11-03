@@ -23,6 +23,8 @@ namespace WaiterClient.ViewModel
         public IList<MenuItemCategory> ListOfCategories { get; set; }
         public IList<Order> ListOfOrders { get; set; }
 
+        public Order SelectedOrder { get; set; }
+
         public OrderWindowViewModel(IWaiterClientModel waiterClientModel , IArchivedOrdersViewModel archivedOrdersViewModel)
         {
             WaiterClientModel = waiterClientModel;
@@ -46,7 +48,7 @@ namespace WaiterClient.ViewModel
         }
 
 
-        public void InitializeUser(int id)
+        public bool InitializeUser(int id, out string error)
         {
             WaiterId = id;
 
@@ -54,8 +56,23 @@ namespace WaiterClient.ViewModel
 
             ListOfOrders.Clear();
 
-            foreach (var o in WaiterClientModel.GetActiveOrders(id))
+            IList<Order> ActiveOrdersList;
+
+            try
+            {
+                ActiveOrdersList = WaiterClientModel.GetActiveOrders(id);
+            }
+            catch
+            {
+                error = "Failed with getting orders!";
+                return false;
+            }
+
+            foreach (var o in ActiveOrdersList)
                 ListOfOrders.Add(o);
+
+            error = "";
+            return true;
         }
 
 
@@ -75,6 +92,30 @@ namespace WaiterClient.ViewModel
                 return true;
             }
 
+        }
+
+
+        public bool CancelOrder(out string error)
+        {
+            if (SelectedOrder == null)
+            {
+                error = "No Order Is Sellected";
+                return false;
+            }
+            else
+            {
+                if (WaiterClientModel.CancelOrder(WaiterId, SelectedOrder.Id))
+                {
+                    ListOfOrders.Remove(SelectedOrder);
+                    error = "";
+                    return true;
+                }
+                else
+                {
+                    error = "Failed";
+                    return false;
+                }
+            }
         }
     }
 }

@@ -29,6 +29,8 @@ namespace WaiterClient.Infrastructure
             container.Bind<IAddItemViewModel>().To<AddItemViewModel>().InSingletonScope();
             container.Bind<IArchivedOrdersWindow>().To<ArchivedOrdersWindow>().InSingletonScope();
             container.Bind<IArchivedOrdersViewModel>().To<ArchivedOrdersViewModel>().InSingletonScope();
+            container.Bind<IShowOrderWindow>().To<ShowOrderWindow>().InSingletonScope();
+            container.Bind<IShowOrderViewModel>().To<ShowOrderViewModel>().InSingletonScope();
         }
     }
 }

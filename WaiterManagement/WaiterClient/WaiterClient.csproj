@@ -73,6 +73,8 @@
     <Compile Include="Abstract\IMainWindowViewModel.cs" />
     <Compile Include="Abstract\IOrderWindow.cs" />
     <Compile Include="Abstract\IOrderWindowViewModel.cs" />
+    <Compile Include="Abstract\IShowOrderViewModel.cs" />
+    <Compile Include="Abstract\IShowOrderWindow.cs" />
     <Compile Include="Abstract\IWaiterClientModel.cs" />
     <Compile Include="Model\WaiterClientModel.cs" />
     <Compile Include="ViewModel\AddItemViewModel.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="ViewModel\ArchivedOrdersViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\OrderWindowViewModel.cs" />
+    <Compile Include="ViewModel\ShowOrderViewModel.cs" />
     <Compile Include="View\AddItemWindow.xaml.cs">
       <DependentUpon>AddItemWindow.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,10 @@
     </Compile>
     <Compile Include="View\ArchivedOrdersWindow.xaml.cs">
       <DependentUpon>ArchivedOrdersWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\IndexConverter.cs" />
+    <Compile Include="View\ShowOrderWindow.xaml.cs">
+      <DependentUpon>ShowOrderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\OrderWindow.xaml.cs">
       <DependentUpon>OrderWindow.xaml</DependentUpon>
@@ -101,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ArchivedOrdersWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShowOrderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

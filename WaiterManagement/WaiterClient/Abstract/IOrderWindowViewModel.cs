@@ -15,8 +15,10 @@ namespace WaiterClient.Abstract
 
         void LogOut();
 
-        void InitializeUser(int id);
+        bool InitializeUser(int id, out string error);
 
         bool AddNewOrder(Table SelectedTable, IList<MenuItemQuantity> ListOfItems, out string error);
+
+        bool CancelOrder(out string error);
     }
 }

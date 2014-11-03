@@ -24,9 +24,11 @@ namespace WaiterClient.ViewModel
             var waiter = WaiterClientModel.CheckUser(login, password);
             if( waiter != null )
             {
-                OrderWindowViewModel.InitializeUser(waiter.Id);
-                error = ""; 
-                return true;
+                var result = OrderWindowViewModel.InitializeUser(waiter.Id, out error);
+                
+                if(!result)
+                    WaiterClientModel.LogOut(waiter.Id);
+                return result;
             }
             else
             {

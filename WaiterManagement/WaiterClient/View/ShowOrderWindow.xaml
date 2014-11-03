@@ -1,0 +1,33 @@
+﻿<Window x:Class="WaiterClient.View.ShowOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShowOrderWindow" Height="300" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="45" />
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Label Margin="0 10" Padding="0" Grid.Row="1" Grid.Column="1" Content="Table Number:" />
+        <ListView Name="ItemsListView" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListOfItems}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="NameColumn" Width="150" DisplayMemberBinding="{Binding MenuItem.Name}" >
+                        <GridViewColumnHeader Tag="Name" Content="Name" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="QuantityColumn" Width="150" DisplayMemberBinding="{Binding Quantity}" >
+                        <GridViewColumnHeader Tag="Name" Content="Quantity" />
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <Button Name="CloseButton" Grid.Row="4" Grid.Column="1" Width="100" Height="25" >Close</Button>
+    </Grid>
+</Window>

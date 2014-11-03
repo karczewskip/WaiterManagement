@@ -22,13 +22,15 @@ namespace WaiterClient.View
     {
         private IOrderWindowViewModel OrderWindowViewModel;
         private IAddOrderWindow AddOrderWindow;
+        private IShowOrderWindow ShowOrderWindow;
         private IArchivedOrdersWindow ArchivedOrderWindow;
 
-        public OrderWindow(IOrderWindowViewModel orderWindowViewModel, IAddOrderWindow addOrderWindow, IArchivedOrdersWindow archivedOrderWindow)
+        public OrderWindow(IOrderWindowViewModel orderWindowViewModel, IAddOrderWindow addOrderWindow, IShowOrderWindow showOrderWindow, IArchivedOrdersWindow archivedOrderWindow)
         {
             OrderWindowViewModel = orderWindowViewModel;
 
             AddOrderWindow = addOrderWindow;
+            ShowOrderWindow = showOrderWindow;
             ArchivedOrderWindow = archivedOrderWindow;
 
             this.DataContext = OrderWindowViewModel;
@@ -53,12 +55,14 @@ namespace WaiterClient.View
 
         private void ShowButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (OrdersListView.SelectedItem != null)
+                ShowOrderWindow.ShowDialog(OrdersListView.SelectedItem as ClassLib.DbDataStructures.Order);
         }
 
         private void OrdersListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            if (OrdersListView.SelectedItem != null)
+                ShowOrderWindow.ShowDialog(OrdersListView.SelectedItem as ClassLib.DbDataStructures.Order);
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -71,7 +75,9 @@ namespace WaiterClient.View
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            string error;
+            if (!OrderWindowViewModel.CancelOrder(out error))
+                MessageBox.Show(error);
         }
     }
 }

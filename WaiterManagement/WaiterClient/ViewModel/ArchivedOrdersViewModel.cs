@@ -30,6 +30,13 @@ namespace WaiterClient.ViewModel
 
             ListOfOrders.Clear();
 
+            foreach ( var o in WaiterClientModel.GetPastOrders(id, 0 , 20))
+            {
+                ListOfOrders.Add(o);
+            }
+
+            
+
             //TODO! Dodać poczatkowe 20 past orders
         }
     }

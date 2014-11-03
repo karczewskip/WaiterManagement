@@ -23,5 +23,9 @@ namespace WaiterClient.Abstract
 
         Order AddNewOrder(int waiterId, int tableId, IList<MenuItemQuantity> listOfItems);
 
+
+        IList<Order> GetPastOrders(int waiterId, int from, int to);
+
+        bool CancelOrder(int waiterId, int orderId);
     }
 }

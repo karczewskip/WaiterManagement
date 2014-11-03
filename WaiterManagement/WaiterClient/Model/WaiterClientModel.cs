@@ -54,9 +54,7 @@ namespace WaiterClient.Model
 
         public IList<Order> GetActiveOrders(int waiterId)
         {
-            //WaiterDataAccess.ord
-
-            return new List<Order>();
+            return WaiterDataAccess.GetActiveOrders(waiterId).ToList();
         }
 
         public Order AddNewOrder(int waiterId ,int tableId, IList<MenuItemQuantity> listOfItems )
@@ -69,6 +67,26 @@ namespace WaiterClient.Model
             }
 
             return WaiterDataAccess.AddOrder(0, tableId, waiterId, list);
+        }
+
+
+        public IList<Order> GetPastOrders(int waiterId, int from, int to)
+        {
+            var list = WaiterDataAccess.GetPastOrders(waiterId, from, to);
+
+            if (list != null)
+            {
+                return list.ToList();
+            }
+            else
+                return new List<Order>();
+            
+        }
+
+
+        public bool CancelOrder(int waiterId , int orderId)
+        {
+            return WaiterDataAccess.SetOrderState(waiterId, orderId, OrderState.NotRealized);
         }
     }
 }
