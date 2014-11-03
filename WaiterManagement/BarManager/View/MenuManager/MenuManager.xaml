@@ -22,7 +22,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Margin="0 5" >Category:</Label>
-            <ComboBox Grid.Column="1" x:Name="CategoriesComboBox" ItemsSource="{Binding Path=ListOfCategories}" Margin="0 5 0 10">
+            <ComboBox Grid.Column="1" x:Name="CategoriesComboBox" ItemsSource="{Binding Path=ListOfCategories}" Margin="0 5 0 10" SelectionChanged="CategoriesComboBox_SelectionChanged" SelectedItem="{Binding Path=SelectedCategory}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -34,7 +34,7 @@
             <Button Name="AddCategoryButton" Grid.Column="2" Margin="0 5 0 10" Width="100" Click="AddCategoryButton_Click"  HorizontalAlignment="Right">
                 Add Category</Button>
         </Grid>
-        <ListView Name="MenuItemsListView" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListOfMenuItems}" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMenuItem}" MouseDoubleClick="MenuItemsListView_MouseDoubleClick"  >
+        <ListView Name="MenuItemsListView" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ShowingMenuItems}" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMenuItem}" MouseDoubleClick="MenuItemsListView_MouseDoubleClick"   >
             
             <ListView.View>
                 <GridView>

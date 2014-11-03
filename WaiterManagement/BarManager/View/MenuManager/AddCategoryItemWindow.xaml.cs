@@ -34,7 +34,7 @@ namespace BarManager.View
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             string error;
-            if (!AddCategoryViewModel.AddCategory(out error))
+            if (AddCategoryViewModel.AddCategory(out error))
                 Close();
             else
                 MessageBox.Show(error);

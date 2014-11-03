@@ -73,7 +73,7 @@ namespace BarManager.ViewModel
             }
         }
 
-        public IList<MenuItemCategory> ListOfCategories { get { return MenuManagerViewModel.ListOfCategories; } }
+        public IList<MenuItemCategory> ListOfCategories { get { return MenuManagerViewModel.ShowingCategories; } }
 
         public EditMenuItemViewModel(IBarDataModel dateModel, IMenuManagerViewModel menuManagerViewModel)
         {
@@ -87,7 +87,7 @@ namespace BarManager.ViewModel
 
             MenuItemName = menuItem.Name;
             PriceString = menuItem.Price.Amount.ToString();
-            SelectedCategory = menuItem.Category;
+            SelectedCategory = ListOfCategories.First( c => c.Id == menuItem.Category.Id );
             MenuItemDescription = menuItem.Description;
         }
 

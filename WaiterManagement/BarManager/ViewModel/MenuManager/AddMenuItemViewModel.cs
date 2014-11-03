@@ -17,7 +17,7 @@ namespace BarManager.ViewModel
         public string MenuItemName { get; set; }
         public string PriceString { get; set; }
         public MenuItemCategory SelectedCategory { get; set; }
-        public IList<MenuItemCategory> ListOfCategories { get { return MenuManagerViewModel.ListOfCategories; } }
+        public IList<MenuItemCategory> ListOfCategories { get { return MenuManagerViewModel.ShowingCategories; } }
         public string MenuItemDescription { get; set; }
 
 
@@ -62,7 +62,7 @@ namespace BarManager.ViewModel
 
             if (AddingMenuItem != null)
             {
-                MenuManagerViewModel.ListOfMenuItems.Add(AddingMenuItem);
+                MenuManagerViewModel.AddNewMenuItem(AddingMenuItem);
                 error = "";
                 return true;
             }

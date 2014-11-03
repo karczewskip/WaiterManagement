@@ -31,7 +31,6 @@ namespace WaiterClient.Model
             }
         }
 
-
         public void LogOut(int waiterId)
         {
             WaiterDataAccess.LogOut(waiterId);
@@ -69,7 +68,6 @@ namespace WaiterClient.Model
             return WaiterDataAccess.AddOrder(0, tableId, waiterId, list);
         }
 
-
         public IList<Order> GetPastOrders(int waiterId, int from, int to)
         {
             var list = WaiterDataAccess.GetPastOrders(waiterId, from, to);
@@ -83,12 +81,10 @@ namespace WaiterClient.Model
             
         }
 
-
         public bool CancelOrder(int waiterId , int orderId)
         {
             return WaiterDataAccess.SetOrderState(waiterId, orderId, OrderState.NotRealized);
         }
-
 
         public bool RelizeOrder(int waiterId, int orderId)
         {

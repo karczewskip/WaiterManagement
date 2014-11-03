@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WaiterClient.Abstract;
 using ClassLib.DbDataStructures;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace WaiterClient.ViewModel
 {

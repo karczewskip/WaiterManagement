@@ -16,17 +16,24 @@ namespace BarManager.ViewModel
     {
         private IBarDataModel DataModel;
 
+        public MenuItemCategory SelectedCategory { get; set; }
         public MenuItem SelectedMenuItem { get; set; }
 
+        private static MenuItemCategory AllItemsFlag;
+
         public IList<MenuItem> ListOfMenuItems { get; set; }
+        public IList<MenuItem> ShowingMenuItems { get; set; }
         public IList<MenuItemCategory> ListOfCategories { get; set; }
+        public IList<MenuItemCategory> ShowingCategories { get; set; }
 
         public MenuManagerViewModel(IBarDataModel dataModel)
         {
             DataModel = dataModel;
 
             ListOfMenuItems = new ObservableCollection<MenuItem>();
+            ShowingMenuItems = new ObservableCollection<MenuItem>();
             ListOfCategories = new ObservableCollection<MenuItemCategory>();
+            ShowingCategories = new ObservableCollection<MenuItemCategory>();
 
             InitializeData();
         }
@@ -34,12 +41,22 @@ namespace BarManager.ViewModel
         private void InitializeData()
         {
             ListOfCategories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
+            foreach( var category in ListOfCategories)
+            {
+                ShowingCategories.Add(category);
+            }
+
+            AllItemsFlag = new MenuItemCategory() { Name = "All" };
+            ListOfCategories.Add(AllItemsFlag);
+
+            SelectedCategory = AllItemsFlag;
+
             ListOfMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
 
-            //for (int i = 0; i < ListOfMenuItems.Count; i++)
-            //{
-            //    ListOfMenuItems[i].Category = FindCategor(ListOfMenuItems[i].Category.Id);
-            //}
+            foreach( var menuItem in ListOfMenuItems)
+            {
+                ShowingMenuItems.Add(menuItem);
+            }
         }
 
         private MenuItemCategory FindCategory(int id)
@@ -53,8 +70,6 @@ namespace BarManager.ViewModel
             return null;
         }
 
-
-
         public bool DeleteSelectedItem(out string error)
         {
             if (SelectedMenuItem == null)
@@ -67,6 +82,7 @@ namespace BarManager.ViewModel
                 if (DataModel.DeleteItem(SelectedMenuItem.Id))
                 {
                     ListOfMenuItems.Remove(SelectedMenuItem);
+                    ShowingMenuItems.Remove(SelectedMenuItem);
                     error = "";
                     return true;
                 }
@@ -78,5 +94,36 @@ namespace BarManager.ViewModel
             }
         }
 
+
+
+        public void ShowCurrentCategory(MenuItemCategory category)
+        {
+            ShowingMenuItems.Clear();
+
+            if(category == AllItemsFlag)
+            {
+                foreach(var menuItem in ListOfMenuItems)
+                {
+                    ShowingMenuItems.Add(menuItem);
+                }
+            }
+
+            
+
+            foreach(var menuItem in ListOfMenuItems)
+            {
+                if (menuItem.Category.Id == category.Id)
+                    ShowingMenuItems.Add(menuItem);
+            }
+        }
+
+
+        public void AddNewMenuItem(MenuItem addingMenuItem)
+        {
+            ListOfMenuItems.Add(addingMenuItem);
+
+            if (SelectedCategory == AllItemsFlag || SelectedCategory == addingMenuItem.Category)
+                ShowingMenuItems.Add(addingMenuItem);
+        }
     }
 }

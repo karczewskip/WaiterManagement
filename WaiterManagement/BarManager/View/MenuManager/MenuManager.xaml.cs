@@ -1,4 +1,5 @@
 ﻿using BarManager.Abstract;
+using ClassLib.DbDataStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,6 +82,14 @@ namespace BarManager.View
             MenuItemsListView.Items.Refresh();
 
             
+        }
+
+        private void CategoriesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if (((ComboBox)sender).SelectedItem == null)
+                //MessageBox.Show("Wybrano null");
+
+            MenuManagerViewModel.ShowCurrentCategory(((ComboBox)sender).SelectedItem as MenuItemCategory);
         }
 
         
