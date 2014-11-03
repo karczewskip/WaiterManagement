@@ -1,22 +1,29 @@
-﻿using System;
+﻿using ClassLib.DbDataStructures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace WaiterClient.Converters
 {
-    public class IndexConverter : IValueConverter
+    public class PriceConverter : IValueConverter
     {
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             ListViewItem item = (ListViewItem)value;
-            ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
-            int index = listView.ItemContainerGenerator.IndexFromContainer(item);
-            return (index + 1).ToString();
+            Order order = (Order)(item.Content);
+
+            double price = 0;
+            foreach (var menuItem in order.MenuItems)
+            {
+                price += menuItem.MenuItem.Price.Amount * menuItem.Quantity;
+            }
+
+            return Math.Round( price,2).ToString() + " zł";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

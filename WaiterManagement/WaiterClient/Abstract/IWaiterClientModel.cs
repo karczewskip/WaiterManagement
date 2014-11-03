@@ -27,5 +27,7 @@ namespace WaiterClient.Abstract
         IList<Order> GetPastOrders(int waiterId, int from, int to);
 
         bool CancelOrder(int waiterId, int orderId);
+
+        bool RelizeOrder(int WaiterId, int p);
     }
 }

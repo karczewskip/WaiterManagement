@@ -76,6 +76,8 @@
     <Compile Include="Abstract\IShowOrderViewModel.cs" />
     <Compile Include="Abstract\IShowOrderWindow.cs" />
     <Compile Include="Abstract\IWaiterClientModel.cs" />
+    <Compile Include="Converters\OrderContentConverter.cs" />
+    <Compile Include="Converters\PriceConverter.cs" />
     <Compile Include="Model\WaiterClientModel.cs" />
     <Compile Include="ViewModel\AddItemViewModel.cs" />
     <Compile Include="ViewModel\AddOrderViewModel.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,7 +45,7 @@ namespace WaiterClient.View
 
         private void MoreButton_Click(object sender, RoutedEventArgs e)
         {
-
+            new Thread(ArchivedOrdersViewModel.GetMore).Start();
         }
     }
 }

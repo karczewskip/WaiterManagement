@@ -106,6 +106,32 @@ namespace WaiterClient.ViewModel
             {
                 if (WaiterClientModel.CancelOrder(WaiterId, SelectedOrder.Id))
                 {
+                    ArchivedOrdersViewModel.AddArchivedOrder(SelectedOrder);
+                    ListOfOrders.Remove(SelectedOrder);
+                    error = "";
+                    return true;
+                }
+                else
+                {
+                    error = "Failed";
+                    return false;
+                }
+            }
+        }
+
+
+        public bool RelizeOrder(out string error)
+        {
+            if (SelectedOrder == null)
+            {
+                error = "No Order Is Sellected";
+                return false;
+            }
+            else
+            {
+                if (WaiterClientModel.RelizeOrder(WaiterId, SelectedOrder.Id))
+                {
+                    ArchivedOrdersViewModel.AddArchivedOrder(SelectedOrder);
                     ListOfOrders.Remove(SelectedOrder);
                     error = "";
                     return true;

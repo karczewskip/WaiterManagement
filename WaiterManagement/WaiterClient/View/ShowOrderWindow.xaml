@@ -28,6 +28,6 @@
             </ListView.View>
         </ListView>
         
-        <Button Name="CloseButton" Grid.Row="4" Grid.Column="1" Width="100" Height="25" >Close</Button>
+        <Button Name="CloseButton" Grid.Row="4" Grid.Column="1" Width="100" Height="25" Click="CloseButton_Click" >Close</Button>
     </Grid>
 </Window>

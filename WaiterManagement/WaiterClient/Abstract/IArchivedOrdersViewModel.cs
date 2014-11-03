@@ -9,5 +9,9 @@ namespace WaiterClient.Abstract
     public interface IArchivedOrdersViewModel
     {
         void InitializeUser(int id);
+
+        void AddArchivedOrder(ClassLib.DbDataStructures.Order SelectedOrder);
+
+        void GetMore();
     }
 }

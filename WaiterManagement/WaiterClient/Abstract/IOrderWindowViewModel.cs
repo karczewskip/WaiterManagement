@@ -20,5 +20,7 @@ namespace WaiterClient.Abstract
         bool AddNewOrder(Table SelectedTable, IList<MenuItemQuantity> ListOfItems, out string error);
 
         bool CancelOrder(out string error);
+
+        bool RelizeOrder(out string error);
     }
 }

@@ -88,5 +88,11 @@ namespace WaiterClient.Model
         {
             return WaiterDataAccess.SetOrderState(waiterId, orderId, OrderState.NotRealized);
         }
+
+
+        public bool RelizeOrder(int waiterId, int orderId)
+        {
+            return WaiterDataAccess.SetOrderState(waiterId, orderId, OrderState.Realized);
+        }
     }
 }

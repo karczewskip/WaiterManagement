@@ -34,10 +34,25 @@ namespace WaiterClient.ViewModel
             {
                 ListOfOrders.Add(o);
             }
+        }
 
-            
 
-            //TODO! Dodać poczatkowe 20 past orders
+        public void AddArchivedOrder(Order SelectedOrder)
+        {
+            ListOfOrders.Add(SelectedOrder);
+        }
+
+
+        public void GetMore()
+        {
+            var pastList = WaiterClientModel.GetPastOrders(WaiterId, ListOfOrders.Count, ListOfOrders.Count + 20);
+            foreach(var o in pastList )
+            {
+                App.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    ListOfOrders.Add(o);
+                });
+            }
         }
     }
 }

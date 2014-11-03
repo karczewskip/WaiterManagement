@@ -5,7 +5,8 @@
         Title="OrderWindow" Height="300" Width="600">
     <Window.Resources>
         <c:IndexConverter x:Key="indexConverter" />
-            
+        <c:OrderContentConverter x:Key="orderContentConverter" />    
+        <c:PriceConverter x:Key="priceConverter" />
         </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -30,8 +31,19 @@
                                          Converter={StaticResource indexConverter}}">
                         
                     </GridViewColumn>
-                    <GridViewColumn x:Name="TableColumn" Width="150" DisplayMemberBinding="{Binding Table.Number}" >
+                    <GridViewColumn x:Name="StateColumn" Width="50" DisplayMemberBinding="{Binding State}" >
+                        <GridViewColumnHeader Tag="State" Content="State" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="TableColumn" Width="50" DisplayMemberBinding="{Binding Table.Number}" >
                         <GridViewColumnHeader Tag="Table" Content="Table" />
+                    </GridViewColumn>
+                    <GridViewColumn Header="Price" Width="50" DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                         AncestorType={x:Type ListViewItem}}, 
+                                         Converter={StaticResource priceConverter}}">
+                    </GridViewColumn>
+                    <GridViewColumn Header="Content" Width="500" DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                         AncestorType={x:Type ListViewItem}}, 
+                                         Converter={StaticResource orderContentConverter}}">
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
@@ -41,14 +53,17 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="90" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="110"/>
             </Grid.ColumnDefinitions>
             <Button Name="AddButton" Grid.Column="0" Margin="0" Height="25" Width="80" Click="AddButton_Click" HorizontalAlignment="Left">
                 Add</Button>
-            <Button Name="CancelButton" Grid.Column="1" Height="25" Width="80" Click="CancelButton_Click"  HorizontalAlignment="Left">
+            <Button Name="RelizeButton" Grid.Column="1" Margin="0" Height="25" Width="80" Click="RelizeButton_Click" HorizontalAlignment="Left">
+                Relize</Button>
+            <Button Name="CancelButton" Grid.Column="2" Height="25" Width="80" Click="CancelButton_Click"  HorizontalAlignment="Left">
                 Cancel</Button>
-            <Button Name="CloseButton" Grid.Column="3" Height="25" Width="100" Click="CloseButton_Click" HorizontalAlignment="Right">
+            <Button Name="CloseButton" Grid.Column="4" Height="25" Width="100" Click="CloseButton_Click" HorizontalAlignment="Right">
                 Log Out</Button>
         </Grid>
     </Grid>
