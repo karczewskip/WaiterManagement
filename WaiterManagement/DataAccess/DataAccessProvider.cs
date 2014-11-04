@@ -8,7 +8,7 @@ using ClassLib.DbDataStructures;
 
 namespace DataAccess
 {
-    class DataAccessProvider : DbContext
+    public class DataAccessProvider : DbContext
     {
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<WaiterContext> Waiters { get; set; }

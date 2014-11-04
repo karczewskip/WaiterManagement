@@ -5,7 +5,7 @@ namespace DataAccess.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DataAccess.DataAccessProvider>
+    public sealed class Configuration : DbMigrationsConfiguration<DataAccess.DataAccessProvider>
     {
         public Configuration()
         {

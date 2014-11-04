@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ClassLib.DbDataStructures;
 using System.Security;
+using System.Data.Entity;
+using DataAccess.Migrations;
 
 namespace DataAccess
 {
@@ -18,6 +20,7 @@ namespace DataAccess
         public DataAccessClass()
         {
             loggedInWaiterIds = new HashSet<int>();
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccessProvider, Configuration>()); 
         }
         #endregion
 

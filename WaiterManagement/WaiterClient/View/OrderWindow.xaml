@@ -60,7 +60,7 @@
             <Button Name="AddButton" Grid.Column="0" Margin="0" Height="25" Width="80" Click="AddButton_Click" HorizontalAlignment="Left">
                 Add</Button>
             <Button Name="RelizeButton" Grid.Column="1" Margin="0" Height="25" Width="80" Click="RelizeButton_Click" HorizontalAlignment="Left">
-                Relize</Button>
+                Realize</Button>
             <Button Name="CancelButton" Grid.Column="2" Height="25" Width="80" Click="CancelButton_Click"  HorizontalAlignment="Left">
                 Cancel</Button>
             <Button Name="CloseButton" Grid.Column="4" Height="25" Width="100" Click="CloseButton_Click" HorizontalAlignment="Right">
