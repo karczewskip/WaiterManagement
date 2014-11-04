@@ -95,12 +95,20 @@
       <DependentUpon>ArchivedOrdersWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\IndexConverter.cs" />
+    <Compile Include="View\Messaging\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Messaging\Messaging.cs" />
     <Compile Include="View\ShowOrderWindow.xaml.cs">
       <DependentUpon>ShowOrderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\OrderWindow.xaml.cs">
       <DependentUpon>OrderWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Style\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\AddItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +120,10 @@
     <Page Include="View\ArchivedOrdersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Messaging\MessageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ShowOrderWindow.xaml">
       <SubType>Designer</SubType>
@@ -174,7 +186,18 @@
       <Name>DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\login17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\covered16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\menu21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\man75.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -77,14 +77,14 @@ namespace WaiterClient.View
         {
             string error;
             if (!OrderWindowViewModel.CancelOrder(out error))
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
         }
 
         private void RelizeButton_Click(object sender, RoutedEventArgs e)
         {
             string error;
             if (!OrderWindowViewModel.RelizeOrder(out error))
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
         }
 
         

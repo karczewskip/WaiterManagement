@@ -63,7 +63,7 @@
     </Style>
     
     <Style TargetType="{x:Type Grid}" x:Key="BackgroundGrid">
-        <Setter Property="Background" Value="Chartreuse">
+        <Setter Property="Background" Value="Turquoise">
             <!--<Setter.Value>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
                     <GradientStop Color="AliceBlue" Offset="0"/>
@@ -73,7 +73,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ListView}">
+    <!--<Style TargetType="{x:Type ListView}">
         <Setter Property="BorderThickness" Value="5"></Setter>
         <Setter Property="BorderBrush" >
             <Setter.Value>
@@ -83,6 +83,6 @@
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
     
 </ResourceDictionary>

@@ -50,7 +50,7 @@ namespace BarManager.View
             if (EditWaiterViewModel.EditWaiter(out error))
                 Close();
             else
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
 
         }
 

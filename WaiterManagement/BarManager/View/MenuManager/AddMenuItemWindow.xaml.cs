@@ -37,7 +37,7 @@ namespace BarManager.View
             if (AddMenuItemViewModel.AddMenuItem(out error))
                 Close();
             else
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

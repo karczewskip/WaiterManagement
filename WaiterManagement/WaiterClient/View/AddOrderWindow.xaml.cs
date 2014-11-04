@@ -57,7 +57,7 @@ namespace WaiterClient.View
         {
             string error;
             if (!AddOrderViewModel.AddOrder(out error))
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
             else
                 Close();
         }

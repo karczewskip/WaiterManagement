@@ -1,7 +1,8 @@
 ﻿<Window x:Class="BarManager.View.WaiterManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WaiterManager" Height="300" Width="600">
+        Title="WaiterManager" Height="300" Width="600"
+        Icon="../../Icons/man75.png">
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
         <Grid.RowDefinitions>
             <RowDefinition  Height="20"/>

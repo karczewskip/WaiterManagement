@@ -1,7 +1,8 @@
 ﻿<Window x:Class="BarManager.View.EditTableWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EditTableWindow" Height="300" Width="300">
+        Title="EditTableWindow" Height="300" Width="300"
+        Icon="../../Icons/dining6.png">
     <Window.Resources>
         <Style x:Key="ToolTipStyle" TargetType="TextBox">
             <Style.Triggers>

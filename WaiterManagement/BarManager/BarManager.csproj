@@ -102,6 +102,10 @@
       <DependentUpon>AddMenuItemWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\TableManager\AddTableViewModel.cs" />
+    <Compile Include="View\Messaging\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Messaging\Messaging.cs" />
     <Compile Include="View\TableManager\AddTableWindow.xaml.cs">
       <DependentUpon>AddTableWindow.xaml</DependentUpon>
     </Compile>
@@ -135,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MenuManager\AddMenuItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Messaging\MessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,7 +235,21 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\man75.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\hot27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\restaurant27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\fastfood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\dining6.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

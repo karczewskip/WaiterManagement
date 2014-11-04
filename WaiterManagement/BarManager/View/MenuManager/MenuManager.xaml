@@ -1,7 +1,8 @@
 ﻿<Window x:Class="BarManager.View.MenuManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MenuManager" Height="300" Width="600">
+        Title="MenuManager" Height="300" Width="600"
+        Icon="../../Icons/hot27.png">
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
         <Grid.RowDefinitions>
             <RowDefinition  Height="20"/>

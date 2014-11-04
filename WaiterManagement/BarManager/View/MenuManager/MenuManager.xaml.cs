@@ -25,7 +25,7 @@ namespace BarManager.View
         IAddMenuItemWindow AddMenuItemWindow;
         IEditMenuItemWindow EditMenuItemWindow;
         IAddCategoryItemWindow AddCategoryItemWindow;
-        
+
 
         public MenuManager(IMenuManagerViewModel menuManagerViewModel, IAddMenuItemWindow addMenuItemView, IEditMenuItemWindow editMenuItemWindow, IAddCategoryItemWindow addCategoryItemWindow)
         {
@@ -49,13 +49,13 @@ namespace BarManager.View
             Close();
         }
 
-        
+
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             string error;
             if (!MenuManagerViewModel.DeleteSelectedItem(out error))
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -81,19 +81,19 @@ namespace BarManager.View
 
             MenuItemsListView.Items.Refresh();
 
-            
+
         }
 
         private void CategoriesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //if (((ComboBox)sender).SelectedItem == null)
-                //MessageBox.Show("Wybrano null");
+            //MessageBox.Show("Wybrano null");
 
             MenuManagerViewModel.ShowCurrentCategory(((ComboBox)sender).SelectedItem as MenuItemCategory);
         }
 
-        
 
-        
+
+
     }
 }

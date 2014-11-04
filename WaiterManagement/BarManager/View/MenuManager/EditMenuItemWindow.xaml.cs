@@ -51,7 +51,7 @@ namespace BarManager.View
             if (EditMenuItemViewModel.EditMenuItem(out error))
                 Close();
             else
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
         }
 
 

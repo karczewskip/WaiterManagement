@@ -1,7 +1,8 @@
 ﻿<Window x:Class="BarManager.View.AddWaiterWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AddWaiterWindow" Height="270" Width="300">
+        Title="AddWaiterWindow" Height="270" Width="300"
+        Icon="../../Icons/man75.png">
     <Window.Resources>
         <Style x:Key="ToolTipStyle" TargetType="TextBox">
             <Style.Triggers>

@@ -36,7 +36,7 @@ namespace BarManager.View
             string error;
             if (!AddTableViewModel.AddTable(out error))
                 Close();
-            MessageBox.Show(error);
+            Messaging.ShowMessage(error);
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

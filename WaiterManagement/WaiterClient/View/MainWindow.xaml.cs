@@ -50,7 +50,7 @@ namespace WaiterClient.View
             }
             else
             {
-                MessageBox.Show(error);
+                Messaging.ShowMessage(error);
             }
         }
 
