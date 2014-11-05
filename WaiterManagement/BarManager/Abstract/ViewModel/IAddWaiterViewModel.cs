@@ -9,5 +9,7 @@ namespace BarManager.Abstract
     public interface IAddWaiterViewModel
     {
         bool AddWaiter(out string error);
+
+        void Clear();
     }
 }

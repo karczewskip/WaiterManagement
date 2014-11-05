@@ -74,7 +74,7 @@ namespace BarManager.ViewModel
         {
             if (SelectedMenuItem == null)
             {
-                error = "No Item Is Sellected";
+                error = "No Item Is Selected";
                 return false;
             }
             else
@@ -124,6 +124,13 @@ namespace BarManager.ViewModel
 
             if (SelectedCategory == AllItemsFlag || SelectedCategory == addingMenuItem.Category)
                 ShowingMenuItems.Add(addingMenuItem);
+        }
+
+
+        public void AddCategory(MenuItemCategory addingCategory)
+        {
+            ListOfCategories.Add(addingCategory);
+            ShowingCategories.Add(addingCategory);
         }
     }
 }

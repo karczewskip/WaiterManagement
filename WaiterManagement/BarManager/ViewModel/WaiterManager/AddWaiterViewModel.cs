@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
 using System.Windows;
+using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
-    public class AddWaiterViewModel : IAddWaiterViewModel
+    public class AddWaiterViewModel : IAddWaiterViewModel , INotifyPropertyChanged
     {
         private IBarDataModel DataModel;
         private IWaiterManagerViewModel WaiterManagerViewModel;
@@ -50,5 +51,25 @@ namespace BarManager.ViewModel
 
             return false;
         }
+
+
+        public void Clear()
+        {
+            Login = "";
+            FirstName = "";
+            LastName = "";
+            Password = "";
+
+            if (null != this.PropertyChanged)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("Login"));
+                PropertyChanged(this, new PropertyChangedEventArgs("FirstName"));
+                PropertyChanged(this, new PropertyChangedEventArgs("LastName"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Password"));
+                
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

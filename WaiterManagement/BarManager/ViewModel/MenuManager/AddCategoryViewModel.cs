@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
 using System.Windows;
+using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
-    public class AddCategoryViewModel : IAddCategoryViewModel
+    public class AddCategoryViewModel : IAddCategoryViewModel , INotifyPropertyChanged
     {
         private IBarDataModel DataModel;
         private IMenuManagerViewModel MenuManagerViewModel;
@@ -39,7 +40,7 @@ namespace BarManager.ViewModel
             var AddingCategory = DataModel.AddCategoryItem(CategoryName, CategoryDescription);
             if (AddingCategory != null)
             {
-                MenuManagerViewModel.ListOfCategories.Add(AddingCategory);
+                MenuManagerViewModel.AddCategory(AddingCategory);
                 error = "";
                 return true;
             }
@@ -48,5 +49,21 @@ namespace BarManager.ViewModel
 
             return false;
         }
+
+
+        public void Clear()
+        {
+            CategoryName = "";
+            CategoryDescription = "";
+
+            if (null != this.PropertyChanged)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("CategoryName"));
+                PropertyChanged(this, new PropertyChangedEventArgs("CategoryDescription"));
+                
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

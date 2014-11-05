@@ -42,6 +42,8 @@ namespace BarManager.View
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            AddMenuItemViewModel.Clear();
+
             e.Cancel = true;
             this.Hide();
         }

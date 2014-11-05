@@ -1,7 +1,7 @@
 ﻿<Window x:Class="BarManager.View.MessageWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MessageWindow" Height="200" Width="300"
+        Title="Failed" Height="200" Width="300" ResizeMode="NoResize"
         Icon="/Icons/error6.png">
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
         <Grid.RowDefinitions>

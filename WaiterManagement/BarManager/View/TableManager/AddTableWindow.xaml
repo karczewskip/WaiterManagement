@@ -1,7 +1,7 @@
 ﻿<Window x:Class="BarManager.View.AddTableWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AddTableManager" Height="300" Width="300"
+        Title="Add Table" Height="300" Width="300" ResizeMode="NoResize"
         Icon="../../Icons/dining6.png">
     <Window.Resources>
         <Style x:Key="ToolTipStyle" TargetType="TextBox">
@@ -33,7 +33,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Margin="0 10" Padding="0" Grid.Row="0" Grid.Column="0" Content="Number:" />
-            <TextBox Height="24" MaxLength="512" Margin="0,10" Grid.Row="0" Grid.Column="2" Text="{Binding Path=NumberString}" Style="{StaticResource ToolTipStyle}" />
+            <TextBox Height="24" MaxLength="512" Margin="0,10" Grid.Row="0" Grid.Column="2" Text="{Binding Path=NumberString}"  />
             <Label Margin="0 10" Padding="0" Grid.Row="1" Grid.Column="0" Content="Description:" />
             <TextBox Grid.Row="3" Grid.Column="2" Margin="0,10"  Text="{Binding Path=TableDescription}" TextWrapping="Wrap" MaxLength="512" />
         </Grid>

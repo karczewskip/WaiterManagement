@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
 using System.Windows;
+using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
-    public class AddTableViewModel: IAddTableViewModel
+    public class AddTableViewModel: IAddTableViewModel, INotifyPropertyChanged
     {
         private IBarDataModel DataModel;
         private ITableManagerViewModel TableManagerViewModel;
@@ -55,5 +56,21 @@ namespace BarManager.ViewModel
             error = "Failed";
             return false;
         }
+
+
+        public void Clear()
+        {
+            NumberString = "";
+            TableDescription = "";
+
+            if (null != this.PropertyChanged)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("NumberString"));
+                PropertyChanged(this, new PropertyChangedEventArgs("TableDescription"));
+                
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

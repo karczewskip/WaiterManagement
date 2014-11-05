@@ -99,7 +99,7 @@ namespace WaiterClient.ViewModel
         {
             if (SelectedOrder == null)
             {
-                error = "No Order Is Sellected";
+                error = "No Order Is Selected";
                 return false;
             }
             else
@@ -124,7 +124,7 @@ namespace WaiterClient.ViewModel
         {
             if (SelectedOrder == null)
             {
-                error = "No Order Is Sellected";
+                error = "No Order Is Selected";
                 return false;
             }
             else

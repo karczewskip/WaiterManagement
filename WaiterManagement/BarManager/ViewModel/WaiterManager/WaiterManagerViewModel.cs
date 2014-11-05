@@ -36,7 +36,7 @@ namespace BarManager.ViewModel
         {
             if (SelectedWaiter == null)
             {
-                error = "No Item Is Sellected";
+                error = "No Item Is Selected";
                 return false;
             }
             else

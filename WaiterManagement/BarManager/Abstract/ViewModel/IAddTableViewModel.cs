@@ -9,5 +9,7 @@ namespace BarManager.Abstract
     public interface IAddTableViewModel
     {
         bool AddTable(out string error);
+
+        void Clear();
     }
 }

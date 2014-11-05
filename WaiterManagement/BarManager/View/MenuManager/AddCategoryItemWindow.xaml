@@ -1,7 +1,7 @@
 ﻿<Window x:Class="BarManager.View.AddCategoryItemWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AddCategoryItemWindow" Height="300" Width="300"
+        Title="Add Category" Height="300" Width="300" ResizeMode="NoResize"
         Icon="../../Icons/hot27.png">
     <Window.Resources>
         <Style x:Key="ToolTipStyle" TargetType="TextBox">
@@ -29,11 +29,11 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Margin="0 10" Padding="0" Grid.Row="0" Grid.Column="0" Content="Category Name:" />
-            <TextBox Height="24" MaxLength="512" Margin="0,10" Grid.Row="0" Grid.Column="2" Text="{Binding Path=CategoryName}" Style="{StaticResource ToolTipStyle}" />
+            <TextBox Height="24" MaxLength="512" Margin="0,10" Grid.Row="0" Grid.Column="2" Text="{Binding Path=CategoryName}" />
             <Label Margin="0 10" Padding="0" Grid.Row="1" Grid.Column="0" Content="Description:" />
             <TextBox Grid.Row="3" Grid.Column="2" Margin="0,10"  Text="{Binding Path=CategoryDescription}" TextWrapping="Wrap" MaxLength="512" />
 

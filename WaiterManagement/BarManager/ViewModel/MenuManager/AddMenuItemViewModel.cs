@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using BarManager.Abstract;
 using ClassLib.DbDataStructures;
 using System.Windows;
+using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
-    public class AddMenuItemViewModel : IAddMenuItemViewModel
+    public class AddMenuItemViewModel : IAddMenuItemViewModel, INotifyPropertyChanged
     {
         private IBarDataModel DataModel;
         private IMenuManagerViewModel MenuManagerViewModel;
@@ -74,5 +75,26 @@ namespace BarManager.ViewModel
 
 
         }
+
+
+        public void Clear()
+        {
+            MenuItemName = "";
+            MenuItemDescription = "";
+            PriceString = "";
+
+            SelectedCategory = null;
+
+            if (null != this.PropertyChanged)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("MenuItemName"));
+                PropertyChanged(this, new PropertyChangedEventArgs("MenuItemDescription"));
+                PropertyChanged(this, new PropertyChangedEventArgs("PriceString"));
+                PropertyChanged(this, new PropertyChangedEventArgs("SelectedCategory"));
+
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

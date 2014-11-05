@@ -19,5 +19,7 @@ namespace BarManager.Abstract
         void ShowCurrentCategory(MenuItemCategory category);
 
         void AddNewMenuItem(MenuItem addingMenuItem);
+
+        void AddCategory(MenuItemCategory addingCategory);
     }
 }
