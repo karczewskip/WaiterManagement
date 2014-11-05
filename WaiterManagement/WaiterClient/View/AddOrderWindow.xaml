@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WaiterClient.View.AddOrderWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AddOrderWindow" Height="300" Width="400"
+        Title="Add Order" Height="300" Width="400" MinHeight="300" MinWidth="400"
         Icon="/Icons/man75.png">
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
         <Grid.RowDefinitions>

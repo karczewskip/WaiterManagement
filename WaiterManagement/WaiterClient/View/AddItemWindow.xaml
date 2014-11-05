@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WaiterClient.View.AddItemWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AddItemWindow" Height="300" Width="500"
+        Title="Menu" Height="300" Width="600" MinHeight="300" MinWidth="600"
         Icon="/Icons/menu21.png">
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
         <Grid.RowDefinitions>
@@ -22,13 +22,25 @@
 
                         <GridViewColumn.CellTemplate>
                             <DataTemplate >
-                                <!--<CheckBox Name="VisibilityCheckBox" Tag="{Binding}" Grid.Column="1" Margin="0 2" IsChecked="{Binding IsVisible}"  Checked="VisibilityCheckBox_Checked" Unchecked="VisibilityCheckBox_Unchecked" HorizontalAlignment="Center"/>-->
-                                <Button Name="AddButton" Tag="{Binding}" Content="Add" Click="AddButton_Click" />                            
+                                <Button Name="AddButton" Width="40" Tag="{Binding}" Content="Add" Click="AddButton_Click" />                            
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn x:Name="NameColumn" Width="150" DisplayMemberBinding="{Binding Name}" >
                         <GridViewColumnHeader Tag="Name" Content="Name" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="PriceColumn" Width="150">
+                        <GridViewColumnHeader Tag="Price" Content="Price" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate >
+                                <TextBlock Tag="{Binding}">
+                                    <Run Text="{Binding Price.Amount}"/>
+                                    <!--<Run Text=" " />-->
+                                    <Run Text="{Binding Price.Currency}" />
+                                </TextBlock>
+                            </DataTemplate>
+
+                        </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn x:Name="DescColumn" Width="150" DisplayMemberBinding="{Binding Description}" >
                         <GridViewColumnHeader Tag="Description" Content="Description" />

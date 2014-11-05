@@ -18,7 +18,7 @@ namespace WaiterClient.ViewModel
             get
             {
                 if (CurrentOrder == null || CurrentOrder.Table == null)
-                    return null;
+                    return "";
 
                 return CurrentOrder.Table.Number.ToString();
             }
