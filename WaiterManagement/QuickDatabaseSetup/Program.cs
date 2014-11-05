@@ -117,6 +117,8 @@ namespace QuickDatabaseSetup
             catch(Exception e)
             {
                 Console.Write(" *** An error Occured. Wiping database...");
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.InnerException != null ? e.InnerException.Message : String.Empty);
                 WipeAllDatabaseData(managerDataAccess);
                 Console.WriteLine("Done.");
             }
@@ -179,6 +181,8 @@ namespace QuickDatabaseSetup
             catch(Exception e)
             {
                 Console.WriteLine(" *** Error erasing data...");
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.InnerException != null ? e.InnerException.Message : String.Empty);
             }
         }
     }

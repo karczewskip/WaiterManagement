@@ -211,6 +211,10 @@ namespace DataAccess
                 WaiterContext waiterContextToRemove = db.Waiters.Find(waiterId);
                 if (waiterContextToRemove == null)
                     return false;
+
+                if (CheckIsWaiterLoggedIn(waiterContextToRemove.Id))
+                    loggedInWaiterIds.Remove(waiterContextToRemove.Id);
+
                 db.Waiters.Remove(waiterContextToRemove);
                 db.SaveChanges();
                 return true;
@@ -383,7 +387,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && (o.State.Equals(OrderState.NotRealized) || o.State.Equals(OrderState.Realized))).ToList();
+                var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && (o.State == OrderState.NotRealized || o.State == OrderState.Realized)).ToList();
                 return orders;
             }
 

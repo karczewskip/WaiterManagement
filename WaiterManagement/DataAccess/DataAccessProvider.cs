@@ -10,6 +10,10 @@ namespace DataAccess
 {
     public class DataAccessProvider : DbContext
     {
+        public DataAccessProvider()
+            : base("DataAccessProvider")
+        { }
+
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<WaiterContext> Waiters { get; set; }
         public DbSet<MenuItemCategory> MenuItemCategories { get; set; }

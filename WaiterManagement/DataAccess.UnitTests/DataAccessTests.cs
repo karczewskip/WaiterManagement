@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using DataAccess.Migrations;
+using System.Security;
 
 namespace DataAccess.UnitTests
 {
@@ -20,35 +21,49 @@ namespace DataAccess.UnitTests
         string waiterEditedLastName1 = "Perignon";
         string waiterLogin1 = "donjuan";
         string waiterPassword1 = "999";
-
         WaiterContext waiterContext1 = null;
 
         string waiterFirstName2 = "Charles";
         string waiterLastName2 = "Bukowski";
         string waiterLogin2 = "chinaski";
         string waiterPassword2 = "hollywood";
-
         WaiterContext waiterContext2 = null;
 
         string categoryName1 = "Wykwintne bimbry ziem wschodnich";
         string categoryDescription1 = "Najwybitniejsze selekcja trunków wysokoprocentowych pędzonych po lasach w nocy, gwarantujące niesamowite wrażenia oraz ciężki, ale to bardzo ciężki powrót to domu.";
         string categoryEditedDesciption1 = "Najpodlejsze sikacze i wywary metylowe. Jeżeli chcesz stracić wzrok i wypalić sobie wnętrzności, to są to trunki dla Ciebie.";
-
         MenuItemCategory category1 = null;
 
         string menuItemName1 = "Pędzonka DeLuxe Babci Jadzi";
         string menuItemDescription1 = "40 ml trunku tak mocnego, że nie sprzedajemy więcej niż jednej porcji każdemu klientowi.";
-        string menuItemEditedDescription1 = "40 ml trunku tak łągodnego, że wypicie mniej niż 10 kielonów jest wstydem i hańbą.";
-
+        string menuItemEditedDescription1 = "40 ml trunku tak łagodnego, że wypicie mniej niż 10 kielonów jest wstydem i hańbą.";
         Money menuItemPrice1 = new Money() { Amount = 100.99f, Currency = "PLN" };
-
+        int menuItemQuantity1 = 30;
         MenuItem menuItem1 = null;
+
+        string menuItemName2 = "Pędzonka Standard Babci Jadzi";
+        string menuItemDescription2 = "40 ml trunku mocnego, acz nie za mocnego. Można śmiało częstować się kilkoma głębszymi";
+        Money menuItemPrice2 = new Money() { Amount = 30f, Currency = "PLN" };
+        int menuItemQuantity2 = 15;
+        MenuItem menuItem2 = null;
+
+        string menuItemName3 = "Pędzonka Eco Babci Jadzi";
+        string menuItemDescription3 = "40 ml trunku, na tyle słabego, że w zasadzie nie warto sobie nim nawet zawracać głowy.";
+        Money menuItemPrice3 = new Money() { Amount = 10f, Currency = "PLN" };
+        int menuItemQuantity3 = 10;
+        MenuItem menuItem3 = null;
 
         int tableNumber1 = 987;
         string tableDescription1 = "To ta ledwo trzymająca się sterta desek przy kiblu";
         string tableEditedDescription1 = "Wypucowana na błysk tytanowa konstrukcja dla vip-ów";
-
         Table table1 = null;
+
+        Order order1 = null;
+
+        /// <summary>
+        /// Na pierwszym etapie nie rozróżniamy użytkowników, dlatego wszystie zamówienia są na mockowego użytkownika o Id = 500
+        /// </summary>
+        int userId1 = 500;
 
         [TestInitialize]
         public void TestInitialize()
@@ -109,6 +124,8 @@ namespace DataAccess.UnitTests
                 AddNewCategoryTest();
 
             menuItem1 = managerDataAccess.AddMenuItem(menuItemName1, menuItemDescription1, category1.Id, menuItemPrice1);
+            menuItem2 = managerDataAccess.AddMenuItem(menuItemName2, menuItemDescription2, category1.Id, menuItemPrice2);
+            menuItem3 = managerDataAccess.AddMenuItem(menuItemName3, menuItemDescription3, category1.Id, menuItemPrice3);
 
             Assert.IsNotNull(menuItem1);
             Assert.AreNotEqual(menuItem1.Id, 0);
@@ -117,6 +134,22 @@ namespace DataAccess.UnitTests
             Assert.IsNotNull(menuItem1.Category);
             Assert.AreEqual(menuItem1.Category.Name, categoryName1);
             Assert.AreEqual(menuItem1.Category.Description, categoryDescription1);
+
+            Assert.IsNotNull(menuItem2);
+            Assert.AreNotEqual(menuItem2.Id, 0);
+            Assert.AreEqual(menuItem2.Name, menuItemName2);
+            Assert.AreEqual(menuItem2.Description, menuItemDescription2);
+            Assert.IsNotNull(menuItem2.Category);
+            Assert.AreEqual(menuItem2.Category.Name, categoryName1);
+            Assert.AreEqual(menuItem2.Category.Description, categoryDescription1);
+
+            Assert.IsNotNull(menuItem3);
+            Assert.AreNotEqual(menuItem3.Id, 0);
+            Assert.AreEqual(menuItem3.Name, menuItemName3);
+            Assert.AreEqual(menuItem3.Description, menuItemDescription3);
+            Assert.IsNotNull(menuItem3.Category);
+            Assert.AreEqual(menuItem3.Category.Name, categoryName1);
+            Assert.AreEqual(menuItem3.Category.Description, categoryDescription1);
         }
 
         [TestMethod]
@@ -218,10 +251,12 @@ namespace DataAccess.UnitTests
             Assert.IsTrue(result);
 
             var categories = managerDataAccess.GetMenuItemCategories();
-            Assert.IsTrue(categories != null && categories.Any());
 
-            var removedCategory = categories.FirstOrDefault(c => c.Id == category1.Id);
-            Assert.IsNull(removedCategory);
+            if (categories != null && categories.Any())
+            {
+                var removedCategory = categories.FirstOrDefault(c => c.Id == category1.Id);
+                Assert.IsNull(removedCategory);
+            }
 
             result = managerDataAccess.EditMenuItemCategory(category1);
             Assert.IsFalse(result);
@@ -237,247 +272,199 @@ namespace DataAccess.UnitTests
             Assert.IsTrue(result);
 
             var menuItems = managerDataAccess.GetMenuItems();
-            Assert.IsTrue(menuItems != null && menuItems.Any());
 
-            var removedMenuItem = menuItems.FirstOrDefault(m => m.Id == menuItem1.Id);
-            Assert.IsNull(removedMenuItem);
+            if (menuItem1 != null && menuItems.Any())
+            {
+                var removedMenuItem = menuItems.FirstOrDefault(m => m.Id == menuItem1.Id);
+                Assert.IsNull(removedMenuItem);
+            }
 
             result = managerDataAccess.EditMenuItem(menuItem1);
             Assert.IsFalse(result);
         }
 
-        //Odtąd w dół testy do przerobienia
+        [TestMethod]
+        public void RemoveTableTest()
+        {
+            if (table1 == null)
+                AddNewTableTest();
 
-        //[TestMethod]
-        //public void RemoveTableTest()
-        //{
-        //    int tableNumber = 878;
-        //    string description = "To ta ledwo trzymająca się sterta desek przy kiblu";
-        //    Table newTable = managerDataAccess.AddTable(tableNumber, description);
+            bool result = managerDataAccess.RemoveTable(table1.Id);
+            Assert.IsTrue(result);
 
-        //    Assert.IsNotNull(newTable);
-        //    Assert.AreNotEqual(newTable.Id, 0);
+            var tables = managerDataAccess.GetTables();
 
-        //    bool result = managerDataAccess.RemoveTable(newTable.Id);
-        //    Assert.IsTrue(result);
+            if(tables != null && tables.Any())
+            {
+                var removedTable = tables.FirstOrDefault(t => t.Id == table1.Id);
+                Assert.IsNull(removedTable);
+            }
 
-        //    IEnumerable<Table> tables = managerDataAccess.GetTables();
-        //    IEnumerable<Table> thisShouldBeEmpty = tables.Where(t => t.Id == newTable.Id);
-        //    Assert.IsTrue(thisShouldBeEmpty == null || !thisShouldBeEmpty.Any());
-        //}
+            result = managerDataAccess.EditTable(table1);
+            Assert.IsFalse(result);
+        }
 
-        //[TestMethod]
-        //public void RemoveWaiterTest()
-        //{
-        //    string firstName = "Don";
-        //    string lastName = "Guralesko";
-        //    string login = "dge";
-        //    string password = "bang";
+        [TestMethod]
+        public void RemoveWaiterTest()
+        {
+            if (waiterContext1 == null)
+                AddNewWaiterTest();
 
-        //    WaiterContext waiterContext = managerDataAccess.AddWaiter(firstName, lastName, login, password);
-        //    Assert.IsNotNull(waiterContext);
-        //    Assert.AreNotEqual(waiterContext.Id, 0);
+            bool result = managerDataAccess.RemoveWaiter(waiterContext1.Id);
+            Assert.IsTrue(result);
 
-        //    bool result = managerDataAccess.RemoveWaiter(waiterContext.Id);
+            var waiters = managerDataAccess.GetWaiters();
 
-        //    IEnumerable<WaiterContext> waiters = managerDataAccess.GetWaiters();
-        //    IEnumerable<WaiterContext> thisShouldBeEmpty = waiters.Where(w => w.Id == waiterContext.Id);
-        //    Assert.IsTrue(thisShouldBeEmpty == null || !thisShouldBeEmpty.Any());
-        //}
+            if(waiters != null && waiters.Any())
+            {
+                var removedWaiter = waiters.FirstOrDefault(w => w.Id == waiterContext1.Id);
+                Assert.IsNull(removedWaiter);
+            }
 
-        //[TestMethod]
-        //public void CleanUpDatabaseTest()
-        //{
-        //    IEnumerable<MenuItem> menuItems = managerDataAccess.GetMenuItems();
-        //    foreach (MenuItem menuItem in menuItems)
-        //        managerDataAccess.RemoveMenuItem(menuItem.Id);
-        //    IEnumerable<MenuItemCategory> menuItemCategories = managerDataAccess.GetMenuItemCategories();
-        //    foreach (MenuItemCategory category in menuItemCategories)
-        //        managerDataAccess.RemoveMenuItemCategory(category.Id);           
-        //    IEnumerable<WaiterContext> waiters = managerDataAccess.GetWaiters();
-        //    foreach (WaiterContext waiter in waiters)
-        //        managerDataAccess.RemoveWaiter(waiter.Id);
-        //    IEnumerable<Table> tables = managerDataAccess.GetTables();
-        //    foreach (Table table in tables)
-        //        managerDataAccess.RemoveTable(table.Id);
+            result = managerDataAccess.EditWaiter(waiterContext1);
+            Assert.IsFalse(result);
+        }
 
-        //    menuItemCategories = managerDataAccess.GetMenuItemCategories();
-        //    Assert.IsTrue(menuItemCategories == null || !menuItemCategories.Any());
-        //    menuItems = managerDataAccess.GetMenuItems();
-        //    Assert.IsTrue(menuItems == null || !menuItems.Any());
-        //    waiters = managerDataAccess.GetWaiters();
-        //    Assert.IsTrue(waiters == null || !waiters.Any());
-        //    tables = managerDataAccess.GetTables();
-        //    Assert.IsTrue(tables == null || !tables.Any());
-        //}
+        [TestMethod]
+        public void RemoveOrderTest()
+        {
+            if (order1 == null)
+                WaiterAddOrderTest();
 
-        //[TestMethod]
-        //public void WaiterLogInTest()
-        //{
-        //    CleanUpDatabaseTest();
-        //    AddNewWaiterTest();
-        //    string login = "dge";
-        //    string correctPassword = "bang";
-        //    string wrongPassword = "bong";
+            bool result = managerDataAccess.RemoveOrder(order1.Id);
+            Assert.IsTrue(result);
 
-        //    WaiterContext context = waiterDataAccess.LogIn(login, wrongPassword);
-        //    Assert.IsNull(context);
-        //    context = waiterDataAccess.LogIn(login, correctPassword);
-        //    Assert.IsNotNull(context);
-        //}
+            var orders = managerDataAccess.GetOrders();
+            if(orders != null && orders.Any())
+            {
+                var removedOrder = orders.FirstOrDefault(o => o.Id == order1.Id);
+                Assert.IsNull(removedOrder);
+            }
+        }
 
-        //[TestMethod]
-        //public void WaiterLogOutTest()
-        //{
-        //    CleanUpDatabaseTest();
-        //    AddNewWaiterTest();
-        //    string login = "dge";
-        //    string correctPassword = "bang";
-        //    string wrongPassword = "bong";
+        [TestMethod]
+        public void WaiterLogInTest()
+        {
+            if (waiterContext1 == null)
+                AddNewWaiterTest();
+          
+            WaiterContext context = waiterDataAccess.LogIn(waiterLogin1, waiterPassword1);
+            Assert.IsNotNull(context);
+            Assert.AreEqual(context.Login, waiterLogin1);
+            Assert.AreEqual(context.Password, waiterPassword1);
+          
+        }
 
-        //    WaiterContext context = waiterDataAccess.LogIn(login, wrongPassword);
-        //    Assert.IsNull(context);
-        //    context = waiterDataAccess.LogIn(login, correctPassword);
-        //    Assert.IsNotNull(context);
+        [TestMethod]
+        public void WaiterLogOutTest()
+        {
+            WaiterLogInTest();
 
-        //    bool result = waiterDataAccess.LogOut(context.Id);
-        //    Assert.IsTrue(result);
-        //}
+            bool result = waiterDataAccess.LogOut(waiterContext1.Id);
+            Assert.IsTrue(result);
+        }
 
-        //[TestMethod]
-        //public void WaiterAddOrderTest()
-        //{
-        //    //CleanUpDatabaseTest();
-        //    AddNewWaiterTest();
-        //    AddNewCategoryTest();
-        //    AddNewTableTest();
-        //    string login = "dge";
-        //    string correctPassword = "bang";
-        //    string wrongPassword = "bong";
+        [TestMethod]
+        public void WaiterAddOrderTest()
+        {
+            WaiterLogInTest();
+            if (category1 == null)
+                AddNewCategoryTest();
+            if (table1 == null)
+                AddNewTableTest();
+            if (menuItem1 == null)
+                AddNewMenuItemTest();           
 
-        //    WaiterContext context = waiterDataAccess.LogIn(login, wrongPassword);
-        //    Assert.IsNull(context);
-        //    context = waiterDataAccess.LogIn(login, correctPassword);
-        //    Assert.IsNotNull(context);
+            var menuItems = new List<Tuple<int, int>>();
+            menuItems.Add(new Tuple<int, int>(menuItem1.Id, menuItemQuantity1));
+            menuItems.Add(new Tuple<int, int>(menuItem2.Id, menuItemQuantity2));
+            menuItems.Add(new Tuple<int, int>(menuItem3.Id, menuItemQuantity3));
 
-        //    string name1 = "Pędzonka DeLuxe Babci Jadzi";
-        //    string description1 = "40 ml trunku tak mocnego, że nie sprzedajemy więcej niż jednej porcji każdemu klientowi.";
-        //    Money price1 = new Money() { Amount = 100.99f, Currency = "PLN" };
+            order1 = waiterDataAccess.AddOrder(userId1, table1.Id, waiterContext1.Id, menuItems);
+            Assert.IsNotNull(order1);
+            Assert.AreNotEqual(order1.Id, 0);
+            Assert.AreEqual(order1.UserId, userId1);
+            Assert.IsNotNull(order1.Waiter);
+            Assert.AreEqual(order1.Waiter.Id, waiterContext1.Id);
+            Assert.AreEqual(order1.State, OrderState.Accepted);
+            Assert.IsNotNull(order1.Table);
+            Assert.AreEqual(order1.Table.Id, table1.Id);
+            Assert.IsNotNull(order1.MenuItems);
+            Assert.AreEqual(order1.MenuItems.Count, 3);
+            Assert.AreEqual(order1.MenuItems.ElementAt(0).MenuItem.Id, menuItem1.Id);
+            Assert.AreEqual(order1.MenuItems.ElementAt(0).Quantity, menuItemQuantity1);
+            Assert.AreEqual(order1.MenuItems.ElementAt(1).MenuItem.Id, menuItem2.Id);
+            Assert.AreEqual(order1.MenuItems.ElementAt(1).Quantity, menuItemQuantity2);
+            Assert.AreEqual(order1.MenuItems.ElementAt(2).MenuItem.Id, menuItem3.Id);
+            Assert.AreEqual(order1.MenuItems.ElementAt(2).Quantity, menuItemQuantity3);
+            Assert.IsTrue(order1.PlacingDate < DateTime.Now);
+            Assert.AreEqual(order1.ClosingDate, DateTime.MaxValue);
+        }
 
-        //    string name2 = "Pędzonka Standard Babci Jadzi";
-        //    string description2 = "40 ml trunku mocnego, acz nie za mocnego. Można śmiało częstować się kilkoma głębszymi";
-        //    Money price2 = new Money() { Amount = 30f, Currency = "PLN" };
+        [TestMethod]
+        public void WaiterSetOrderStateTest()
+        {
+           if (order1 == null)
+                WaiterAddOrderTest();
 
-        //    string name3 = "Pędzonka Eco Babci Jadzi";
-        //    string description3 = "40 ml trunku, na tyle słabego, że w zasadzie nie warto sobie nim nawet zawracać głowy.";
-        //    Money price3 = new Money() { Amount = 10f, Currency = "PLN" };
+           bool result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.Accepted);
+           Assert.IsFalse(result);
 
-        //    IEnumerable<MenuItemCategory> categories = managerDataAccess.GetMenuItemCategories();
-        //    Assert.IsNotNull(categories);
-        //    Assert.IsTrue(categories.Any());
+           result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.Realized);
+           Assert.IsTrue(result);
 
-        //    MenuItem newMenuItem1 = managerDataAccess.AddMenuItem(name1, description1, categories.First().Id, price1);
+           var orders = managerDataAccess.GetOrders();
+           Assert.IsTrue(orders != null && orders.Any());
 
-        //    Assert.IsNotNull(newMenuItem1);
-        //    Assert.AreNotEqual(newMenuItem1.Id, 0);
+           var order = orders.FirstOrDefault(o => o.Id == order1.Id);
+           Assert.IsNotNull(order);
+           Assert.AreEqual(order.State, OrderState.Realized);
 
-        //    MenuItem newMenuItem2 = managerDataAccess.AddMenuItem(name2, description2, categories.First().Id, price2);
-        //    Assert.IsNotNull(newMenuItem1);
-        //    Assert.AreNotEqual(newMenuItem2.Id, 0);
+           result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.NotRealized);
+           Assert.IsFalse(result);            
+        }
 
-        //    MenuItem newMenuItem3 = managerDataAccess.AddMenuItem(name3, description3, categories.First().Id, price3);
-        //    Assert.IsNotNull(newMenuItem3);
-        //    Assert.AreNotEqual(newMenuItem3.Id, 0);
+        [TestMethod]
+        public void WaiterGetActiveOrdersTest()
+        {
+            if (order1 == null)
+                WaiterAddOrderTest();
 
-        //    IEnumerable<Table> tables = waiterDataAccess.GetTables();
-        //    Assert.IsNotNull(tables);
-        //    Assert.IsTrue(tables.Any());
+            var activeOrders = waiterDataAccess.GetActiveOrders(waiterContext1.Id);
+            Assert.IsTrue(activeOrders != null && activeOrders.Any());
 
-        //    List<Tuple<int, int>> menuItems = new List<Tuple<int, int>>();
-        //    menuItems.Add(new Tuple<int,int>(newMenuItem1.Id, 3));
-        //    menuItems.Add(new Tuple<int, int>(newMenuItem2.Id, 10));
-        //    menuItems.Add(new Tuple<int, int>(newMenuItem3.Id, 30));
+            WaiterSetOrderStateTest();
 
-        //    Order newOrder = waiterDataAccess.AddOrder(500, tables.First().Id, context.Id, menuItems);
-        //    Assert.IsNotNull(newOrder);
-        //    Assert.AreNotEqual(newOrder.Id, 0);
+            activeOrders = waiterDataAccess.GetActiveOrders(waiterContext1.Id);
+            Assert.IsTrue(activeOrders == null || !activeOrders.Any());
+        }
 
-        //}
+        [TestMethod]
+        public void WaiterGetPastOrdersTest()
+        {
+            WaiterSetOrderStateTest();
 
-        //[TestMethod]
-        //public void GetPastOrdersTest()
-        //{
-        //    //CleanUpDatabaseTest();
-        //    AddNewWaiterTest();
-        //    AddNewCategoryTest();
-        //    AddNewTableTest();
-        //    string login = "dge";
-        //    string correctPassword = "bang";
-        //    string wrongPassword = "bong";
+            var pastOrders = waiterDataAccess.GetPastOrders(waiterContext1.Id);
+            Assert.IsTrue(pastOrders != null && pastOrders.Any());
 
-        //    WaiterContext context = waiterDataAccess.LogIn(login, wrongPassword);
-        //    Assert.IsNull(context);
-        //    context = waiterDataAccess.LogIn(login, correctPassword);
-        //    Assert.IsNotNull(context);
+            int orderCount = pastOrders.ToList().Count;
 
-        //    string name1 = "Pędzonka DeLuxe Babci Jadzi";
-        //    string description1 = "40 ml trunku tak mocnego, że nie sprzedajemy więcej niż jednej porcji każdemu klientowi.";
-        //    Money price1 = new Money() { Amount = 100.99f, Currency = "PLN" };
+            pastOrders = waiterDataAccess.GetPastOrders(waiterContext1.Id, orderCount - 1, orderCount - 1);
+            Assert.IsTrue(pastOrders != null && pastOrders.ToList().Count == 1);
 
-        //    string name2 = "Pędzonka Standard Babci Jadzi";
-        //    string description2 = "40 ml trunku mocnego, acz nie za mocnego. Można śmiało częstować się kilkoma głębszymi";
-        //    Money price2 = new Money() { Amount = 30f, Currency = "PLN" };
+            pastOrders = waiterDataAccess.GetPastOrders(waiterContext1.Id, 0, orderCount + 10);
+            Assert.IsTrue(pastOrders != null && pastOrders.ToList().Count == orderCount);
 
-        //    string name3 = "Pędzonka Eco Babci Jadzi";
-        //    string description3 = "40 ml trunku, na tyle słabego, że w zasadzie nie warto sobie nim nawet zawracać głowy.";
-        //    Money price3 = new Money() { Amount = 10f, Currency = "PLN" };
-
-        //    IEnumerable<MenuItemCategory> categories = managerDataAccess.GetMenuItemCategories();
-        //    Assert.IsNotNull(categories);
-        //    Assert.IsTrue(categories.Any());
-
-        //    MenuItem newMenuItem1 = managerDataAccess.AddMenuItem(name1, description1, categories.First().Id, price1);
-
-        //    Assert.IsNotNull(newMenuItem1);
-        //    Assert.AreNotEqual(newMenuItem1.Id, 0);
-
-        //    MenuItem newMenuItem2 = managerDataAccess.AddMenuItem(name2, description2, categories.First().Id, price2);
-        //    Assert.IsNotNull(newMenuItem1);
-        //    Assert.AreNotEqual(newMenuItem2.Id, 0);
-
-        //    MenuItem newMenuItem3 = managerDataAccess.AddMenuItem(name3, description3, categories.First().Id, price3);
-        //    Assert.IsNotNull(newMenuItem3);
-        //    Assert.AreNotEqual(newMenuItem3.Id, 0);
-
-        //    IEnumerable<Table> tables = waiterDataAccess.GetTables();
-        //    Assert.IsNotNull(tables);
-        //    Assert.IsTrue(tables.Any());
-
-        //    List<Tuple<int, int>> menuItems = new List<Tuple<int, int>>();
-        //    menuItems.Add(new Tuple<int, int>(newMenuItem1.Id, 3));
-        //    menuItems.Add(new Tuple<int, int>(newMenuItem2.Id, 10));
-        //    menuItems.Add(new Tuple<int, int>(newMenuItem3.Id, 30));
-
-        //    Order newOrder = waiterDataAccess.AddOrder(500, tables.First().Id, context.Id, menuItems);
-        //    Assert.IsNotNull(newOrder);
-        //    Assert.AreNotEqual(newOrder.Id, 0);
-
-        //    newOrder = waiterDataAccess.AddOrder(500, tables.First().Id, context.Id, menuItems);
-        //    Assert.IsNotNull(newOrder);
-        //    Assert.AreNotEqual(newOrder.Id, 0);
-
-        //    newOrder = waiterDataAccess.AddOrder(500, tables.First().Id, context.Id, menuItems);
-        //    Assert.IsNotNull(newOrder);
-        //    Assert.AreNotEqual(newOrder.Id, 0);
-
-        //    IEnumerable<Order> pastOrders = waiterDataAccess.GetPastOrders(context.Id);
-        //    Assert.IsNotNull(pastOrders);
-        //    Assert.AreEqual(pastOrders.Count(o => true), 3);
-        //}
+            pastOrders = waiterDataAccess.GetPastOrders(waiterContext1.Id, orderCount, orderCount + 10);
+            Assert.IsTrue(pastOrders == null || !pastOrders.Any());
+        }
 
         [TestCleanup]
         public void TestCleanup()
         {
+            if (order1 != null)
+                managerDataAccess.RemoveOrder(order1.Id);
+
             if (waiterContext1 != null)
                 managerDataAccess.RemoveWaiter(waiterContext1.Id);
 
@@ -487,16 +474,25 @@ namespace DataAccess.UnitTests
             if (menuItem1 != null)
                 managerDataAccess.RemoveMenuItem(menuItem1.Id);
 
+            if (menuItem2 != null)
+                managerDataAccess.RemoveMenuItem(menuItem2.Id);
+
+            if (menuItem3 != null)
+                managerDataAccess.RemoveMenuItem(menuItem3.Id);
+
             if (category1 != null)
                 managerDataAccess.RemoveMenuItemCategory(category1.Id);            
 
             if (table1 != null)
                 managerDataAccess.RemoveTable(table1.Id);
 
+            order1 = null;
             waiterContext1 = null;
             waiterContext2 = null;
             category1 = null;
             menuItem1 = null;
+            menuItem2 = null;
+            menuItem3 = null;
             table1 = null;
         }
     }
