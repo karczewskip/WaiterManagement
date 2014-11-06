@@ -27,7 +27,7 @@ namespace BarManager.ViewModel
 
         public bool AddWaiter(out string error)
         {
-            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Login))
+            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Password))
             {
                 error = "Some Fields are empty";
                 return false;

@@ -42,6 +42,8 @@ namespace WaiterClient.View
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            AddOrderViewModel.Clear();
+
             e.Cancel = true;
             this.Hide();
         }

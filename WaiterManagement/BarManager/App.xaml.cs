@@ -1,4 +1,5 @@
 ﻿using BarManager.Abstract;
+using BarManager.View;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,18 @@ namespace BarManager
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
+
             Infrastructure.Installers.ConfigureContainer(out Container);
             ComposeObjects();
             MainWindow.Show();
+        }
+
+        private void MyHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            Messaging.ShowMessage("Unexpected problem was emerged: \n" + ((Exception) e.ExceptionObject).Message);
+            Application.Current.Shutdown();
         }
 
         private void ComposeObjects()

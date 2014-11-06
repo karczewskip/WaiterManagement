@@ -7,6 +7,8 @@ using BarManager.Abstract;
 using DataAccess;
 using ClassLib.DbDataStructures;
 using System.Windows;
+using System.Data.Common;
+using System.Data.Odbc;
 
 namespace BarManager.Model
 {
@@ -21,7 +23,14 @@ namespace BarManager.Model
 
         public IList<MenuItemCategory> GetAllCategories()
         {
-            return ManagerDataAccess.GetMenuItemCategories().ToList();
+            try
+            {
+                return ManagerDataAccess.GetMenuItemCategories().ToList();
+            }
+            catch
+            {
+                throw new Exception("Exception from DB");
+            }
         }
 
         public MenuItemCategory AddCategoryItem(string categoryName, string categoryDescription)
@@ -40,7 +49,14 @@ namespace BarManager.Model
 
         public IList<MenuItem> GetAllMenuItems()
         {
-            return ManagerDataAccess.GetMenuItems().ToList();
+            try
+            {
+                return ManagerDataAccess.GetMenuItems().ToList();
+            }
+            catch
+            {
+                throw new Exception("Exception from DB");
+            }
         }
 
 
@@ -56,7 +72,7 @@ namespace BarManager.Model
                 return null;
             }
 
-            if(AddingMenuItem != null)
+            if (AddingMenuItem != null)
             {
                 AddingMenuItem.Category = category;
             }
@@ -124,7 +140,14 @@ namespace BarManager.Model
 
         public IList<WaiterContext> GetAllWaiters()
         {
-            return ManagerDataAccess.GetWaiters().ToList();
+            try
+            {
+                return ManagerDataAccess.GetWaiters().ToList();
+            }
+            catch
+            {
+                throw new Exception("Exception from DB");
+            }
         }
 
         public bool DeleteWaiter(int id)
@@ -201,7 +224,14 @@ namespace BarManager.Model
 
         public IList<Table> GetAllTables()
         {
-            return ManagerDataAccess.GetTables().ToList();
+            try
+            {
+                return ManagerDataAccess.GetTables().ToList();
+            }
+            catch
+            {
+                throw new Exception("Exception from DB");
+            }
         }
 
         public bool DeleteTable(int id)

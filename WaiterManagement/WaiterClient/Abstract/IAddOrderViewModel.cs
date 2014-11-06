@@ -17,5 +17,7 @@ namespace WaiterClient.Abstract
         bool DeleteSelectedItem(out string error);
 
         bool AddOrder(out string error);
+
+        void Clear();
     }
 }

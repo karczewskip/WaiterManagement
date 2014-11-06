@@ -106,6 +106,7 @@ namespace WaiterClient.ViewModel
             {
                 if (WaiterClientModel.CancelOrder(WaiterId, SelectedOrder.Id))
                 {
+                    SelectedOrder.State = OrderState.NotRealized;
                     ArchivedOrdersViewModel.AddArchivedOrder(SelectedOrder);
                     ListOfOrders.Remove(SelectedOrder);
                     error = "";
@@ -131,6 +132,7 @@ namespace WaiterClient.ViewModel
             {
                 if (WaiterClientModel.RelizeOrder(WaiterId, SelectedOrder.Id))
                 {
+                    SelectedOrder.State = OrderState.Realized;
                     ArchivedOrdersViewModel.AddArchivedOrder(SelectedOrder);
                     ListOfOrders.Remove(SelectedOrder);
                     error = "";

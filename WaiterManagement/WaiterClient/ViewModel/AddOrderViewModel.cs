@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using WaiterClient.Abstract;
 
 namespace WaiterClient.ViewModel
 {
-    public class AddOrderViewModel : IAddOrderViewModel
+    public class AddOrderViewModel : IAddOrderViewModel, INotifyPropertyChanged
     {
         private IOrderWindowViewModel OrderWindowViewModel;
         private System.Windows.Controls.ListView ItemsListView;
@@ -78,5 +79,24 @@ namespace WaiterClient.ViewModel
 
             return OrderWindowViewModel.AddNewOrder(SelectedTable, ListOfItems, out error);
         }
+
+        public void Clear()
+        {
+            SelectedTable = null;
+            SelectedItem = null;
+
+            ListOfItems.Clear();
+
+            if (null != this.PropertyChanged)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("SelectedTable"));
+
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
     }
 }
