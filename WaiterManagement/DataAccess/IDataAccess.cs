@@ -8,12 +8,19 @@ using ClassLib.DbDataStructures;
 
 namespace DataAccess
 {
+    /// <summary>
+    /// Zbiór funkcji stanowiący podstawowy dostęp do danych
+    /// </summary>
     public interface IBaseDataAccess
     {
         IEnumerable<MenuItemCategory> GetMenuItemCategories();
         IEnumerable<MenuItem> GetMenuItems();
         IEnumerable<Table> GetTables();
     }
+
+    /// <summary>
+    /// Zbiór funkcji składający się na funkcjonalność manadżera
+    /// </summary>
     public interface IManagerDataAccess : IBaseDataAccess
     {
         MenuItemCategory AddMenuItemCategory(string name, string description);
@@ -33,6 +40,9 @@ namespace DataAccess
         bool RemoveOrder(int orderId);
     }
 
+    /// <summary>
+    /// Zbiór funkcji składający się na funkcjonalność kelnera.
+    /// </summary>
     public interface IWaiterDataAccess : IBaseDataAccess
     {
         WaiterContext LogIn(string login, string password);

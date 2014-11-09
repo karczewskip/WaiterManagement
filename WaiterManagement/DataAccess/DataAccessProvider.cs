@@ -8,6 +8,9 @@ using ClassLib.DbDataStructures;
 
 namespace DataAccess
 {
+    /// <summary>
+    /// Kontekst bazy danych. Udostępnia zbiory encji modelowych. 
+    /// </summary>
     public class DataAccessProvider : DbContext
     {
         public DataAccessProvider()

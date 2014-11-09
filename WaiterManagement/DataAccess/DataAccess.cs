@@ -10,6 +10,9 @@ using DataAccess.Migrations;
 
 namespace DataAccess
 {
+    /// <summary>
+    /// Klasa agregująca metody dostępu do bazy danych
+    /// </summary>
     public class DataAccessClass : IManagerDataAccess, IWaiterDataAccess
     {
         #region Private Fields
