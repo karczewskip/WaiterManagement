@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za edytowanie stolików
+    /// </summary>
     public class EditTableViewModel : IEditTableViewModel, INotifyPropertyChanged
     {
         private ITableManagerViewModel TableManagerViewModel;

@@ -9,6 +9,9 @@ using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za dodawanie kategorii
+    /// </summary>
     public class AddCategoryViewModel : IAddCategoryViewModel , INotifyPropertyChanged
     {
         private IBarDataModel DataModel;

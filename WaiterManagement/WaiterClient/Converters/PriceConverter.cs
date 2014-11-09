@@ -9,6 +9,9 @@ using System.Windows.Data;
 
 namespace WaiterClient.Converters
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za wypisywanie ceny zamówienia
+    /// </summary>
     public class PriceConverter : IValueConverter
     {
 
@@ -23,7 +26,7 @@ namespace WaiterClient.Converters
                 price += menuItem.MenuItem.Price.Amount * menuItem.Quantity;
             }
 
-            return Math.Round( price,2).ToString() + " zł";
+            return Math.Round( price,2).ToString() + " PLN";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

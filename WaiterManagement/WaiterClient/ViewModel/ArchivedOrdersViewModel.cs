@@ -10,6 +10,9 @@ using System.Threading;
 
 namespace WaiterClient.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za pokazywanie danych o starych zamówieniach
+    /// </summary>
     public class ArchivedOrdersViewModel : IArchivedOrdersViewModel
     {
         private IWaiterClientModel WaiterClientModel;

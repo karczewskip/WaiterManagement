@@ -9,6 +9,9 @@ using System.Windows.Data;
 
 namespace WaiterClient.Converters
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za wypisywanie informacji o zawartości zamówienia
+    /// </summary>
     public class OrderContentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

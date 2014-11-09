@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za edytowanie klientów
+    /// </summary>
     public class EditWaiterViewModel : IEditWaiterViewModel, INotifyPropertyChanged
     {
         private IWaiterManagerViewModel WaiterManagerViewModel;

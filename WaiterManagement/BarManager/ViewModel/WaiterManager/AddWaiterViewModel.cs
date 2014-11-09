@@ -9,6 +9,9 @@ using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za dodawanie klientów
+    /// </summary>
     public class AddWaiterViewModel : IAddWaiterViewModel , INotifyPropertyChanged
     {
         private IBarDataModel DataModel;

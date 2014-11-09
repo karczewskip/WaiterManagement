@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace WaiterClient.Model
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za dostarczanie i przetwarzanie danych z bazy danych
+    /// </summary>
     public class WaiterClientModel : IWaiterClientModel
     {
         private IWaiterDataAccess WaiterDataAccess;
@@ -33,27 +36,62 @@ namespace WaiterClient.Model
 
         public void LogOut(int waiterId)
         {
-            WaiterDataAccess.LogOut(waiterId);
+            try
+            {
+                WaiterDataAccess.LogOut(waiterId);
+            }
+            catch
+            {
+                throw new Exception("Problem with DB");
+            }
         }
 
         public IList<Table> GetTables()
         {
-            return WaiterDataAccess.GetTables().ToList();
+            try
+            {
+                return WaiterDataAccess.GetTables().ToList();
+            }
+            catch
+            {
+                throw new Exception("Problem with DB");
+            }
         }
 
         public IList<MenuItem> GetMenuItems()
         {
-            return WaiterDataAccess.GetMenuItems().ToList();
+            try
+            {
+                return WaiterDataAccess.GetMenuItems().ToList();
+            }
+            catch
+            {
+                throw new Exception("Problem with DB");
+            }
         }
 
         public IList<MenuItemCategory> GetCategories()
         {
-            return WaiterDataAccess.GetMenuItemCategories().ToList();
+            try
+            {
+                return WaiterDataAccess.GetMenuItemCategories().ToList();
+            }
+            catch
+            {
+                throw new Exception("Problem with DB");
+            }
         }
 
         public IList<Order> GetActiveOrders(int waiterId)
         {
-            return WaiterDataAccess.GetActiveOrders(waiterId).ToList();
+            try
+            {
+                return WaiterDataAccess.GetActiveOrders(waiterId).ToList();
+            }
+            catch
+            {
+                throw new Exception("Problem with DB");
+            }
         }
 
         public Order AddNewOrder(int waiterId ,int tableId, IList<MenuItemQuantity> listOfItems )
@@ -78,7 +116,7 @@ namespace WaiterClient.Model
             }
             else
                 return new List<Order>();
-            
+           
         }
 
         public bool CancelOrder(int waiterId , int orderId)

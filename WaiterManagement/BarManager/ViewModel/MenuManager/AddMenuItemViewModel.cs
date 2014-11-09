@@ -10,6 +10,9 @@ using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za dodawanie pozycji w menu
+    /// </summary>
     public class AddMenuItemViewModel : IAddMenuItemViewModel, INotifyPropertyChanged
     {
         private IBarDataModel DataModel;

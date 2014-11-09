@@ -10,6 +10,9 @@ using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za edytowanie pozycji w menu
+    /// </summary>
     class EditMenuItemViewModel : IEditMenuItemViewModel, INotifyPropertyChanged
     {
         private IMenuManagerViewModel MenuManagerViewModel;

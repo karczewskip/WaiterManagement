@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za przetwarzanie danych kelnerów
+    /// </summary>
     public class WaiterManagerViewModel : IWaiterManagerViewModel
     {
         private IBarDataModel DataModel;

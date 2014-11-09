@@ -9,6 +9,9 @@ using WaiterClient.Abstract;
 
 namespace WaiterClient.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za pokazywanie danych zamówienia
+    /// </summary>
     public class ShowOrderViewModel : IShowOrderViewModel, INotifyPropertyChanged
     {
         private Order CurrentOrder;

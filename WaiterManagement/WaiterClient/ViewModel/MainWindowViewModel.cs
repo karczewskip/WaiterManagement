@@ -8,6 +8,9 @@ using WaiterClient.Abstract;
 
 namespace WaiterClient.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za możliwość logowania
+    /// </summary>
     public class MainWindowViewModel : IMainWindowViewModel
     {
         private IOrderWindowViewModel OrderWindowViewModel;

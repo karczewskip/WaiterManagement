@@ -8,6 +8,9 @@ using WaiterClient.Abstract;
 
 namespace WaiterClient.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za dodawanie pozycji w menu do zamówienia
+    /// </summary>
     public class AddItemViewModel: IAddItemViewModel
     {
         private IOrderWindowViewModel OrderWidnowViewModel;

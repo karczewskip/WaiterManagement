@@ -9,6 +9,9 @@ using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za dodawanie stolików
+    /// </summary>
     public class AddTableViewModel: IAddTableViewModel, INotifyPropertyChanged
     {
         private IBarDataModel DataModel;

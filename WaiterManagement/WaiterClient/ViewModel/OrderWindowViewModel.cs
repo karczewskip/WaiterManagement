@@ -11,6 +11,9 @@ using System.Collections.ObjectModel;
 
 namespace WaiterClient.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za przetwarzanie danych zamówień
+    /// </summary>
     public class OrderWindowViewModel : IOrderWindowViewModel
     {
         private IWaiterClientModel WaiterClientModel;

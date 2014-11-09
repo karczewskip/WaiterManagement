@@ -12,6 +12,9 @@ using System.ComponentModel;
 
 namespace BarManager.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za przetwarzanie danych w menu
+    /// </summary>
     public class MenuManagerViewModel : IMenuManagerViewModel
     {
         private IBarDataModel DataModel;

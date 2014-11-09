@@ -11,6 +11,9 @@ using WaiterClient.Abstract;
 
 namespace WaiterClient.ViewModel
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za dodawanie zamówienia
+    /// </summary>
     public class AddOrderViewModel : IAddOrderViewModel, INotifyPropertyChanged
     {
         private IOrderWindowViewModel OrderWindowViewModel;
