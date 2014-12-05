@@ -26,13 +26,13 @@ namespace BarManager.Abstract
 
         WaiterContext AddWaiter(string login, string firstName, string lastName, string password);
 
-        bool EditWaiter(WaiterContext Waiter, string Login, string FirstName, string LastName, string Password);
+        bool EditWaiter(WaiterContext waiter, string login, string firstName, string lastName, string password);
 
         IList<Table> GetAllTables();
 
         bool DeleteTable(int id);
 
-        Table AddTable(int Number, string TableDescription);
+        Table AddTable(int number, string tableDescription);
 
         bool EditTable(Table table, int number, string tableDescription);
     }

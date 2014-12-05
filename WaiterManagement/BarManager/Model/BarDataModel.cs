@@ -42,7 +42,7 @@ namespace BarManager.Model
             }
             catch
             {
-                return null;
+                throw new Exception("Exception from DB");
             }
             return AddingCategory;
         }
@@ -69,7 +69,7 @@ namespace BarManager.Model
             }
             catch
             {
-                return null;
+                throw new Exception("Exception from DB");
             }
 
             if (AddingMenuItem != null)
@@ -90,7 +90,7 @@ namespace BarManager.Model
             }
             catch
             {
-                return false;
+                throw new Exception("Exception from DB");
             }
 
             return result;
@@ -121,7 +121,7 @@ namespace BarManager.Model
                 menuItemToEdit.Category = oldCategory;
                 menuItemToEdit.Description = oldDescription;
 
-                return false;
+                throw new Exception("Exception from DB");
             }
 
             if (!result)
@@ -159,7 +159,7 @@ namespace BarManager.Model
             }
             catch
             {
-                return false;
+                throw new Exception("Exception from DB");
             }
 
             return result;
@@ -175,47 +175,47 @@ namespace BarManager.Model
             }
             catch
             {
-                return null;
+                throw new Exception("Exception from DB");
             }
 
             return AddingWaiter;
         }
 
 
-        public bool EditWaiter(WaiterContext Waiter, string Login, string FirstName, string LastName, string Password)
+        public bool EditWaiter(WaiterContext waiter, string login, string firstName, string lastName, string password)
         {
             bool result;
 
-            var oldLogin = Waiter.Login;
-            var oldFirstName = Waiter.FirstName;
-            var oldSecondName = Waiter.LastName;
-            var oldPassword = Waiter.Password;
+            var oldLogin = waiter.Login;
+            var oldFirstName = waiter.FirstName;
+            var oldSecondName = waiter.LastName;
+            var oldPassword = waiter.Password;
 
-            Waiter.Login = Login;
-            Waiter.FirstName = FirstName;
-            Waiter.LastName = LastName;
-            Waiter.Password = Password;
+            waiter.Login = login;
+            waiter.FirstName = firstName;
+            waiter.LastName = lastName;
+            waiter.Password = password;
 
             try
             {
-                result = ManagerDataAccess.EditWaiter(Waiter);
+                result = ManagerDataAccess.EditWaiter(waiter);
             }
             catch
             {
-                Waiter.Login = oldLogin;
-                Waiter.FirstName = oldFirstName;
-                Waiter.LastName = oldSecondName;
-                Waiter.Password = oldPassword;
+                waiter.Login = oldLogin;
+                waiter.FirstName = oldFirstName;
+                waiter.LastName = oldSecondName;
+                waiter.Password = oldPassword;
 
-                return false;
+                throw new Exception("Exception from DB");
             }
 
             if (!result)
             {
-                Waiter.Login = oldLogin;
-                Waiter.FirstName = oldFirstName;
-                Waiter.LastName = oldSecondName;
-                Waiter.Password = oldPassword;
+                waiter.Login = oldLogin;
+                waiter.FirstName = oldFirstName;
+                waiter.LastName = oldSecondName;
+                waiter.Password = oldPassword;
             }
 
             return result;
@@ -243,7 +243,7 @@ namespace BarManager.Model
             }
             catch
             {
-                return false;
+                throw new Exception("Exception from DB");
             }
 
             return result;
@@ -252,17 +252,17 @@ namespace BarManager.Model
 
         public Table AddTable(int number, string tableDescription)
         {
-            Table AddingTable;
+            Table addingTable;
             try
             {
-                AddingTable = ManagerDataAccess.AddTable(number, tableDescription);
+                addingTable = ManagerDataAccess.AddTable(number, tableDescription);
             }
             catch
             {
-                return null;
+                throw new Exception("Exception from DB");
             }
 
-            return AddingTable;
+            return addingTable;
         }
 
 
@@ -285,7 +285,7 @@ namespace BarManager.Model
                 table.Number = oldNumber;
                 table.Description = oldDescription;
 
-                return false;
+                throw new Exception("Exception from DB");
             }
 
             if (!result)

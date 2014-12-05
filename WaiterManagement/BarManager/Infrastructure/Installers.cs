@@ -1,14 +1,9 @@
 ﻿using BarManager.Abstract;
+using BarManager.Model;
 using BarManager.View;
 using BarManager.ViewModel;
-using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BarManager.Model;
 using DataAccess;
+using Ninject;
 
 namespace BarManager.Infrastructure
 {

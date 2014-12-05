@@ -16,8 +16,8 @@ namespace BarManager
     /// </summary>
     public partial class App : Application
     {
-        private IKernel Container;
-        private IMainWindow MainWindow;
+        private IKernel _container;
+        private IMainWindow _mainWindow;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -25,9 +25,9 @@ namespace BarManager
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
 
-            Infrastructure.Installers.ConfigureContainer(out Container);
+            Infrastructure.Installers.ConfigureContainer(out _container);
             ComposeObjects();
-            MainWindow.Show();
+            _mainWindow.Show();
         }
 
         private void MyHandler(object sender, UnhandledExceptionEventArgs e)
@@ -38,7 +38,7 @@ namespace BarManager
 
         private void ComposeObjects()
         {
-            MainWindow = this.Container.Get<IMainWindow>();
+            _mainWindow = this._container.Get<IMainWindow>();
         }
     }
 }

@@ -40,10 +40,10 @@ namespace BarManager.ViewModel
                 return false;
             }
 
-            var AddingCategory = DataModel.AddCategoryItem(CategoryName, CategoryDescription);
-            if (AddingCategory != null)
+            var addingCategory = DataModel.AddCategoryItem(CategoryName, CategoryDescription);
+            if (addingCategory != null)
             {
-                MenuManagerViewModel.AddCategory(AddingCategory);
+                MenuManagerViewModel.AddCategory(addingCategory);
                 error = "";
                 return true;
             }

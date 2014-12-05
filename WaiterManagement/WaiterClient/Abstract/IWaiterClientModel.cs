@@ -9,7 +9,7 @@ namespace WaiterClient.Abstract
 {
     public interface IWaiterClientModel
     {
-        WaiterContext CheckUser(string login, string password);
+        WaiterContext LogInUser(string login, string password);
 
         void LogOut(int WaiterId);
 
