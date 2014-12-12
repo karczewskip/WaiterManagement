@@ -1,14 +1,9 @@
-﻿using System;
+﻿using BarManager.Abstract;
+using ClassLib.DbDataStructures;
+using DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BarManager.Abstract;
-using DataAccess;
-using ClassLib.DbDataStructures;
-using System.Windows;
-using System.Data.Common;
-using System.Data.Odbc;
 
 namespace BarManager.Model
 {

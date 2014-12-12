@@ -74,6 +74,17 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type StackPanel}" x:Key="BackgroundStackPanel">
+        <Setter Property="Background" Value="#9FFB88">
+            <!--<Setter.Value>
+                <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
+                    <GradientStop Color="AliceBlue" Offset="0"/>
+                    <GradientStop Color="Chartreuse" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>-->
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type ListView}">
         <Setter Property="AlternationCount" Value="2" />
         <Setter Property="BorderThickness" Value="5"></Setter>

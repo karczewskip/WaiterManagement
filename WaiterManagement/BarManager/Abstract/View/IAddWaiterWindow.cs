@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace BarManager.Abstract
 {
-    public interface IAddWaiterWindow
+    public interface IAddWaiterView
     {
-        bool? ShowDialog();
     }
 }

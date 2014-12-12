@@ -9,6 +9,5 @@ namespace BarManager.Abstract
 {
     public interface IEditMenuItemWindow
     {
-        void ShowDialog(MenuItem menuItem);
     }
 }

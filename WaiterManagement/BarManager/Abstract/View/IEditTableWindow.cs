@@ -8,6 +8,5 @@ namespace BarManager.Abstract
 {
     public interface IEditTableWindow
     {
-        void ShowDialog(ClassLib.DbDataStructures.Table table);
     }
 }

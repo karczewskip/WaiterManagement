@@ -8,6 +8,5 @@ namespace BarManager.Abstract
 {
     public interface IEditWaiterWindow
     {
-        void ShowDialog(ClassLib.DbDataStructures.WaiterContext Waiter);
     }
 }

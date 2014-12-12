@@ -8,8 +8,5 @@ namespace BarManager.Abstract
 {
     public interface IMenuManager
     {
-        void Show();
-
-        void Close();
     }
 }

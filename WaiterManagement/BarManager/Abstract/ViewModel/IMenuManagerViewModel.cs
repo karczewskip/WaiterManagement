@@ -9,9 +9,9 @@ namespace BarManager.Abstract
 {
     public interface IMenuManagerViewModel
     {
-        IList<MenuItem> ListOfMenuItems { get; set; }
-        IList<MenuItemCategory> ListOfCategories { get; set; }
-        IList<MenuItemCategory> ShowingCategories { get; set; }
+        IList<MenuItem> AllMenuItems { get; set; }
+        IList<MenuItemCategory> Categories { get; set; }
+        IList<MenuItemCategory> AvailableCategories { get; set; }
 
         bool DeleteSelectedItem(out string error);
 

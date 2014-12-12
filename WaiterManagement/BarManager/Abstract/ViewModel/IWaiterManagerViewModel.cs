@@ -1,16 +1,14 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Caliburn.Micro;
+using ClassLib.DbDataStructures;
 
 namespace BarManager.Abstract
 {
     public interface IWaiterManagerViewModel
     {
-        IList<WaiterContext> ListOfWaiters { get; set; }
+        BindableCollection<WaiterContext> Waiters { get; set; }
 
-        bool DeleteSelectedItem(out string error);
+        void DeleteWaiter();
+
+        void CloseDialogs();
     }
 }

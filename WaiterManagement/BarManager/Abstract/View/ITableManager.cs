@@ -8,6 +8,5 @@ namespace BarManager.Abstract
 {
     public interface ITableManager
     {
-        void Show();
     }
 }
