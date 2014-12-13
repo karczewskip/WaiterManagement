@@ -109,14 +109,38 @@ namespace ClassLib.DbDataStructures
     }
 
     /// <summary>
-    /// Reprezentuje dane kelnera. Jest zwracana po udanym zalogowaniu się
+    /// Kontekst bazowy wszystkich użytkowników systemu. Jego klasy pochodne są zwracane po udanym zalogowaniu się do systemu
     /// </summary>
-    public class WaiterContext : DbEntity
+    public abstract class UserContext : DbEntity
     {
         public int Id { get; private set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+    }
+
+    /// <summary>
+    /// Reprezentuje dane klienta. 
+    /// </summary>
+    public class ClientContext : UserContext
+    {
+         
+    }
+
+    /// <summary>
+    /// Reprezentuje dane kelnera.
+    /// </summary>
+    public class WaiterContext : UserContext
+    {
+
+    }
+
+    /// <summary>
+    /// Reprezentuje dane menedżera lokalu.
+    /// </summary>
+    public class ManagerContext : UserContext
+    {
+
     }
 }
