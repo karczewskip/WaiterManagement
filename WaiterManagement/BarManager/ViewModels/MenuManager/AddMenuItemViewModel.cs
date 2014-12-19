@@ -7,6 +7,7 @@ using BarManager.Abstract;
 using ClassLib.DbDataStructures;
 using System.Windows;
 using System.ComponentModel;
+using BarManager.Messaging;
 
 namespace BarManager.ViewModels
 {
@@ -19,9 +20,9 @@ namespace BarManager.ViewModels
         private IMenuManagerViewModel MenuManagerViewModel;
 
         public string MenuItemName { get; set; }
-        public string PriceString { get; set; }
+        public string Price { get; set; }
         public MenuItemCategory SelectedCategory { get; set; }
-        public IList<MenuItemCategory> ListOfCategories { get { return MenuManagerViewModel.AvailableCategories; } }
+        public IList<MenuItemCategory> Categories { get { return MenuManagerViewModel.AvailableCategories; } }
         public string MenuItemDescription { get; set; }
 
 
@@ -33,50 +34,47 @@ namespace BarManager.ViewModels
             SelectedCategory = null;
         }
 
-        public bool AddMenuItem(out string error)
+        public void AddItem()
         {
-            if(string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(PriceString) || string.IsNullOrEmpty(MenuItemDescription) )
+            if (string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(Price) || string.IsNullOrEmpty(MenuItemDescription))
             {
-                error = "Some Fields are empty";
-                return false;
+                Message.Show("Some Fields are empty");
+                return;
             }
 
-            if(SelectedCategory == null)
+            if (SelectedCategory == null)
             {
-                error = "No Category was selected";
-                return false;
+                Message.Show("No Category was selected");
+                return;
             }
 
             if (MenuManagerViewModel.AllMenuItems.Any(cat => cat.Name.Equals(MenuItemName)))
             {
-                error = "There is menu item named: " + MenuItemName;
-                return false;
+                Message.Show("There is menu item named: " + MenuItemName);
+                return;
             }
 
-            double Price;
+            double price;
 
-            if(!double.TryParse(PriceString, out Price))
+            if (!double.TryParse(Price, out price))
             {
-                error = "Price is wrong";
-                return false;
+                Message.Show("Price is wrong");
+                return;
             }
 
-            
-            var AddingMenuItem = DataModel.AddMenuItem(MenuItemName, SelectedCategory, Price, MenuItemDescription);
+
+            var AddingMenuItem = DataModel.AddMenuItem(MenuItemName, SelectedCategory, price, MenuItemDescription);
 
             if (AddingMenuItem != null)
             {
                 MenuManagerViewModel.AddNewMenuItem(AddingMenuItem);
-                error = "";
-                return true;
+                MenuManagerViewModel.CloseDialogs();
+                return;
             }
 
-            error = "Falied";
+            Message.Show("Falied");
 
-            return false;
-
-
-
+            return;
         }
 
 
@@ -84,7 +82,7 @@ namespace BarManager.ViewModels
         {
             MenuItemName = "";
             MenuItemDescription = "";
-            PriceString = "";
+            Price = "";
 
             SelectedCategory = null;
 

@@ -19,10 +19,10 @@ namespace BarManager.Views
     /// <summary>
     /// Interaction logic for EditMenuItemWindow.xaml
     /// </summary>
-    public partial class EditMenuItemWindow : Window, IEditMenuItemWindow
+    public partial class EditMenuItemView
     {
 
-        public EditMenuItemWindow()
+        public EditMenuItemView()
         {
             InitializeComponent();
         }

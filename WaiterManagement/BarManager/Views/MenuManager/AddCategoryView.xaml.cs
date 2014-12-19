@@ -1,5 +1,4 @@
-﻿using BarManager.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +11,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BarManager.Abstract;
 
 namespace BarManager.Views
 {
     /// <summary>
-    /// Interaction logic for AddMenuItemWindow.xaml
+    /// Interaction logic for AddCategoryItemWindow.xaml
     /// </summary>
-    public partial class AddMenuItemWindow : Window, IAddMenuItemWindow
+    public partial class AddCategoryView
     {
-        public AddMenuItemWindow(IAddMenuItemViewModel addMenuItemViewModel)
+        public AddCategoryView()
         {
             InitializeComponent();
         }

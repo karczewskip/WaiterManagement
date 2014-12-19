@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BarManager.Abstract;
 
 namespace BarManager.Views
 {
     /// <summary>
-    /// Interaction logic for AddCategoryItemWindow.xaml
+    /// Interaction logic for MessagingView.xaml
     /// </summary>
-    public partial class AddCategoryItemWindow : Window, IAddCategoryItemWindow
+    public partial class MessagingView
     {
-        public AddCategoryItemWindow()
+        public MessagingView()
         {
             InitializeComponent();
         }

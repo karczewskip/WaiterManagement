@@ -73,32 +73,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Abstract\View\IAddCategoryItemWindow.cs" />
     <Compile Include="Abstract\ViewModel\IAddMenuItemViewModel.cs" />
-    <Compile Include="Abstract\View\IAddMenuItemWindow.cs" />
     <Compile Include="Abstract\ViewModel\IAddTableViewModel.cs" />
-    <Compile Include="Abstract\View\IAddTableWindow.cs" />
     <Compile Include="Abstract\ViewModel\IAddWaiterViewModel.cs" />
-    <Compile Include="Abstract\View\IAddWaiterWindow.cs" />
     <Compile Include="Abstract\ViewModel\IEditMenuItemViewModel.cs" />
-    <Compile Include="Abstract\View\IEditMenuItemWindow.cs" />
     <Compile Include="Abstract\ViewModel\IEditTableViewModel.cs" />
-    <Compile Include="Abstract\View\IEditTableWindow.cs" />
     <Compile Include="Abstract\ViewModel\IEditWaiterViewModel.cs" />
-    <Compile Include="Abstract\View\IEditWaiterWindow.cs" />
-    <Compile Include="Abstract\View\IMenuManager.cs" />
     <Compile Include="Abstract\ViewModel\IMenuManagerViewModel.cs" />
-    <Compile Include="Abstract\View\ITableManager.cs" />
+    <Compile Include="Abstract\ViewModel\IMessagingViewModel.cs" />
     <Compile Include="Abstract\ViewModel\ITableManagerViewModel.cs" />
-    <Compile Include="Abstract\View\IWaiterManager.cs" />
     <Compile Include="Abstract\Model\IBarDataModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddCategoryViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IWaiterManagerViewModel.cs" />
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Messaging\Messaging.cs" />
     <Compile Include="Model\BarDataModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuManager\AddCategoryViewModel.cs" />
     <Compile Include="ViewModels\MenuManager\AddMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\MessagingViewModel.cs" />
     <Compile Include="ViewModels\WaiterManager\AddWaiterViewModel.cs" />
     <Compile Include="ViewModels\MenuManager\EditMenuItemViewModel.cs" />
     <Compile Include="ViewModels\TableManager\EditTableViewModel.cs" />
@@ -106,25 +99,24 @@
     <Compile Include="ViewModels\MenuManager\MenuManagerViewModel.cs" />
     <Compile Include="ViewModels\TableManager\TableManagerViewModel.cs" />
     <Compile Include="ViewModels\WaiterManager\WaiterManagerViewModel.cs" />
-    <Compile Include="Views\MenuManager\AddCategoryItemWindow.xaml.cs">
-      <DependentUpon>AddCategoryItemWindow.xaml</DependentUpon>
+    <Compile Include="Views\MenuManager\AddCategoryView.xaml.cs">
+      <DependentUpon>AddCategoryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MenuManager\AddMenuItemWindow.xaml.cs">
-      <DependentUpon>AddMenuItemWindow.xaml</DependentUpon>
+    <Compile Include="Views\MenuManager\AddMenuItemView.xaml.cs">
+      <DependentUpon>AddMenuItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\TableManager\AddTableViewModel.cs" />
-    <Compile Include="Views\Messaging\MessageWindow.xaml.cs">
-      <DependentUpon>MessageWindow.xaml</DependentUpon>
+    <Compile Include="Views\MessagingView.xaml.cs">
+      <DependentUpon>MessagingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Messaging\Messaging.cs" />
     <Compile Include="Views\TableManager\AddTableView.xaml.cs">
       <DependentUpon>AddTableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WaiterManager\AddWaiterView.xaml.cs">
       <DependentUpon>AddWaiterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MenuManager\EditMenuItemWindow.xaml.cs">
-      <DependentUpon>EditMenuItemWindow.xaml</DependentUpon>
+    <Compile Include="Views\MenuManager\EditMenuItemView.xaml.cs">
+      <DependentUpon>EditMenuItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TableManager\EditTableView.xaml.cs">
       <DependentUpon>EditTableView.xaml</DependentUpon>
@@ -145,15 +137,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MenuManager\AddCategoryItemWindow.xaml">
+    <Page Include="Views\MenuManager\AddCategoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MenuManager\AddMenuItemWindow.xaml">
+    <Page Include="Views\MenuManager\AddMenuItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Messaging\MessageWindow.xaml">
+    <Page Include="Views\MessagingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,7 +157,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MenuManager\EditMenuItemWindow.xaml">
+    <Page Include="Views\MenuManager\EditMenuItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,7 +173,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Abstract\View\IMainWindow.cs" />
     <Compile Include="Abstract\ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -265,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
+    <Folder Include="ViewModels\Messaging\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

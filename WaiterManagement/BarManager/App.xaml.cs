@@ -19,7 +19,7 @@ namespace BarManager
 
         private void MyHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            Messaging.ShowMessage("Unexpected problem was emerged: \n" + ((Exception)e.ExceptionObject).Message);
+            //Messaging.ShowMessage("Unexpected problem was emerged: \n" + ((Exception)e.ExceptionObject).Message);
             Application.Current.Shutdown();
         }
     }

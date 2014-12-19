@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BarManager.Abstract
 {
-    public interface ITableManager
+    interface IMessagingViewModel
     {
+        string ErrorMessage { get; set; }
     }
 }

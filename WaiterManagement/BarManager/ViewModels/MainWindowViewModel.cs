@@ -43,6 +43,7 @@ namespace BarManager.ViewModels
 
         private void CloseAllDialogs()
         {
+            _menuManagerViewModel.CloseDialogs();
             _waiterManagerViewModel.CloseDialogs();
             _tableManagerViewModel.CloseDialogs();
         }

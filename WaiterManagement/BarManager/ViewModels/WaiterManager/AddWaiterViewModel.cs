@@ -1,4 +1,5 @@
 ﻿using BarManager.Abstract;
+using BarManager.Messaging;
 using System.ComponentModel;
 using System.Linq;
 
@@ -47,14 +48,13 @@ namespace BarManager.ViewModels
         {
             if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Password))
             {
-                //TODO: Add Messaging
-                //error = "Some Fields are empty";
+                Message.Show("Some Fields are empty");
                 return;
             }
 
             if (WaiterManagerViewModel.Waiters.Any(cat => cat.Login.Equals(Login)))
             {
-                //error = "There is login named: " + Login;
+                Message.Show("There is login named: " + Login);
                 return;
             }
 
@@ -62,13 +62,12 @@ namespace BarManager.ViewModels
             if (addingWaiter != null)
             {
                 WaiterManagerViewModel.Waiters.Add(addingWaiter);
-                //error = "";
 
                 WaiterManagerViewModel.CloseDialogs();
                 return;
             }
 
-            //    error = "Failed";
+            Message.Show("Failed");
             return;
            
         }

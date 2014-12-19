@@ -47,25 +47,6 @@ namespace BarManager.ViewModels
             Tables = new BindableCollection<Table>(DataModel.GetAllTables());
         }
 
-        public bool DeleteSelectedItem(out string error)
-        {
-            if (SelectedTable == null)
-            {
-                error = "No Item Is Selected";
-                return false;
-            }
-
-            if (DataModel.DeleteTable(SelectedTable.Id))
-            {
-                Tables.Remove(SelectedTable);
-                error = "";
-                return false;
-            }
-
-            error = "Failed";
-            return false;
-        }
-
         public void AddTable()
         {
             _addTableViewModel = IoC.Get<IAddTableViewModel>();
@@ -77,18 +58,17 @@ namespace BarManager.ViewModels
         {
             if (SelectedTable == null)
             {
-                //error = "No Item Is Selected";
+                Messaging.Message.Show("No Item Is Selected");
                 return;
             }
 
             if (DataModel.DeleteTable(SelectedTable.Id))
             {
                 Tables.Remove(SelectedTable);
-                //error = "";
                 return;
             }
 
-            //error = "Failed";
+            Messaging.Message.Show("Failed");
             return;
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BarManager.Abstract;
 using System.Windows;
 using System.ComponentModel;
+using BarManager.Messaging;
 
 namespace BarManager.ViewModels
 {
@@ -30,8 +31,7 @@ namespace BarManager.ViewModels
         {
             if (string.IsNullOrEmpty(Number) || string.IsNullOrEmpty(Description))
             {
-                //TODO: Messaging
-                //error = "Some Fields are empty";
+                Message.Show("Some Fields are empty");
                 return;
             }
 
@@ -39,13 +39,13 @@ namespace BarManager.ViewModels
 
             if (!int.TryParse(Number, out number))
             {
-                //error = "Number is wrong";
+                Message.Show("Number is wrong");
                 return;
             }
 
             if (TableManagerViewModel.Tables.Any(table => table.Number.Equals(number)))
             {
-                //error = "There is table " + Number;
+                Message.Show("There is table " + Number);
                 return;
             }
 
@@ -58,43 +58,9 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            //error = "Failed";
+            Message.Show("Failed");
             return;
         }
-
-        //public bool AddTable(out string error)
-        //{
-        //    if (string.IsNullOrEmpty(Number) || string.IsNullOrEmpty(Description))
-        //    {
-        //        error = "Some Fields are empty";
-        //        return false;
-        //    }
-
-        //    int number;
-
-        //    if (!int.TryParse(Number, out number))
-        //    {
-        //        error = "Number is wrong";
-        //        return false;
-        //    }
-
-        //    if (TableManagerViewModel.Tables.Any(table => table.Number.Equals(number)))
-        //    {
-        //        error = "There is table " + number;
-        //        return false;
-        //    }
-
-        //    var addingTable = DataModel.AddTable(number, Description);
-        //    if (addingTable!= null)
-        //    {
-        //        TableManagerViewModel.Tables.Add(addingTable);
-        //        error = "";
-        //        return true;
-        //    }
-
-        //    error = "Failed";
-        //    return false;
-        //}
 
 
         public void Clear()

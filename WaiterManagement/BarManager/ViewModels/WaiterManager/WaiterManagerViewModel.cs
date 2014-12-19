@@ -45,18 +45,17 @@ namespace BarManager.ViewModels
         {
             if (SelectedWaiter == null)
             {
-                //error = "No Item Is Selected";
+                Messaging.Message.Show("No Item Is Selected");
                 return;
             }
 
             if (DataModel.DeleteWaiter(SelectedWaiter.Id))
             {
                 Waiters.Remove(SelectedWaiter);
-                //error = "";
                 return;
             }
 
-            //error = "Failed";
+            Messaging.Message.Show("Failed");
             return;
         }
 
@@ -87,7 +86,6 @@ namespace BarManager.ViewModels
         {
             if (SelectedWaiter == null)
             {
-                //TODO: Add massege
                 return;
             }
 

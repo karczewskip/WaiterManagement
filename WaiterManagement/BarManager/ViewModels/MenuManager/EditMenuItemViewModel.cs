@@ -7,6 +7,7 @@ using BarManager.Abstract;
 using ClassLib.DbDataStructures;
 using System.Windows;
 using System.ComponentModel;
+using BarManager.Messaging;
 
 namespace BarManager.ViewModels
 {
@@ -35,7 +36,7 @@ namespace BarManager.ViewModels
         }
 
         private string priceString;
-        public string PriceString 
+        public string Price 
         {
             get { return priceString; }
             set 
@@ -76,7 +77,7 @@ namespace BarManager.ViewModels
             }
         }
 
-        public IList<MenuItemCategory> ListOfCategories { get { return MenuManagerViewModel.AvailableCategories; } }
+        public IList<MenuItemCategory> Categories { get { return MenuManagerViewModel.AvailableCategories; } }
 
         public EditMenuItemViewModel(IBarDataModel dateModel, IMenuManagerViewModel menuManagerViewModel)
         {
@@ -89,48 +90,53 @@ namespace BarManager.ViewModels
             MenuItem = menuItem;
 
             MenuItemName = menuItem.Name;
-            PriceString = menuItem.Price.Amount.ToString();
-            SelectedCategory = ListOfCategories.First( c => c.Id == menuItem.Category.Id );
+            Price = menuItem.Price.Amount.ToString();
+            SelectedCategory = Categories.First( c => c.Id == menuItem.Category.Id );
             MenuItemDescription = menuItem.Description;
         }
 
 
-        public bool EditMenuItem(out string error)
+        public void EditMenuItem()
         {
-            if (string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(PriceString) || string.IsNullOrEmpty(MenuItemDescription))
+            if (string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(Price) || string.IsNullOrEmpty(MenuItemDescription))
             {
-                error = "Some Fields are empty";
-                return false;
+                Message.Show("Some Fields are empty");
+                return;
             }
 
             if (SelectedCategory == null)
             {
-                error = "No Category was selected";
-                return false;
+                Message.Show("No Category was selected");
+                return;
             }
 
             if (MenuManagerViewModel.AllMenuItems.Any(cat => (cat.Name.Equals(MenuItemName) && cat.Id != MenuItem.Id)))
             {
-                error = "There is menu item named: " + MenuItemName;
-                return false;
+                Message.Show("There is menu item named: " + MenuItemName);
+                return;
             }
 
-            double Price;
+            double price;
 
-            if (!double.TryParse(PriceString, out Price))
+            if (!double.TryParse(Price, out price))
             {
-                error = "Price is wrong";
-                return false;
+                Message.Show("Price is wrong");
+                return;
             }
 
-            var result = DataModel.EditMenuItem(MenuItem, MenuItemName, Price, SelectedCategory, MenuItemDescription);
+            var result = DataModel.EditMenuItem(MenuItem, MenuItemName, price, SelectedCategory, MenuItemDescription);
 
             if (result)
-                error = "";
+            {
+                MenuManagerViewModel.MenuItems.Refresh();
+                MenuManagerViewModel.CloseDialogs();
+            }
             else
-                error = "Failed";
+            {
+                Message.Show("Failed");
+            }
 
-            return result;
+            return ;
         }
 
         #region INotifyPropertyChanged

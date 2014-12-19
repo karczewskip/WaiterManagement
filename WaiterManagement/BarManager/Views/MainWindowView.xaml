@@ -4,7 +4,6 @@
         Title="Manager" Height="525" Width="525" ResizeMode="NoResize"
         Icon="../Icons/fastfood.png">
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition/>

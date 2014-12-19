@@ -7,6 +7,7 @@ using BarManager.Abstract;
 using System.ComponentModel;
 using ClassLib.DbDataStructures;
 using System.Windows;
+using BarManager.Messaging;
 
 namespace BarManager.ViewModels
 {
@@ -60,7 +61,7 @@ namespace BarManager.ViewModels
         {
             if (string.IsNullOrEmpty(Number) || string.IsNullOrEmpty(Description))
             {
-                //error = "Some Fields are empty";
+                Message.Show("Some Fields are empty");
                 return;
             }
 
@@ -68,13 +69,13 @@ namespace BarManager.ViewModels
 
             if (!int.TryParse(Number, out checkedNumber))
             {
-                //error = "Number is wrong";
+                Message.Show("Number is wrong");
                 return;
             }
 
             if (TableManagerViewModel.Tables.Any(table => (table.Number.Equals(checkedNumber) && Table.Id != table.Id)))
             {
-                //error = "There is table " + checkedNumber;
+                Message.Show("There is table " + checkedNumber);
                 return;
             }
 
@@ -85,8 +86,8 @@ namespace BarManager.ViewModels
                 TableManagerViewModel.Tables.Refresh();
                 TableManagerViewModel.CloseDialogs();
             }
-            //else
-            //    error = "Failed";
+            else
+                Message.Show("Failed");
 
             return;
         }

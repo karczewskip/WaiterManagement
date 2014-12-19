@@ -1,11 +1,9 @@
-﻿using BarManager.Abstract;
-
-namespace BarManager.Views
+﻿namespace BarManager.Views
 {
     /// <summary>
     /// Interaction logic for EditWaiterWindow.xaml
     /// </summary>
-    public partial class EditWaiterView : IEditWaiterWindow
+    public partial class EditWaiterView 
     {
  
         public EditWaiterView()

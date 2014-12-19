@@ -7,8 +7,6 @@ namespace BarManager.Abstract
     {
         BindableCollection<Table> Tables { get; set; }
 
-        bool DeleteSelectedItem(out string error);
-
         void CloseDialogs();
     }
 }

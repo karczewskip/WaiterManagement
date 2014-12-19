@@ -1,4 +1,5 @@
 ﻿using BarManager.Abstract;
+using BarManager.Messaging;
 using System.ComponentModel;
 using System.Linq;
 
@@ -21,31 +22,31 @@ namespace BarManager.ViewModels
             MenuManagerViewModel = menuManagerViewModel;
         }
 
-        public bool AddCategory(out string error)
+        public void AddCategory()
         {
             if (string.IsNullOrEmpty(CategoryName) || string.IsNullOrEmpty(CategoryDescription))
             {
-                error = "Some Fields are empty";
-                return false;
+                Message.Show("Some Fields are empty");
+                return;
             }
 
             if( MenuManagerViewModel.Categories.Any(cat => cat.Name.Equals(CategoryName)))
             {
-                error = "There is category named: " + CategoryName;
-                return false;
+                Message.Show("There is category named: " + CategoryName);
+                return;
             }
 
             var addingCategory = DataModel.AddCategoryItem(CategoryName, CategoryDescription);
             if (addingCategory != null)
             {
-                MenuManagerViewModel.AddCategory(addingCategory);
-                error = "";
-                return true;
+                MenuManagerViewModel.AddCategoryToViewModel(addingCategory);
+                MenuManagerViewModel.CloseDialogs();
+                return;
             }
 
-            error = "Failed";
+            Message.Show("Failed");
 
-            return false;
+            return;
         }
 
 

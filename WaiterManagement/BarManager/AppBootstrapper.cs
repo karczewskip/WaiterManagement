@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using BarManager.Abstract;
+﻿using BarManager.Abstract;
 using BarManager.Model;
 using BarManager.ViewModels;
 using Caliburn.Micro;
-using System.Windows;
 using DataAccess;
 using Ninject;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace BarManager
 {
@@ -32,6 +32,10 @@ namespace BarManager
 
             //MenuManager
             _kernel.Bind<IMenuManagerViewModel>().To<MenuManagerViewModel>().InSingletonScope();
+            _kernel.Bind<IAddMenuItemViewModel>().To<AddMenuItemViewModel>().InSingletonScope();
+            _kernel.Bind<IAddCategoryViewModel>().To<AddCategoryViewModel>().InSingletonScope();
+            _kernel.Bind<IEditMenuItemViewModel>().To<EditMenuItemViewModel>().InSingletonScope();
+
           
             //WaiterManager
             _kernel.Bind<IWaiterManagerViewModel>().To<WaiterManagerViewModel>().InSingletonScope();
@@ -46,6 +50,9 @@ namespace BarManager
             //DataModel
             _kernel.Bind<IBarDataModel>().To<BarDataModel>().InSingletonScope();
             _kernel.Bind<IManagerDataAccess>().To<DataAccessClass>().InSingletonScope();
+
+            //Messaging
+            _kernel.Bind<IMessagingViewModel>().To<MessagingViewModel>().InSingletonScope();
         }
 
         protected override void OnExit(object sender, EventArgs e)

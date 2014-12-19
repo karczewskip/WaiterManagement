@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using ClassLib.DbDataStructures;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace BarManager.ViewModels
 {
@@ -12,6 +13,9 @@ namespace BarManager.ViewModels
     public class MenuManagerViewModel : Conductor<object>, IMenuManagerViewModel
     {
         private IBarDataModel DataModel;
+        private IAddMenuItemViewModel _addMenuItemViewModel;
+        private IAddCategoryViewModel _addCategoryViewModel;
+        private IEditMenuItemViewModel _editMenuItemViewModel;
 
         public MenuItemCategory SelectedCategory { get; set; }
         public MenuItem SelectedMenuItem { get; set; }
@@ -79,12 +83,12 @@ namespace BarManager.ViewModels
             return null;
         }
 
-        public bool DeleteSelectedItem(out string error)
+        public void DeleteItem()
         {
             if (SelectedMenuItem == null)
             {
-                error = "No Item Is Selected";
-                return false;
+                Messaging.Message.Show("No Item Is Selected");
+                return;
             }
             else
             {
@@ -92,18 +96,21 @@ namespace BarManager.ViewModels
                 {
                     AllMenuItems.Remove(SelectedMenuItem);
                     MenuItems.Remove(SelectedMenuItem);
-                    error = "";
-                    return true;
+
+                    return;
                 }
                 else
                 {
-                    error = "Failed";
-                    return false;
+                    Messaging.Message.Show("Failed");
+                    return;
                 }
             }
         }
 
-
+        public void ChangeSelectedCategory()
+        {
+            ShowCurrentCategory(SelectedCategory);
+        }
 
         public void ShowCurrentCategory(MenuItemCategory category)
         {
@@ -116,8 +123,6 @@ namespace BarManager.ViewModels
                     MenuItems.Add(menuItem);
                 }
             }
-
-            
 
             foreach(var menuItem in AllMenuItems)
             {
@@ -136,10 +141,61 @@ namespace BarManager.ViewModels
         }
 
 
-        public void AddCategory(MenuItemCategory addingCategory)
+        public void AddCategoryToViewModel(MenuItemCategory addingCategory)
         {
             Categories.Add(addingCategory);
             AvailableCategories.Add(addingCategory);
         }
+
+        public void AddItem()
+        {
+            _addMenuItemViewModel = IoC.Get<IAddMenuItemViewModel>();
+            _addMenuItemViewModel.Clear();
+            ActivateItem(_addMenuItemViewModel);
+        }
+
+        public void AddCategory()
+        {
+            
+            _addCategoryViewModel = IoC.Get<IAddCategoryViewModel>();
+            _addCategoryViewModel.Clear();
+            ActivateItem(_addCategoryViewModel);
+        }
+
+        public void EditMenuItem()
+        {
+            if(SelectedMenuItem == null)
+            {
+                return;
+            }
+
+            _editMenuItemViewModel = IoC.Get<IEditMenuItemViewModel>();
+            _editMenuItemViewModel.RefreshItem(SelectedMenuItem);
+            ActivateItem(_editMenuItemViewModel);
+        }
+
+
+        public void CloseDialogs()
+        {
+            CloseAddMenuItemDialog();
+            CloseEditMenuItemDialog();
+            CloseAddCategoryDialog();
+        }
+
+        private void CloseAddCategoryDialog()
+        {
+            DeactivateItem(_addCategoryViewModel, true);
+        }
+
+        private void CloseEditMenuItemDialog()
+        {
+            DeactivateItem(_editMenuItemViewModel,true);
+        }
+
+        private void CloseAddMenuItemDialog()
+        {
+            DeactivateItem(_addMenuItemViewModel, true);
+        }
+
     }
 }

@@ -1,14 +1,15 @@
 ﻿<UserControl x:Class="BarManager.Views.MenuManagerView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
     <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition />
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -19,7 +20,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Margin="0 5" >Category:</Label>
-            <ComboBox Grid.Column="1" x:Name="Categories" Margin="0 5 0 10">
+            <ComboBox Grid.Column="1" x:Name="Categories" Margin="0 5 0 10" cm:Message.Attach="[Event SelectionChanged] = [Action ChangeSelectedCategory]">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -28,10 +29,10 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Name="AddCategory" Grid.Column="2" Margin="0 5 0 10" Width="100" HorizontalAlignment="Right">
+            <Button x:Name="AddCategory" Grid.Column="2" Margin="0 5 0 10" Width="100" HorizontalAlignment="Right">
                 Add Category</Button>
         </Grid>
-        <ListView Name="MenuItems" Grid.Row="1"  SelectionMode="Single" >       
+        <ListView Name="MenuItems" Grid.Row="1"  SelectionMode="Single" cm:Message.Attach="[Event MouseDoubleClick] = [Action EditMenuItem]">       
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="NameColumn" Width="100" DisplayMemberBinding="{Binding Name}" >
