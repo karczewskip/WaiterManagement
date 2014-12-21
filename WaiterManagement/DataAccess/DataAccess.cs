@@ -100,7 +100,9 @@ namespace DataAccess
                 MenuItemCategory menuItemCategoryToRemove = db.MenuItemCategories.Find(categoryId);
                 if (menuItemCategoryToRemove == null)
                     return false;
-                db.MenuItemCategories.Remove(menuItemCategoryToRemove);
+                
+                //db.MenuItemCategories.Remove(menuItemCategoryToRemove);
+                menuItemCategoryToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }
@@ -155,7 +157,9 @@ namespace DataAccess
                 MenuItem menuItemToRemove = db.MenuItems.Find(menuItemId);
                 if (menuItemToRemove == null)
                     return false;
-                db.MenuItems.Remove(menuItemToRemove);
+                
+                //db.MenuItems.Remove(menuItemToRemove);
+                menuItemToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }            
@@ -218,7 +222,8 @@ namespace DataAccess
                 if (CheckIsWaiterLoggedIn(waiterContextToRemove.Id))
                     loggedInWaiterIds.Remove(waiterContextToRemove.Id);
 
-                db.Waiters.Remove(waiterContextToRemove);
+                //db.Waiters.Remove(waiterContextToRemove);
+                waiterContextToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }
@@ -275,7 +280,9 @@ namespace DataAccess
                 Table tableToRemove = db.Tables.Find(tableId);
                 if(tableToRemove == null)
                     return false;
-                db.Tables.Remove(tableToRemove);
+
+                //db.Tables.Remove(tableToRemove);
+                tableToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }
@@ -300,9 +307,11 @@ namespace DataAccess
 
                 var quantityList = orderToRemove.MenuItems.ToList();
                 foreach (MenuItemQuantity quantity in quantityList)
-                    db.MenuItemQuantities.Remove(quantity);
+                    //db.MenuItemQuantities.Remove(quantity);
+                    quantity.IsDeleted = true;
 
-                db.Orders.Remove(orderToRemove);
+                //db.Orders.Remove(orderToRemove);
+                orderToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }

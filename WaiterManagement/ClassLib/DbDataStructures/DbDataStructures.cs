@@ -15,6 +15,7 @@ namespace ClassLib.DbDataStructures
     public class DbEntity
     {
         public int Id { get; private set; }
+        public bool IsDeleted { get; set; }
     }
 
     /// <summary>

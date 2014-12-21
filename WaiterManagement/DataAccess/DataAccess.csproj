@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201411011113175_DodaneDatyDoZamowien.Designer.cs">
       <DependentUpon>201411011113175_DodaneDatyDoZamowien.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412211613506_usuwanieflagaboolowska.cs" />
+    <Compile Include="Migrations\201412211613506_usuwanieflagaboolowska.Designer.cs">
+      <DependentUpon>201412211613506_usuwanieflagaboolowska.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411011113175_DodaneDatyDoZamowien.resx">
       <DependentUpon>201411011113175_DodaneDatyDoZamowien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412211613506_usuwanieflagaboolowska.resx">
+      <DependentUpon>201412211613506_usuwanieflagaboolowska.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
