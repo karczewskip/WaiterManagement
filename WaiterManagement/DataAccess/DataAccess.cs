@@ -13,7 +13,7 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    public class DataAccessClass : IManagerDataAccess, IWaiterDataAccess
+    public class DataAccessClass : IManagerDataAccess, IWaiterDataAccess, IDataWipe
     {
         #region Private Fields
         private HashSet<int> loggedInWaiterIds;
@@ -32,7 +32,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                var menuItemCategoryList = db.MenuItemCategories.ToList();
+                var menuItemCategoryList = db.MenuItemCategories.Where( m => !m.IsDeleted).ToList();
                 return menuItemCategoryList;
             }
         }
@@ -41,7 +41,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                var menuItemList = db.MenuItems.Include("Category").ToList();
+                var menuItemList = db.MenuItems.Include("Category").Where( mI=> !mI.IsDeleted).ToList();
                 return menuItemList;
             }
         }
@@ -50,7 +50,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                var tableList = db.Tables.ToList();
+                var tableList = db.Tables.Where( t => !t.IsDeleted).ToList();
                 return tableList;
             }
         }
@@ -68,8 +68,23 @@ namespace DataAccess
 
             using( var db = new DataAccessProvider())
             {
-                newCategory = new MenuItemCategory() {Name = name, Description = description};
-                newCategory = db.MenuItemCategories.Add(newCategory);
+                var categoryToAdd = new MenuItemCategory() {Name = name, Description = description};
+
+                var categoriesSameName = db.MenuItemCategories.Where(c => c.Name.Equals(name));
+                
+                if(categoriesSameName != null && categoriesSameName.Any())
+                    foreach(MenuItemCategory category in categoriesSameName)
+                        if(category.Equals(categoryToAdd))
+                        {
+                            if(category.IsDeleted)
+                                category.IsDeleted = false;
+                            newCategory = category;
+                            break;
+                        }
+
+                if(newCategory == null)
+                    newCategory = db.MenuItemCategories.Add(categoryToAdd);
+
                 db.SaveChanges();
             }
 
@@ -83,7 +98,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 MenuItemCategory editedMenuItemCategory = db.MenuItemCategories.Find(menuItemCategoryToEdit.Id);
-                if (editedMenuItemCategory == null)
+                if (editedMenuItemCategory == null || editedMenuItemCategory.IsDeleted)
                     return false;
                 db.Entry(editedMenuItemCategory).State = System.Data.Entity.EntityState.Detached;
                 db.MenuItemCategories.Attach(menuItemCategoryToEdit);
@@ -98,7 +113,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 MenuItemCategory menuItemCategoryToRemove = db.MenuItemCategories.Find(categoryId);
-                if (menuItemCategoryToRemove == null)
+                if (menuItemCategoryToRemove == null || menuItemCategoryToRemove.IsDeleted)
                     return false;
                 
                 //db.MenuItemCategories.Remove(menuItemCategoryToRemove);
@@ -123,8 +138,23 @@ namespace DataAccess
                 category = db.MenuItemCategories.Find(categoryId);
                 if (category == null)
                     return null;
-                newMenuItem = new MenuItem() {Name = name, Description = description, Category = category, Price = price};
-                newMenuItem = db.MenuItems.Add(newMenuItem);
+
+                var menuItemToAdd = new MenuItem() { Name = name, Description = description, Category = category, Price = price };
+
+                var menuItemsSameName = db.MenuItems.Where(mI => mI.Name.Equals(name));
+                if(menuItemsSameName != null && menuItemsSameName.Any())
+                    foreach(MenuItem menuItem in menuItemsSameName)
+                        if(menuItem.Equals(menuItemToAdd))
+                        {
+                            if (menuItem.IsDeleted)
+                                menuItem.IsDeleted = false;
+
+                            newMenuItem = menuItem;
+                            break;
+                        }
+                if(newMenuItem == null)
+                    newMenuItem = db.MenuItems.Add(menuItemToAdd);
+
                 db.SaveChanges();
             }
 
@@ -139,7 +169,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 MenuItem editedMenuItem = db.MenuItems.Find(menuItemToEdit.Id);
-                if (editedMenuItem == null)
+                if (editedMenuItem == null || editedMenuItem.IsDeleted)
                     return false;
                 db.Entry(editedMenuItem).State = System.Data.Entity.EntityState.Detached;
                 db.MenuItems.Attach(menuItemToEdit);
@@ -155,7 +185,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 MenuItem menuItemToRemove = db.MenuItems.Find(menuItemId);
-                if (menuItemToRemove == null)
+                if (menuItemToRemove == null || menuItemToRemove.IsDeleted)
                     return false;
                 
                 //db.MenuItems.Remove(menuItemToRemove);
@@ -180,13 +210,29 @@ namespace DataAccess
 
             using (var db = new DataAccessProvider())
             {
+                var waiterContextToAdd = new WaiterContext() { FirstName = firstName, LastName = lastName, Login = login, Password = password };
                 var waiterSameLogin = db.Waiters.Where(w => w.Login.Equals(login));
 
                 if (waiterSameLogin != null && waiterSameLogin.Any())
-                    throw new ArgumentException(String.Format("login = {0} already exists in database!", login));
+                {
+                    foreach (WaiterContext waiterContext in waiterSameLogin)
+                        if (waiterContext.Equals(waiterContextToAdd))
+                        {
+                            if (waiterContext.IsDeleted)
+                                waiterContext.IsDeleted = false;
 
-                newWaiterContext = new WaiterContext() { FirstName = firstName, LastName = lastName, Login = login, Password = password };
-                newWaiterContext = db.Waiters.Add(newWaiterContext);
+                            newWaiterContext = waiterContext;
+                            break;
+                        }
+
+                    //istnieją kelnerzy o tym samym loginie, ale nie są tacy sami jak ten co chcemy dodać.
+                    if(newWaiterContext == null)
+                        throw new ArgumentException(String.Format("login = {0} already exists in database!", login));
+                }                    
+
+                if(newWaiterContext == null)
+                    newWaiterContext = db.Waiters.Add(waiterContextToAdd);
+
                 db.SaveChanges();
             }
 
@@ -201,8 +247,9 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 WaiterContext editedWaiterContext = db.Waiters.Find(waiterToEdit.Id);
-                if (editedWaiterContext == null)
+                if (editedWaiterContext == null || editedWaiterContext.IsDeleted)
                     return false;
+
                 db.Entry(editedWaiterContext).State = System.Data.Entity.EntityState.Detached;
                 db.Waiters.Attach(waiterToEdit);
                 db.Entry(waiterToEdit).State = System.Data.Entity.EntityState.Modified;
@@ -216,7 +263,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 WaiterContext waiterContextToRemove = db.Waiters.Find(waiterId);
-                if (waiterContextToRemove == null)
+                if (waiterContextToRemove == null || waiterContextToRemove.IsDeleted)
                     return false;
 
                 if (CheckIsWaiterLoggedIn(waiterContextToRemove.Id))
@@ -233,7 +280,7 @@ namespace DataAccess
         {
             using(var db = new DataAccessProvider())
             {
-                var waiterList = db.Waiters.ToList();
+                var waiterList = db.Waiters.Where( w => !w.IsDeleted ).ToList();
                 return waiterList;
             }
         }
@@ -247,8 +294,23 @@ namespace DataAccess
 
             using (var db = new DataAccessProvider())
             {
-                newTable = new Table() { Number = tableNumber, Description = description };
-                newTable = db.Tables.Add(newTable);
+                var tableToAdd = new Table() { Number = tableNumber, Description = description };
+
+                var tablesSameNumber = db.Tables.Where(t => t.Number.Equals(tableNumber));
+                if(tablesSameNumber != null && tablesSameNumber.Any())
+                    foreach(Table table in tablesSameNumber)
+                        if(table.Equals(tableToAdd))
+                        {
+                            if (table.IsDeleted)
+                                table.IsDeleted = false;
+
+                            newTable = table;
+                            break;
+                        }
+
+                if(newTable == null)
+                    newTable = db.Tables.Add(tableToAdd);
+
                 db.SaveChanges();
             }
 
@@ -263,7 +325,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 Table editedTable = db.Tables.Find(tableToEdit.Id);
-                if (editedTable == null)
+                if (editedTable == null || editedTable.IsDeleted)
                     return false;
                 db.Entry(editedTable).State = System.Data.Entity.EntityState.Detached;
                 db.Tables.Attach(tableToEdit);
@@ -278,7 +340,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 Table tableToRemove = db.Tables.Find(tableId);
-                if(tableToRemove == null)
+                if(tableToRemove == null || tableToRemove.IsDeleted)
                     return false;
 
                 //db.Tables.Remove(tableToRemove);
@@ -292,7 +354,7 @@ namespace DataAccess
         {
             using(var db = new DataAccessProvider())
             {
-                var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").ToList();
+                var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").Where(o => !o.IsDeleted).ToList();
                 return orderList;
             }
         }
@@ -302,7 +364,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 Order orderToRemove = db.Orders.Find(orderId);
-                if (orderToRemove == null)
+                if (orderToRemove == null || orderToRemove.IsDeleted)
                     return false;
 
                 var quantityList = orderToRemove.MenuItems.ToList();
@@ -399,7 +461,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && (o.State == OrderState.NotRealized || o.State == OrderState.Realized)).ToList();
+                var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && !o.IsDeleted && (o.State == OrderState.NotRealized || o.State == OrderState.Realized)).ToList();
                 return orders;
             }
 
@@ -418,7 +480,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var sortedList = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && (o.State == OrderState.Realized || o.State == OrderState.NotRealized)).OrderByDescending(o => o.ClosingDate).ToList();
+                var sortedList = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && !o.IsDeleted && (o.State == OrderState.Realized || o.State == OrderState.NotRealized)).OrderByDescending(o => o.ClosingDate).ToList();
                 
                 //Kelner obsłużył mniej zamówień niż pierwszy indeks
                 if (sortedList.Count < firstIndex + 1)
@@ -449,7 +511,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var activeOrders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where( o => o.Waiter.Id == waiterId && (o.State == OrderState.Accepted || o.State == OrderState.Placed )).ToList();
+                var activeOrders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where( o => o.Waiter.Id == waiterId && !o.IsDeleted && (o.State == OrderState.Accepted || o.State == OrderState.Placed )).ToList();
                 
                 return activeOrders;
             }
@@ -500,6 +562,87 @@ namespace DataAccess
         private bool CheckIsWaiterLoggedIn(int waiterId)
         {
             return loggedInWaiterIds.Contains(waiterId);
+        }
+
+        #endregion
+
+        #region IDataWipe
+
+        bool IDataWipe.WipeMenuItemCategory(int categoryId)
+        {
+            using (var db = new DataAccessProvider())
+            {
+                MenuItemCategory menuItemCategoryToRemove = db.MenuItemCategories.Find(categoryId);
+                if (menuItemCategoryToRemove == null)
+                    return false;
+
+                db.MenuItemCategories.Remove(menuItemCategoryToRemove);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
+        bool IDataWipe.WipeMenuItem(int menuItemId)
+        {
+            using (var db = new DataAccessProvider())
+            {
+                MenuItem menuItemToRemove = db.MenuItems.Find(menuItemId);
+                if (menuItemToRemove == null)
+                    return false;
+
+                db.MenuItems.Remove(menuItemToRemove);
+                db.SaveChanges();
+                return true;
+            }        
+        }
+
+        bool IDataWipe.WipeWaiter(int waiterId)
+        {
+            using (var db = new DataAccessProvider())
+            {
+                WaiterContext waiterContextToRemove = db.Waiters.Find(waiterId);
+                if (waiterContextToRemove == null)
+                    return false;
+
+                if (CheckIsWaiterLoggedIn(waiterContextToRemove.Id))
+                    loggedInWaiterIds.Remove(waiterContextToRemove.Id);
+
+                db.Waiters.Remove(waiterContextToRemove);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
+        bool IDataWipe.WipeTable(int tableId)
+        {
+            using (var db = new DataAccessProvider())
+            {
+                Table tableToRemove = db.Tables.Find(tableId);
+                if (tableToRemove == null)
+                    return false;
+
+                db.Tables.Remove(tableToRemove);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
+        bool IDataWipe.WipeOrder(int orderId)
+        {
+            using(var db = new DataAccessProvider())
+            {
+                Order orderToRemove = db.Orders.Find(orderId);
+                if (orderToRemove == null)
+                    return false;
+
+                var quantityList = orderToRemove.MenuItems.ToList();
+                foreach (MenuItemQuantity quantity in quantityList)
+                    db.MenuItemQuantities.Remove(quantity);
+
+                db.Orders.Remove(orderToRemove);
+                db.SaveChanges();
+                return true;
+            }
         }
 
         #endregion

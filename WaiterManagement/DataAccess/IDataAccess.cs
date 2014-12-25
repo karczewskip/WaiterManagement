@@ -53,4 +53,16 @@ namespace DataAccess
         IEnumerable<Order> GetActiveOrders(int waiterId);
         bool SetOrderState(int waiterId, int orderId, OrderState state);        
     }
+
+    /// <summary>
+    /// Interfejs używany przez metody testujący do sprzątania po sobie
+    /// </summary>
+    public interface IDataWipe
+    {
+        bool WipeMenuItemCategory(int categoryId);
+        bool WipeMenuItem(int menuItemId);
+        bool WipeWaiter(int waiterId);
+        bool WipeTable(int tableId);
+        bool WipeOrder(int orderId);
+    }
 }
