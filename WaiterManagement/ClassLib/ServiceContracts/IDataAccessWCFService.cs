@@ -37,13 +37,13 @@ namespace ClassLib.ServiceContracts
         [OperationContract]
         bool RemoveMenuItem(int menuItemId);
         [OperationContract]
-        WaiterContext AddWaiter(string firstName, string lastName, string login, string password);
+        UserContext AddWaiter(string firstName, string lastName, string login, string password);
         [OperationContract]
-        bool EditWaiter(WaiterContext waiterToEdit);
+        bool EditWaiter(UserContext waiterToEdit);
         [OperationContract]
         bool RemoveWaiter(int waiterId);
         [OperationContract]
-        IEnumerable<WaiterContext> GetWaiters();
+        IEnumerable<UserContext> GetWaiters();
         [OperationContract]
         Table AddTable(int tableNumber, string description);
         [OperationContract]

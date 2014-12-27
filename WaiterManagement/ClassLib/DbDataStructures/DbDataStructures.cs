@@ -95,7 +95,7 @@ namespace ClassLib.DbDataStructures
         }
 
         public int UserId { get; set; }
-        public virtual WaiterContext Waiter { get; set; }
+        public virtual UserContext Waiter { get; set; }
         public virtual Table Table { get; set; }
         //Item1 - menuItemId, Item2 - quantity
         public virtual ICollection<MenuItemQuantity> MenuItems { get; set; }
@@ -179,16 +179,22 @@ namespace ClassLib.DbDataStructures
         }
     }
 
+    public class Password
+    {
+        [Key]
+        public int UserId { get; set; }
+        public string Hash { get; set; }
+    }
+
     /// <summary>
     /// Kontekst bazowy wszystkich użytkowników systemu. Jego klasy pochodne są zwracane po udanym zalogowaniu się do systemu
     /// </summary>
-    public abstract class UserContext : DbEntity, IEquatable<UserContext>
+    public class UserContext : DbEntity, IEquatable<UserContext>
     {
-        public int Id { get; private set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
+        public UserRole Role { get; set; }
 
         /// <summary>
         /// Metoda porównująca wszystkie właściwości klasy (oprócz Id)
@@ -198,31 +204,17 @@ namespace ClassLib.DbDataStructures
             return this.FirstName.Equals(other.FirstName)
                 && this.LastName.Equals(other.LastName)
                 && this.Login.Equals(other.Login)
-                && this.Password.Equals(other.Password);
+                && this.Role.HasFlag(other.Role);
         }
     }
 
     /// <summary>
-    /// Reprezentuje dane klienta. 
+    /// Wyliczenie możliych ról użytkownika
     /// </summary>
-    public class ClientContext : UserContext
+    public enum UserRole
     {
-         
-    }
-
-    /// <summary>
-    /// Reprezentuje dane kelnera.
-    /// </summary>
-    public class WaiterContext : UserContext
-    {
-
-    }
-
-    /// <summary>
-    /// Reprezentuje dane menedżera lokalu.
-    /// </summary>
-    public class ManagerContext : UserContext
-    {
-
+        Client = 0x001,
+        Waiter = 0x010,
+        Manager = 0x100,
     }
 }

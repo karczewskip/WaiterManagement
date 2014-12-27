@@ -7,6 +7,7 @@ using ClassLib.DbDataStructures;
 using System.Security;
 using System.Data.Entity;
 using DataAccess.Migrations;
+using ClassLib.DataStructures;
 
 namespace DataAccess
 {
@@ -16,20 +17,23 @@ namespace DataAccess
     public class DataAccessClass : IManagerDataAccess, IWaiterDataAccess, IDataWipe
     {
         #region Private Fields
-        private HashSet<int> loggedInWaiterIds;
+        private HashSet<UserContext> loggedInUsers;
         #endregion
 
         #region Constructors
         public DataAccessClass()
         {
-            loggedInWaiterIds = new HashSet<int>();
+            loggedInUsers = new HashSet<UserContext>();
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccessProvider, Configuration>()); 
         }
         #endregion
 
         #region IBaseDataAccess
-        public IEnumerable<MenuItemCategory> GetMenuItemCategories()
+        public IEnumerable<MenuItemCategory> GetMenuItemCategories(int userId)
         {
+            if (CheckIsUserLoggedIn(userId))
+                throw new SecurityException(String.Format("User login={0} is not logged in", userId));
+
             using (var db = new DataAccessProvider())
             {
                 var menuItemCategoryList = db.MenuItemCategories.Where( m => !m.IsDeleted).ToList();
@@ -37,8 +41,11 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<MenuItem> GetMenuItems()
+        public IEnumerable<MenuItem> GetMenuItems(int userId)
         {
+            if (CheckIsUserLoggedIn(userId))
+                throw new SecurityException(String.Format("User login={0} is not logged in", userId));
+
             using (var db = new DataAccessProvider())
             {
                 var menuItemList = db.MenuItems.Include("Category").Where( mI=> !mI.IsDeleted).ToList();
@@ -46,23 +53,71 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<Table> GetTables()
+        public IEnumerable<Table> GetTables(int userId)
         {
+            if (CheckIsUserLoggedIn(userId))
+                throw new SecurityException(String.Format("User login={0} is not logged in", userId));
+
             using (var db = new DataAccessProvider())
             {
                 var tableList = db.Tables.Where( t => !t.IsDeleted).ToList();
                 return tableList;
             }
         }
+
+        public UserContext LogIn(string login, string password)
+        {
+            if (String.IsNullOrEmpty(login))
+                throw new ArgumentNullException("login is null");
+            if (String.IsNullOrEmpty(password))
+                throw new ArgumentNullException("password is null");
+
+            UserContext userContext = null;
+
+            using (var db = new DataAccessProvider())
+            {
+                userContext = db.Users.FirstOrDefault(u => u.Login.Equals(login));
+                if (userContext == null)
+                    return null;
+
+                string userHash = db.Passwords.Find(userContext.Id).Hash;
+                if (String.IsNullOrEmpty(userHash))
+                    return null;
+
+                if(!HashClass.ValidatePassword(password, userHash))
+                    return null;
+            }
+
+            if (userContext != null)
+            {
+                if (CheckIsUserLoggedIn(userContext.Id))
+                    throw new SecurityException(String.Format("User login={0} is already logged in", userContext.Login));
+                loggedInUsers.Add(userContext);
+            }
+
+            return userContext;
+        }
+
+        public bool LogOut(int userId)
+        {
+            if (!CheckIsUserLoggedIn(userId))
+                return false;
+
+            return RemoveFromLoggedInUsers(userId);
+        }
+
         #endregion
 
         #region IManagerDataAccess
-        public MenuItemCategory AddMenuItemCategory(string name, string description)
+        public MenuItemCategory AddMenuItemCategory(int managerId, string name, string description)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException("Name is null");
             if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException("Description is null");
+                throw new ArgumentNullException("Description is null");           
 
             MenuItemCategory newCategory = null;
 
@@ -91,10 +146,14 @@ namespace DataAccess
             return newCategory;
         }
 
-        public bool EditMenuItemCategory(MenuItemCategory menuItemCategoryToEdit)
+        public bool EditMenuItemCategory(int managerId, MenuItemCategory menuItemCategoryToEdit)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (menuItemCategoryToEdit == null)
-                throw new ArgumentNullException("menuItemCategoryToEdit is null");
+                throw new ArgumentNullException("menuItemCategoryToEdit is null");           
+
             using(var db = new DataAccessProvider())
             {
                 MenuItemCategory editedMenuItemCategory = db.MenuItemCategories.Find(menuItemCategoryToEdit.Id);
@@ -108,8 +167,11 @@ namespace DataAccess
             }
         }
 
-        public bool RemoveMenuItemCategory(int categoryId)
+        public bool RemoveMenuItemCategory(int managerId, int categoryId)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             using(var db = new DataAccessProvider())
             {
                 MenuItemCategory menuItemCategoryToRemove = db.MenuItemCategories.Find(categoryId);
@@ -123,8 +185,11 @@ namespace DataAccess
             }
         }
 
-        public MenuItem AddMenuItem(string name, string description, int categoryId, Money price)
+        public MenuItem AddMenuItem(int managerId, string name, string description, int categoryId, Money price)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name is null");
             if (String.IsNullOrEmpty(description))
@@ -161,8 +226,11 @@ namespace DataAccess
             return newMenuItem;
         }
 
-        public bool EditMenuItem(MenuItem menuItemToEdit)
+        public bool EditMenuItem(int managerId, MenuItem menuItemToEdit)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (menuItemToEdit == null)
                 throw new ArgumentNullException("menuItemToEdit is null");
             
@@ -180,8 +248,11 @@ namespace DataAccess
 
         }
 
-        public bool RemoveMenuItem(int menuItemId)
-        {            
+        public bool RemoveMenuItem(int managerId, int menuItemId)
+        {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             using(var db = new DataAccessProvider())
             {
                 MenuItem menuItemToRemove = db.MenuItems.Find(menuItemId);
@@ -195,8 +266,11 @@ namespace DataAccess
             }            
         }        
 
-        public WaiterContext AddWaiter(string firstName, string lastName, string login, string password)
+        public UserContext AddWaiter(int managerId, string firstName, string lastName, string login, string password)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (String.IsNullOrEmpty(firstName))
                 throw new ArgumentNullException("firstName is null");
             if (String.IsNullOrEmpty(lastName))
@@ -206,22 +280,24 @@ namespace DataAccess
             if (String.IsNullOrEmpty(password))
                 throw new ArgumentNullException("password is null");
 
-            WaiterContext newWaiterContext = null;
+            UserContext newWaiterContext = null;
 
+            //TODO: filtrować po kelnerach tylko
+            //TODO: zapisać hasło
             using (var db = new DataAccessProvider())
             {
-                var waiterContextToAdd = new WaiterContext() { FirstName = firstName, LastName = lastName, Login = login, Password = password };
-                var waiterSameLogin = db.Waiters.Where(w => w.Login.Equals(login));
+                var waiterContextToAdd = new UserContext() { FirstName = firstName, LastName = lastName, Login = login, Role = UserRole.Waiter};
+                var usersSameLogin = db.Users.Where(u => u.Login.Equals(login));
 
-                if (waiterSameLogin != null && waiterSameLogin.Any())
+                if (usersSameLogin != null && usersSameLogin.Any())
                 {
-                    foreach (WaiterContext waiterContext in waiterSameLogin)
-                        if (waiterContext.Equals(waiterContextToAdd))
+                    foreach (UserContext userContext in usersSameLogin)
+                        if (userContext.Equals(waiterContextToAdd))
                         {
-                            if (waiterContext.IsDeleted)
-                                waiterContext.IsDeleted = false;
+                            if (userContext.IsDeleted)
+                                userContext.IsDeleted = false;
 
-                            newWaiterContext = waiterContext;
+                            newWaiterContext = userContext;
                             break;
                         }
 
@@ -231,7 +307,7 @@ namespace DataAccess
                 }                    
 
                 if(newWaiterContext == null)
-                    newWaiterContext = db.Waiters.Add(waiterContextToAdd);
+                    newWaiterContext = db.Users.Add(waiterContextToAdd);
 
                 db.SaveChanges();
             }
@@ -239,54 +315,68 @@ namespace DataAccess
             return newWaiterContext;
         }
 
-        public bool EditWaiter(WaiterContext waiterToEdit)
+        public bool EditWaiter(int managerId, UserContext waiterToEdit)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (waiterToEdit == null)
                 throw new ArgumentNullException("waiterToEdit is null");
 
+            if (waiterToEdit.Role != UserRole.Waiter)
+                throw new ArgumentException(String.Format("User id = {0} is no waiter.", waiterToEdit.Id));
+
             using(var db = new DataAccessProvider())
             {
-                WaiterContext editedWaiterContext = db.Waiters.Find(waiterToEdit.Id);
+                UserContext editedWaiterContext = db.Users.Find(waiterToEdit.Id);
                 if (editedWaiterContext == null || editedWaiterContext.IsDeleted)
                     return false;
 
                 db.Entry(editedWaiterContext).State = System.Data.Entity.EntityState.Detached;
-                db.Waiters.Attach(waiterToEdit);
+                db.Users.Attach(waiterToEdit);
                 db.Entry(waiterToEdit).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
         }
 
-        public bool RemoveWaiter(int waiterId)
+        public bool RemoveWaiter(int managerId, int waiterId)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             using(var db = new DataAccessProvider())
             {
-                WaiterContext waiterContextToRemove = db.Waiters.Find(waiterId);
-                if (waiterContextToRemove == null || waiterContextToRemove.IsDeleted)
+                UserContext waiterContextToRemove = db.Users.Find(waiterId);
+                if (waiterContextToRemove == null || waiterContextToRemove.IsDeleted || waiterContextToRemove.Role != UserRole.Waiter)
                     return false;
 
-                if (CheckIsWaiterLoggedIn(waiterContextToRemove.Id))
-                    loggedInWaiterIds.Remove(waiterContextToRemove.Id);
+                if (CheckIsUserLoggedIn(waiterContextToRemove.Id))
+                    RemoveFromLoggedInUsers(waiterContextToRemove.Id);
 
-                //db.Waiters.Remove(waiterContextToRemove);
                 waiterContextToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }
         }
 
-        public IEnumerable<WaiterContext> GetWaiters()
+        public IEnumerable<UserContext> GetWaiters(int managerId)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             using(var db = new DataAccessProvider())
             {
-                var waiterList = db.Waiters.Where( w => !w.IsDeleted ).ToList();
+                var waiterList = db.Users.Where( u => u.Role.HasFlag(UserRole.Waiter) && !u.IsDeleted ).ToList();
                 return waiterList;
             }
         }
 
-        public Table AddTable(int tableNumber, string description)
+        public Table AddTable(int managerId, int tableNumber, string description)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException("description is null");
 
@@ -317,8 +407,11 @@ namespace DataAccess
             return newTable;
         }
 
-        public bool EditTable(Table tableToEdit)
+        public bool EditTable(int managerId, Table tableToEdit)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             if (tableToEdit == null)
                 throw new ArgumentNullException("tableToEdit is null");
 
@@ -335,8 +428,11 @@ namespace DataAccess
             }
         }
 
-        public bool RemoveTable(int tableId)
+        public bool RemoveTable(int managerId, int tableId)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             using(var db = new DataAccessProvider())
             {
                 Table tableToRemove = db.Tables.Find(tableId);
@@ -350,8 +446,11 @@ namespace DataAccess
             }
         }        
 
-        public IEnumerable<Order> GetOrders()
+        public IEnumerable<Order> GetOrders(int managerId)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             using(var db = new DataAccessProvider())
             {
                 var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").Where(o => !o.IsDeleted).ToList();
@@ -359,8 +458,11 @@ namespace DataAccess
             }
         }
 
-        public bool RemoveOrder(int orderId)
+        public bool RemoveOrder(int managerId, int orderId)
         {
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+
             using(var db = new DataAccessProvider())
             {
                 Order orderToRemove = db.Orders.Find(orderId);
@@ -381,41 +483,10 @@ namespace DataAccess
         #endregion
 
         #region IWaiterDataAccess
-        public WaiterContext LogIn(string login, string password)
-        {
-            if (String.IsNullOrEmpty(login))
-                throw new ArgumentNullException("login is null");
-            if (String.IsNullOrEmpty(password))
-                throw new ArgumentNullException("password is null");
-
-            WaiterContext waiterContext = null; 
-
-            using(var db = new DataAccessProvider())
-            {
-                waiterContext = db.Waiters.Where(w => w.Login.Equals(login) && w.Password.Equals(password)).FirstOrDefault();
-            }
-
-            if (waiterContext != null)
-            {
-                if (CheckIsWaiterLoggedIn(waiterContext.Id))
-                    throw new SecurityException(String.Format("Waiter id={0} is already logged in", waiterContext.Id));
-                loggedInWaiterIds.Add(waiterContext.Id);
-            }
-
-            return waiterContext;
-        }
-
-        public bool LogOut(int waiterId)
-        {
-            if (!CheckIsWaiterLoggedIn(waiterId))
-                return false;
-            loggedInWaiterIds.Remove(waiterId);
-            return true;
-        }
-
+        //TODO: Przenieść do Usera
         public Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems)
         {
-            if (!CheckIsWaiterLoggedIn(waiterId))
+            if (!CheckIsUserLoggedIn(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
             if (menuItems == null || !menuItems.Any())
                 throw new ArgumentNullException("menuItems is null");
@@ -428,7 +499,7 @@ namespace DataAccess
                 if (table == null)
                     throw new ArgumentException(String.Format("No such table (id={0}) exists.", tableId));
 
-                WaiterContext waiter = db.Waiters.Find(waiterId);
+                UserContext waiter = db.Users.Find(waiterId);
                 if (waiter == null)
                     throw new ArgumentException(String.Format("No such waiter (id={0}) exists.", waiterId));
 
@@ -456,7 +527,7 @@ namespace DataAccess
 
         public IEnumerable<Order> GetPastOrders(int waiterId)
         {
-            if(!CheckIsWaiterLoggedIn(waiterId))
+            if(!CheckIsUserLoggedIn(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
 
             using(var db = new DataAccessProvider())
@@ -469,7 +540,7 @@ namespace DataAccess
 
         public IEnumerable<Order> GetPastOrders(int waiterId, int firstIndex, int lastIndex)
         {
-            if(!CheckIsWaiterLoggedIn(waiterId))
+            if(!CheckIsUserLoggedIn(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
             if(firstIndex < 0)
                 throw new ArgumentException(String.Format("firstIndex ({0]) is smaller than zero", firstIndex));
@@ -506,7 +577,7 @@ namespace DataAccess
 
         public IEnumerable<Order> GetActiveOrders(int waiterId)
         {
-            if(!CheckIsWaiterLoggedIn(waiterId))
+            if(!CheckIsUserLoggedIn(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
 
             using(var db = new DataAccessProvider())
@@ -519,7 +590,7 @@ namespace DataAccess
 
         public bool SetOrderState(int waiterId, int orderId, OrderState state)
         {
-            if (!CheckIsWaiterLoggedIn(waiterId))
+            if (!CheckIsUserLoggedIn(waiterId))
                 throw new SecurityException(String.Format("Waiter id={0} is not logged in", waiterId));
             if (state.Equals(OrderState.Placed))
                 throw new ArgumentException("Cannot change Order state to Placed");
@@ -559,9 +630,27 @@ namespace DataAccess
 
         #region Private Methods
 
-        private bool CheckIsWaiterLoggedIn(int waiterId)
+        private bool CheckIsUserLoggedIn(int userId)
         {
-            return loggedInWaiterIds.Contains(waiterId);
+            return loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId)) != null;
+        }
+
+        private bool CheckHasUserRole(int userId, UserRole role)
+        {
+            UserContext user = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
+            if (user == null)
+                return false;
+            return (user.Role & role) != 0;
+        }
+
+        private bool RemoveFromLoggedInUsers(int userId)
+        {
+            UserContext userToRemove = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
+            if (userToRemove == null)
+                return false;
+
+            this.loggedInUsers.Remove(userToRemove);
+            return true;
         }
 
         #endregion
@@ -596,18 +685,18 @@ namespace DataAccess
             }        
         }
 
-        bool IDataWipe.WipeWaiter(int waiterId)
+        bool IDataWipe.WipeUser(int userId)
         {
             using (var db = new DataAccessProvider())
             {
-                WaiterContext waiterContextToRemove = db.Waiters.Find(waiterId);
-                if (waiterContextToRemove == null)
+                UserContext userContextToRemove = db.Users.Find(userId);
+                if (userContextToRemove == null)
                     return false;
 
-                if (CheckIsWaiterLoggedIn(waiterContextToRemove.Id))
-                    loggedInWaiterIds.Remove(waiterContextToRemove.Id);
+                if (CheckIsUserLoggedIn(userContextToRemove.Id))
+                    RemoveFromLoggedInUsers(userContextToRemove.Id);
 
-                db.Waiters.Remove(waiterContextToRemove);
+                db.Users.Remove(userContextToRemove);
                 db.SaveChanges();
                 return true;
             }
