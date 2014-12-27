@@ -527,8 +527,8 @@ namespace DataAccess
 
         public IEnumerable<Order> GetPastOrders(int waiterId)
         {
-            if(!CheckIsUserLoggedIn(waiterId))
-                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
+            if(!CheckHasUserRole(waiterId, UserRole.Waiter))
+                throw new SecurityException(String.Format("User id={0} is not logged in or is not a waiter.", waiterId));
 
             using(var db = new DataAccessProvider())
             {
@@ -540,8 +540,9 @@ namespace DataAccess
 
         public IEnumerable<Order> GetPastOrders(int waiterId, int firstIndex, int lastIndex)
         {
-            if(!CheckIsUserLoggedIn(waiterId))
-                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
+            if (!CheckHasUserRole(waiterId, UserRole.Waiter))
+                throw new SecurityException(String.Format("User id={0} is not logged in or is not a waiter.", waiterId));
+
             if(firstIndex < 0)
                 throw new ArgumentException(String.Format("firstIndex ({0]) is smaller than zero", firstIndex));
             if(lastIndex < 0)
@@ -577,8 +578,8 @@ namespace DataAccess
 
         public IEnumerable<Order> GetActiveOrders(int waiterId)
         {
-            if(!CheckIsUserLoggedIn(waiterId))
-                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
+            if (!CheckHasUserRole(waiterId, UserRole.Waiter))
+                throw new SecurityException(String.Format("User id={0} is not logged in or is not a waiter.", waiterId));
 
             using(var db = new DataAccessProvider())
             {
@@ -590,8 +591,9 @@ namespace DataAccess
 
         public bool SetOrderState(int waiterId, int orderId, OrderState state)
         {
-            if (!CheckIsUserLoggedIn(waiterId))
-                throw new SecurityException(String.Format("Waiter id={0} is not logged in", waiterId));
+            if (!CheckHasUserRole(waiterId, UserRole.Waiter))
+                throw new SecurityException(String.Format("User id={0} is not logged in or is not a waiter.", waiterId));
+
             if (state.Equals(OrderState.Placed))
                 throw new ArgumentException("Cannot change Order state to Placed");
 
