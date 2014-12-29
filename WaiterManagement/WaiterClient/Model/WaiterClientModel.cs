@@ -25,7 +25,7 @@ namespace WaiterClient.Model
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public WaiterContext LogInUser(string login, string password)
+        public UserContext LogInUser(string login, string password)
         {
             try
             {

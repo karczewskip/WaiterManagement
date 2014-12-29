@@ -8,7 +8,7 @@ namespace BarManager.Abstract
 {
     public interface IAddMenuItemViewModel
     {
-        bool AddMenuItem(out string error);
+        void AddItem();
 
         void Clear();
     }

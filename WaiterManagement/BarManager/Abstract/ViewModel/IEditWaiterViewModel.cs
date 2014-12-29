@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+using ClassLib.DbDataStructures;
 namespace BarManager.Abstract
 {
     public interface IEditWaiterViewModel
     {
-        void RefreshItem(ClassLib.DbDataStructures.WaiterContext Waiter);
 
-        bool EditWaiter(out string error);
+        void ChangeWaiter();
+
+        void RefreshItem(UserContext SelectedWaiter);
     }
 }

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="BarManager.Views.WaiterManagerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+    <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}" >
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <ListView Name="Waiters" Grid.Row="0" SelectionMode="Single" cm:Message.Attach="[Event MouseDoubleClick] = [Action EditWaiter]">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="LoginColumn" Width="150" DisplayMemberBinding="{Binding Login}" >
+                        <GridViewColumnHeader Tag="Login" Content="Login" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="FirstNameColumn" Width="150" DisplayMemberBinding="{Binding FirstName}" >
+                        <GridViewColumnHeader Tag="FirstName" Content="FirstName" />
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="LastNameColumn" Width="150" DisplayMemberBinding="{Binding LastName}" >
+                        <GridViewColumnHeader Tag="LastName" Content="LastName" />
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ContentControl Grid.Row="1" x:Name="ActiveItem" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Name="AddWaiter" Grid.Column="0" Margin="0 10 10 0" >
+                Add</Button>
+            <Button Name="DeleteWaiter" Grid.Column="1" Margin="10 10 0 0" >
+                Delete</Button>
+        </Grid>
+    </Grid>
+</UserControl>

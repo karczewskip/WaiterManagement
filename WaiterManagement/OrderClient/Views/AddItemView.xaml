@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="OrderClient.Views.AddItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" >
+            <Label Content="Category" />
+            <ComboBox x:Name="Categories" Margin="5">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        
+        <ListView x:Name="MenuItems" Grid.Row="1" SelectionMode="Single">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="60">
+                        <GridViewColumnHeader Content="Add" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate >
+                                <Button x:Name="AddItem" Width="40" Tag="{Binding}" Content="Add" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="150" DisplayMemberBinding="{Binding Name}" >
+                        <GridViewColumnHeader Content="Name" />
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="Exit" Content="Exit" Grid.Row="2" Width="50" Margin="5 5 0 0" HorizontalAlignment="Right" />
+    </Grid>
+</UserControl>

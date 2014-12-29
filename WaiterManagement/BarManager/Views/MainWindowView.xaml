@@ -1,0 +1,30 @@
+﻿<Window x:Class="BarManager.Views.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manager" Height="525" Width="525" ResizeMode="NoResize"
+        Icon="../Icons/fastfood.png">
+    <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Name="MenuManager" Content="Menu" Grid.Column="0" Margin="0 10 13 10" />
+            <Button Name="WaiterManager" Content="Waiters"  Grid.Column="1" Margin="7 10 7 10"/>
+            <Button Name="TableManager" Content="Tables" Grid.Column="2" Margin="13 10 0 10"/>
+        </Grid>
+        <ContentControl x:Name="ActiveItem" Grid.Row="1" Grid.Column="1"/>
+        <Button Name="Close" Content="Close" Grid.Row="2" Grid.Column="1" Margin="0 10 0 20" />
+    </Grid>
+</Window>

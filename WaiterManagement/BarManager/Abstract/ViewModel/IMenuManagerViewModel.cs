@@ -4,22 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassLib.DbDataStructures;
+using Caliburn.Micro;
 
 namespace BarManager.Abstract
 {
     public interface IMenuManagerViewModel
     {
-        IList<MenuItem> ListOfMenuItems { get; set; }
-        IList<MenuItemCategory> ListOfCategories { get; set; }
-        IList<MenuItemCategory> ShowingCategories { get; set; }
+        IList<MenuItem> AllMenuItems { get; set; }
+        BindableCollection<MenuItem> MenuItems { get; set; }
+        IList<MenuItemCategory> Categories { get; set; }
+        IList<MenuItemCategory> AvailableCategories { get; set; }
 
-        bool DeleteSelectedItem(out string error);
+        void DeleteItem();
 
 
         void ShowCurrentCategory(MenuItemCategory category);
 
         void AddNewMenuItem(MenuItem addingMenuItem);
 
-        void AddCategory(MenuItemCategory addingCategory);
+        void AddCategoryToViewModel(MenuItemCategory addingCategory);
+
+        void CloseDialogs();
     }
 }

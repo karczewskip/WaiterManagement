@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="OrderClient.Views.CurrentOrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Your Order" />
+        <ListView x:Name="MenuItems" Grid.Row="1" SelectionMode="Single">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="60">
+                        <GridViewColumnHeader Content="Remove" />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate >
+                                <Button x:Name="RemoveItem" Width="40" Tag="{Binding}" Content="Remove" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="150" DisplayMemberBinding="{Binding Name}" >
+                        <GridViewColumnHeader Content="Name" />
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label x:Name="Salary" Grid.Row="2" />
+    </Grid>
+</UserControl>
