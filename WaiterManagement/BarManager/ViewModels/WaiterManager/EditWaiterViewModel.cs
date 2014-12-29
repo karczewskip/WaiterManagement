@@ -15,7 +15,7 @@ namespace BarManager.ViewModels
         private IWaiterManagerViewModel WaiterManagerViewModel;
         private IBarDataModel DataModel;
 
-        private WaiterContext Waiter;
+        private UserContext Waiter;
 
         private string login;
         public string Login 
@@ -73,7 +73,7 @@ namespace BarManager.ViewModels
             }
         }
 
-        public IList<WaiterContext> ListOfWaiters { get { return WaiterManagerViewModel.Waiters; } }
+        public IList<UserContext> ListOfWaiters { get { return WaiterManagerViewModel.Waiters; } }
 
         public EditWaiterViewModel(IBarDataModel dataModel, IWaiterManagerViewModel waiterManagerViewModel)
         {
@@ -81,14 +81,15 @@ namespace BarManager.ViewModels
             WaiterManagerViewModel = waiterManagerViewModel;
         }
 
-        public void RefreshItem(ClassLib.DbDataStructures.WaiterContext waiter)
+        public void RefreshItem(UserContext waiter)
         {
             Waiter = waiter;
 
             Login = waiter.Login;
             FirstName = waiter.FirstName;
             LastName = waiter.LastName;
-            Password = waiter.Password;
+            //Password = waiter.Password; 
+            //TODO: Password
         }
 
         public void ChangeWaiter()

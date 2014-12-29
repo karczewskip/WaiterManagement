@@ -14,10 +14,10 @@ namespace BarManager.ViewModels
         private IAddWaiterViewModel _addWaiterViewModel;
         private IEditWaiterViewModel _editWaiterViewModel;
 
-        public WaiterContext SelectedWaiter { get; set; }
+        public UserContext SelectedWaiter { get; set; }
 
-        private BindableCollection<WaiterContext> _waiters;
-        public BindableCollection<WaiterContext> Waiters
+        private BindableCollection<UserContext> _waiters;
+        public BindableCollection<UserContext> Waiters
         {
             get { return _waiters; }
             set
@@ -31,14 +31,14 @@ namespace BarManager.ViewModels
         {
             DataModel = dataModel;
 
-            Waiters = new BindableCollection<WaiterContext>();
+            Waiters = new BindableCollection<UserContext>();
 
             InitializeData();
         }
 
         private void InitializeData()
         {
-            Waiters = new BindableCollection<WaiterContext>(DataModel.GetAllWaiters());
+            Waiters = new BindableCollection<UserContext>(DataModel.GetAllWaiters());
         }
 
         public void DeleteWaiter()

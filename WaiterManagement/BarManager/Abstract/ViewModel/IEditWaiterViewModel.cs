@@ -1,10 +1,12 @@
 ﻿
+using ClassLib.DbDataStructures;
 namespace BarManager.Abstract
 {
     public interface IEditWaiterViewModel
     {
-        void RefreshItem(ClassLib.DbDataStructures.WaiterContext Waiter);
 
         void ChangeWaiter();
+
+        void RefreshItem(UserContext SelectedWaiter);
     }
 }

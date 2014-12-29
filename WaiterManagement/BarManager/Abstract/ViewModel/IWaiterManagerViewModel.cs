@@ -5,7 +5,7 @@ namespace BarManager.Abstract
 {
     public interface IWaiterManagerViewModel
     {
-        BindableCollection<WaiterContext> Waiters { get; set; }
+        BindableCollection<UserContext> Waiters { get; set; }
 
         void DeleteWaiter();
 
