@@ -14,22 +14,23 @@ namespace QuickDatabaseSetup
         {
             Console.Write("### Obtaining Manager Data Access...");
             IManagerDataAccess managerDataAccess = new DataAccessClass();
+            IDataWipe dataWipe = new DataAccessClass();
             Console.WriteLine("### Done.");
             Console.Write("### Cleaning any existing data...");
-            WipeAllDatabaseData(managerDataAccess);
+            WipeAllDatabaseData(dataWipe, managerDataAccess);
             Console.WriteLine("### Done.");
             Console.WriteLine("### Press any key to fill database with data...");
             var keyInfo = Console.ReadKey();
-            DatabaseDataFill(managerDataAccess);
+            DatabaseDataFill(dataWipe, managerDataAccess);
             Console.WriteLine("### Database filled with data. Press any key to wipe data...");
             keyInfo = Console.ReadKey();
-            WipeAllDatabaseData(managerDataAccess);
+            WipeAllDatabaseData(dataWipe, managerDataAccess);
             Console.WriteLine("### Done. Press any key to exit.");
             keyInfo = Console.ReadKey();
             Console.WriteLine("### Exiting.");
         }
 
-        private static void DatabaseDataFill(IManagerDataAccess managerDataAccess)
+        private static void DatabaseDataFill(IDataWipe dataWipe, IManagerDataAccess managerDataAccess)
         {
             try
             {
@@ -119,12 +120,12 @@ namespace QuickDatabaseSetup
                 Console.Write(" *** An error Occured. Wiping database...");
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.InnerException != null ? e.InnerException.Message : String.Empty);
-                WipeAllDatabaseData(managerDataAccess);
+                WipeAllDatabaseData(dataWipe, managerDataAccess);
                 Console.WriteLine("Done.");
             }
         }
 
-        private static void WipeAllDatabaseData(IManagerDataAccess managerDataAccess)
+        private static void WipeAllDatabaseData(IDataWipe dataWipe, IManagerDataAccess managerDataAccess)
         {
             try
             {
@@ -132,7 +133,7 @@ namespace QuickDatabaseSetup
                 foreach (Order order in orders)
                 {
                     Console.Write("=> Erasing Order Id = {0}...", order.Id);
-                    if (managerDataAccess.RemoveOrder(order.Id))
+                    if (dataWipe.WipeOrder(order.Id))
                         Console.WriteLine("Done.");
                     else
                         Console.WriteLine(" *** Error !!!");
@@ -142,7 +143,7 @@ namespace QuickDatabaseSetup
                 foreach (MenuItem menuItem in menuItems)
                 {
                     Console.Write("=> Erasing MenuItem Id = {0}...", menuItem.Id);
-                    if (managerDataAccess.RemoveMenuItem(menuItem.Id))
+                    if (dataWipe.WipeMenuItem(menuItem.Id))
                         Console.WriteLine("Done.");
                     else
                         Console.WriteLine(" *** Error !!!");
@@ -152,7 +153,7 @@ namespace QuickDatabaseSetup
                 foreach (MenuItemCategory menuItemCategory in menuItemCategories)
                 {
                     Console.Write("=> Erasing MenuItemCategory Id = {0}...", menuItemCategory.Id);
-                    if (managerDataAccess.RemoveMenuItemCategory(menuItemCategory.Id))
+                    if (dataWipe.WipeMenuItemCategory(menuItemCategory.Id))
                         Console.WriteLine("Done.");
                     else
                         Console.WriteLine(" *** Error !!!");
@@ -162,7 +163,7 @@ namespace QuickDatabaseSetup
                 foreach (Table table in tables)
                 {
                     Console.Write("=>  Erasing Table Id = {0}...", table.Id);
-                    if (managerDataAccess.RemoveTable(table.Id))
+                    if (dataWipe.WipeTable(table.Id))
                         Console.WriteLine("Done.");
                     else
                         Console.WriteLine(" *** Error !!!");
@@ -172,7 +173,7 @@ namespace QuickDatabaseSetup
                 foreach (WaiterContext waiterContext in waiters)
                 {
                     Console.Write("=> Erasing Waiter Id = {0}... ", waiterContext.Id);
-                    if (managerDataAccess.RemoveWaiter(waiterContext.Id))
+                    if (dataWipe.WipeWaiter(waiterContext.Id))
                         Console.WriteLine("Done.");
                     else
                         Console.WriteLine(" **** Error !!!");

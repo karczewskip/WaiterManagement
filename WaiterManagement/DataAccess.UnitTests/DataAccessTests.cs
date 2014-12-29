@@ -15,6 +15,7 @@ namespace DataAccess.UnitTests
     {
         IManagerDataAccess managerDataAccess = null;
         IWaiterDataAccess waiterDataAccess = null;
+        IDataWipe dataWipe = null;
 
         string waiterFirstName1 = "Don";
         string waiterLastName1 = "Juan";
@@ -73,6 +74,7 @@ namespace DataAccess.UnitTests
 
             managerDataAccess = new DataAccessClass();
             waiterDataAccess = new DataAccessClass();
+            dataWipe = new DataAccessClass();
         }
 
         [TestMethod]
@@ -221,25 +223,25 @@ namespace DataAccess.UnitTests
             Assert.AreEqual(editedTable.Description, tableEditedDescription1);
         }
 
-        [TestMethod]
-        public void EditWaiterTest()
-        {
-            if (waiterContext1 == null)
-                AddNewWaiterTest();
+        //[TestMethod]
+        //public void EditWaiterTest()
+        //{
+        //    if (waiterContext1 == null)
+        //        AddNewWaiterTest();
 
-            waiterContext1.LastName = waiterEditedLastName1;
+        //    waiterContext1.LastName = waiterEditedLastName1;
 
-            bool result = managerDataAccess.EditWaiter(waiterContext1);
-            Assert.IsTrue(result);
+        //    bool result = managerDataAccess.EditWaiter(waiterContext1);
+        //    Assert.IsTrue(result);
 
-            var waiters = managerDataAccess.GetWaiters();
-            Assert.IsTrue(waiters != null || waiters.Any());
+        //    var waiters = managerDataAccess.GetWaiters();
+        //    Assert.IsTrue(waiters != null || waiters.Any());
 
-            var editedWaiter = waiters.FirstOrDefault( w => w.Id == waiterContext1.Id);
-            Assert.IsNotNull(editedWaiter);
+        //    var editedWaiter = waiters.FirstOrDefault(w => w.Id == waiterContext1.Id);
+        //    Assert.IsNotNull(editedWaiter);
 
-            Assert.AreEqual(editedWaiter.LastName, waiterEditedLastName1);
-        }
+        //    Assert.AreEqual(editedWaiter.LastName, waiterEditedLastName1);
+        //}
 
         [TestMethod]
         public void RemoveMenuItemCategoryTest()
@@ -463,28 +465,28 @@ namespace DataAccess.UnitTests
         public void TestCleanup()
         {
             if (order1 != null)
-                managerDataAccess.RemoveOrder(order1.Id);
+                dataWipe.WipeOrder(order1.Id);
 
             if (waiterContext1 != null)
-                managerDataAccess.RemoveWaiter(waiterContext1.Id);
+                dataWipe.WipeWaiter(waiterContext1.Id);
 
             if (waiterContext2 != null)
-                managerDataAccess.RemoveWaiter(waiterContext2.Id);
+                dataWipe.WipeWaiter(waiterContext2.Id);
 
             if (menuItem1 != null)
-                managerDataAccess.RemoveMenuItem(menuItem1.Id);
+                dataWipe.WipeMenuItem(menuItem1.Id);
 
             if (menuItem2 != null)
-                managerDataAccess.RemoveMenuItem(menuItem2.Id);
+                dataWipe.WipeMenuItem(menuItem2.Id);
 
             if (menuItem3 != null)
-                managerDataAccess.RemoveMenuItem(menuItem3.Id);
+                dataWipe.WipeMenuItem(menuItem3.Id);
 
             if (category1 != null)
-                managerDataAccess.RemoveMenuItemCategory(category1.Id);            
+                dataWipe.WipeMenuItemCategory(category1.Id);            
 
             if (table1 != null)
-                managerDataAccess.RemoveTable(table1.Id);
+                dataWipe.WipeTable(table1.Id);
 
             order1 = null;
             waiterContext1 = null;
