@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="OrderClient.Views.LoggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+             mc:Ignorable="d" 
+             d:DesignHeight="310" d:DesignWidth="300">
+    <Grid Height="310">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>   
+        <Label Content="Login" />
+        <TextBox x:Name="UserName" Grid.Row="1" />
+        <Label Content="Password" Grid.Row="2" />
+        <PasswordBox cm:Message.Attach=" [Event PasswordChanged] = [Action PasswordChanged($source)]" Grid.Row="3" />
+        <Button x:Name="LogIn" Content="Log in" Grid.Row="5" />
+    </Grid>
+</UserControl>

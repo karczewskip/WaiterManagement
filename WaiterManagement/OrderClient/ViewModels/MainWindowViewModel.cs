@@ -11,7 +11,14 @@ namespace OrderClient.ViewModels
 {
     class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
     {
+        private IDialogLogin _dialogLogin;
         private IDialogMainWindow _dialogOrderWindow;
+
+        public MainWindowViewModel()
+        {
+            _dialogLogin = new LoggerViewModel(this);
+            ActivateItem(_dialogLogin);
+        }
 
         public void AddNewOrder()
         {
@@ -22,6 +29,11 @@ namespace OrderClient.ViewModels
         public void CancelOrder()
         {
             DeactivateItem(_dialogOrderWindow, true);
+        }
+
+        public void LogIn()
+        {
+            DeactivateItem(_dialogLogin, true);
         }
     }
 }

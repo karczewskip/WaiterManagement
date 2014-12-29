@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderClient.Abstract
 {
-    public interface IMainWindowViewModel
+    interface IDialogLogin
     {
-        void CancelOrder();
-
-        void LogIn();
     }
 }
