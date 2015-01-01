@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClassLib.ServiceContracts
 {
+    [ServiceContract]
     public interface IBaseDataAccessWCFService
     {
         [OperationContract]
@@ -22,6 +23,7 @@ namespace ClassLib.ServiceContracts
         IEnumerable<Table> GetTables();
     }
 
+    [ServiceContract]
     public interface IManagerDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
@@ -56,6 +58,7 @@ namespace ClassLib.ServiceContracts
         bool RemoveOrder(int orderId);
     }
 
+    [ServiceContract]
     public interface IWaiterDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
@@ -68,6 +71,7 @@ namespace ClassLib.ServiceContracts
         bool SetOrderState(int waiterId, int orderId, OrderState state);
     }
 
+    [ServiceContract]
     public  interface IClientDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
