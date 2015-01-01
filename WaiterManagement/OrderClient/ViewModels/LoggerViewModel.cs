@@ -1,5 +1,6 @@
 ﻿using ClassLib.DataStructures;
 using OrderClient.Abstract;
+using OrderClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,32 +22,17 @@ namespace OrderClient.ViewModels
             set { _userName = value; }
         }
 
-        private string _password;
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                _password = HashClass.CreateFirstHash(value, _userName);
-            }
-        }
-
         public LoggerViewModel(IMainWindowViewModel mainWindow)
         {
             _mainWindow = mainWindow;
         }
 
-        public void LogIn()
+        public void LogIn(LoggerView view)
         {
-            MessageBox.Show("User Name == " + _userName + ", password == " + _password);
+            MessageBox.Show(view.PasswordB.Password);
+            MessageBox.Show("User Name == " + _userName + ", password == " + HashClass.CreateFirstHash(view.PasswordB.Password, _userName));
             _mainWindow.LogIn();
         }
-
-        public void PasswordChanged(PasswordBox p)
-        {
-            Password = p.Password;
-        }
-
         
     }
 }

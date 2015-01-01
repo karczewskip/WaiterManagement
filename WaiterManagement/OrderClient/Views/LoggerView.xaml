@@ -19,7 +19,7 @@
         <Label Content="Login" />
         <TextBox x:Name="UserName" Grid.Row="1" />
         <Label Content="Password" Grid.Row="2" />
-        <PasswordBox cm:Message.Attach=" [Event PasswordChanged] = [Action PasswordChanged($source)]" Grid.Row="3" />
-        <Button x:Name="LogIn" Content="Log in" Grid.Row="5" />
+        <PasswordBox x:Name="PasswordB" Grid.Row="3" />
+        <Button cm:Message.Attach="[Event Click] = [Action LogIn($View)]" Content="Log in" Grid.Row="5" />
     </Grid>
 </UserControl>
