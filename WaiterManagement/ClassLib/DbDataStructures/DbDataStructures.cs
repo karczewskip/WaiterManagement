@@ -127,7 +127,7 @@ namespace ClassLib.DbDataStructures
         [DataMember]
         public DateTime ClosingDate { get; set; }
 
-        bool Equals(Order other)
+        public bool Equals(Order other)
         {
             if(this.MenuItems.Count != other.MenuItems.Count)
                 return false;
