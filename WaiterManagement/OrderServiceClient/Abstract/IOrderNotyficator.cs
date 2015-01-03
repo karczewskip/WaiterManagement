@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BarManager.Abstract
+namespace OrderServiceClient.Abstract
 {
-    interface IMainWindowViewModel
+    interface IOrderNotyficator
     {
-        void ReCheckLoggining();
+        void SetTarget(IMainWindowViewModel mainWindow);
     }
 }

@@ -4,17 +4,22 @@ using Caliburn.Micro;
 
 namespace BarManager.ViewModels
 {
-    public class MainWindowViewModel : Conductor<object>
+    public class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
     {
         private readonly IMenuManagerViewModel _menuManagerViewModel;
         private readonly IWaiterManagerViewModel _waiterManagerViewModel;
         private readonly ITableManagerViewModel _tableManagerViewModel;
+        private readonly IBarDataModel _barDataModel;
 
-        public MainWindowViewModel(IMenuManagerViewModel menuManagerViewModel, IWaiterManagerViewModel waiterManagerViewModel, ITableManagerViewModel tableManagerViewModel)
+        public MainWindowViewModel(IMenuManagerViewModel menuManagerViewModel, IWaiterManagerViewModel waiterManagerViewModel, ITableManagerViewModel tableManagerViewModel, IBarDataModel barDataModel)
         {
+            _barDataModel = barDataModel;
+
             _menuManagerViewModel = menuManagerViewModel;
             _waiterManagerViewModel = waiterManagerViewModel;
             _tableManagerViewModel = tableManagerViewModel;
+
+            ActivateItem(new AccessViewModel(this,_barDataModel));
         }
 
 
@@ -24,16 +29,36 @@ namespace BarManager.ViewModels
             ActivateItem(_menuManagerViewModel );
         }
 
+        public bool CanMenuManager
+        {
+            get { return IsLogged(); }
+        }
+
+        private bool IsLogged()
+        {
+            return _barDataModel.IsLogged();
+        }
+
         public void WaiterManager()
         {
             CloseAllDialogs();
             ActivateItem(_waiterManagerViewModel);
         }
 
+        public bool CanWaiterManager
+        {
+            get { return IsLogged(); }
+        }
+
         public void TableManager()
         {
             CloseAllDialogs();
             ActivateItem(_tableManagerViewModel);
+        }
+
+        public bool CanTableManager
+        {
+            get { return IsLogged(); }
         }
 
         public void Close()
@@ -46,6 +71,18 @@ namespace BarManager.ViewModels
             _menuManagerViewModel.CloseDialogs();
             _waiterManagerViewModel.CloseDialogs();
             _tableManagerViewModel.CloseDialogs();
+        }
+
+        public void ReCheckLoggining()
+        {
+            if(IsLogged())
+            {
+                NotifyOfPropertyChange(() => CanMenuManager);
+                NotifyOfPropertyChange(() => CanWaiterManager);
+                NotifyOfPropertyChange(() => CanTableManager);
+
+                MenuManager();
+            }
         }
     }
 }

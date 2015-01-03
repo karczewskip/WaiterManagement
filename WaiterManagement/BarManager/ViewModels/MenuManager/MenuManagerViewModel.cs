@@ -59,7 +59,7 @@ namespace BarManager.ViewModels
                 AvailableCategories.Add(category);
             }
 
-            AllItemsFlag = new MenuItemCategory() { Name = "All" };
+            AllItemsFlag = new MenuItemCategory() { Name = "All", Description = "All" };
             Categories.Add(AllItemsFlag);
 
             SelectedCategory = AllItemsFlag;

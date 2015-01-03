@@ -34,11 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="Caliburn.Micro.Platform">
+      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
@@ -47,6 +53,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -73,8 +81,11 @@
     <Compile Include="Abstract\ViewModel\IEditMenuItemViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IEditTableViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IEditWaiterViewModel.cs" />
+    <Compile Include="Abstract\ViewModel\IAccessViewModel.cs" />
+    <Compile Include="Abstract\ViewModel\ILoggerViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IMenuManagerViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IMessagingViewModel.cs" />
+    <Compile Include="Abstract\ViewModel\IRegisterViewModel.cs" />
     <Compile Include="Abstract\ViewModel\ITableManagerViewModel.cs" />
     <Compile Include="Abstract\Model\IBarDataModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddCategoryViewModel.cs" />
@@ -82,10 +93,13 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Messaging\Messaging.cs" />
     <Compile Include="Model\BarDataModel.cs" />
+    <Compile Include="ViewModels\AccessViewModel.cs" />
+    <Compile Include="ViewModels\LoggerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuManager\AddCategoryViewModel.cs" />
     <Compile Include="ViewModels\MenuManager\AddMenuItemViewModel.cs" />
     <Compile Include="ViewModels\MessagingViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\WaiterManager\AddWaiterViewModel.cs" />
     <Compile Include="ViewModels\MenuManager\EditMenuItemViewModel.cs" />
     <Compile Include="ViewModels\TableManager\EditTableViewModel.cs" />
@@ -93,6 +107,12 @@
     <Compile Include="ViewModels\MenuManager\MenuManagerViewModel.cs" />
     <Compile Include="ViewModels\TableManager\TableManagerViewModel.cs" />
     <Compile Include="ViewModels\WaiterManager\WaiterManagerViewModel.cs" />
+    <Compile Include="Views\AccessView.xaml.cs">
+      <DependentUpon>AccessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoggerView.xaml.cs">
+      <DependentUpon>LoggerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuManager\AddCategoryView.xaml.cs">
       <DependentUpon>AddCategoryView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +122,9 @@
     <Compile Include="ViewModels\TableManager\AddTableViewModel.cs" />
     <Compile Include="Views\MessagingView.xaml.cs">
       <DependentUpon>MessagingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegisterView.xaml.cs">
+      <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TableManager\AddTableView.xaml.cs">
       <DependentUpon>AddTableView.xaml</DependentUpon>
@@ -131,6 +154,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AccessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoggerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MenuManager\AddCategoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MessagingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegisterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -250,7 +285,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
-    <Folder Include="ViewModels\Messaging\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

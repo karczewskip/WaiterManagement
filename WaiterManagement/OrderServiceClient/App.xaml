@@ -1,14 +1,14 @@
-﻿<Application x:Class="OrderClient.App"
+﻿<Application x:Class="OrderServiceClient.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:orderClient="clr-namespace:OrderClient">
+             xmlns:local="clr-namespace:OrderServiceClient">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="/Style/Style.xaml"/>-->
                 <ResourceDictionary>
                     <!--<orderClient:AppBootstrapper x:Key="bootstrapper" />-->
-                    <orderClient:AppBootstrapper x:Key="bootstrapper" />
+                    <local:AppBootstrapper x:Key="bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

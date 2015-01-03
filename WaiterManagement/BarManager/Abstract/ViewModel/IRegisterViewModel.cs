@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BarManager.Abstract
+namespace BarManager.Abstract.ViewModel
 {
-    interface IMainWindowViewModel
+    interface IRegisterViewModel
     {
-        void ReCheckLoggining();
     }
 }
