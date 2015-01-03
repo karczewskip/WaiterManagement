@@ -16,46 +16,48 @@ namespace ClassLib.ServiceContracts
         [OperationContract]
         bool LogOut(int id);
         [OperationContract]
-        IEnumerable<MenuItemCategory> GetMenuItemCategories();
+        IEnumerable<MenuItemCategory> GetMenuItemCategories(int userId);
         [OperationContract]
-        IEnumerable<MenuItem> GetMenuItems();
+        IEnumerable<MenuItem> GetMenuItems(int userId);
         [OperationContract]
-        IEnumerable<Table> GetTables();
+        IEnumerable<Table> GetTables(int userId);
     }
 
     [ServiceContract]
     public interface IManagerDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
-        MenuItemCategory AddMenuItemCategory(string name, string description);
+        UserContext AddManager(string firstName, string lastName, string login, string lastName);
         [OperationContract]
-        bool EditMenuItemCategory(MenuItemCategory menuItemCategoryToEdit);
+        MenuItemCategory AddMenuItemCategory(int managerId, string name, string description);
         [OperationContract]
-        bool RemoveMenuItemCategory(int categoryId);
+        bool EditMenuItemCategory(int managerId, MenuItemCategory menuItemCategoryToEdit);
         [OperationContract]
-        MenuItem AddMenuItem(string name, string description, int categoryId, Money price);
+        bool RemoveMenuItemCategory(int managerId, int categoryId);
         [OperationContract]
-        bool EditMenuItem(MenuItem menuItemToEdit);
+        MenuItem AddMenuItem(int managerId, string name, string description, int categoryId, Money price);
         [OperationContract]
-        bool RemoveMenuItem(int menuItemId);
+        bool EditMenuItem(int managerId, MenuItem menuItemToEdit);
         [OperationContract]
-        UserContext AddWaiter(string firstName, string lastName, string login, string password);
+        bool RemoveMenuItem(int managerId, int menuItemId);
         [OperationContract]
-        bool EditWaiter(UserContext waiterToEdit);
+        UserContext AddWaiter(int managerId, string firstName, string lastName, string login, string password);
         [OperationContract]
-        bool RemoveWaiter(int waiterId);
+        bool EditWaiter(int managerId, UserContext waiterToEdit);
         [OperationContract]
-        IEnumerable<UserContext> GetWaiters();
+        bool RemoveWaiter(int managerId, int waiterId);
         [OperationContract]
-        Table AddTable(int tableNumber, string description);
+        IEnumerable<UserContext> GetWaiters(int managerId);
         [OperationContract]
-        bool EditTable(Table tableToEdit);
+        Table AddTable(int managerId, int tableNumber, string description);
         [OperationContract]
-        bool RemoveTable(int tableId);
+        bool EditTable(int managerId, Table tableToEdit);
         [OperationContract]
-        IEnumerable<Order> GetOrders();
+        bool RemoveTable(int managerId, int tableId);
         [OperationContract]
-        bool RemoveOrder(int orderId);
+        IEnumerable<Order> GetOrders(int managerId);
+        [OperationContract]
+        bool RemoveOrder(int managerId, int orderId);
     }
 
     [ServiceContract]

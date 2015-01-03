@@ -8,13 +8,14 @@ using System.Security;
 using System.Data.Entity;
 using DataAccess.Migrations;
 using ClassLib.DataStructures;
+using ClassLib.ServiceContracts;
 
 namespace DataAccess
 {
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    public class DataAccessClass : IManagerDataAccess, IWaiterDataAccess, IDataWipe
+    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IDataWipe
     {
         #region Private Fields
         private HashSet<UserContext> loggedInUsers;
@@ -109,6 +110,36 @@ namespace DataAccess
         #endregion
 
         #region IManagerDataAccess
+        public UserContext AddManager(string firstName, string lastName, string login, string password)
+        {
+            if (String.IsNullOrEmpty(firstName))
+                throw new ArgumentNullException("firstName is null");
+            if (String.IsNullOrEmpty(lastName))
+                throw new ArgumentNullException("lastName is null");
+            if (String.IsNullOrEmpty(login))
+                throw new ArgumentNullException("login is null");
+            if (String.IsNullOrEmpty(password))
+                throw new ArgumentNullException("password is null");
+
+            UserContext newManager = null;
+
+            using(var db = new DataAccessProvider())
+            {
+                //sprawdzenie czy dany login już istnieje
+                var managerSameLogin = db.Users.FirstOrDefault(u => u.Role == UserRole.Manager && u.Login == login);
+
+                if(managerSameLogin != null)
+                    throw new ArgumentException(String.Format("There already is a manager with login = {0}.", login));
+
+                newManager = new UserContext() { Login = login, FirstName = firstName, LastName = lastName, Role = UserRole.Manager };
+
+                newManager = db.Users.Add(newManager);
+                db.SaveChanges();
+            }
+
+            return newManager;
+        }
+
         public MenuItemCategory AddMenuItemCategory(int managerId, string name, string description)
         {
             if (!CheckHasUserRole(managerId, UserRole.Manager))
