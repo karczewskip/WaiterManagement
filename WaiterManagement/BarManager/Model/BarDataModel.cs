@@ -10,6 +10,7 @@ namespace BarManager.Model
     public class BarDataModel : IBarDataModel
     {
         private IManagerDataAccess ManagerDataAccess;
+        private bool access = false;
 
         public BarDataModel(IManagerDataAccess managerDataAccess)
         {
@@ -20,7 +21,8 @@ namespace BarManager.Model
         {
             try
             {
-                return ManagerDataAccess.GetMenuItemCategories().ToList();
+                //TODO:
+                return new List<MenuItemCategory>();//ManagerDataAccess.GetMenuItemCategories().ToList();
             }
             catch
             {
@@ -33,7 +35,8 @@ namespace BarManager.Model
             MenuItemCategory AddingCategory;
             try
             {
-                AddingCategory = ManagerDataAccess.AddMenuItemCategory(categoryName, categoryDescription);
+                //TODO:
+                AddingCategory = null;//ManagerDataAccess.AddMenuItemCategory(categoryName, categoryDescription);
             }
             catch
             {
@@ -46,7 +49,8 @@ namespace BarManager.Model
         {
             try
             {
-                return ManagerDataAccess.GetMenuItems().ToList();
+                //TODO:
+                return new List<MenuItem>();// ManagerDataAccess.GetMenuItems().ToList();
             }
             catch
             {
@@ -60,7 +64,8 @@ namespace BarManager.Model
             MenuItem AddingMenuItem;
             try
             {
-                AddingMenuItem = ManagerDataAccess.AddMenuItem(menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = "PLN" });
+                //TODO:
+                AddingMenuItem = null;// ManagerDataAccess.AddMenuItem(menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = "PLN" });
             }
             catch
             {
@@ -81,7 +86,8 @@ namespace BarManager.Model
             bool result;
             try
             {
-                result = ManagerDataAccess.RemoveMenuItem(id);
+                //TODO:
+                result = false;// ManagerDataAccess.RemoveMenuItem(id);
             }
             catch
             {
@@ -107,7 +113,8 @@ namespace BarManager.Model
 
             try
             {
-                result = ManagerDataAccess.EditMenuItem(menuItemToEdit);
+                //TODO:
+                result = false;// ManagerDataAccess.EditMenuItem(menuItemToEdit);
             }
             catch
             {
@@ -133,11 +140,12 @@ namespace BarManager.Model
         }
 
 
-        public IList<WaiterContext> GetAllWaiters()
+        public IList<UserContext> GetAllWaiters()
         {
             try
             {
-                return ManagerDataAccess.GetWaiters().ToList();
+                //TODO:
+                return new List<UserContext>();// ManagerDataAccess.GetWaiters().ToList();
             }
             catch
             {
@@ -150,7 +158,8 @@ namespace BarManager.Model
             bool result;
             try
             {
-                result = ManagerDataAccess.RemoveWaiter(id);
+                //TODO:
+                result = false; // ManagerDataAccess.RemoveWaiter(id);
             }
             catch
             {
@@ -161,12 +170,13 @@ namespace BarManager.Model
         }
 
 
-        public WaiterContext AddWaiter(string login, string firstName, string lastName, string password)
+        public UserContext AddWaiter(string login, string firstName, string lastName, string password)
         {
-            WaiterContext AddingWaiter;
+            UserContext AddingWaiter;
             try
             {
-                AddingWaiter = ManagerDataAccess.AddWaiter(firstName, lastName, login, password);
+                //TODO:
+                AddingWaiter = null;// ManagerDataAccess.AddWaiter(firstName, lastName, login, password);
             }
             catch
             {
@@ -177,30 +187,31 @@ namespace BarManager.Model
         }
 
 
-        public bool EditWaiter(WaiterContext waiter, string login, string firstName, string lastName, string password)
+        public bool EditWaiter(UserContext waiter, string login, string firstName, string lastName, string password)
         {
             bool result;
 
             var oldLogin = waiter.Login;
             var oldFirstName = waiter.FirstName;
             var oldSecondName = waiter.LastName;
-            var oldPassword = waiter.Password;
+            //var oldPassword = waiter.Password;
 
             waiter.Login = login;
             waiter.FirstName = firstName;
             waiter.LastName = lastName;
-            waiter.Password = password;
+            //waiter.Password = password;
 
             try
             {
-                result = ManagerDataAccess.EditWaiter(waiter);
+                //TODO:
+                result = false;// ManagerDataAccess.EditWaiter(waiter);
             }
             catch
             {
                 waiter.Login = oldLogin;
                 waiter.FirstName = oldFirstName;
                 waiter.LastName = oldSecondName;
-                waiter.Password = oldPassword;
+                //waiter.Password = oldPassword;
 
                 throw new Exception("Exception from DB");
             }
@@ -210,7 +221,7 @@ namespace BarManager.Model
                 waiter.Login = oldLogin;
                 waiter.FirstName = oldFirstName;
                 waiter.LastName = oldSecondName;
-                waiter.Password = oldPassword;
+                //waiter.Password = oldPassword;
             }
 
             return result;
@@ -221,7 +232,8 @@ namespace BarManager.Model
         {
             try
             {
-                return ManagerDataAccess.GetTables().ToList();
+                //TODO:
+                return new List<Table>();// ManagerDataAccess.GetTables().ToList();
             }
             catch
             {
@@ -234,7 +246,8 @@ namespace BarManager.Model
             bool result;
             try
             {
-                result = ManagerDataAccess.RemoveTable(id);
+                //TODO:
+                result = false; // ManagerDataAccess.RemoveTable(id);
             }
             catch
             {
@@ -250,7 +263,8 @@ namespace BarManager.Model
             Table addingTable;
             try
             {
-                addingTable = ManagerDataAccess.AddTable(number, tableDescription);
+                //TODO:
+                addingTable = null; // ManagerDataAccess.AddTable(number, tableDescription);
             }
             catch
             {
@@ -273,7 +287,8 @@ namespace BarManager.Model
 
             try
             {
-                result = ManagerDataAccess.EditTable(table);
+                //TODO:
+                result = false; // ManagerDataAccess.EditTable(table);
             }
             catch
             {
@@ -290,6 +305,17 @@ namespace BarManager.Model
             }
 
             return result;
+        }
+
+        public bool IsLogged()
+        {
+            return access;
+        }
+
+
+        public void LogIn()
+        {
+            access = true;
         }
     }
 }

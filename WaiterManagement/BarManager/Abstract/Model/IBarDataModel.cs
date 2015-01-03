@@ -35,5 +35,9 @@ namespace BarManager.Abstract
         Table AddTable(int number, string tableDescription);
 
         bool EditTable(Table table, int number, string tableDescription);
+
+        bool IsLogged();
+
+        void LogIn();
     }
 }

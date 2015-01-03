@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{41F66C53-CD5D-4459-A05E-68ABFE7F697A}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickDatabaseSetup", "QuickDatabaseSetup\QuickDatabaseSetup.csproj", "{2BB148A5-F3CB-4E42-915E-330A35C12164}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderClient", "OrderClient\OrderClient.csproj", "{7E882E03-0332-4D59-AD07-F37B21A8AA14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderServiceClient", "OrderServiceClient\OrderServiceClient.csproj", "{0A29607E-824B-4279-8641-C09D14088B96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{7E882E03-0332-4D59-AD07-F37B21A8AA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E882E03-0332-4D59-AD07-F37B21A8AA14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E882E03-0332-4D59-AD07-F37B21A8AA14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A29607E-824B-4279-8641-C09D14088B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A29607E-824B-4279-8641-C09D14088B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A29607E-824B-4279-8641-C09D14088B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A29607E-824B-4279-8641-C09D14088B96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
