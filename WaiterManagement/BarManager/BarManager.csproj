@@ -54,6 +54,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -93,6 +95,11 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Messaging\Messaging.cs" />
     <Compile Include="Model\BarDataModel.cs" />
+    <Compile Include="Service References\ManagerDataAccessWCFService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AccessViewModel.cs" />
     <Compile Include="ViewModels\LoggerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -248,6 +255,31 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItemCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Order.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Table.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.UserContext.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -285,6 +317,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ManagerDataAccessWCFService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ManagerDataAccessWCFService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ManagerDataAccessWCFService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ManagerDataAccessWCFService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

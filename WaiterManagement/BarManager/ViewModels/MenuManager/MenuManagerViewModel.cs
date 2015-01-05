@@ -1,6 +1,6 @@
 ﻿using BarManager.Abstract;
 using Caliburn.Micro;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;

@@ -1,5 +1,5 @@
-﻿
-using ClassLib.DbDataStructures;
+﻿using BarManager.ManagerDataAccessWCFService;
+
 namespace BarManager.Abstract
 {
     public interface IEditWaiterViewModel

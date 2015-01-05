@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="83cb1c8c-03d3-4cb7-91e9-838dc61ab997" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost/DataAccessIISHost/DataAccess.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="DataAccess.xsd" MetadataType="Schema" ID="3d697b2b-ae49-44b5-a581-3097b0af5e57" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd1" />
+    <MetadataFile FileName="DataAccess.disco" MetadataType="Disco" ID="8404c78a-7442-468a-83ed-8e854fdf8158" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?disco" />
+    <MetadataFile FileName="DataAccess1.xsd" MetadataType="Schema" ID="596f910e-af6e-4e6c-b03f-775599846a2a" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd2" />
+    <MetadataFile FileName="DataAccessClass.wsdl" MetadataType="Wsdl" ID="12933cb6-4f54-4742-946c-3289e10a0f3e" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?wsdl" />
+    <MetadataFile FileName="DataAccess2.xsd" MetadataType="Schema" ID="9f7fb729-9c9b-4383-be1a-05a119f06bea" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

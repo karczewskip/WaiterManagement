@@ -27,7 +27,7 @@ namespace ClassLib.ServiceContracts
     public interface IManagerDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
-        UserContext AddManager(string firstName, string lastName, string login, string lastName);
+        UserContext AddManager(string firstName, string lastName, string login, string password);
         [OperationContract]
         MenuItemCategory AddMenuItemCategory(int managerId, string name, string description);
         [OperationContract]
@@ -64,7 +64,7 @@ namespace ClassLib.ServiceContracts
     public interface IWaiterDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
-        IEnumerable<Order> GetPastOrders(int waiterId);
+        IEnumerable<Order> GetAllPastOrders(int waiterId);
         [OperationContract]
         IEnumerable<Order> GetPastOrders(int waiterId, int firstIndex, int lastIndex);
         [OperationContract]

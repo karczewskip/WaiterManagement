@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BarManager.ManagerDataAccessWCFService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace BarManager.Abstract
 {
     public interface IEditMenuItemViewModel
     {
-        void RefreshItem(ClassLib.DbDataStructures.MenuItem menuItem);
+        void RefreshItem(MenuItem menuItem);
 
         void EditMenuItem();
     }

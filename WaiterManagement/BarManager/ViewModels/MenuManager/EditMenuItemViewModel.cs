@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 using System.Windows;
 using System.ComponentModel;
 using BarManager.Messaging;

@@ -1,6 +1,6 @@
 ﻿using BarManager.Abstract;
 using BarManager.Messaging;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

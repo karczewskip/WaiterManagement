@@ -1,4 +1,4 @@
-﻿using ClassLib.DbDataStructures;
+﻿using BarManager.ManagerDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;

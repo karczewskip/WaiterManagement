@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="UserContext">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DbEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Role" type="tns:UserRole" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserContext" nillable="true" type="tns:UserContext" />
+  <xs:complexType name="DbEntity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DbEntity" nillable="true" type="tns:DbEntity" />
+  <xs:simpleType name="UserRole">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:element name="UserRole" nillable="true" type="tns:UserRole" />
+  <xs:complexType name="ArrayOfMenuItemCategory">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MenuItemCategory" nillable="true" type="tns:MenuItemCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMenuItemCategory" nillable="true" type="tns:ArrayOfMenuItemCategory" />
+  <xs:complexType name="MenuItemCategory">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DbEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MenuItemCategory" nillable="true" type="tns:MenuItemCategory" />
+  <xs:complexType name="ArrayOfMenuItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MenuItem" nillable="true" type="tns:MenuItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMenuItem" nillable="true" type="tns:ArrayOfMenuItem" />
+  <xs:complexType name="MenuItem">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DbEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Category" nillable="true" type="tns:MenuItemCategory" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Price" nillable="true" type="tns:Money" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MenuItem" nillable="true" type="tns:MenuItem" />
+  <xs:complexType name="Money">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:float" />
+      <xs:element minOccurs="0" name="Currency" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Money" nillable="true" type="tns:Money" />
+  <xs:complexType name="ArrayOfTable">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Table" nillable="true" type="tns:Table" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTable" nillable="true" type="tns:ArrayOfTable" />
+  <xs:complexType name="Table">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DbEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Number" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Table" nillable="true" type="tns:Table" />
+  <xs:complexType name="ArrayOfUserContext">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserContext" nillable="true" type="tns:UserContext" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserContext" nillable="true" type="tns:ArrayOfUserContext" />
+  <xs:complexType name="ArrayOfOrder">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Order" nillable="true" type="tns:Order" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOrder" nillable="true" type="tns:ArrayOfOrder" />
+  <xs:complexType name="Order">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DbEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ClosingDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="MenuItems" nillable="true" type="tns:ArrayOfMenuItemQuantity" />
+          <xs:element minOccurs="0" name="PlacingDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="State" type="tns:OrderState" />
+          <xs:element minOccurs="0" name="Table" nillable="true" type="tns:Table" />
+          <xs:element minOccurs="0" name="UserId" type="xs:int" />
+          <xs:element minOccurs="0" name="Waiter" nillable="true" type="tns:UserContext" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Order" nillable="true" type="tns:Order" />
+  <xs:complexType name="ArrayOfMenuItemQuantity">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MenuItemQuantity" nillable="true" type="tns:MenuItemQuantity" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMenuItemQuantity" nillable="true" type="tns:ArrayOfMenuItemQuantity" />
+  <xs:complexType name="MenuItemQuantity">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:DbEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="MenuItem" nillable="true" type="tns:MenuItem" />
+          <xs:element minOccurs="0" name="Quantity" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MenuItemQuantity" nillable="true" type="tns:MenuItemQuantity" />
+  <xs:simpleType name="OrderState">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:element name="OrderState" nillable="true" type="tns:OrderState" />
+</xs:schema>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
 using Caliburn.Micro;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 using System.Collections.ObjectModel;
 using System.Windows;
 

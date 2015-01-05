@@ -556,7 +556,7 @@ namespace DataAccess
             return order;
         }
 
-        public IEnumerable<Order> GetPastOrders(int waiterId)
+        public IEnumerable<Order> GetAllPastOrders(int waiterId)
         {
             if(!CheckHasUserRole(waiterId, UserRole.Waiter))
                 throw new SecurityException(String.Format("User id={0} is not logged in or is not a waiter.", waiterId));

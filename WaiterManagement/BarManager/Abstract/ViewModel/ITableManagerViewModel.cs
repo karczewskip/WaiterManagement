@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 
 namespace BarManager.Abstract
 {

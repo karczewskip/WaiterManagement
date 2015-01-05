@@ -1,8 +1,8 @@
 ﻿using BarManager.Abstract;
+using BarManager.ManagerDataAccessWCFService;
 using BarManager.Model;
 using BarManager.ViewModels;
 using Caliburn.Micro;
-using DataAccess;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -49,9 +49,7 @@ namespace BarManager
 
             //DataModel
             _kernel.Bind<IBarDataModel>().To<BarDataModel>().InSingletonScope();
-            _kernel.Bind<IManagerDataAccess>().To<DataAccessClass>().InSingletonScope();
-
-            //Messaging
+            _kernel.Bind<IManagerDataAccessWCFService>().To<ManagerDataAccessWCFService.ManagerDataAccessWCFServiceClient>().InSingletonScope();
             _kernel.Bind<IMessagingViewModel>().To<MessagingViewModel>().InSingletonScope();
         }
 

@@ -1,5 +1,5 @@
 ﻿using BarManager.Abstract;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 using DataAccess;
 using System;
 using System.Collections.Generic;
@@ -9,10 +9,10 @@ namespace BarManager.Model
 {
     public class BarDataModel : IBarDataModel
     {
-        private IManagerDataAccess ManagerDataAccess;
+        private IManagerDataAccessWCFService ManagerDataAccess;
         private bool access = false;
 
-        public BarDataModel(IManagerDataAccess managerDataAccess)
+        public BarDataModel(IManagerDataAccessWCFService managerDataAccess)
         {
             ManagerDataAccess = managerDataAccess;
         }
@@ -264,7 +264,7 @@ namespace BarManager.Model
             try
             {
                 //TODO:
-                addingTable = null; // ManagerDataAccess.AddTable(number, tableDescription);
+                //ManagerDataAccess.AddTable(number, tableDescription);
             }
             catch
             {

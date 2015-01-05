@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BarManager.Abstract;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 
 namespace BarManager.Views
 {

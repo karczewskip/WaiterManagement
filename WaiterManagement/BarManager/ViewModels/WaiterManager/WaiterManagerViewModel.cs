@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using BarManager.Abstract;
 using Caliburn.Micro;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 
 namespace BarManager.ViewModels
 {

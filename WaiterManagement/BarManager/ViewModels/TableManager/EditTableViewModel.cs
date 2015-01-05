@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
 using System.ComponentModel;
-using ClassLib.DbDataStructures;
+using BarManager.ManagerDataAccessWCFService;
 using System.Windows;
 using BarManager.Messaging;
 
@@ -92,7 +92,7 @@ namespace BarManager.ViewModels
             return;
         }
 
-        public void RefreshItem(ClassLib.DbDataStructures.Table table)
+        public void RefreshItem(Table table)
         {
             Table = table;
 
