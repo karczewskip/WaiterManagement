@@ -264,6 +264,7 @@ namespace BarManager.Model
             try
             {
                 //TODO:
+                addingTable = null;
                 //ManagerDataAccess.AddTable(number, tableDescription);
             }
             catch
