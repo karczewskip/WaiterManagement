@@ -132,8 +132,11 @@ namespace DataAccess
                     throw new ArgumentException(String.Format("There already is a manager with login = {0}.", login));
 
                 newManager = new UserContext() { Login = login, FirstName = firstName, LastName = lastName, Role = UserRole.Manager };
-
                 newManager = db.Users.Add(newManager);
+                db.SaveChanges();
+
+                var managerPassword = new Password() { UserId = newManager.Id, Hash = HashClass.CreateSecondHash(password) };
+                db.Passwords.Add(managerPassword);
                 db.SaveChanges();
             }
 
@@ -731,6 +734,13 @@ namespace DataAccess
                     RemoveFromLoggedInUsers(userContextToRemove.Id);
 
                 db.Users.Remove(userContextToRemove);
+
+                Password passwordToRemove = db.Passwords.Find(userId);
+                if (passwordToRemove == null)
+                    return false;
+
+                db.Passwords.Remove(passwordToRemove);
+
                 db.SaveChanges();
                 return true;
             }

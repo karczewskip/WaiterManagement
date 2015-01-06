@@ -51,8 +51,11 @@ namespace ClassLib.DataStructures
         /// </summary>
         public static string CreateFirstHash(string password, string login)
         {
-            if(String.IsNullOrEmpty(password) || String.IsNullOrEmpty(login))
-            login = login.ToLower().Reverse().ToString();
+            if (String.IsNullOrEmpty(password) || String.IsNullOrEmpty(login))
+                return String.Empty;
+
+            login = CreateBase64String(login);
+            login = login.ToLower();
             byte[] salt = Convert.FromBase64String(login);
 
             byte[] hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
@@ -81,6 +84,21 @@ namespace ClassLib.DataStructures
 
             byte[] testHash = PBKDF2(password, salt, iterations, hash.Length);
             return SlowEquals(hash, testHash);
+        }
+
+        /// <summary>
+        /// Przycina/Dopełnia string tak, aby miał długość 16
+        /// </summary>
+        /// <param name="stringToConvert"></param>
+        /// <returns></returns>
+        private static string CreateBase64String(string stringToConvert)
+        {
+            if (stringToConvert.Length == 16)
+                return stringToConvert;
+            else if (stringToConvert.Length > 16)
+                return stringToConvert.Substring(0, 16);
+            else
+                return stringToConvert.PadRight(16, stringToConvert[stringToConvert.Length - 1]);
         }
     }
 }
