@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BarManager.ViewModels
 {
@@ -20,7 +21,7 @@ namespace BarManager.ViewModels
         {
             _mainWindow = mainWindow;
             _loggerWindow = new LoggerViewModel(this, barDataModel);
-            _registerWindow = new RegisterViewModel(this);
+            _registerWindow = new RegisterViewModel(this, barDataModel);
 
         }
 

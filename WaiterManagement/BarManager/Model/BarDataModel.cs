@@ -318,5 +318,11 @@ namespace BarManager.Model
         {
             access = true;
         }
+
+
+        public void Register(string firstName, string lastName ,string login, string password)
+        {
+            ManagerDataAccess.AddManager(firstName, lastName, login, password);
+        }
     }
 }

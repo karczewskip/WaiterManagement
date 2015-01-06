@@ -270,16 +270,6 @@
     <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.UserContext.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -322,19 +312,29 @@
     <WCFMetadataStorage Include="Service References\ManagerDataAccessWCFService\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\ManagerDataAccessWCFService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ManagerDataAccessWCFService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess32.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccessClass1.wsdl" />
     <None Include="Service References\ManagerDataAccessWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

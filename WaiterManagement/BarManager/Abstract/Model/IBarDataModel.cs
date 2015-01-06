@@ -39,5 +39,7 @@ namespace BarManager.Abstract
         bool IsLogged();
 
         void LogIn();
+
+        void Register(string firstName, string lastName, string login, string password);
     }
 }
