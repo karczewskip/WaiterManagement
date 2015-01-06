@@ -15,7 +15,7 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IDataWipe
+    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess
     {
         #region Private Fields
         private HashSet<UserContext> loggedInUsers;
@@ -514,48 +514,6 @@ namespace DataAccess
         #endregion
 
         #region IWaiterDataAccess
-        //TODO: Przenieść do Usera
-        public Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems)
-        {
-            if (!CheckIsUserLoggedIn(waiterId))
-                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
-            if (menuItems == null || !menuItems.Any())
-                throw new ArgumentNullException("menuItems is null");
-
-            Order order = null;
-
-            using(var db = new DataAccessProvider())
-            {
-                Table table = db.Tables.Find(tableId);
-                if (table == null)
-                    throw new ArgumentException(String.Format("No such table (id={0}) exists.", tableId));
-
-                UserContext waiter = db.Users.Find(waiterId);
-                if (waiter == null)
-                    throw new ArgumentException(String.Format("No such waiter (id={0}) exists.", waiterId));
-
-                //Na pierwszym etapie ustawiamy stan zamówienia od razu na Accepted (kelner dodający zamówienie jednocześnie je akceptuje), aczkolwiek w drugim etapie będzie ustawiany stan OrderState.Placed
-                order = new Order() { UserId = userId, Table = table, Waiter = waiter, State = OrderState.Accepted, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue};
-                            
-                foreach(var tuple in menuItems)
-                {
-                    MenuItem menuItem = db.MenuItems.Find(tuple.Item1);
-                    if (menuItem == null)
-                        throw new ArgumentException(String.Format("No such menuItem (id={0}) exists", tuple.Item1));
-                    if (tuple.Item2 <= 0)
-                        throw new ArgumentException(String.Format("MenuItem id={0} has quantity={1}", tuple.Item1, tuple.Item2));
-
-                    MenuItemQuantity menuItemQuantity = new MenuItemQuantity() { MenuItem = menuItem, Quantity = tuple.Item2};
-                    order.MenuItems.Add(menuItemQuantity);
-                }
-                   
-                order = db.Orders.Add(order);
-                db.SaveChanges();
-            }
-
-            return order;
-        }
-
         public IEnumerable<Order> GetAllPastOrders(int waiterId)
         {
             if(!CheckHasUserRole(waiterId, UserRole.Waiter))
@@ -658,6 +616,49 @@ namespace DataAccess
                 db.SaveChanges();
                 return true;
             }
+        }
+        #endregion
+
+        #region IUserDataAccess
+        public Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems)
+        {
+            if (!CheckIsUserLoggedIn(waiterId))
+                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
+            if (menuItems == null || !menuItems.Any())
+                throw new ArgumentNullException("menuItems is null");
+
+            Order order = null;
+
+            using (var db = new DataAccessProvider())
+            {
+                Table table = db.Tables.Find(tableId);
+                if (table == null)
+                    throw new ArgumentException(String.Format("No such table (id={0}) exists.", tableId));
+
+                UserContext waiter = db.Users.Find(waiterId);
+                if (waiter == null)
+                    throw new ArgumentException(String.Format("No such waiter (id={0}) exists.", waiterId));
+
+                //Na pierwszym etapie ustawiamy stan zamówienia od razu na Accepted (kelner dodający zamówienie jednocześnie je akceptuje), aczkolwiek w drugim etapie będzie ustawiany stan OrderState.Placed
+                order = new Order() { UserId = userId, Table = table, Waiter = waiter, State = OrderState.Accepted, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
+
+                foreach (var tuple in menuItems)
+                {
+                    MenuItem menuItem = db.MenuItems.Find(tuple.Item1);
+                    if (menuItem == null)
+                        throw new ArgumentException(String.Format("No such menuItem (id={0}) exists", tuple.Item1));
+                    if (tuple.Item2 <= 0)
+                        throw new ArgumentException(String.Format("MenuItem id={0} has quantity={1}", tuple.Item1, tuple.Item2));
+
+                    MenuItemQuantity menuItemQuantity = new MenuItemQuantity() { MenuItem = menuItem, Quantity = tuple.Item2 };
+                    order.MenuItems.Add(menuItemQuantity);
+                }
+
+                order = db.Orders.Add(order);
+                db.SaveChanges();
+            }
+
+            return order;
         }
         #endregion
 

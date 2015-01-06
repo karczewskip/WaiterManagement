@@ -25,6 +25,7 @@ namespace DataAccess
     /// </summary>
     public interface IManagerDataAccess : IBaseDataAccess
     {
+        UserContext AddManager(string firstName, string lastName, string login, string password);
         MenuItemCategory AddMenuItemCategory(int managerId, string name, string description);
         bool EditMenuItemCategory(int managerId, MenuItemCategory menuItemCategoryToEdit);
         bool RemoveMenuItemCategory(int managerId, int categoryId);
@@ -47,7 +48,7 @@ namespace DataAccess
     /// </summary>
     public interface IWaiterDataAccess : IBaseDataAccess
     {
-        IEnumerable<Order> GetPastOrders(int waiterId);
+        IEnumerable<Order> GetAllPastOrders(int waiterId);
         IEnumerable<Order> GetPastOrders(int waiterId, int firstIndex, int lastIndex);
         IEnumerable<Order> GetActiveOrders(int waiterId);
         bool SetOrderState(int waiterId, int orderId, OrderState state);        
