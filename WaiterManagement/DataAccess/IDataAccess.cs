@@ -60,7 +60,7 @@ namespace DataAccess
     public interface IClientDataAccess : IBaseDataAccess
     {
         UserContext AddClient(string firstName, string lastName, string login, string password);
-        Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems);
+        Order AddOrder(int userId, int tableId, IEnumerable<Tuple<int, int>> menuItems);
     }
 
     /// <summary>

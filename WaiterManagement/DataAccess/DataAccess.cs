@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ClassLib.DbDataStructures;
 using System.Security;
 using System.Data.Entity;
@@ -496,10 +494,8 @@ namespace DataAccess
 
                 var quantityList = orderToRemove.MenuItems.ToList();
                 foreach (MenuItemQuantity quantity in quantityList)
-                    //db.MenuItemQuantities.Remove(quantity);
                     quantity.IsDeleted = true;
 
-                //db.Orders.Remove(orderToRemove);
                 orderToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
@@ -619,10 +615,10 @@ namespace DataAccess
             return AddUserToDatabase(firstName, lastName, login, password, UserRole.Client);
         }
 
-        public Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems)
+        public Order AddOrder(int clientId, int tableId, IEnumerable<Tuple<int, int>> menuItems)
         {
-            if (!CheckIsUserLoggedIn(waiterId))
-                throw new SecurityException(String.Format("Waiter id={0} is not logged in.", waiterId));
+            if (!CheckHasUserRole(clientId, UserRole.Client))
+                throw new SecurityException(String.Format("Client id={0} is not logged in.", clientId));
             if (menuItems == null || !menuItems.Any())
                 throw new ArgumentNullException("menuItems is null");
 
@@ -634,12 +630,7 @@ namespace DataAccess
                 if (table == null)
                     throw new ArgumentException(String.Format("No such table (id={0}) exists.", tableId));
 
-                UserContext waiter = db.Users.Find(waiterId);
-                if (waiter == null)
-                    throw new ArgumentException(String.Format("No such waiter (id={0}) exists.", waiterId));
-
-                //Na pierwszym etapie ustawiamy stan zamówienia od razu na Accepted (kelner dodający zamówienie jednocześnie je akceptuje), aczkolwiek w drugim etapie będzie ustawiany stan OrderState.Placed
-                order = new Order() { UserId = userId, Table = table, Waiter = waiter, State = OrderState.Accepted, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
+                order = new Order() { UserId = clientId, Table = table, State = OrderState.Placed, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
 
                 foreach (var tuple in menuItems)
                 {
