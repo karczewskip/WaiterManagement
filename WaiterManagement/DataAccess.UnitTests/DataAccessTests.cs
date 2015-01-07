@@ -22,8 +22,8 @@ namespace DataAccess.UnitTests
 
         private const string ManagerFirstName1 = "Mana";
         private const string ManagerLastName1 = "Dżer";
-        private const string ManagerLogin1 = "admin";
-        private const string ManagerPassword1 = "admin";
+        private const string ManagerLogin1 = "admini";
+        private const string ManagerPassword1 = "admini";
         private UserContext managerContext1 = null;
 
         private const string ClientFirstName1 = "Anonimowa";
@@ -75,11 +75,6 @@ namespace DataAccess.UnitTests
         Table table1 = null;
 
         Order order1 = null;
-
-        /// <summary>
-        /// Na pierwszym etapie nie rozróżniamy użytkowników, dlatego wszystie zamówienia są na mockowego użytkownika o Id = 500
-        /// </summary>
-        int userId1 = 500;
         #endregion
 
         #region Test Initialization & CleanUp
@@ -551,63 +546,72 @@ namespace DataAccess.UnitTests
             }
         }
 
+        [TestMethod]
+        public void ClientAddOrderTest()
+        {
+            ClientLogInTest();
+
+            if (category1 == null)
+                AddNewCategoryTest();
+            if (table1 == null)
+                AddNewTableTest();
+            if (menuItem1 == null)
+                AddNewMenuItemTest();
+
+            var menuItems = new List<Tuple<int, int>>
+            {
+                new Tuple<int, int>(menuItem1.Id, menuItemQuantity1),
+                new Tuple<int, int>(menuItem2.Id, menuItemQuantity2),
+                new Tuple<int, int>(menuItem3.Id, menuItemQuantity3)
+            };
+
+            order1 = clientDataAccess.AddOrder(clientContext1.Id, table1.Id, menuItems);
+            Assert.IsNotNull(order1);
+            Assert.AreNotEqual(order1.Id, 0);
+            Assert.AreEqual(order1.UserId, clientContext1.Id);
+            //Assert.IsNotNull(order1.Waiter);
+            //Assert.AreEqual(order1.Waiter.Id, waiterContext1.Id);
+            Assert.AreEqual(order1.State, OrderState.Placed);
+            Assert.IsNotNull(order1.Table);
+            Assert.AreEqual(order1.Table.Id, table1.Id);
+            Assert.IsNotNull(order1.MenuItems);
+            Assert.AreEqual(order1.MenuItems.Count, 3);
+            Assert.AreEqual(order1.MenuItems.ElementAt(0).MenuItem.Id, menuItem1.Id);
+            Assert.AreEqual(order1.MenuItems.ElementAt(0).Quantity, menuItemQuantity1);
+            Assert.AreEqual(order1.MenuItems.ElementAt(1).MenuItem.Id, menuItem2.Id);
+            Assert.AreEqual(order1.MenuItems.ElementAt(1).Quantity, menuItemQuantity2);
+            Assert.AreEqual(order1.MenuItems.ElementAt(2).MenuItem.Id, menuItem3.Id);
+            Assert.AreEqual(order1.MenuItems.ElementAt(2).Quantity, menuItemQuantity3);
+            Assert.IsTrue(order1.PlacingDate < DateTime.Now);
+            Assert.AreEqual(order1.ClosingDate, DateTime.MaxValue);
+
+            ClientLogOutTest();
+        }
+
         #endregion
 
-        //[TestMethod]
-        //public void RemoveOrderTest()
-        //{
-        //    if (order1 == null)
-        //        WaiterAddOrderTest();
+        [TestMethod]
+        public void RemoveOrderTest()
+        {
+           if (order1 == null)
+                ClientAddOrderTest();
 
-        //    bool result = managerDataAccess.RemoveOrder(order1.Id);
-        //    Assert.IsTrue(result);
+            ManagerLogInTest();
 
-        //    var orders = managerDataAccess.GetOrders();
-        //    if (orders != null && orders.Any())
-        //    {
-        //        var removedOrder = orders.FirstOrDefault(o => o.Id == order1.Id);
-        //        Assert.IsNull(removedOrder);
-        //    }
-        //}
+            bool result = managerDataAccess.RemoveOrder(managerContext1.Id, order1.Id);
+            Assert.IsTrue(result);
 
+            var orders = managerDataAccess.GetOrders(managerContext1.Id);
+            if (orders != null && orders.Any())
+            {
+                var removedOrder = orders.FirstOrDefault(o => o.Id == order1.Id);
+                Assert.IsNull(removedOrder);
+            }
 
+            ManagerLogOutTest();
+        }
 
-        //[TestMethod]
-        //public void WaiterAddOrderTest()
-        //{
-        //    WaiterLogInTest();
-        //    if (category1 == null)
-        //        AddNewCategoryTest();
-        //    if (table1 == null)
-        //        AddNewTableTest();
-        //    if (menuItem1 == null)
-        //        AddNewMenuItemTest();
-
-        //    var menuItems = new List<Tuple<int, int>>();
-        //    menuItems.Add(new Tuple<int, int>(menuItem1.Id, menuItemQuantity1));
-        //    menuItems.Add(new Tuple<int, int>(menuItem2.Id, menuItemQuantity2));
-        //    menuItems.Add(new Tuple<int, int>(menuItem3.Id, menuItemQuantity3));
-
-        //    order1 = waiterDataAccess.AddOrder(userId1, table1.Id, waiterContext1.Id, menuItems);
-        //    Assert.IsNotNull(order1);
-        //    Assert.AreNotEqual(order1.Id, 0);
-        //    Assert.AreEqual(order1.UserId, userId1);
-        //    Assert.IsNotNull(order1.Waiter);
-        //    Assert.AreEqual(order1.Waiter.Id, waiterContext1.Id);
-        //    Assert.AreEqual(order1.State, OrderState.Accepted);
-        //    Assert.IsNotNull(order1.Table);
-        //    Assert.AreEqual(order1.Table.Id, table1.Id);
-        //    Assert.IsNotNull(order1.MenuItems);
-        //    Assert.AreEqual(order1.MenuItems.Count, 3);
-        //    Assert.AreEqual(order1.MenuItems.ElementAt(0).MenuItem.Id, menuItem1.Id);
-        //    Assert.AreEqual(order1.MenuItems.ElementAt(0).Quantity, menuItemQuantity1);
-        //    Assert.AreEqual(order1.MenuItems.ElementAt(1).MenuItem.Id, menuItem2.Id);
-        //    Assert.AreEqual(order1.MenuItems.ElementAt(1).Quantity, menuItemQuantity2);
-        //    Assert.AreEqual(order1.MenuItems.ElementAt(2).MenuItem.Id, menuItem3.Id);
-        //    Assert.AreEqual(order1.MenuItems.ElementAt(2).Quantity, menuItemQuantity3);
-        //    Assert.IsTrue(order1.PlacingDate < DateTime.Now);
-        //    Assert.AreEqual(order1.ClosingDate, DateTime.MaxValue);
-        //}
+       
 
         //[TestMethod]
         //public void WaiterSetOrderStateTest()
