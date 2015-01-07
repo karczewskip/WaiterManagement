@@ -14,9 +14,11 @@ namespace DataAccess.UnitTests
     [TestClass]
     public class DataAccessTests
     {
-        IManagerDataAccess managerDataAccess = null;
-        IWaiterDataAccess waiterDataAccess = null;
-        IDataWipe dataWipe = null;
+        #region Private Fields
+        private IManagerDataAccess managerDataAccess = null;
+        private IWaiterDataAccess waiterDataAccess = null;
+        private IClientDataAccess clientDataAccess = null;
+        private IDataWipe dataWipe = null;
 
         private const string ManagerFirstName1 = "Mana";
         private const string ManagerLastName1 = "Dżer";
@@ -24,6 +26,11 @@ namespace DataAccess.UnitTests
         private const string ManagerPassword1 = "admin";
         private UserContext managerContext1 = null;
 
+        private const string ClientFirstName1 = "Anonimowa";
+        private const string ClientLastName1 = "Kapibara";
+        private const string ClientLogin1 = "anonKap";
+        private const string ClientPassword1 = "kapPass";
+        private UserContext clientContext1 = null;
 
         string waiterFirstName1 = "Don";
         string waiterLastName1 = "Juan";
@@ -73,6 +80,9 @@ namespace DataAccess.UnitTests
         /// Na pierwszym etapie nie rozróżniamy użytkowników, dlatego wszystie zamówienia są na mockowego użytkownika o Id = 500
         /// </summary>
         int userId1 = 500;
+        #endregion
+
+        #region Test Initialization & CleanUp
 
         [TestInitialize]
         public void TestInitialize()
@@ -83,13 +93,64 @@ namespace DataAccess.UnitTests
             var dataAccessClass = new DataAccessClass();
             managerDataAccess = dataAccessClass;
             waiterDataAccess = dataAccessClass;
+            clientDataAccess = dataAccessClass;
             dataWipe = dataAccessClass;
         }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (order1 != null)
+                dataWipe.WipeOrder(order1.Id);
+
+            if (managerContext1 != null)
+                dataWipe.WipeUser(managerContext1.Id);
+
+            if (clientContext1 != null)
+                dataWipe.WipeUser(clientContext1.Id);
+
+            if (waiterContext1 != null)
+                dataWipe.WipeUser(waiterContext1.Id);
+
+            if (waiterContext2 != null)
+                dataWipe.WipeUser(waiterContext2.Id);
+
+            if (menuItem1 != null)
+                dataWipe.WipeMenuItem(menuItem1.Id);
+
+            if (menuItem2 != null)
+                dataWipe.WipeMenuItem(menuItem2.Id);
+
+            if (menuItem3 != null)
+                dataWipe.WipeMenuItem(menuItem3.Id);
+
+            if (category1 != null)
+                dataWipe.WipeMenuItemCategory(category1.Id);
+
+            if (table1 != null)
+                dataWipe.WipeTable(table1.Id);
+
+            order1 = null;
+            managerContext1 = null;
+            waiterContext1 = null;
+            waiterContext2 = null;
+            clientContext1 = null;
+            category1 = null;
+            menuItem1 = null;
+            menuItem2 = null;
+            menuItem3 = null;
+            table1 = null;
+        }
+
+        #endregion
+
+        #region Manager Method Tests
 
         [TestMethod]
         public void AddNewManagerTest()
         {
-            managerContext1 = managerDataAccess.AddManager(ManagerFirstName1, ManagerLastName1, ManagerLogin1, HashClass.CreateFirstHash(ManagerPassword1, ManagerLogin1));
+            managerContext1 = managerDataAccess.AddManager(ManagerFirstName1, ManagerLastName1, ManagerLogin1,
+                HashClass.CreateFirstHash(ManagerPassword1, ManagerLogin1));
             Assert.IsNotNull(managerContext1);
             Assert.AreNotEqual(managerContext1.Id, 0);
             Assert.AreEqual(managerContext1.FirstName, ManagerFirstName1);
@@ -101,14 +162,15 @@ namespace DataAccess.UnitTests
         [TestMethod]
         public void ManagerLogInTest()
         {
-            if(managerContext1 == null)
+            if (managerContext1 == null)
                 AddNewManagerTest();
-            
-            UserContext context = managerDataAccess.LogIn(ManagerLogin1, HashClass.CreateFirstHash(ManagerPassword1, ManagerLogin1));
+
+            UserContext context = managerDataAccess.LogIn(ManagerLogin1,
+                HashClass.CreateFirstHash(ManagerPassword1, ManagerLogin1));
             Assert.IsNotNull(context);
             Assert.AreEqual(context.Login, ManagerLogin1);
             Assert.AreEqual(context.Role, UserRole.Manager);
-            
+
         }
 
         [TestMethod]
@@ -117,7 +179,7 @@ namespace DataAccess.UnitTests
             if (managerContext1 != null)
             {
                 bool result = managerDataAccess.LogOut(managerContext1.Id);
-                Assert.IsTrue(result);  
+                Assert.IsTrue(result);
             }
         }
 
@@ -126,7 +188,8 @@ namespace DataAccess.UnitTests
         {
             ManagerLogInTest();
 
-            waiterContext1 = managerDataAccess.AddWaiter(managerContext1.Id, waiterFirstName1, waiterLastName1, waiterLogin1, waiterPassword1);
+            waiterContext1 = managerDataAccess.AddWaiter(managerContext1.Id, waiterFirstName1, waiterLastName1,
+                waiterLogin1, waiterPassword1);
 
             Assert.IsNotNull(waiterContext1);
             Assert.AreNotEqual(waiterContext1.Id, 0);
@@ -147,7 +210,8 @@ namespace DataAccess.UnitTests
             try
             {
                 //Próba dodania drugiego kelnera o już istniejącym loginem
-                waiterContext2 = managerDataAccess.AddWaiter(managerContext1.Id, waiterFirstName2, waiterLastName2, waiterLogin1, waiterPassword2);
+                waiterContext2 = managerDataAccess.AddWaiter(managerContext1.Id, waiterFirstName2, waiterLastName2,
+                    waiterLogin1, waiterPassword2);
                 Assert.Fail("waiter2Context should not be created!");
             }
             catch (Exception e)
@@ -181,9 +245,12 @@ namespace DataAccess.UnitTests
 
             ManagerLogInTest();
 
-            menuItem1 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName1, menuItemDescription1, category1.Id, menuItemPrice1);
-            menuItem2 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName2, menuItemDescription2, category1.Id, menuItemPrice2);
-            menuItem3 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName3, menuItemDescription3, category1.Id, menuItemPrice3);
+            menuItem1 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName1, menuItemDescription1,
+                category1.Id, menuItemPrice1);
+            menuItem2 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName2, menuItemDescription2,
+                category1.Id, menuItemPrice2);
+            menuItem3 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName3, menuItemDescription3,
+                category1.Id, menuItemPrice3);
 
             Assert.IsNotNull(menuItem1);
             Assert.AreNotEqual(menuItem1.Id, 0);
@@ -419,22 +486,9 @@ namespace DataAccess.UnitTests
             Assert.IsFalse(result);
         }
 
-        //[TestMethod]
-        //public void RemoveOrderTest()
-        //{
-        //    if (order1 == null)
-        //        WaiterAddOrderTest();
+        #endregion
 
-        //    bool result = managerDataAccess.RemoveOrder(order1.Id);
-        //    Assert.IsTrue(result);
-
-        //    var orders = managerDataAccess.GetOrders();
-        //    if (orders != null && orders.Any())
-        //    {
-        //        var removedOrder = orders.FirstOrDefault(o => o.Id == order1.Id);
-        //        Assert.IsNull(removedOrder);
-        //    }
-        //}
+        #region Waiter Method Tests
 
         [TestMethod]
         public void WaiterLogInTest()
@@ -455,6 +509,68 @@ namespace DataAccess.UnitTests
             bool result = waiterDataAccess.LogOut(waiterContext1.Id);
             Assert.IsTrue(result);
         }
+
+        #endregion
+
+        #region Client Method Tests
+
+        [TestMethod]
+        public void AddNewClientTest()
+        {
+            clientContext1 = clientDataAccess.AddClient(ClientFirstName1, ClientLastName1, ClientLogin1,
+                HashClass.CreateFirstHash(ClientPassword1, ClientLogin1));
+
+            Assert.IsNotNull(clientContext1);
+            Assert.AreNotEqual(clientContext1.Id, 0);
+            Assert.AreEqual(clientContext1.FirstName, ClientFirstName1);
+            Assert.AreEqual(clientContext1.LastName, ClientLastName1);
+            Assert.AreEqual(clientContext1.Role, UserRole.Client);
+            Assert.IsFalse(clientContext1.IsDeleted);
+        }
+
+        [TestMethod]
+        public void ClientLogInTest()
+        {
+            if(clientContext1 == null)
+                AddNewClientTest();
+
+            var context = clientDataAccess.LogIn(ClientLogin1, HashClass.CreateFirstHash(ClientPassword1, ClientLogin1));
+            Assert.IsNotNull(context);
+            Assert.AreEqual(context.Login, ClientLogin1);
+            Assert.AreEqual(context.Role, UserRole.Client);
+
+        }
+
+        [TestMethod]
+        public void ClientLogOutTest()
+        {
+            if (clientContext1 != null)
+            {
+                bool result = clientDataAccess.LogOut(clientContext1.Id);
+                Assert.IsTrue(result);
+            }
+        }
+
+        #endregion
+
+        //[TestMethod]
+        //public void RemoveOrderTest()
+        //{
+        //    if (order1 == null)
+        //        WaiterAddOrderTest();
+
+        //    bool result = managerDataAccess.RemoveOrder(order1.Id);
+        //    Assert.IsTrue(result);
+
+        //    var orders = managerDataAccess.GetOrders();
+        //    if (orders != null && orders.Any())
+        //    {
+        //        var removedOrder = orders.FirstOrDefault(o => o.Id == order1.Id);
+        //        Assert.IsNull(removedOrder);
+        //    }
+        //}
+
+
 
         //[TestMethod]
         //public void WaiterAddOrderTest()
@@ -551,54 +667,6 @@ namespace DataAccess.UnitTests
         //    Assert.IsTrue(pastOrders == null || !pastOrders.Any());
         //}
 
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            if (order1 != null)
-                dataWipe.WipeOrder(order1.Id);
 
-            if (managerContext1 != null)
-            {
-                //managerDataAccess.LogOut(managerContext1.Id);
-                dataWipe.WipeUser(managerContext1.Id);
-            }
-
-            if (waiterContext1 != null)
-            {
-                //waiterDataAccess.LogOut(waiterContext1.Id);
-                dataWipe.WipeUser(waiterContext1.Id);
-            }
-
-            if (waiterContext2 != null)
-            {
-                //waiterDataAccess.LogOut(waiterContext2.Id);
-                dataWipe.WipeUser(waiterContext2.Id);
-            }
-
-            if (menuItem1 != null)
-                dataWipe.WipeMenuItem(menuItem1.Id);
-
-            if (menuItem2 != null)
-                dataWipe.WipeMenuItem(menuItem2.Id);
-
-            if (menuItem3 != null)
-                dataWipe.WipeMenuItem(menuItem3.Id);
-
-            if (category1 != null)
-                dataWipe.WipeMenuItemCategory(category1.Id);
-
-            if (table1 != null)
-                dataWipe.WipeTable(table1.Id);
-
-            order1 = null;
-            managerContext1 = null;
-            waiterContext1 = null;
-            waiterContext2 = null;
-            category1 = null;
-            menuItem1 = null;
-            menuItem2 = null;
-            menuItem3 = null;
-            table1 = null;
-        }
     }
 }

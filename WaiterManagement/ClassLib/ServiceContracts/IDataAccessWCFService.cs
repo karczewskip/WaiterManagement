@@ -77,6 +77,8 @@ namespace ClassLib.ServiceContracts
     public  interface IClientDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
+        UserContext AddClient(string firstName, string lastName, string login, string password);
+        [OperationContract]
         Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems);
     }
 }

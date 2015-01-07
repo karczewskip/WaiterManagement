@@ -15,7 +15,7 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess
+    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
     {
         #region Private Fields
         private HashSet<UserContext> loggedInUsers;
@@ -111,35 +111,7 @@ namespace DataAccess
         #region IManagerDataAccess
         public UserContext AddManager(string firstName, string lastName, string login, string password)
         {
-            if (String.IsNullOrEmpty(firstName))
-                throw new ArgumentNullException("firstName is null");
-            if (String.IsNullOrEmpty(lastName))
-                throw new ArgumentNullException("lastName is null");
-            if (String.IsNullOrEmpty(login))
-                throw new ArgumentNullException("login is null");
-            if (String.IsNullOrEmpty(password))
-                throw new ArgumentNullException("password is null");
-
-            UserContext newManager = null;
-
-            using(var db = new DataAccessProvider())
-            {
-                //sprawdzenie czy dany login już istnieje
-                var managerSameLogin = db.Users.FirstOrDefault(u => u.Role == UserRole.Manager && u.Login == login);
-
-                if(managerSameLogin != null)
-                    throw new ArgumentException(String.Format("There already is a manager with login = {0}.", login));
-
-                newManager = new UserContext() { Login = login, FirstName = firstName, LastName = lastName, Role = UserRole.Manager };
-                newManager = db.Users.Add(newManager);
-                db.SaveChanges();
-
-                var managerPassword = new Password() { UserId = newManager.Id, Hash = HashClass.CreateSecondHash(password) };
-                db.Passwords.Add(managerPassword);
-                db.SaveChanges();
-            }
-
-            return newManager;
+            return AddUserToDatabase(firstName, lastName, login, password, UserRole.Manager);
         }
 
         public MenuItemCategory AddMenuItemCategory(int managerId, string name, string description)
@@ -641,7 +613,12 @@ namespace DataAccess
         }
         #endregion
 
-        #region IUserDataAccess
+        #region IClientDataAccess
+        public UserContext AddClient(string firstName, string lastName, string login, string password)
+        {
+            return AddUserToDatabase(firstName, lastName, login, password, UserRole.Client);
+        }
+
         public Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems)
         {
             if (!CheckIsUserLoggedIn(waiterId))
@@ -707,6 +684,46 @@ namespace DataAccess
 
             this.loggedInUsers.Remove(userToRemove);
             return true;
+        }
+
+        private UserContext AddUserToDatabase(string firstName, string lastName, string login, string password, UserRole role)
+        {
+            if (String.IsNullOrEmpty(firstName))
+                throw new ArgumentNullException("firstName is null");
+            if (String.IsNullOrEmpty(lastName))
+                throw new ArgumentNullException("lastName is null");
+            if (String.IsNullOrEmpty(login))
+                throw new ArgumentNullException("login is null");
+            if (String.IsNullOrEmpty(password))
+                throw new ArgumentNullException("password is null");
+
+            UserContext newUser = null;
+
+            using (var db = new DataAccessProvider())
+            {
+                //sprawdzenie czy dany login już istnieje
+                var userSameLogin = db.Users.FirstOrDefault(u => u.Role == role && u.Login == login);
+
+                if (userSameLogin != null)
+                    throw new ArgumentException(String.Format("There already is an user with login = {0}.", login));
+
+                newUser = new UserContext()
+                {
+                    Login = login,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Role = role
+                };
+
+                newUser = db.Users.Add(newUser);
+                db.SaveChanges();
+
+                var userPassword = new Password() { UserId = newUser.Id, Hash = HashClass.CreateSecondHash(password) };
+                db.Passwords.Add(userPassword);
+                db.SaveChanges();
+            }
+
+            return newUser;
         }
 
         #endregion

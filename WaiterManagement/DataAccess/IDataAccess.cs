@@ -55,6 +55,15 @@ namespace DataAccess
     }
 
     /// <summary>
+    /// Zbiór funkcji składający się na funkcjonalność klienta.
+    /// </summary>
+    public interface IClientDataAccess : IBaseDataAccess
+    {
+        UserContext AddClient(string firstName, string lastName, string login, string password);
+        Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems);
+    }
+
+    /// <summary>
     /// Interfejs używany przez metody testujący do sprzątania po sobie
     /// </summary>
     public interface IDataWipe
