@@ -213,6 +213,7 @@ namespace ClassLib.DbDataStructures
     public class Password
     {
         [Key]
+        public int Id { get; private set; }
         public int UserId { get; set; }
         public string Hash { get; set; }
     }

@@ -14,7 +14,7 @@ namespace DataAccess
     public class DataAccessProvider : DbContext
     {
         public DataAccessProvider()
-            : base("DataAccessProvider")
+            : base("SmarterASPDB")
         { }
 
         public DbSet<MenuItem> MenuItems { get; set; }

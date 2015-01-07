@@ -18,11 +18,11 @@ namespace DataAccess.UnitTests
         IWaiterDataAccess waiterDataAccess = null;
         IDataWipe dataWipe = null;
 
-        string managerFirstName1 = "Mana";
-        string managerLastName1 = "Dżer";
-        string managerLogin1 = "admin";
-        string managerPassword1 = "admin";
-        UserContext managerContext1 = null;
+        private const string ManagerFirstName1 = "Mana";
+        private const string ManagerLastName1 = "Dżer";
+        private const string ManagerLogin1 = "admin";
+        private const string ManagerPassword1 = "admin";
+        private UserContext managerContext1 = null;
 
 
         string waiterFirstName1 = "Don";
@@ -80,268 +80,344 @@ namespace DataAccess.UnitTests
             //Upewnienie, że baza posiada najnowszy model danych
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccessProvider, Configuration>());
 
-            managerDataAccess = new DataAccessClass();
-            waiterDataAccess = new DataAccessClass();
-            dataWipe = new DataAccessClass();
+            var dataAccessClass = new DataAccessClass();
+            managerDataAccess = dataAccessClass;
+            waiterDataAccess = dataAccessClass;
+            dataWipe = dataAccessClass;
         }
 
         [TestMethod]
         public void AddNewManagerTest()
         {
-            managerContext1 = managerDataAccess.AddManager(managerFirstName1, managerLastName1, managerLogin1, HashClass.CreateFirstHash(managerPassword1, managerLogin1));
+            managerContext1 = managerDataAccess.AddManager(ManagerFirstName1, ManagerLastName1, ManagerLogin1, HashClass.CreateFirstHash(ManagerPassword1, ManagerLogin1));
             Assert.IsNotNull(managerContext1);
             Assert.AreNotEqual(managerContext1.Id, 0);
+            Assert.AreEqual(managerContext1.FirstName, ManagerFirstName1);
+            Assert.AreEqual(managerContext1.LastName, ManagerLastName1);
+            Assert.AreEqual(managerContext1.Role, UserRole.Manager);
+            Assert.IsFalse(managerContext1.IsDeleted);
         }
 
-        //[TestMethod]
-        //public void AddNewWaiterTest()
-        //{
-        //    waiterContext1 = managerDataAccess.AddWaiter(waiterFirstName1, waiterLastName1, waiterLogin1, waiterPassword1);
+        [TestMethod]
+        public void ManagerLogInTest()
+        {
+            if(managerContext1 == null)
+                AddNewManagerTest();
+            
+            UserContext context = managerDataAccess.LogIn(ManagerLogin1, HashClass.CreateFirstHash(ManagerPassword1, ManagerLogin1));
+            Assert.IsNotNull(context);
+            Assert.AreEqual(context.Login, ManagerLogin1);
+            Assert.AreEqual(context.Role, UserRole.Manager);
+            
+        }
 
-        //    Assert.IsNotNull(waiterContext1);
-        //    Assert.AreNotEqual(waiterContext1.Id, 0);
-        //    Assert.AreEqual(waiterContext1.FirstName, waiterFirstName1);
-        //    Assert.AreEqual(waiterContext1.LastName, waiterLastName1);
-        //    Assert.AreEqual(waiterContext1.Login, waiterLogin1);
-        //    Assert.AreEqual(waiterContext1.Password, waiterPassword1);
-        //}
+        [TestMethod]
+        public void ManagerLogOutTest()
+        {
+            if (managerContext1 != null)
+            {
+                bool result = managerDataAccess.LogOut(managerContext1.Id);
+                Assert.IsTrue(result);  
+            }
+        }
 
-        //[TestMethod]
-        //public void AddRepeatedWaiterTest()
-        //{
-        //    if (waiterContext1 == null)
-        //        AddNewWaiterTest();
+        [TestMethod]
+        public void AddNewWaiterTest()
+        {
+            ManagerLogInTest();
 
-        //    try
-        //    {
-        //        //Próba dodania drugiego kelnera o już istniejącym loginem
-        //        waiterContext2 = managerDataAccess.AddWaiter(waiterFirstName2, waiterLastName2, waiterLogin1, waiterPassword2);
-        //        Assert.Fail("waiter2Context should not be created!");
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        Assert.IsTrue(e is ArgumentException);
-        //    }
-        //}
+            waiterContext1 = managerDataAccess.AddWaiter(managerContext1.Id, waiterFirstName1, waiterLastName1, waiterLogin1, waiterPassword1);
 
-        //[TestMethod]
-        //public void AddNewCategoryTest()
-        //{
-        //    category1 = managerDataAccess.AddMenuItemCategory(categoryName1, categoryDescription1);
+            Assert.IsNotNull(waiterContext1);
+            Assert.AreNotEqual(waiterContext1.Id, 0);
+            Assert.AreEqual(waiterContext1.FirstName, waiterFirstName1);
+            Assert.AreEqual(waiterContext1.LastName, waiterLastName1);
+            Assert.AreEqual(waiterContext1.Login, waiterLogin1);
 
-        //    Assert.IsNotNull(category1);
-        //    Assert.AreNotEqual(category1.Id, 0);
-        //    Assert.AreEqual(category1.Name, categoryName1);
-        //    Assert.AreEqual(category1.Description, categoryDescription1);
-        //}
+            ManagerLogOutTest();
+        }
 
-        //[TestMethod]
-        //public void AddNewMenuItemTest()
-        //{
-        //    if (category1 == null)
-        //        AddNewCategoryTest();
+        [TestMethod]
+        public void AddRepeatedWaiterTest()
+        {
+            if (waiterContext1 == null)
+                AddNewWaiterTest();
+            ManagerLogInTest();
 
-        //    menuItem1 = managerDataAccess.AddMenuItem(menuItemName1, menuItemDescription1, category1.Id, menuItemPrice1);
-        //    menuItem2 = managerDataAccess.AddMenuItem(menuItemName2, menuItemDescription2, category1.Id, menuItemPrice2);
-        //    menuItem3 = managerDataAccess.AddMenuItem(menuItemName3, menuItemDescription3, category1.Id, menuItemPrice3);
+            try
+            {
+                //Próba dodania drugiego kelnera o już istniejącym loginem
+                waiterContext2 = managerDataAccess.AddWaiter(managerContext1.Id, waiterFirstName2, waiterLastName2, waiterLogin1, waiterPassword2);
+                Assert.Fail("waiter2Context should not be created!");
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e is ArgumentException);
+            }
 
-        //    Assert.IsNotNull(menuItem1);
-        //    Assert.AreNotEqual(menuItem1.Id, 0);
-        //    Assert.AreEqual(menuItem1.Name, menuItemName1);
-        //    Assert.AreEqual(menuItem1.Description, menuItemDescription1);
-        //    Assert.IsNotNull(menuItem1.Category);
-        //    Assert.AreEqual(menuItem1.Category.Name, categoryName1);
-        //    Assert.AreEqual(menuItem1.Category.Description, categoryDescription1);
+            ManagerLogOutTest();
+        }
 
-        //    Assert.IsNotNull(menuItem2);
-        //    Assert.AreNotEqual(menuItem2.Id, 0);
-        //    Assert.AreEqual(menuItem2.Name, menuItemName2);
-        //    Assert.AreEqual(menuItem2.Description, menuItemDescription2);
-        //    Assert.IsNotNull(menuItem2.Category);
-        //    Assert.AreEqual(menuItem2.Category.Name, categoryName1);
-        //    Assert.AreEqual(menuItem2.Category.Description, categoryDescription1);
+        [TestMethod]
+        public void AddNewCategoryTest()
+        {
+            ManagerLogInTest();
 
-        //    Assert.IsNotNull(menuItem3);
-        //    Assert.AreNotEqual(menuItem3.Id, 0);
-        //    Assert.AreEqual(menuItem3.Name, menuItemName3);
-        //    Assert.AreEqual(menuItem3.Description, menuItemDescription3);
-        //    Assert.IsNotNull(menuItem3.Category);
-        //    Assert.AreEqual(menuItem3.Category.Name, categoryName1);
-        //    Assert.AreEqual(menuItem3.Category.Description, categoryDescription1);
-        //}
+            category1 = managerDataAccess.AddMenuItemCategory(managerContext1.Id, categoryName1, categoryDescription1);
 
-        //[TestMethod]
-        //public void AddNewTableTest()
-        //{
-        //    table1 = managerDataAccess.AddTable(tableNumber1, tableDescription1);
+            Assert.IsNotNull(category1);
+            Assert.AreNotEqual(category1.Id, 0);
+            Assert.AreEqual(category1.Name, categoryName1);
+            Assert.AreEqual(category1.Description, categoryDescription1);
 
-        //    Assert.IsNotNull(table1);
-        //    Assert.AreNotEqual(table1.Id, 0);
-        //    Assert.AreEqual(table1.Number, tableNumber1);
-        //    Assert.AreEqual(table1.Description, tableDescription1);
-        //}
+            ManagerLogOutTest();
+        }
 
-        //[TestMethod]
-        //public void EditMenuItemTest()
-        //{
-        //    if (menuItem1 == null)
-        //        AddNewMenuItemTest();
+        [TestMethod]
+        public void AddNewMenuItemTest()
+        {
+            if (category1 == null)
+                AddNewCategoryTest();
 
-        //    menuItem1.Description = menuItemEditedDescription1;
+            ManagerLogInTest();
 
-        //    bool result = managerDataAccess.EditMenuItem(menuItem1);
-        //    Assert.IsTrue(result);
+            menuItem1 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName1, menuItemDescription1, category1.Id, menuItemPrice1);
+            menuItem2 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName2, menuItemDescription2, category1.Id, menuItemPrice2);
+            menuItem3 = managerDataAccess.AddMenuItem(managerContext1.Id, menuItemName3, menuItemDescription3, category1.Id, menuItemPrice3);
 
-        //    var menuItems = managerDataAccess.GetMenuItems();
-        //    Assert.IsTrue(menuItems != null && menuItems.Any());
+            Assert.IsNotNull(menuItem1);
+            Assert.AreNotEqual(menuItem1.Id, 0);
+            Assert.AreEqual(menuItem1.Name, menuItemName1);
+            Assert.AreEqual(menuItem1.Description, menuItemDescription1);
+            Assert.IsNotNull(menuItem1.Category);
+            Assert.AreEqual(menuItem1.Category.Name, categoryName1);
+            Assert.AreEqual(menuItem1.Category.Description, categoryDescription1);
 
-        //    var editedMenuItem = menuItems.FirstOrDefault(m => m.Id == menuItem1.Id);
-        //    Assert.IsNotNull(editedMenuItem);
+            Assert.IsNotNull(menuItem2);
+            Assert.AreNotEqual(menuItem2.Id, 0);
+            Assert.AreEqual(menuItem2.Name, menuItemName2);
+            Assert.AreEqual(menuItem2.Description, menuItemDescription2);
+            Assert.IsNotNull(menuItem2.Category);
+            Assert.AreEqual(menuItem2.Category.Name, categoryName1);
+            Assert.AreEqual(menuItem2.Category.Description, categoryDescription1);
 
-        //    Assert.AreEqual(editedMenuItem.Description, menuItemEditedDescription1);
-        //}
+            Assert.IsNotNull(menuItem3);
+            Assert.AreNotEqual(menuItem3.Id, 0);
+            Assert.AreEqual(menuItem3.Name, menuItemName3);
+            Assert.AreEqual(menuItem3.Description, menuItemDescription3);
+            Assert.IsNotNull(menuItem3.Category);
+            Assert.AreEqual(menuItem3.Category.Name, categoryName1);
+            Assert.AreEqual(menuItem3.Category.Description, categoryDescription1);
 
-        //[TestMethod]
-        //public void EditMenuItemCategoryTest()
-        //{
-        //    if (category1 == null)
-        //        AddNewCategoryTest();
+            ManagerLogOutTest();
+        }
 
-        //    category1.Description = categoryEditedDesciption1;
-        //    bool result = managerDataAccess.EditMenuItemCategory(category1);
-        //    Assert.IsTrue(result);
+        [TestMethod]
+        public void AddNewTableTest()
+        {
+            ManagerLogInTest();
 
-        //    var categories = managerDataAccess.GetMenuItemCategories();
-        //    Assert.IsTrue(categories != null || categories.Any());
+            table1 = managerDataAccess.AddTable(managerContext1.Id, tableNumber1, tableDescription1);
 
-        //    var editedCategory = categories.FirstOrDefault(c => c.Id == category1.Id);
-        //    Assert.IsNotNull(editedCategory);
+            Assert.IsNotNull(table1);
+            Assert.AreNotEqual(table1.Id, 0);
+            Assert.AreEqual(table1.Number, tableNumber1);
+            Assert.AreEqual(table1.Description, tableDescription1);
 
-        //    Assert.AreEqual(editedCategory.Description, categoryEditedDesciption1);
-        //}
+            ManagerLogOutTest();
+        }
 
-        //[TestMethod]
-        //public void EditTableTest()
-        //{
-        //    if (table1 == null)
-        //        AddNewTableTest();
+        [TestMethod]
+        public void EditMenuItemTest()
+        {
+            if (menuItem1 == null)
+                AddNewMenuItemTest();
 
-        //    table1.Description = tableEditedDescription1;
-        //    bool result = managerDataAccess.EditTable(table1);
-        //    Assert.IsTrue(result);
+            ManagerLogInTest();
 
-        //    var tables = managerDataAccess.GetTables();
-        //    Assert.IsTrue(tables != null && tables.Any());
+            menuItem1.Description = menuItemEditedDescription1;
 
-        //    var editedTable = tables.FirstOrDefault(t => t.Id == table1.Id);
-        //    Assert.IsNotNull(editedTable);
+            bool result = managerDataAccess.EditMenuItem(managerContext1.Id, menuItem1);
+            Assert.IsTrue(result);
 
-        //    Assert.AreEqual(editedTable.Description, tableEditedDescription1);
-        //}
+            var menuItems = managerDataAccess.GetMenuItems(managerContext1.Id);
+            Assert.IsTrue(menuItems != null && menuItems.Any());
 
-        ////[TestMethod]
-        ////public void EditWaiterTest()
-        ////{
-        ////    if (waiterContext1 == null)
-        ////        AddNewWaiterTest();
+            var editedMenuItem = menuItems.FirstOrDefault(m => m.Id == menuItem1.Id);
+            Assert.IsNotNull(editedMenuItem);
 
-        ////    waiterContext1.LastName = waiterEditedLastName1;
+            Assert.AreEqual(editedMenuItem.Description, menuItemEditedDescription1);
 
-        ////    bool result = managerDataAccess.EditWaiter(waiterContext1);
-        ////    Assert.IsTrue(result);
+            ManagerLogOutTest();
+        }
 
-        ////    var waiters = managerDataAccess.GetWaiters();
-        ////    Assert.IsTrue(waiters != null || waiters.Any());
+        [TestMethod]
+        public void EditMenuItemCategoryTest()
+        {
+            if (category1 == null)
+                AddNewCategoryTest();
 
-        ////    var editedWaiter = waiters.FirstOrDefault(w => w.Id == waiterContext1.Id);
-        ////    Assert.IsNotNull(editedWaiter);
+            ManagerLogInTest();
 
-        ////    Assert.AreEqual(editedWaiter.LastName, waiterEditedLastName1);
-        ////}
+            category1.Description = categoryEditedDesciption1;
+            bool result = managerDataAccess.EditMenuItemCategory(managerContext1.Id, category1);
+            Assert.IsTrue(result);
 
-        //[TestMethod]
-        //public void RemoveMenuItemCategoryTest()
-        //{
-        //    if (category1 == null)
-        //        AddNewCategoryTest();
+            var categories = managerDataAccess.GetMenuItemCategories(managerContext1.Id);
+            Assert.IsTrue(categories != null || categories.Any());
 
-        //    bool result = managerDataAccess.RemoveMenuItemCategory(category1.Id);
-        //    Assert.IsTrue(result);
+            var editedCategory = categories.FirstOrDefault(c => c.Id == category1.Id);
+            Assert.IsNotNull(editedCategory);
 
-        //    var categories = managerDataAccess.GetMenuItemCategories();
+            Assert.AreEqual(editedCategory.Description, categoryEditedDesciption1);
 
-        //    if (categories != null && categories.Any())
-        //    {
-        //        var removedCategory = categories.FirstOrDefault(c => c.Id == category1.Id);
-        //        Assert.IsNull(removedCategory);
-        //    }
+            ManagerLogOutTest();
+        }
 
-        //    result = managerDataAccess.EditMenuItemCategory(category1);
-        //    Assert.IsFalse(result);
-        //}
+        [TestMethod]
+        public void EditTableTest()
+        {
+            if (table1 == null)
+                AddNewTableTest();
 
-        //[TestMethod]
-        //public void RemoveMenuItemTest()
-        //{
-        //    if (menuItem1 == null)
-        //        AddNewMenuItemTest();
+            ManagerLogInTest();
 
-        //    bool result = managerDataAccess.RemoveMenuItem(menuItem1.Id);
-        //    Assert.IsTrue(result);
+            table1.Description = tableEditedDescription1;
+            bool result = managerDataAccess.EditTable(managerContext1.Id, table1);
+            Assert.IsTrue(result);
 
-        //    var menuItems = managerDataAccess.GetMenuItems();
+            var tables = managerDataAccess.GetTables(managerContext1.Id);
+            Assert.IsTrue(tables != null && tables.Any());
 
-        //    if (menuItem1 != null && menuItems.Any())
-        //    {
-        //        var removedMenuItem = menuItems.FirstOrDefault(m => m.Id == menuItem1.Id);
-        //        Assert.IsNull(removedMenuItem);
-        //    }
+            var editedTable = tables.FirstOrDefault(t => t.Id == table1.Id);
+            Assert.IsNotNull(editedTable);
 
-        //    result = managerDataAccess.EditMenuItem(menuItem1);
-        //    Assert.IsFalse(result);
-        //}
+            Assert.AreEqual(editedTable.Description, tableEditedDescription1);
 
-        //[TestMethod]
-        //public void RemoveTableTest()
-        //{
-        //    if (table1 == null)
-        //        AddNewTableTest();
+            ManagerLogOutTest();
+        }
 
-        //    bool result = managerDataAccess.RemoveTable(table1.Id);
-        //    Assert.IsTrue(result);
+        [TestMethod]
+        public void EditWaiterTest()
+        {
+            if (waiterContext1 == null)
+                AddNewWaiterTest();
 
-        //    var tables = managerDataAccess.GetTables();
+            ManagerLogInTest();
 
-        //    if(tables != null && tables.Any())
-        //    {
-        //        var removedTable = tables.FirstOrDefault(t => t.Id == table1.Id);
-        //        Assert.IsNull(removedTable);
-        //    }
+            waiterContext1.LastName = waiterEditedLastName1;
 
-        //    result = managerDataAccess.EditTable(table1);
-        //    Assert.IsFalse(result);
-        //}
+            bool result = managerDataAccess.EditWaiter(managerContext1.Id, waiterContext1);
+            Assert.IsTrue(result);
 
-        //[TestMethod]
-        //public void RemoveWaiterTest()
-        //{
-        //    if (waiterContext1 == null)
-        //        AddNewWaiterTest();
+            var waiters = managerDataAccess.GetWaiters(managerContext1.Id);
+            Assert.IsTrue(waiters != null || waiters.Any());
 
-        //    bool result = managerDataAccess.RemoveWaiter(waiterContext1.Id);
-        //    Assert.IsTrue(result);
+            var editedWaiter = waiters.FirstOrDefault(w => w.Id == waiterContext1.Id);
+            Assert.IsNotNull(editedWaiter);
 
-        //    var waiters = managerDataAccess.GetWaiters();
+            Assert.AreEqual(editedWaiter.LastName, waiterEditedLastName1);
 
-        //    if(waiters != null && waiters.Any())
-        //    {
-        //        var removedWaiter = waiters.FirstOrDefault(w => w.Id == waiterContext1.Id);
-        //        Assert.IsNull(removedWaiter);
-        //    }
+            ManagerLogOutTest();
+        }
 
-        //    result = managerDataAccess.EditWaiter(waiterContext1);
-        //    Assert.IsFalse(result);
-        //}
+        [TestMethod]
+        public void RemoveMenuItemCategoryTest()
+        {
+            if (category1 == null)
+                AddNewCategoryTest();
+
+            ManagerLogInTest();
+
+            bool result = managerDataAccess.RemoveMenuItemCategory(managerContext1.Id, category1.Id);
+            Assert.IsTrue(result);
+
+            var categories = managerDataAccess.GetMenuItemCategories(managerContext1.Id);
+
+            if (categories != null && categories.Any())
+            {
+                var removedCategory = categories.FirstOrDefault(c => c.Id == category1.Id);
+                Assert.IsNull(removedCategory);
+            }
+
+            result = managerDataAccess.EditMenuItemCategory(managerContext1.Id, category1);
+            Assert.IsFalse(result);
+
+            ManagerLogOutTest();
+        }
+
+        [TestMethod]
+        public void RemoveMenuItemTest()
+        {
+            if (menuItem1 == null)
+                AddNewMenuItemTest();
+
+            ManagerLogInTest();
+
+            bool result = managerDataAccess.RemoveMenuItem(managerContext1.Id, menuItem1.Id);
+            Assert.IsTrue(result);
+
+            var menuItems = managerDataAccess.GetMenuItems(managerContext1.Id);
+
+            if (menuItem1 != null && menuItems.Any())
+            {
+                var removedMenuItem = menuItems.FirstOrDefault(m => m.Id == menuItem1.Id);
+                Assert.IsNull(removedMenuItem);
+            }
+
+            result = managerDataAccess.EditMenuItem(managerContext1.Id, menuItem1);
+            Assert.IsFalse(result);
+
+            ManagerLogOutTest();
+        }
+
+        [TestMethod]
+        public void RemoveTableTest()
+        {
+            if (table1 == null)
+                AddNewTableTest();
+
+            ManagerLogInTest();
+
+            bool result = managerDataAccess.RemoveTable(managerContext1.Id, table1.Id);
+            Assert.IsTrue(result);
+
+            var tables = managerDataAccess.GetTables(managerContext1.Id);
+
+            if (tables != null && tables.Any())
+            {
+                var removedTable = tables.FirstOrDefault(t => t.Id == table1.Id);
+                Assert.IsNull(removedTable);
+            }
+
+            result = managerDataAccess.EditTable(managerContext1.Id, table1);
+            Assert.IsFalse(result);
+
+            ManagerLogOutTest();
+        }
+
+        [TestMethod]
+        public void RemoveWaiterTest()
+        {
+            if (waiterContext1 == null)
+                AddNewWaiterTest();
+
+            ManagerLogInTest();
+
+            bool result = managerDataAccess.RemoveWaiter(managerContext1.Id, waiterContext1.Id);
+            Assert.IsTrue(result);
+
+            var waiters = managerDataAccess.GetWaiters(managerContext1.Id);
+
+            if (waiters != null && waiters.Any())
+            {
+                var removedWaiter = waiters.FirstOrDefault(w => w.Id == waiterContext1.Id);
+                Assert.IsNull(removedWaiter);
+            }
+
+            result = managerDataAccess.EditWaiter(managerContext1.Id, waiterContext1);
+            Assert.IsFalse(result);
+        }
 
         //[TestMethod]
         //public void RemoveOrderTest()
@@ -353,34 +429,32 @@ namespace DataAccess.UnitTests
         //    Assert.IsTrue(result);
 
         //    var orders = managerDataAccess.GetOrders();
-        //    if(orders != null && orders.Any())
+        //    if (orders != null && orders.Any())
         //    {
         //        var removedOrder = orders.FirstOrDefault(o => o.Id == order1.Id);
         //        Assert.IsNull(removedOrder);
         //    }
         //}
 
-        //[TestMethod]
-        //public void WaiterLogInTest()
-        //{
-        //    if (waiterContext1 == null)
-        //        AddNewWaiterTest();
-          
-        //    WaiterContext context = waiterDataAccess.LogIn(waiterLogin1, waiterPassword1);
-        //    Assert.IsNotNull(context);
-        //    Assert.AreEqual(context.Login, waiterLogin1);
-        //    Assert.AreEqual(context.Password, waiterPassword1);
-          
-        //}
+        [TestMethod]
+        public void WaiterLogInTest()
+        {
+            if (waiterContext1 == null)
+                AddNewWaiterTest();
 
-        //[TestMethod]
-        //public void WaiterLogOutTest()
-        //{
-        //    WaiterLogInTest();
+            UserContext context = waiterDataAccess.LogIn(waiterLogin1, waiterPassword1);
+            Assert.IsNotNull(context);
+            Assert.AreEqual(context.Login, waiterLogin1);
+        }
 
-        //    bool result = waiterDataAccess.LogOut(waiterContext1.Id);
-        //    Assert.IsTrue(result);
-        //}
+        [TestMethod]
+        public void WaiterLogOutTest()
+        {
+            WaiterLogInTest();
+
+            bool result = waiterDataAccess.LogOut(waiterContext1.Id);
+            Assert.IsTrue(result);
+        }
 
         //[TestMethod]
         //public void WaiterAddOrderTest()
@@ -391,7 +465,7 @@ namespace DataAccess.UnitTests
         //    if (table1 == null)
         //        AddNewTableTest();
         //    if (menuItem1 == null)
-        //        AddNewMenuItemTest();           
+        //        AddNewMenuItemTest();
 
         //    var menuItems = new List<Tuple<int, int>>();
         //    menuItems.Add(new Tuple<int, int>(menuItem1.Id, menuItemQuantity1));
@@ -422,24 +496,24 @@ namespace DataAccess.UnitTests
         //[TestMethod]
         //public void WaiterSetOrderStateTest()
         //{
-        //   if (order1 == null)
+        //    if (order1 == null)
         //        WaiterAddOrderTest();
 
-        //   bool result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.Accepted);
-        //   Assert.IsFalse(result);
+        //    bool result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.Accepted);
+        //    Assert.IsFalse(result);
 
-        //   result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.Realized);
-        //   Assert.IsTrue(result);
+        //    result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.Realized);
+        //    Assert.IsTrue(result);
 
-        //   var orders = managerDataAccess.GetOrders();
-        //   Assert.IsTrue(orders != null && orders.Any());
+        //    var orders = managerDataAccess.GetOrders();
+        //    Assert.IsTrue(orders != null && orders.Any());
 
-        //   var order = orders.FirstOrDefault(o => o.Id == order1.Id);
-        //   Assert.IsNotNull(order);
-        //   Assert.AreEqual(order.State, OrderState.Realized);
+        //    var order = orders.FirstOrDefault(o => o.Id == order1.Id);
+        //    Assert.IsNotNull(order);
+        //    Assert.AreEqual(order.State, OrderState.Realized);
 
-        //   result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.NotRealized);
-        //   Assert.IsFalse(result);            
+        //    result = waiterDataAccess.SetOrderState(waiterContext1.Id, order1.Id, OrderState.NotRealized);
+        //    Assert.IsFalse(result);
         //}
 
         //[TestMethod]
@@ -484,13 +558,22 @@ namespace DataAccess.UnitTests
                 dataWipe.WipeOrder(order1.Id);
 
             if (managerContext1 != null)
+            {
+                //managerDataAccess.LogOut(managerContext1.Id);
                 dataWipe.WipeUser(managerContext1.Id);
+            }
 
             if (waiterContext1 != null)
+            {
+                //waiterDataAccess.LogOut(waiterContext1.Id);
                 dataWipe.WipeUser(waiterContext1.Id);
+            }
 
             if (waiterContext2 != null)
+            {
+                //waiterDataAccess.LogOut(waiterContext2.Id);
                 dataWipe.WipeUser(waiterContext2.Id);
+            }
 
             if (menuItem1 != null)
                 dataWipe.WipeMenuItem(menuItem1.Id);

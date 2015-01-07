@@ -32,7 +32,7 @@ namespace DataAccess
         #region IBaseDataAccess
         public IEnumerable<MenuItemCategory> GetMenuItemCategories(int userId)
         {
-            if (CheckIsUserLoggedIn(userId))
+            if (!CheckIsUserLoggedIn(userId))
                 throw new SecurityException(String.Format("User login={0} is not logged in", userId));
 
             using (var db = new DataAccessProvider())
@@ -44,7 +44,7 @@ namespace DataAccess
 
         public IEnumerable<MenuItem> GetMenuItems(int userId)
         {
-            if (CheckIsUserLoggedIn(userId))
+            if (!CheckIsUserLoggedIn(userId))
                 throw new SecurityException(String.Format("User login={0} is not logged in", userId));
 
             using (var db = new DataAccessProvider())
@@ -56,7 +56,7 @@ namespace DataAccess
 
         public IEnumerable<Table> GetTables(int userId)
         {
-            if (CheckIsUserLoggedIn(userId))
+            if (!CheckIsUserLoggedIn(userId))
                 throw new SecurityException(String.Format("User login={0} is not logged in", userId));
 
             using (var db = new DataAccessProvider())
@@ -81,20 +81,19 @@ namespace DataAccess
                 if (userContext == null)
                     return null;
 
-                string userHash = db.Passwords.Find(userContext.Id).Hash;
-                if (String.IsNullOrEmpty(userHash))
+                var userPassword = db.Passwords.FirstOrDefault(pw => pw.UserId == userContext.Id);
+                if (userPassword == null)
                     return null;
 
-                if(!HashClass.ValidatePassword(password, userHash))
+                if (String.IsNullOrEmpty(userPassword.Hash))
+                    return null;
+
+                if(!HashClass.ValidatePassword(password, userPassword.Hash))
                     return null;
             }
 
-            if (userContext != null)
-            {
-                if (CheckIsUserLoggedIn(userContext.Id))
-                    throw new SecurityException(String.Format("User login={0} is already logged in", userContext.Login));
+            if (!CheckIsUserLoggedIn(userContext.Id))
                 loggedInUsers.Add(userContext);
-            }
 
             return userContext;
         }
@@ -342,8 +341,28 @@ namespace DataAccess
 
                 if(newWaiterContext == null)
                     newWaiterContext = db.Users.Add(waiterContextToAdd);
-
                 db.SaveChanges();
+
+                Password newWaiterPassword = db.Passwords.FirstOrDefault(p => p.UserId == newWaiterContext.Id);
+                if (newWaiterPassword == null)
+                {
+                    newWaiterPassword = new Password()
+                    {
+                        UserId = newWaiterContext.Id,
+                        Hash = HashClass.CreateSecondHash(password)
+                    };
+                    db.Passwords.Add(newWaiterPassword);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    newWaiterPassword.Hash = HashClass.CreateSecondHash(password);
+                    db.Entry(newWaiterPassword).State = System.Data.Entity.EntityState.Detached;
+                    db.Passwords.Attach(newWaiterPassword);
+                    db.Entry(newWaiterPassword).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+
             }
 
             return newWaiterContext;
@@ -735,7 +754,7 @@ namespace DataAccess
 
                 db.Users.Remove(userContextToRemove);
 
-                Password passwordToRemove = db.Passwords.Find(userId);
+                Password passwordToRemove = db.Passwords.FirstOrDefault(p => p.UserId == userId);
                 if (passwordToRemove == null)
                     return false;
 
