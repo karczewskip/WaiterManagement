@@ -79,6 +79,6 @@ namespace ClassLib.ServiceContracts
         [OperationContract]
         UserContext AddClient(string firstName, string lastName, string login, string password);
         [OperationContract]
-        Order AddOrder(int userId, int tableId, int waiterId, IEnumerable<Tuple<int, int>> menuItems);
+        Order AddOrder(int userId, int tableId, IEnumerable<Tuple<int, int>> menuItems);
     }
 }
