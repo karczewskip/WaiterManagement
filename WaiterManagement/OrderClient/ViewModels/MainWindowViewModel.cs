@@ -13,16 +13,18 @@ namespace OrderClient.ViewModels
     {
         private IDialogLogin _dialogLogin;
         private IDialogMainWindow _dialogOrderWindow;
+        private IOrderDataModel _orderDataModel;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IOrderDataModel orderDataModel)
         {
             _dialogLogin = new LoggerViewModel(this);
+            _orderDataModel = orderDataModel;
             ActivateItem(_dialogLogin);
         }
 
         public void AddNewOrder()
         {
-            _dialogOrderWindow = new OrderViewModel(this);
+            _dialogOrderWindow = new OrderViewModel(this, _orderDataModel);
             ActivateItem(_dialogOrderWindow);
         }
 

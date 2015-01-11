@@ -65,11 +65,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\ICurrentOrder.cs" />
     <Compile Include="Abstract\IDialogLogin.cs" />
     <Compile Include="Abstract\IDialogMainWindow.cs" />
     <Compile Include="Abstract\IDialogOrder.cs" />
     <Compile Include="Abstract\IMainWindowViewModel.cs" />
+    <Compile Include="Abstract\IOrderDataModel.cs" />
     <Compile Include="Abstract\IOrderViewModel.cs" />
+    <Compile Include="Converters\IndexConverter.cs" />
+    <Compile Include="Converters\OrderContentConverter.cs" />
+    <Compile Include="Converters\PriceConverter.cs" />
+    <Compile Include="Model\OrderDataModel.cs" />
     <Compile Include="ViewModels\AddItemViewModel.cs" />
     <Compile Include="ViewModels\CurrentOrderViewModel.cs" />
     <Compile Include="ViewModels\LoggerViewModel.cs" />

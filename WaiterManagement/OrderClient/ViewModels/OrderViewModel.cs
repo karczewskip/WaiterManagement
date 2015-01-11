@@ -12,14 +12,22 @@ namespace OrderClient.ViewModels
     class OrderViewModel : Conductor<object>,IOrderViewModel, IDialogMainWindow
     {
         private IMainWindowViewModel _mainWindow;
-        private IDialogOrder _currentOrderDialog;
+        private ICurrentOrder _currentOrderDialog;
         private IDialogOrder _addItemDialog;
 
-        public OrderViewModel(IMainWindowViewModel mainWindow)
+        private IOrderDataModel _orderDataMoedl;
+
+        public OrderViewModel(IMainWindowViewModel mainWindow, IOrderDataModel orderDataModel)
         {
             _mainWindow = mainWindow;
-            _addItemDialog = new AddItemViewModel(this);
-            _currentOrderDialog = new CurrentOrderViewModel(this);
+            _currentOrderDialog = new CurrentOrderViewModel(this, orderDataModel);
+            _addItemDialog = new AddItemViewModel(this, orderDataModel);
+            
+
+            _orderDataMoedl = orderDataModel;
+
+            _orderDataMoedl.StartNewOrder();
+
             ActivateItem(_currentOrderDialog);
         }
 
@@ -30,7 +38,7 @@ namespace OrderClient.ViewModels
 
         public bool CanAddCurrentOrder
         {
-            get { return false; }
+            get { return !_orderDataMoedl.IsEmpty(); }
         }
 
         public void AddItem()
@@ -45,8 +53,15 @@ namespace OrderClient.ViewModels
 
         public void CloseAddItemDialog()
         {
+            _currentOrderDialog.RefreshOrder();
             ActivateItem(_currentOrderDialog);
             NotifyOfPropertyChange(() => CanAddCurrentOrder);           
+        }
+
+
+        public void CheckIfIsPosibleToAddOrder()
+        {
+            NotifyOfPropertyChange(() => CanAddCurrentOrder);
         }
     }
 }
