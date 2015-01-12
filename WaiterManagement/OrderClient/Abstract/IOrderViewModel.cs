@@ -8,6 +8,10 @@ namespace OrderClient.Abstract
 {
     interface IOrderViewModel
     {
+        
+
         void CloseAddItemDialog();
+
+        void CheckIfIsPosibleToAddOrder();
     }
 }

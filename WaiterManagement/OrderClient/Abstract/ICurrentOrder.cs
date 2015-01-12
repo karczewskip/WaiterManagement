@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OrderClient.Abstract
 {
-    interface IDialogOrder
+    interface ICurrentOrder
     {
-        
+        void RefreshOrder();
     }
 }

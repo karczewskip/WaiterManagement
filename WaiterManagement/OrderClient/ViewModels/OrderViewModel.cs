@@ -12,25 +12,38 @@ namespace OrderClient.ViewModels
     class OrderViewModel : Conductor<object>,IOrderViewModel, IDialogMainWindow
     {
         private IMainWindowViewModel _mainWindow;
-        private IDialogOrder _currentOrderDialog;
+        private ICurrentOrder _currentOrderDialog;
         private IDialogOrder _addItemDialog;
+        private IWaitingViewModel _waitingDialog;
+        private IOrderNotyficator _orderNotyficator;
 
-        public OrderViewModel(IMainWindowViewModel mainWindow)
+        private IOrderDataModel _orderDataModel;
+
+        public OrderViewModel(IMainWindowViewModel mainWindow, IOrderDataModel orderDataModel)
         {
             _mainWindow = mainWindow;
-            _addItemDialog = new AddItemViewModel(this);
-            _currentOrderDialog = new CurrentOrderViewModel(this);
+            _currentOrderDialog = new CurrentOrderViewModel(this, orderDataModel);
+            _addItemDialog = new AddItemViewModel(this, orderDataModel);
+            _waitingDialog = new WaitingViewModel(this, orderDataModel);
+            _orderNotyficator = OrderNotyficator.GetInstance();
+
+            _orderNotyficator.SetTarget(this);
+
+            _orderDataModel = orderDataModel;
+
+            _orderDataModel.StartNewOrder();
+
             ActivateItem(_currentOrderDialog);
         }
 
         public void AddCurrentOrder()
         {
-            MessageBox.Show("Add current Order Clicked");
+            ActivateItem(_waitingDialog);
         }
 
         public bool CanAddCurrentOrder
         {
-            get { return false; }
+            get { return !_orderDataModel.IsEmpty(); }
         }
 
         public void AddItem()
@@ -45,8 +58,15 @@ namespace OrderClient.ViewModels
 
         public void CloseAddItemDialog()
         {
+            _currentOrderDialog.RefreshOrder();
             ActivateItem(_currentOrderDialog);
             NotifyOfPropertyChange(() => CanAddCurrentOrder);           
+        }
+
+
+        public void CheckIfIsPosibleToAddOrder()
+        {
+            NotifyOfPropertyChange(() => CanAddCurrentOrder);
         }
     }
 }

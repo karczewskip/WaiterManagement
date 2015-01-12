@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using Ninject;
+using OrderClient.Abstract;
+using OrderClient.Model;
 using OrderClient.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,7 @@ namespace OrderClient
             _kernel = new StandardKernel();
 
             _kernel.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
+            _kernel.Bind<IOrderDataModel>().To<OrderDataModel>().InSingletonScope();
         }
 
         protected override void OnExit(object sender, EventArgs e)

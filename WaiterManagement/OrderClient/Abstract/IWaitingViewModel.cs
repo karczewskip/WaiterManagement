@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderClient.Abstract
 {
-    interface IDialogOrder
+    interface IWaitingViewModel
     {
-        
     }
 }

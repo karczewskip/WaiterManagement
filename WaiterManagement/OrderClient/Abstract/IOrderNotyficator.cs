@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OrderClient.Abstract
 {
-    interface IDialogOrder
+    interface IOrderNotyficator
     {
-        
+        void SetTarget(IOrderViewModel orderViewModel);
     }
 }
