@@ -22,5 +22,7 @@ namespace OrderClient.Abstract
         IList<MenuItem> GetAllItems();
 
         IList<MenuItemCategory> GetAllCategories();
+
+        string GetCurrentOrderMessage();
     }
 }

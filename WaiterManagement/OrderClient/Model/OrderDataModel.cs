@@ -70,5 +70,11 @@ namespace OrderClient.Model
         {
             return new List<MenuItemCategory>() { new MenuItemCategory() { Name = "Dania", Description = "Dania na ciepło" }, new MenuItemCategory() { Name = "Napoje", Description = "Alkohole" } };
         }
+
+
+        public string GetCurrentOrderMessage()
+        {
+            return "Waiter has taken an order";
+        }
     }
 }

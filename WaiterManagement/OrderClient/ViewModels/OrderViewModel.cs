@@ -14,31 +14,36 @@ namespace OrderClient.ViewModels
         private IMainWindowViewModel _mainWindow;
         private ICurrentOrder _currentOrderDialog;
         private IDialogOrder _addItemDialog;
+        private IWaitingViewModel _waitingDialog;
+        private IOrderNotyficator _orderNotyficator;
 
-        private IOrderDataModel _orderDataMoedl;
+        private IOrderDataModel _orderDataModel;
 
         public OrderViewModel(IMainWindowViewModel mainWindow, IOrderDataModel orderDataModel)
         {
             _mainWindow = mainWindow;
             _currentOrderDialog = new CurrentOrderViewModel(this, orderDataModel);
             _addItemDialog = new AddItemViewModel(this, orderDataModel);
-            
+            _waitingDialog = new WaitingViewModel(this, orderDataModel);
+            _orderNotyficator = OrderNotyficator.GetInstance();
 
-            _orderDataMoedl = orderDataModel;
+            _orderNotyficator.SetTarget(this);
 
-            _orderDataMoedl.StartNewOrder();
+            _orderDataModel = orderDataModel;
+
+            _orderDataModel.StartNewOrder();
 
             ActivateItem(_currentOrderDialog);
         }
 
         public void AddCurrentOrder()
         {
-            MessageBox.Show("Add current Order Clicked");
+            ActivateItem(_waitingDialog);
         }
 
         public bool CanAddCurrentOrder
         {
-            get { return !_orderDataMoedl.IsEmpty(); }
+            get { return !_orderDataModel.IsEmpty(); }
         }
 
         public void AddItem()
