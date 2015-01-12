@@ -9,6 +9,7 @@ namespace ClassLib.DataStructures
     [DataContract]
     public class BaseTransferObject
     {
+        [DataMember]
         public int Id { get; set; }
 
         public BaseTransferObject(DbEntity dbEntity)

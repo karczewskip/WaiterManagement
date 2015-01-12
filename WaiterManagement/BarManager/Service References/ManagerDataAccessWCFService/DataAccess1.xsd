@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:complexType name="UserContext">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:DbEntity">
+      <xs:extension base="tns:BaseTransferObject">
         <xs:sequence>
           <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
@@ -13,13 +13,12 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="UserContext" nillable="true" type="tns:UserContext" />
-  <xs:complexType name="DbEntity">
+  <xs:complexType name="BaseTransferObject">
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="DbEntity" nillable="true" type="tns:DbEntity" />
+  <xs:element name="BaseTransferObject" nillable="true" type="tns:BaseTransferObject" />
   <xs:simpleType name="UserRole">
     <xs:restriction base="xs:string" />
   </xs:simpleType>
@@ -32,7 +31,7 @@
   <xs:element name="ArrayOfMenuItemCategory" nillable="true" type="tns:ArrayOfMenuItemCategory" />
   <xs:complexType name="MenuItemCategory">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:DbEntity">
+      <xs:extension base="tns:BaseTransferObject">
         <xs:sequence>
           <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
@@ -49,7 +48,7 @@
   <xs:element name="ArrayOfMenuItem" nillable="true" type="tns:ArrayOfMenuItem" />
   <xs:complexType name="MenuItem">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:DbEntity">
+      <xs:extension base="tns:BaseTransferObject">
         <xs:sequence>
           <xs:element minOccurs="0" name="Category" nillable="true" type="tns:MenuItemCategory" />
           <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
@@ -75,7 +74,7 @@
   <xs:element name="ArrayOfTable" nillable="true" type="tns:ArrayOfTable" />
   <xs:complexType name="Table">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:DbEntity">
+      <xs:extension base="tns:BaseTransferObject">
         <xs:sequence>
           <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Number" type="xs:int" />
@@ -98,7 +97,7 @@
   <xs:element name="ArrayOfOrder" nillable="true" type="tns:ArrayOfOrder" />
   <xs:complexType name="Order">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:DbEntity">
+      <xs:extension base="tns:BaseTransferObject">
         <xs:sequence>
           <xs:element minOccurs="0" name="ClosingDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="MenuItems" nillable="true" type="tns:ArrayOfMenuItemQuantity" />
@@ -120,7 +119,7 @@
   <xs:element name="ArrayOfMenuItemQuantity" nillable="true" type="tns:ArrayOfMenuItemQuantity" />
   <xs:complexType name="MenuItemQuantity">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:DbEntity">
+      <xs:extension base="tns:BaseTransferObject">
         <xs:sequence>
           <xs:element minOccurs="0" name="MenuItem" nillable="true" type="tns:MenuItem" />
           <xs:element minOccurs="0" name="Quantity" type="xs:int" />

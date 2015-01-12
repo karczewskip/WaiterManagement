@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" />
+  <xs:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" />
   <xs:element name="LogIn">
     <xs:complexType>
       <xs:sequence>
@@ -12,7 +12,7 @@
   <xs:element name="LogInResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="LogInResult" nillable="true" type="q1:UserContext" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="LogInResult" nillable="true" type="q1:UserContext" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -40,7 +40,7 @@
   <xs:element name="GetMenuItemCategoriesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="GetMenuItemCategoriesResult" nillable="true" type="q2:ArrayOfMenuItemCategory" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="GetMenuItemCategoriesResult" nillable="true" type="q2:ArrayOfMenuItemCategory" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -54,7 +54,7 @@
   <xs:element name="GetMenuItemsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="GetMenuItemsResult" nillable="true" type="q3:ArrayOfMenuItem" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="GetMenuItemsResult" nillable="true" type="q3:ArrayOfMenuItem" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -68,7 +68,7 @@
   <xs:element name="GetTablesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="GetTablesResult" nillable="true" type="q4:ArrayOfTable" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="GetTablesResult" nillable="true" type="q4:ArrayOfTable" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -85,7 +85,7 @@
   <xs:element name="AddManagerResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="AddManagerResult" nillable="true" type="q5:UserContext" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="AddManagerResult" nillable="true" type="q5:UserContext" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -101,7 +101,7 @@
   <xs:element name="AddMenuItemCategoryResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="AddMenuItemCategoryResult" nillable="true" type="q6:MenuItemCategory" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="AddMenuItemCategoryResult" nillable="true" type="q6:MenuItemCategory" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -109,7 +109,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="managerId" type="xs:int" />
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="menuItemCategoryToEdit" nillable="true" type="q7:MenuItemCategory" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="menuItemCategoryToEdit" nillable="true" type="q7:MenuItemCategory" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -142,14 +142,14 @@
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="categoryId" type="xs:int" />
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="price" nillable="true" type="q8:Money" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="price" nillable="true" type="q8:Money" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AddMenuItemResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="AddMenuItemResult" nillable="true" type="q9:MenuItem" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="AddMenuItemResult" nillable="true" type="q9:MenuItem" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -157,7 +157,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="managerId" type="xs:int" />
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="menuItemToEdit" nillable="true" type="q10:MenuItem" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="menuItemToEdit" nillable="true" type="q10:MenuItem" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -197,7 +197,7 @@
   <xs:element name="AddWaiterResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="AddWaiterResult" nillable="true" type="q11:UserContext" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="AddWaiterResult" nillable="true" type="q11:UserContext" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -205,7 +205,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="managerId" type="xs:int" />
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="waiterToEdit" nillable="true" type="q12:UserContext" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="waiterToEdit" nillable="true" type="q12:UserContext" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -241,7 +241,7 @@
   <xs:element name="GetWaitersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="GetWaitersResult" nillable="true" type="q13:ArrayOfUserContext" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="GetWaitersResult" nillable="true" type="q13:ArrayOfUserContext" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -257,7 +257,7 @@
   <xs:element name="AddTableResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="AddTableResult" nillable="true" type="q14:Table" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="AddTableResult" nillable="true" type="q14:Table" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -265,7 +265,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="managerId" type="xs:int" />
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="tableToEdit" nillable="true" type="q15:Table" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="tableToEdit" nillable="true" type="q15:Table" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -301,7 +301,7 @@
   <xs:element name="GetOrdersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures" minOccurs="0" name="GetOrdersResult" nillable="true" type="q16:ArrayOfOrder" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="GetOrdersResult" nillable="true" type="q16:ArrayOfOrder" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

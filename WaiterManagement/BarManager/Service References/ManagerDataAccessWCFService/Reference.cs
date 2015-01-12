@@ -15,7 +15,7 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DbEntity", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseTransferObject", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(BarManager.ManagerDataAccessWCFService.MenuItemCategory))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(BarManager.ManagerDataAccessWCFService.MenuItem))]
@@ -23,16 +23,13 @@ namespace BarManager.ManagerDataAccessWCFService {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(BarManager.ManagerDataAccessWCFService.Order))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(BarManager.ManagerDataAccessWCFService.MenuItemQuantity))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(BarManager.ManagerDataAccessWCFService.UserContext))]
-    public partial class DbEntity : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class BaseTransferObject : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool IsDeletedField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -57,19 +54,6 @@ namespace BarManager.ManagerDataAccessWCFService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool IsDeleted {
-            get {
-                return this.IsDeletedField;
-            }
-            set {
-                if ((this.IsDeletedField.Equals(value) != true)) {
-                    this.IsDeletedField = value;
-                    this.RaisePropertyChanged("IsDeleted");
-                }
-            }
-        }
-        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -82,9 +66,9 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItemCategory", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItemCategory", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
-    public partial class MenuItemCategory : BarManager.ManagerDataAccessWCFService.DbEntity {
+    public partial class MenuItemCategory : BarManager.ManagerDataAccessWCFService.BaseTransferObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string DescriptionField;
@@ -121,9 +105,9 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItem", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItem", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
-    public partial class MenuItem : BarManager.ManagerDataAccessWCFService.DbEntity {
+    public partial class MenuItem : BarManager.ManagerDataAccessWCFService.BaseTransferObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private BarManager.ManagerDataAccessWCFService.MenuItemCategory CategoryField;
@@ -192,9 +176,9 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Table", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Table", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
-    public partial class Table : BarManager.ManagerDataAccessWCFService.DbEntity {
+    public partial class Table : BarManager.ManagerDataAccessWCFService.BaseTransferObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string DescriptionField;
@@ -231,9 +215,9 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Order", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Order", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
-    public partial class Order : BarManager.ManagerDataAccessWCFService.DbEntity {
+    public partial class Order : BarManager.ManagerDataAccessWCFService.BaseTransferObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime ClosingDateField;
@@ -350,9 +334,9 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItemQuantity", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItemQuantity", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
-    public partial class MenuItemQuantity : BarManager.ManagerDataAccessWCFService.DbEntity {
+    public partial class MenuItemQuantity : BarManager.ManagerDataAccessWCFService.BaseTransferObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private BarManager.ManagerDataAccessWCFService.MenuItem MenuItemField;
@@ -389,9 +373,9 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UserContext", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserContext", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
-    public partial class UserContext : BarManager.ManagerDataAccessWCFService.DbEntity {
+    public partial class UserContext : BarManager.ManagerDataAccessWCFService.BaseTransferObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string FirstNameField;
@@ -460,7 +444,7 @@ namespace BarManager.ManagerDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Money", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DbDataStructures")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Money", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
     [System.SerializableAttribute()]
     public partial class Money : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
