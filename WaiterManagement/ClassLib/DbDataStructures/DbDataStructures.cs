@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ServiceModel;
 using System.Runtime.Serialization;
+using ClassLib.DataStructures;
 
 ///Zbiór klas bazodanowych
 namespace ClassLib.DbDataStructures
@@ -14,34 +11,26 @@ namespace ClassLib.DbDataStructures
     /// <summary>
     /// Klasa bazowa dla klas bazodanowych
     /// </summary>
-    [DataContract]
     public class DbEntity
     {
-        [DataMember]
         public int Id { get; private set; }
-        [DataMember]
         public bool IsDeleted { get; set; }
     }
 
     /// <summary>
     /// Klasa modelująca jeden element z menu.
     /// </summary>
-    [DataContract]
-    public class MenuItem : DbEntity, IEquatable<MenuItem>
+    public class MenuItemEntity : DbEntity, IEquatable<MenuItemEntity>
     {
-        [DataMember]
         public string Name { get; set; }
-        [DataMember]
         public string Description { get; set; }
-        [DataMember]
-        public virtual MenuItemCategory Category { get; set; }
-        [DataMember]
+        public virtual MenuItemCategoryEntity Category { get; set; }
         public Money Price { get; set; }
 
         /// <summary>
         /// Metoda porównująca wszystkie właściwości klasy (oprócz Id)
         /// </summary>
-        public bool Equals(MenuItem other)
+        public bool Equals(MenuItemEntity other)
         {
             if (this.Category == null && other.Category != null)
                 return false;
@@ -55,79 +44,59 @@ namespace ClassLib.DbDataStructures
                 && this.Description.Equals(other.Description)
                 && this.Price.Equals(other.Price);
         }
+
+        public void CopyData(MenuItem menuItemTransferObject)
+        {
+            this.Name = menuItemTransferObject.Name;
+            this.Description = menuItemTransferObject.Description;
+            this.Price = menuItemTransferObject.Price;
+        }
     }
 
     /// <summary>
     /// Reprezentuje kategorię, do której należy MenuItem
     /// </summary>
-    [DataContract]
-    public class MenuItemCategory : DbEntity, IEquatable<MenuItemCategory>
+    public class MenuItemCategoryEntity : DbEntity, IEquatable<MenuItemCategoryEntity>
     {
-        [DataMember]
         public string Name { get; set; }
-        [DataMember]
         public string Description { get; set; }
 
         /// <summary>
         /// Metoda porównująca wszystkie właściwości klasy (oprócz Id)
         /// </summary>
-        public bool Equals(MenuItemCategory other)
+        public bool Equals(MenuItemCategoryEntity other)
         {
             return this.Name.Equals(other.Name)
                 && this.Description.Equals(other.Description);
         }
-    }
 
-    /// <summary>
-    ///Klasa pomocnicza do reprezentująca wartości pieniężne
-    /// </summary>
-    [ComplexType]
-    [DataContract]
-    public class Money: IEquatable<Money>
-    {
-        [DataMember]
-        public float Amount { get; set; }
-        [DataMember]
-        public string Currency { get; set; }
-
-        /// <summary>
-        /// Metoda porównująca wszystkie właściwości klasy (oprócz Id)
-        /// </summary>
-        public bool Equals(Money other)
+        public void CopyData(MenuItemCategory menuItemCategoryTransferObject)
         {
-            return this.Amount.Equals(other.Amount)
-                && this.Currency.Equals(other.Currency);
+            this.Name = menuItemCategoryTransferObject.Name;
+            this.Description = menuItemCategoryTransferObject.Description;
         }
     }
 
     /// <summary>
     /// Klasa reprezentująca zamówienie
     /// </summary>
-    [DataContract]
-    public class Order : DbEntity, IEquatable<Order>
+    public class OrderEntity : DbEntity, IEquatable<OrderEntity>
     {
-        public Order()
+        public OrderEntity()
         {
-            MenuItems = new HashSet<MenuItemQuantity>();
+            MenuItems = new HashSet<MenuItemQuantityEntity>();
         }
 
-        [DataMember]
         public int UserId { get; set; }
-        [DataMember]
-        public virtual UserContext Waiter { get; set; }
-        [DataMember]
-        public virtual Table Table { get; set; }
+        public virtual UserContextEntity Waiter { get; set; }
+        public virtual TableEntity Table { get; set; }
         //Item1 - menuItemId, Item2 - quantity
-        [DataMember]
-        public virtual ICollection<MenuItemQuantity> MenuItems { get; set; }
-        [DataMember]
+        public virtual ICollection<MenuItemQuantityEntity> MenuItems { get; set; }
         public OrderState State { get; set; }
-        [DataMember]
         public DateTime PlacingDate { get; set; }
-        [DataMember]
         public DateTime ClosingDate { get; set; }
 
-        public bool Equals(Order other)
+        public bool Equals(OrderEntity other)
         {
             if(this.MenuItems.Count != other.MenuItems.Count)
                 return false;
@@ -145,44 +114,20 @@ namespace ClassLib.DbDataStructures
     }
 
     /// <summary>
-    /// Stan Zamówienia
-    /// </summary>
-    [DataContract]
-    public enum OrderState
-    {
-        /// <summary>
-        /// Złożone
-        /// </summary>
-        Placed,
-        /// <summary>
-        /// Zaakceptowane
-        /// </summary>
-        Accepted,
-        /// <summary>
-        /// Zrealizowane
-        /// </summary>
-        Realized,
-        /// <summary>
-        /// Nie zrealizowane
-        /// </summary>
-        NotRealized,
-    }
-
-    /// <summary>
     /// Klasa pośrednia pomiędzy zamówieniem a elementem z menu.
     /// </summary>
     [DataContract]
-    public class MenuItemQuantity : DbEntity, IEquatable<MenuItemQuantity>
+    public class MenuItemQuantityEntity : DbEntity, IEquatable<MenuItemQuantityEntity>
     {
         [DataMember]
-        public virtual MenuItem MenuItem { get; set; }
+        public virtual MenuItemEntity MenuItem { get; set; }
         [DataMember]
         public int Quantity { get; set; }
 
         /// <summary>
         /// Metoda porównująca wszystkie właściwości klasy (oprócz Id)
         /// </summary>
-        public bool Equals(MenuItemQuantity other)
+        public bool Equals(MenuItemQuantityEntity other)
         {
             return this.MenuItem.Equals(other.MenuItem)
                 && this.Quantity.Equals(other.Quantity);
@@ -192,25 +137,28 @@ namespace ClassLib.DbDataStructures
     /// <summary>
     /// Klasa reprezentująca stolik/stół w barze/restauracji
     /// </summary>
-    [DataContract]
-    public class Table : DbEntity, IEquatable<Table>
+    public class TableEntity : DbEntity, IEquatable<TableEntity>
     {
-        [DataMember]
         public int Number { get; set; }
-        [DataMember]
         public string Description { get; set; }
 
         /// <summary>
         /// Metoda porównująca wszystkie właściwości klasy (oprócz Id)
         /// </summary>
-        public bool Equals(Table other)
+        public bool Equals(TableEntity other)
         {
             return this.Number.Equals(other.Number)
                 && this.Description.Equals(other.Description);
         }
+
+        public void CopyData(Table tableTransferObject)
+        {
+            this.Number = tableTransferObject.Number;
+            this.Description = tableTransferObject.Description;
+        }
     }
 
-    public class Password
+    public class PasswordEntity
     {
         [Key]
         public int Id { get; private set; }
@@ -221,38 +169,30 @@ namespace ClassLib.DbDataStructures
     /// <summary>
     /// Kontekst bazowy wszystkich użytkowników systemu. Jego klasy pochodne są zwracane po udanym zalogowaniu się do systemu
     /// </summary>
-    [DataContract]
-    public class UserContext : DbEntity, IEquatable<UserContext>
+    public class UserContextEntity : DbEntity, IEquatable<UserContextEntity>
     {
-        [DataMember]
         public string FirstName { get; set; }
-        [DataMember]
         public string LastName { get; set; }
-        [DataMember]
         public string Login { get; set; }
-        [DataMember]
         public UserRole Role { get; set; }
 
         /// <summary>
         /// Metoda porównująca wszystkie właściwości klasy (oprócz Id)
         /// </summary>
-        public bool Equals(UserContext other)
+        public bool Equals(UserContextEntity other)
         {
             return this.FirstName.Equals(other.FirstName)
                 && this.LastName.Equals(other.LastName)
                 && this.Login.Equals(other.Login)
                 && this.Role.HasFlag(other.Role);
         }
-    }
 
-    /// <summary>
-    /// Wyliczenie możliych ról użytkownika
-    /// </summary>
-    [DataContract]
-    public enum UserRole
-    {
-        Client = 0x001,
-        Waiter = 0x010,
-        Manager = 0x100,
+        public void CopyData(UserContext userContextTransferObject)
+        {
+            this.FirstName = userContextTransferObject.FirstName;
+            this.LastName = userContextTransferObject.LastName;
+            this.Login = userContextTransferObject.Login;
+            this.Role = userContextTransferObject.Role;
+        }
     }
 }

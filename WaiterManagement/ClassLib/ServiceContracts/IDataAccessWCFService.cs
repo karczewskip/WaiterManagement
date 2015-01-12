@@ -5,6 +5,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using ClassLib.DataStructures;
 
 namespace ClassLib.ServiceContracts
 {

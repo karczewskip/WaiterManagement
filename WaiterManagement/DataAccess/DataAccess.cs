@@ -16,13 +16,13 @@ namespace DataAccess
     public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
     {
         #region Private Fields
-        private HashSet<UserContext> loggedInUsers;
+        private HashSet<UserContextEntity> loggedInUsers;
         #endregion
 
         #region Constructors
         public DataAccessClass()
         {
-            loggedInUsers = new HashSet<UserContext>();
+            loggedInUsers = new HashSet<UserContextEntity>();
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccessProvider, Configuration>()); 
         }
         #endregion
@@ -36,7 +36,7 @@ namespace DataAccess
             using (var db = new DataAccessProvider())
             {
                 var menuItemCategoryList = db.MenuItemCategories.Where( m => !m.IsDeleted).ToList();
-                return menuItemCategoryList;
+                return menuItemCategoryList.Select(c => new MenuItemCategory(c)).ToList();
             }
         }
 
@@ -48,7 +48,7 @@ namespace DataAccess
             using (var db = new DataAccessProvider())
             {
                 var menuItemList = db.MenuItems.Include("Category").Where( mI=> !mI.IsDeleted).ToList();
-                return menuItemList;
+                return menuItemList.Select(m => new MenuItem(m)).ToList();
             }
         }
 
@@ -60,26 +60,26 @@ namespace DataAccess
             using (var db = new DataAccessProvider())
             {
                 var tableList = db.Tables.Where( t => !t.IsDeleted).ToList();
-                return tableList;
+                return tableList.Select(t => new Table(t)).ToList();
             }
         }
 
         public UserContext LogIn(string login, string password)
         {
             if (String.IsNullOrEmpty(login))
-                throw new ArgumentNullException("login is null");
+                throw new ArgumentNullException("login");
             if (String.IsNullOrEmpty(password))
-                throw new ArgumentNullException("password is null");
+                throw new ArgumentNullException("password");
 
-            UserContext userContext = null;
+            UserContextEntity userContextEntity = null;
 
             using (var db = new DataAccessProvider())
             {
-                userContext = db.Users.FirstOrDefault(u => u.Login.Equals(login));
-                if (userContext == null)
+                userContextEntity = db.Users.FirstOrDefault(u => u.Login.Equals(login));
+                if (userContextEntity == null)
                     return null;
 
-                var userPassword = db.Passwords.FirstOrDefault(pw => pw.UserId == userContext.Id);
+                var userPassword = db.Passwords.FirstOrDefault(pw => pw.UserId == userContextEntity.Id);
                 if (userPassword == null)
                     return null;
 
@@ -90,10 +90,10 @@ namespace DataAccess
                     return null;
             }
 
-            if (!CheckIsUserLoggedIn(userContext.Id))
-                loggedInUsers.Add(userContext);
+            if (!CheckIsUserLoggedIn(userContextEntity.Id))
+                loggedInUsers.Add(userContextEntity);
 
-            return userContext;
+            return new UserContext(userContextEntity);
         }
 
         public bool LogOut(int userId)
@@ -122,31 +122,31 @@ namespace DataAccess
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException("Description is null");           
 
-            MenuItemCategory newCategory = null;
+            MenuItemCategoryEntity newCategoryEntity = null;
 
             using( var db = new DataAccessProvider())
             {
-                var categoryToAdd = new MenuItemCategory() {Name = name, Description = description};
+                var categoryToAddEntity = new MenuItemCategoryEntity() {Name = name, Description = description};
 
                 var categoriesSameName = db.MenuItemCategories.Where(c => c.Name.Equals(name));
                 
                 if(categoriesSameName != null && categoriesSameName.Any())
-                    foreach(MenuItemCategory category in categoriesSameName)
-                        if(category.Equals(categoryToAdd))
+                    foreach(MenuItemCategoryEntity category in categoriesSameName)
+                        if(category.Equals(categoryToAddEntity))
                         {
                             if(category.IsDeleted)
                                 category.IsDeleted = false;
-                            newCategory = category;
+                            newCategoryEntity = category;
                             break;
                         }
 
-                if(newCategory == null)
-                    newCategory = db.MenuItemCategories.Add(categoryToAdd);
+                if(newCategoryEntity == null)
+                    newCategoryEntity = db.MenuItemCategories.Add(categoryToAddEntity);
 
                 db.SaveChanges();
             }
 
-            return newCategory;
+            return new MenuItemCategory(newCategoryEntity);
         }
 
         public bool EditMenuItemCategory(int managerId, MenuItemCategory menuItemCategoryToEdit)
@@ -155,16 +155,20 @@ namespace DataAccess
                 throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
 
             if (menuItemCategoryToEdit == null)
-                throw new ArgumentNullException("menuItemCategoryToEdit is null");           
+                throw new ArgumentNullException("menuItemCategoryToEdit");           
 
             using(var db = new DataAccessProvider())
             {
-                MenuItemCategory editedMenuItemCategory = db.MenuItemCategories.Find(menuItemCategoryToEdit.Id);
-                if (editedMenuItemCategory == null || editedMenuItemCategory.IsDeleted)
+                MenuItemCategoryEntity editedMenuItemCategoryEntity = db.MenuItemCategories.Find(menuItemCategoryToEdit.Id);
+                if (editedMenuItemCategoryEntity == null || editedMenuItemCategoryEntity.IsDeleted)
                     return false;
-                db.Entry(editedMenuItemCategory).State = System.Data.Entity.EntityState.Detached;
-                db.MenuItemCategories.Attach(menuItemCategoryToEdit);
-                db.Entry(menuItemCategoryToEdit).State = System.Data.Entity.EntityState.Modified;
+
+                //db.Entry(editedMenuItemCategory).State = System.Data.Entity.EntityState.Detached;
+                //db.MenuItemCategories.Attach(menuItemCategoryToEdit);
+                //db.Entry(menuItemCategoryToEdit).State = System.Data.Entity.EntityState.Modified;
+
+                editedMenuItemCategoryEntity.CopyData(menuItemCategoryToEdit);
+                db.Entry(editedMenuItemCategoryEntity).State = EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
@@ -177,12 +181,12 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                MenuItemCategory menuItemCategoryToRemove = db.MenuItemCategories.Find(categoryId);
-                if (menuItemCategoryToRemove == null || menuItemCategoryToRemove.IsDeleted)
+                MenuItemCategoryEntity menuItemCategoryEntityToRemove = db.MenuItemCategories.Find(categoryId);
+                if (menuItemCategoryEntityToRemove == null || menuItemCategoryEntityToRemove.IsDeleted)
                     return false;
                 
                 //db.MenuItemCategories.Remove(menuItemCategoryToRemove);
-                menuItemCategoryToRemove.IsDeleted = true;
+                menuItemCategoryEntityToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }
@@ -194,39 +198,40 @@ namespace DataAccess
                 throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
 
             if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name is null");
+                throw new ArgumentNullException("name");
             if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException("description is null");
+                throw new ArgumentNullException("description");
 
-            MenuItem newMenuItem = null;
-            MenuItemCategory category = null;
+            MenuItemEntity newMenuItemEntity = null;
 
             using (var db = new DataAccessProvider())
             {
+                MenuItemCategoryEntity category = null;
+
                 category = db.MenuItemCategories.Find(categoryId);
                 if (category == null)
                     return null;
 
-                var menuItemToAdd = new MenuItem() { Name = name, Description = description, Category = category, Price = price };
+                var menuItemToAdd = new MenuItemEntity() { Name = name, Description = description, Category = category, Price = price };
 
                 var menuItemsSameName = db.MenuItems.Where(mI => mI.Name.Equals(name));
-                if(menuItemsSameName != null && menuItemsSameName.Any())
-                    foreach(MenuItem menuItem in menuItemsSameName)
+                if( menuItemsSameName.Any())
+                    foreach(MenuItemEntity menuItem in menuItemsSameName)
                         if(menuItem.Equals(menuItemToAdd))
                         {
                             if (menuItem.IsDeleted)
                                 menuItem.IsDeleted = false;
 
-                            newMenuItem = menuItem;
+                            newMenuItemEntity = menuItem;
                             break;
                         }
-                if(newMenuItem == null)
-                    newMenuItem = db.MenuItems.Add(menuItemToAdd);
+                if(newMenuItemEntity == null)
+                    newMenuItemEntity = db.MenuItems.Add(menuItemToAdd);
 
                 db.SaveChanges();
             }
 
-            return newMenuItem;
+            return new MenuItem(newMenuItemEntity);
         }
 
         public bool EditMenuItem(int managerId, MenuItem menuItemToEdit)
@@ -235,16 +240,27 @@ namespace DataAccess
                 throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
 
             if (menuItemToEdit == null)
-                throw new ArgumentNullException("menuItemToEdit is null");
+                throw new ArgumentNullException("menuItemToEdit");
             
             using(var db = new DataAccessProvider())
             {
-                MenuItem editedMenuItem = db.MenuItems.Find(menuItemToEdit.Id);
-                if (editedMenuItem == null || editedMenuItem.IsDeleted)
+                MenuItemEntity editedMenuItemEntity = db.MenuItems.Find(menuItemToEdit.Id);
+                if (editedMenuItemEntity == null || editedMenuItemEntity.IsDeleted)
                     return false;
-                db.Entry(editedMenuItem).State = System.Data.Entity.EntityState.Detached;
-                db.MenuItems.Attach(menuItemToEdit);
-                db.Entry(menuItemToEdit).State = System.Data.Entity.EntityState.Modified;
+
+                //db.Entry(editedMenuItem).State = System.Data.Entity.EntityState.Detached;
+                //db.MenuItems.Attach(menuItemToEdit);
+                //db.Entry(menuItemToEdit).State = System.Data.Entity.EntityState.Modified;
+
+                editedMenuItemEntity.CopyData(menuItemToEdit);
+                MenuItemCategoryEntity editedMenuItemCategoryEntity =
+                    db.MenuItemCategories.Find(menuItemToEdit.Category.Id);
+
+                if (editedMenuItemCategoryEntity != null)
+                    editedMenuItemEntity.Category = editedMenuItemCategoryEntity;
+
+                db.Entry(editedMenuItemEntity).State = EntityState.Modified;
+
                 db.SaveChanges();
                 return true;
             }
@@ -258,12 +274,12 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                MenuItem menuItemToRemove = db.MenuItems.Find(menuItemId);
-                if (menuItemToRemove == null || menuItemToRemove.IsDeleted)
+                MenuItemEntity menuItemEntityToRemove = db.MenuItems.Find(menuItemId);
+                if (menuItemEntityToRemove == null || menuItemEntityToRemove.IsDeleted)
                     return false;
                 
                 //db.MenuItems.Remove(menuItemToRemove);
-                menuItemToRemove.IsDeleted = true;
+                menuItemEntityToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }            
@@ -275,50 +291,50 @@ namespace DataAccess
                 throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
 
             if (String.IsNullOrEmpty(firstName))
-                throw new ArgumentNullException("firstName is null");
+                throw new ArgumentNullException("firstName");
             if (String.IsNullOrEmpty(lastName))
-                throw new ArgumentNullException("lastName is null");
+                throw new ArgumentNullException("lastName");
             if (String.IsNullOrEmpty(login))
-                throw new ArgumentNullException("login is null");
+                throw new ArgumentNullException("login");
             if (String.IsNullOrEmpty(password))
-                throw new ArgumentNullException("password is null");
+                throw new ArgumentNullException("password");
 
-            UserContext newWaiterContext = null;
+            UserContextEntity newWaiterContextEntity = null;
 
             //TODO: filtrować po kelnerach tylko
             //TODO: zapisać hasło
             using (var db = new DataAccessProvider())
             {
-                var waiterContextToAdd = new UserContext() { FirstName = firstName, LastName = lastName, Login = login, Role = UserRole.Waiter};
+                var waiterContextToAdd = new UserContextEntity() { FirstName = firstName, LastName = lastName, Login = login, Role = UserRole.Waiter};
                 var usersSameLogin = db.Users.Where(u => u.Login.Equals(login));
 
                 if (usersSameLogin != null && usersSameLogin.Any())
                 {
-                    foreach (UserContext userContext in usersSameLogin)
-                        if (userContext.Equals(waiterContextToAdd))
+                    foreach (UserContextEntity userContextEntity in usersSameLogin)
+                        if (userContextEntity.Equals(waiterContextToAdd))
                         {
-                            if (userContext.IsDeleted)
-                                userContext.IsDeleted = false;
+                            if (userContextEntity.IsDeleted)
+                                userContextEntity.IsDeleted = false;
 
-                            newWaiterContext = userContext;
+                            newWaiterContextEntity = userContextEntity;
                             break;
                         }
 
                     //istnieją kelnerzy o tym samym loginie, ale nie są tacy sami jak ten co chcemy dodać.
-                    if(newWaiterContext == null)
+                    if(newWaiterContextEntity == null)
                         throw new ArgumentException(String.Format("login = {0} already exists in database!", login));
                 }                    
 
-                if(newWaiterContext == null)
-                    newWaiterContext = db.Users.Add(waiterContextToAdd);
+                if(newWaiterContextEntity == null)
+                    newWaiterContextEntity = db.Users.Add(waiterContextToAdd);
                 db.SaveChanges();
 
-                Password newWaiterPassword = db.Passwords.FirstOrDefault(p => p.UserId == newWaiterContext.Id);
+                PasswordEntity newWaiterPassword = db.Passwords.FirstOrDefault(p => p.UserId == newWaiterContextEntity.Id);
                 if (newWaiterPassword == null)
                 {
-                    newWaiterPassword = new Password()
+                    newWaiterPassword = new PasswordEntity()
                     {
-                        UserId = newWaiterContext.Id,
+                        UserId = newWaiterContextEntity.Id,
                         Hash = HashClass.CreateSecondHash(password)
                     };
                     db.Passwords.Add(newWaiterPassword);
@@ -327,15 +343,15 @@ namespace DataAccess
                 else
                 {
                     newWaiterPassword.Hash = HashClass.CreateSecondHash(password);
-                    db.Entry(newWaiterPassword).State = System.Data.Entity.EntityState.Detached;
+                    db.Entry(newWaiterPassword).State = EntityState.Detached;
                     db.Passwords.Attach(newWaiterPassword);
-                    db.Entry(newWaiterPassword).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(newWaiterPassword).State = EntityState.Modified;
                     db.SaveChanges();
                 }
 
             }
 
-            return newWaiterContext;
+            return new UserContext(newWaiterContextEntity);
         }
 
         public bool EditWaiter(int managerId, UserContext waiterToEdit)
@@ -344,20 +360,23 @@ namespace DataAccess
                 throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
 
             if (waiterToEdit == null)
-                throw new ArgumentNullException("waiterToEdit is null");
+                throw new ArgumentNullException("waiterToEdit");
 
             if (waiterToEdit.Role != UserRole.Waiter)
                 throw new ArgumentException(String.Format("User id = {0} is no waiter.", waiterToEdit.Id));
 
             using(var db = new DataAccessProvider())
             {
-                UserContext editedWaiterContext = db.Users.Find(waiterToEdit.Id);
+                UserContextEntity editedWaiterContext = db.Users.Find(waiterToEdit.Id);
                 if (editedWaiterContext == null || editedWaiterContext.IsDeleted)
                     return false;
 
-                db.Entry(editedWaiterContext).State = System.Data.Entity.EntityState.Detached;
-                db.Users.Attach(waiterToEdit);
-                db.Entry(waiterToEdit).State = System.Data.Entity.EntityState.Modified;
+                //db.Entry(editedWaiterContext).State = System.Data.Entity.EntityState.Detached;
+                //db.Users.Attach(waiterToEdit);
+                //db.Entry(waiterToEdit).State = System.Data.Entity.EntityState.Modified;
+
+                editedWaiterContext.CopyData(waiterToEdit);
+                db.Entry(editedWaiterContext).State = EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
@@ -370,7 +389,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                UserContext waiterContextToRemove = db.Users.Find(waiterId);
+                UserContextEntity waiterContextToRemove = db.Users.Find(waiterId);
                 if (waiterContextToRemove == null || waiterContextToRemove.IsDeleted || waiterContextToRemove.Role != UserRole.Waiter)
                     return false;
 
@@ -391,7 +410,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 var waiterList = db.Users.Where( u => u.Role.HasFlag(UserRole.Waiter) && !u.IsDeleted ).ToList();
-                return waiterList;
+                return waiterList.Select(userContext => new UserContext(userContext)).ToList();
             }
         }
 
@@ -401,23 +420,23 @@ namespace DataAccess
                 throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
 
             if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException("description is null");
+                throw new ArgumentNullException("description");
 
-            Table newTable = null;
+            TableEntity newTable = null;
 
             using (var db = new DataAccessProvider())
             {
-                var tableToAdd = new Table() { Number = tableNumber, Description = description };
+                var tableToAdd = new TableEntity() { Number = tableNumber, Description = description };
 
                 var tablesSameNumber = db.Tables.Where(t => t.Number.Equals(tableNumber));
                 if(tablesSameNumber != null && tablesSameNumber.Any())
-                    foreach(Table table in tablesSameNumber)
-                        if(table.Equals(tableToAdd))
+                    foreach(TableEntity tableEntity in tablesSameNumber)
+                        if(tableEntity.Equals(tableToAdd))
                         {
-                            if (table.IsDeleted)
-                                table.IsDeleted = false;
+                            if (tableEntity.IsDeleted)
+                                tableEntity.IsDeleted = false;
 
-                            newTable = table;
+                            newTable = tableEntity;
                             break;
                         }
 
@@ -427,7 +446,7 @@ namespace DataAccess
                 db.SaveChanges();
             }
 
-            return newTable;
+            return new Table(newTable);
         }
 
         public bool EditTable(int managerId, Table tableToEdit)
@@ -440,12 +459,17 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                Table editedTable = db.Tables.Find(tableToEdit.Id);
-                if (editedTable == null || editedTable.IsDeleted)
+                TableEntity editedTableEntity = db.Tables.Find(tableToEdit.Id);
+                if (editedTableEntity == null || editedTableEntity.IsDeleted)
                     return false;
-                db.Entry(editedTable).State = System.Data.Entity.EntityState.Detached;
-                db.Tables.Attach(tableToEdit);
-                db.Entry(tableToEdit).State = System.Data.Entity.EntityState.Modified;
+
+                //db.Entry(editedTableEntity).State = System.Data.Entity.EntityState.Detached;
+                //db.Tables.Attach(tableToEdit);
+                //db.Entry(tableToEdit).State = System.Data.Entity.EntityState.Modified;
+
+                editedTableEntity.CopyData(tableToEdit);
+                db.Entry(editedTableEntity).State = EntityState.Modified;
+
                 db.SaveChanges();
                 return true;
             }
@@ -458,12 +482,12 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                Table tableToRemove = db.Tables.Find(tableId);
-                if(tableToRemove == null || tableToRemove.IsDeleted)
+                TableEntity tableEntityToRemove = db.Tables.Find(tableId);
+                if(tableEntityToRemove == null || tableEntityToRemove.IsDeleted)
                     return false;
 
                 //db.Tables.Remove(tableToRemove);
-                tableToRemove.IsDeleted = true;
+                tableEntityToRemove.IsDeleted = true;
                 db.SaveChanges();
                 return true;
             }
@@ -477,7 +501,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").Where(o => !o.IsDeleted).ToList();
-                return orderList;
+                return orderList.Select(o => new Order(o)).ToList();
             }
         }
 
@@ -488,12 +512,12 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                Order orderToRemove = db.Orders.Find(orderId);
+                OrderEntity orderToRemove = db.Orders.Find(orderId);
                 if (orderToRemove == null || orderToRemove.IsDeleted)
                     return false;
 
                 var quantityList = orderToRemove.MenuItems.ToList();
-                foreach (MenuItemQuantity quantity in quantityList)
+                foreach (MenuItemQuantityEntity quantity in quantityList)
                     quantity.IsDeleted = true;
 
                 orderToRemove.IsDeleted = true;
@@ -512,7 +536,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 var orders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where(o => o.Waiter.Id == waiterId && !o.IsDeleted && (o.State == OrderState.NotRealized || o.State == OrderState.Realized)).ToList();
-                return orders;
+                return orders.Select( o => new Order(o)).ToList();
             }
 
         }
@@ -539,19 +563,19 @@ namespace DataAccess
 
                 //Indeks końcowy i początkowy taki sam - zwracamy jedną wartość
                 if (firstIndex == lastIndex)
-                    return new Order[1] { sortedList[firstIndex] };
+                    return new Order[1] { new Order(sortedList[firstIndex]) };
 
                 //Kelner ma mniej zamówień niż indeks końcowy - zwracamy od indeksu początkowego do końca
                 if(sortedList.Count < lastIndex + 1)
                 {
-                    var result = new Order[sortedList.Count - firstIndex];
+                    var result = new OrderEntity[sortedList.Count - firstIndex];
                     sortedList.CopyTo(firstIndex, result, 0, sortedList.Count - firstIndex);
-                    return result;
+                    return result.Select( o => new Order(o)).ToList();
                 }
 
-                var resultOrders = new Order[lastIndex - firstIndex + 1];
+                var resultOrders = new OrderEntity[lastIndex - firstIndex + 1];
                 sortedList.CopyTo(firstIndex, resultOrders, 0, lastIndex - firstIndex + 1);
-                return resultOrders;                
+                return resultOrders.Select( o => new Order(o)).ToList();
             }
         }
 
@@ -563,8 +587,7 @@ namespace DataAccess
             using(var db = new DataAccessProvider())
             {
                 var activeOrders = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Where( o => o.Waiter.Id == waiterId && !o.IsDeleted && (o.State == OrderState.Accepted || o.State == OrderState.Placed )).ToList();
-                
-                return activeOrders;
+                return activeOrders.Select( o => new Order(o)).ToList();
             }
         }
 
@@ -615,40 +638,40 @@ namespace DataAccess
             return AddUserToDatabase(firstName, lastName, login, password, UserRole.Client);
         }
 
-        public Order AddOrder(int clientId, int tableId, IEnumerable<Tuple<int, int>> menuItems)
+        public Order AddOrder(int clientId, int tableId, IEnumerable<Tuple<int, int>> menuItemsEnumerable)
         {
             if (!CheckHasUserRole(clientId, UserRole.Client))
                 throw new SecurityException(String.Format("Client id={0} is not logged in.", clientId));
+            var menuItems = menuItemsEnumerable as Tuple<int, int>[] ?? menuItemsEnumerable.ToArray();
             if (menuItems == null || !menuItems.Any())
-                throw new ArgumentNullException("menuItems is null");
+                throw new ArgumentNullException("menuItems");
 
-            Order order = null;
+            OrderEntity orderEntity = null;
 
             using (var db = new DataAccessProvider())
             {
-                Table table = db.Tables.Find(tableId);
+                TableEntity table = db.Tables.Find(tableId);
                 if (table == null)
                     throw new ArgumentException(String.Format("No such table (id={0}) exists.", tableId));
 
-                order = new Order() { UserId = clientId, Table = table, State = OrderState.Placed, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
+                orderEntity = new OrderEntity() { UserId = clientId, Table = table, State = OrderState.Placed, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
 
                 foreach (var tuple in menuItems)
                 {
-                    MenuItem menuItem = db.MenuItems.Find(tuple.Item1);
+                    MenuItemEntity menuItem = db.MenuItems.Find(tuple.Item1);
                     if (menuItem == null)
                         throw new ArgumentException(String.Format("No such menuItem (id={0}) exists", tuple.Item1));
                     if (tuple.Item2 <= 0)
                         throw new ArgumentException(String.Format("MenuItem id={0} has quantity={1}", tuple.Item1, tuple.Item2));
 
-                    MenuItemQuantity menuItemQuantity = new MenuItemQuantity() { MenuItem = menuItem, Quantity = tuple.Item2 };
-                    order.MenuItems.Add(menuItemQuantity);
+                    MenuItemQuantityEntity menuItemQuantity = new MenuItemQuantityEntity() { MenuItem = menuItem, Quantity = tuple.Item2 };
+                    orderEntity.MenuItems.Add(menuItemQuantity);
                 }
 
-                order = db.Orders.Add(order);
+                orderEntity = db.Orders.Add(orderEntity);
                 db.SaveChanges();
+                return new Order(orderEntity);
             }
-
-            return order;
         }
         #endregion
 
@@ -661,7 +684,7 @@ namespace DataAccess
 
         private bool CheckHasUserRole(int userId, UserRole role)
         {
-            UserContext user = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
+            UserContextEntity user = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
             if (user == null)
                 return false;
             return (user.Role & role) != 0;
@@ -669,7 +692,7 @@ namespace DataAccess
 
         private bool RemoveFromLoggedInUsers(int userId)
         {
-            UserContext userToRemove = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
+            UserContextEntity userToRemove = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
             if (userToRemove == null)
                 return false;
 
@@ -688,7 +711,7 @@ namespace DataAccess
             if (String.IsNullOrEmpty(password))
                 throw new ArgumentNullException("password is null");
 
-            UserContext newUser = null;
+            UserContextEntity newUser = null;
 
             using (var db = new DataAccessProvider())
             {
@@ -698,7 +721,7 @@ namespace DataAccess
                 if (userSameLogin != null)
                     throw new ArgumentException(String.Format("There already is an user with login = {0}.", login));
 
-                newUser = new UserContext()
+                newUser = new UserContextEntity()
                 {
                     Login = login,
                     FirstName = firstName,
@@ -709,12 +732,12 @@ namespace DataAccess
                 newUser = db.Users.Add(newUser);
                 db.SaveChanges();
 
-                var userPassword = new Password() { UserId = newUser.Id, Hash = HashClass.CreateSecondHash(password) };
+                var userPassword = new PasswordEntity() { UserId = newUser.Id, Hash = HashClass.CreateSecondHash(password) };
                 db.Passwords.Add(userPassword);
                 db.SaveChanges();
             }
 
-            return newUser;
+            return new UserContext(newUser);
         }
 
         #endregion
@@ -725,7 +748,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                MenuItemCategory menuItemCategoryToRemove = db.MenuItemCategories.Find(categoryId);
+                MenuItemCategoryEntity menuItemCategoryToRemove = db.MenuItemCategories.Find(categoryId);
                 if (menuItemCategoryToRemove == null)
                     return false;
 
@@ -739,9 +762,13 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                MenuItem menuItemToRemove = db.MenuItems.Find(menuItemId);
+                MenuItemEntity menuItemToRemove = db.MenuItems.Find(menuItemId);
                 if (menuItemToRemove == null)
                     return false;
+
+                var menuItemQuantityEntitiesToRemove = db.MenuItemQuantities.Where(q => q.MenuItem.Id == menuItemId);
+                foreach(MenuItemQuantityEntity menuItemQuantityEntity in menuItemQuantityEntitiesToRemove)
+                    db.MenuItemQuantities.Remove(menuItemQuantityEntity);
 
                 db.MenuItems.Remove(menuItemToRemove);
                 db.SaveChanges();
@@ -753,7 +780,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                UserContext userContextToRemove = db.Users.Find(userId);
+                UserContextEntity userContextToRemove = db.Users.Find(userId);
                 if (userContextToRemove == null)
                     return false;
 
@@ -762,7 +789,7 @@ namespace DataAccess
 
                 db.Users.Remove(userContextToRemove);
 
-                Password passwordToRemove = db.Passwords.FirstOrDefault(p => p.UserId == userId);
+                PasswordEntity passwordToRemove = db.Passwords.FirstOrDefault(p => p.UserId == userId);
                 if (passwordToRemove == null)
                     return false;
 
@@ -777,7 +804,7 @@ namespace DataAccess
         {
             using (var db = new DataAccessProvider())
             {
-                Table tableToRemove = db.Tables.Find(tableId);
+                TableEntity tableToRemove = db.Tables.Find(tableId);
                 if (tableToRemove == null)
                     return false;
 
@@ -791,12 +818,12 @@ namespace DataAccess
         {
             using(var db = new DataAccessProvider())
             {
-                Order orderToRemove = db.Orders.Find(orderId);
+                OrderEntity orderToRemove = db.Orders.Find(orderId);
                 if (orderToRemove == null)
                     return false;
 
                 var quantityList = orderToRemove.MenuItems.ToList();
-                foreach (MenuItemQuantity quantity in quantityList)
+                foreach (MenuItemQuantityEntity quantity in quantityList)
                     db.MenuItemQuantities.Remove(quantity);
 
                 db.Orders.Remove(orderToRemove);

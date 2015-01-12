@@ -88,6 +88,10 @@
     <Compile Include="Migrations\201501070006122_Pole_Id_Tabela_Password.Designer.cs">
       <DependentUpon>201501070006122_Pole_Id_Tabela_Password.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201501122237535_Zmiana_nazwy_encji.cs" />
+    <Compile Include="Migrations\201501122237535_Zmiana_nazwy_encji.Designer.cs">
+      <DependentUpon>201501122237535_Zmiana_nazwy_encji.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501070006122_Pole_Id_Tabela_Password.resx">
       <DependentUpon>201501070006122_Pole_Id_Tabela_Password.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201501122237535_Zmiana_nazwy_encji.resx">
+      <DependentUpon>201501122237535_Zmiana_nazwy_encji.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -151,7 +151,6 @@ namespace DataAccess.UnitTests
             Assert.AreEqual(managerContext1.FirstName, ManagerFirstName1);
             Assert.AreEqual(managerContext1.LastName, ManagerLastName1);
             Assert.AreEqual(managerContext1.Role, UserRole.Manager);
-            Assert.IsFalse(managerContext1.IsDeleted);
         }
 
         [TestMethod]
@@ -520,7 +519,6 @@ namespace DataAccess.UnitTests
             Assert.AreEqual(clientContext1.FirstName, ClientFirstName1);
             Assert.AreEqual(clientContext1.LastName, ClientLastName1);
             Assert.AreEqual(clientContext1.Role, UserRole.Client);
-            Assert.IsFalse(clientContext1.IsDeleted);
         }
 
         [TestMethod]

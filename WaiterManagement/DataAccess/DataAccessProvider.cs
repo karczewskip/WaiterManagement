@@ -17,12 +17,12 @@ namespace DataAccess
             : base("SmarterASPDB")
         { }
 
-        public DbSet<MenuItem> MenuItems { get; set; }
-        public DbSet<UserContext> Users { get; set; }
-        public DbSet<Password> Passwords { get; set; }
-        public DbSet<MenuItemCategory> MenuItemCategories { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Table> Tables { get; set; }
-        public DbSet<MenuItemQuantity> MenuItemQuantities { get; set; }
+        public DbSet<MenuItemEntity> MenuItems { get; set; }
+        public DbSet<UserContextEntity> Users { get; set; }
+        public DbSet<PasswordEntity> Passwords { get; set; }
+        public DbSet<MenuItemCategoryEntity> MenuItemCategories { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<TableEntity> Tables { get; set; }
+        public DbSet<MenuItemQuantityEntity> MenuItemQuantities { get; set; }
     }
 }

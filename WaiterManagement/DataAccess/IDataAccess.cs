@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassLib;
+using ClassLib.DataStructures;
 using ClassLib.DbDataStructures;
 
 namespace DataAccess
