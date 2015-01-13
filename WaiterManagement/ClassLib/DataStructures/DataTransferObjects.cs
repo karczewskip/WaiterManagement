@@ -14,8 +14,11 @@ namespace ClassLib.DataStructures
 
         public BaseTransferObject(DbEntity dbEntity)
         {
-            this.Id = dbEntity.Id;
+            Id = dbEntity.Id;
         }
+
+        public BaseTransferObject()
+        { }
     }
 
     [DataContract]
@@ -33,11 +36,14 @@ namespace ClassLib.DataStructures
         public MenuItem(MenuItemEntity menuItem)
             : base(menuItem)
         {
-            this.Name = menuItem.Name;
-            this.Description = menuItem.Description;
-            this.Category = new MenuItemCategory(menuItem.Category);
-            this.Price = menuItem.Price;
+            Name = menuItem.Name;
+            Description = menuItem.Description;
+            Category = new MenuItemCategory(menuItem.Category);
+            Price = menuItem.Price;
         }
+
+        public MenuItem()
+        { }
     }
 
     [DataContract]
@@ -51,9 +57,11 @@ namespace ClassLib.DataStructures
         public MenuItemCategory(MenuItemCategoryEntity menuItemCategory)
             : base(menuItemCategory)
         {
-            this.Name = menuItemCategory.Name;
-            this.Description = menuItemCategory.Description;
+            Name = menuItemCategory.Name;
+            Description = menuItemCategory.Description;
         }
+
+        public MenuItemCategory() { }
 
     }
 
@@ -79,24 +87,29 @@ namespace ClassLib.DataStructures
         public Order(OrderEntity order)
             : base(order)
         {
-            this.UserId = order.UserId;
+            UserId = order.UserId;
             if (order.Waiter != null)
-                this.Waiter = new UserContext(order.Waiter);
+                Waiter = new UserContext(order.Waiter);
 
             if (order.Table != null)
-                this.Table = new Table(order.Table);
+                Table = new Table(order.Table);
 
             if (order.MenuItems != null)
             {
-                this.MenuItems = new List<MenuItemQuantity>();
+                MenuItems = new List<MenuItemQuantity>();
                 foreach (var menuItemQuant in order.MenuItems)
-                    this.MenuItems.Add(new MenuItemQuantity(menuItemQuant));
+                    MenuItems.Add(new MenuItemQuantity(menuItemQuant));
             }
         
 
-            this.State = order.State;
-                    this.PlacingDate = order.PlacingDate;
-                    this.ClosingDate = order.ClosingDate;
+            State = order.State;
+            PlacingDate = order.PlacingDate;
+            ClosingDate = order.ClosingDate;
+        }
+
+        public Order()
+        {
+            MenuItems = new List<MenuItemQuantity>();
         }
     }
 
@@ -111,9 +124,12 @@ namespace ClassLib.DataStructures
         public MenuItemQuantity(MenuItemQuantityEntity menuItemQuantity)
             : base(menuItemQuantity)
         {
-            this.MenuItem = new MenuItem(menuItemQuantity.MenuItem);
-            this.Quantity = menuItemQuantity.Quantity;
+            MenuItem = new MenuItem(menuItemQuantity.MenuItem);
+            Quantity = menuItemQuantity.Quantity;
         }
+
+        public MenuItemQuantity()
+        { }
     }
 
     [DataContract]
@@ -127,9 +143,12 @@ namespace ClassLib.DataStructures
         public Table(TableEntity table)
             :base(table)
         {
-            this.Number = table.Number;
-            this.Description = table.Description;
+            Number = table.Number;
+            Description = table.Description;
         }
+
+        public Table()
+        { }
     }
 
     [DataContract]
@@ -147,10 +166,13 @@ namespace ClassLib.DataStructures
         public UserContext(UserContextEntity userContext)
             : base(userContext)
         {
-            this.FirstName = userContext.FirstName;
-            this.LastName = userContext.LastName;
-            this.Login = userContext.Login;
-            this.Role = userContext.Role;
+            FirstName = userContext.FirstName;
+            LastName = userContext.LastName;
+            Login = userContext.Login;
+            Role = userContext.Role;
         }
+
+        public UserContext()
+        { }
     }
 }
