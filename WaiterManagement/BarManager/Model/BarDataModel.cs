@@ -8,11 +8,11 @@ namespace BarManager.Model
 {
     public class BarDataModel : IBarDataModel, IDisposable
     {
-        private IManagerDataAccessWCFService ManagerDataAccess;
+        private IManagerDataAccess ManagerDataAccess;
         private bool access = false;
         private UserContext managerUserContext;
 
-        public BarDataModel(IManagerDataAccessWCFService managerDataAccess)
+        public BarDataModel(IManagerDataAccess managerDataAccess)
         {
             ManagerDataAccess = managerDataAccess;
         }

@@ -77,6 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\IManagerDataAccess.cs" />
     <Compile Include="Abstract\ViewModel\IAddMenuItemViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddTableViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddWaiterViewModel.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Messaging\Messaging.cs" />
     <Compile Include="Model\BarDataModel.cs" />
+    <Compile Include="Service Communication\ManagerDataAccess.cs" />
     <Compile Include="Service References\ManagerDataAccessWCFService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -250,41 +252,41 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItem.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItemCategory.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Order.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Table.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.UserContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItem.datasource" />
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItem1.datasource">
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItemCategory.datasource" />
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItemCategory1.datasource">
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.MenuItemCategory.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Order.datasource" />
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Order1.datasource">
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Order.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Table.datasource" />
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Table1.datasource">
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.Table.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.UserContext.datasource" />
-    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.UserContext1.datasource">
+    <None Include="Service References\ManagerDataAccessWCFService\BarManager.ManagerDataAccessWCFService.UserContext.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess3.xsd">
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess31.xsd">
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess32.xsd">
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccessClass1.wsdl" />
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -319,13 +321,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
-    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ManagerDataAccessWCFService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ManagerDataAccessWCFService\DataAccess.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ManagerDataAccessWCFService\configuration91.svcinfo" />
@@ -338,9 +342,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ManagerDataAccessWCFService\DataAccess1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -665,8 +665,6 @@ namespace BarManager.ManagerDataAccessWCFService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveOrder", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveOrderResponse")]
         System.Threading.Tasks.Task<bool> RemoveOrderAsync(int managerId, int orderId);
-
-        void Close();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
