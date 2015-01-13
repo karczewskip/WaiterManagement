@@ -38,7 +38,7 @@ namespace BarManager.ViewModels
 
         private void InitializeData()
         {
-            Waiters = new BindableCollection<UserContext>(DataModel.GetAllWaiters());
+            //Waiters = new BindableCollection<UserContext>(DataModel.GetAllWaiters());
         }
 
         public void DeleteWaiter()

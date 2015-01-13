@@ -53,7 +53,7 @@ namespace BarManager.ViewModels
 
         private void InitializeData()
         {
-            Categories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
+            //Categories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
             foreach( var category in Categories)
             {
                 AvailableCategories.Add(category);
@@ -64,7 +64,7 @@ namespace BarManager.ViewModels
 
             SelectedCategory = AllItemsFlag;
 
-            AllMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
+            //AllMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
 
             foreach( var menuItem in AllMenuItems)
             {

@@ -1,6 +1,7 @@
 ﻿using BarManager.ManagerDataAccessWCFService;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace BarManager.Abstract
 
         bool IsLogged();
 
-        void LogIn();
+        void LogIn(string login, string password);
 
         void Register(string firstName, string lastName, string login, string password);
     }

@@ -1,28 +1,29 @@
 ﻿using BarManager.Abstract;
 using BarManager.ManagerDataAccessWCFService;
-using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BarManager.Model
 {
-    public class BarDataModel : IBarDataModel
+    public class BarDataModel : IBarDataModel, IDisposable
     {
-        private IManagerDataAccessWCFService ManagerDataAccess;
+        private ManagerDataAccessWCFServiceClient ManagerDataAccess;
         private bool access = false;
+        private UserContext managerUserContext;
 
-        public BarDataModel(IManagerDataAccessWCFService managerDataAccess)
+        public BarDataModel(/*IManagerDataAccessWCFService managerDataAccess*/)
         {
-            ManagerDataAccess = managerDataAccess;
+            ManagerDataAccess = new ManagerDataAccessWCFServiceClient();//managerDataAccess;
         }
 
         public IList<MenuItemCategory> GetAllCategories()
         {
+            if (managerUserContext == null)
+                return null;
             try
             {
-                //TODO:
-                return new List<MenuItemCategory>();//ManagerDataAccess.GetMenuItemCategories().ToList();
+                return ManagerDataAccess.GetMenuItemCategories(managerUserContext.Id).ToList();
             }
             catch
             {
@@ -32,25 +33,28 @@ namespace BarManager.Model
 
         public MenuItemCategory AddCategoryItem(string categoryName, string categoryDescription)
         {
-            MenuItemCategory AddingCategory;
+            if (managerUserContext == null)
+                return null;
+
+            MenuItemCategory addingCategory = null;
             try
             {
-                //TODO:
-                AddingCategory = null;//ManagerDataAccess.AddMenuItemCategory(categoryName, categoryDescription);
+                addingCategory = ManagerDataAccess.AddMenuItemCategory(managerUserContext.Id, categoryName, categoryDescription);
             }
             catch
             {
                 throw new Exception("Exception from DB");
             }
-            return AddingCategory;
+            return addingCategory;
         }
 
         public IList<MenuItem> GetAllMenuItems()
         {
+            if (managerUserContext == null)
+                return null;
             try
             {
-                //TODO:
-                return new List<MenuItem>();// ManagerDataAccess.GetMenuItems().ToList();
+                return ManagerDataAccess.GetMenuItems(managerUserContext.Id).ToList();
             }
             catch
             {
@@ -60,32 +64,36 @@ namespace BarManager.Model
 
         public MenuItem AddMenuItem(string menuItemName, MenuItemCategory category, double price, string menuItemDescription)
         {
-            MenuItem AddingMenuItem;
+            if (managerUserContext == null)
+                return null;
+
+            MenuItem addingMenuItem;
             try
             {
-                //TODO:
-                AddingMenuItem = null;// ManagerDataAccess.AddMenuItem(menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = "PLN" });
+                addingMenuItem = ManagerDataAccess.AddMenuItem(managerUserContext.Id, menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = "PLN" });
             }
             catch
             {
                 throw new Exception("Exception from DB");
             }
 
-            if (AddingMenuItem != null)
-            {
-                AddingMenuItem.Category = category;
-            }
+            //if (addingMenuItem != null)
+            //{
+            //    addingMenuItem.Category = category;
+            //}
 
-            return AddingMenuItem;
+            return addingMenuItem;
         }
 
         public bool DeleteItem(int id)
         {
+            if (managerUserContext == null)
+                return false;
+
             bool result;
             try
             {
-                //TODO:
-                result = false;// ManagerDataAccess.RemoveMenuItem(id);
+                result =  ManagerDataAccess.RemoveMenuItem(managerUserContext.Id, id);
             }
             catch
             {
@@ -97,6 +105,9 @@ namespace BarManager.Model
 
         public bool EditMenuItem(MenuItem menuItemToEdit, string newName, double newPrice, MenuItemCategory newCategory, string newMenuItemDescription)
         {
+            if (managerUserContext == null)
+                return false;
+
             bool result;
 
             var oldName = menuItemToEdit.Name;
@@ -111,8 +122,7 @@ namespace BarManager.Model
 
             try
             {
-                //TODO:
-                result = false;// ManagerDataAccess.EditMenuItem(menuItemToEdit);
+                result =  ManagerDataAccess.EditMenuItem(managerUserContext.Id, menuItemToEdit);
             }
             catch
             {
@@ -139,10 +149,12 @@ namespace BarManager.Model
 
         public IList<UserContext> GetAllWaiters()
         {
+            if (managerUserContext == null)
+                return null;
+
             try
             {
-                //TODO:
-                return new List<UserContext>();// ManagerDataAccess.GetWaiters().ToList();
+                return ManagerDataAccess.GetWaiters(managerUserContext.Id).ToList();
             }
             catch
             {
@@ -152,11 +164,13 @@ namespace BarManager.Model
 
         public bool DeleteWaiter(int id)
         {
+            if (managerUserContext == null)
+                return false;
+
             bool result;
             try
             {
-                //TODO:
-                result = false; // ManagerDataAccess.RemoveWaiter(id);
+                result = ManagerDataAccess.RemoveWaiter(managerUserContext.Id, id);
             }
             catch
             {
@@ -168,22 +182,27 @@ namespace BarManager.Model
 
         public UserContext AddWaiter(string login, string firstName, string lastName, string password)
         {
-            UserContext AddingWaiter;
+            if (managerUserContext == null)
+                return null;
+
+            UserContext addingWaiter;
             try
             {
-                //TODO:
-                AddingWaiter = null;// ManagerDataAccess.AddWaiter(firstName, lastName, login, password);
+                addingWaiter = ManagerDataAccess.AddWaiter(managerUserContext.Id, firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
             }
-            catch
+            catch(Exception e)
             {
                 throw new Exception("Exception from DB");
             }
 
-            return AddingWaiter;
+            return addingWaiter;
         }
 
         public bool EditWaiter(UserContext waiter, string login, string firstName, string lastName, string password)
         {
+            if (managerUserContext == null)
+                return false;
+
             bool result;
 
             var oldLogin = waiter.Login;
@@ -198,8 +217,7 @@ namespace BarManager.Model
 
             try
             {
-                //TODO:
-                result = false;// ManagerDataAccess.EditWaiter(waiter);
+                result = ManagerDataAccess.EditWaiter(managerUserContext.Id, waiter);
             }
             catch
             {
@@ -224,10 +242,12 @@ namespace BarManager.Model
 
         public IList<Table> GetAllTables()
         {
+            if (managerUserContext == null)
+                return null;
+
             try
             {
-                //TODO:
-                return new List<Table>();// ManagerDataAccess.GetTables().ToList();
+                return ManagerDataAccess.GetTables(managerUserContext.Id).ToList();
             }
             catch
             {
@@ -237,11 +257,13 @@ namespace BarManager.Model
 
         public bool DeleteTable(int id)
         {
+            if (managerUserContext == null)
+                return false;
+
             bool result;
             try
             {
-                //TODO:
-                result = false; // ManagerDataAccess.RemoveTable(id);
+                result =  ManagerDataAccess.RemoveTable(managerUserContext.Id, id);
             }
             catch
             {
@@ -253,12 +275,13 @@ namespace BarManager.Model
 
         public Table AddTable(int number, string tableDescription)
         {
+            if (managerUserContext == null)
+                return null;
+
             Table addingTable;
             try
             {
-                //TODO:
-                addingTable = null;
-                //ManagerDataAccess.AddTable(number, tableDescription);
+                addingTable = ManagerDataAccess.AddTable(managerUserContext.Id, number, tableDescription);
             }
             catch
             {
@@ -270,6 +293,9 @@ namespace BarManager.Model
 
         public bool EditTable(Table table, int number, string tableDescription)
         {
+            if (managerUserContext == null)
+                return false;
+
             bool result;
 
             var oldNumber = table.Number;
@@ -280,8 +306,7 @@ namespace BarManager.Model
 
             try
             {
-                //TODO:
-                result = false; // ManagerDataAccess.EditTable(table);
+                result = ManagerDataAccess.EditTable(managerUserContext.Id, table);
             }
             catch
             {
@@ -302,17 +327,23 @@ namespace BarManager.Model
 
         public bool IsLogged()
         {
-            return access;
+            return managerUserContext != null;
         }
 
-        public void LogIn()
+        public void LogIn(string login, string password)
         {
+            managerUserContext = ManagerDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
             access = true;
         }
 
         public void Register(string firstName, string lastName ,string login, string password)
         {
-            ManagerDataAccess.AddManager(firstName, lastName, login, password);
+            ManagerDataAccess.AddManager(firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+        }
+
+        public void Dispose()
+        {
+            ManagerDataAccess.Close();
         }
     }
 }

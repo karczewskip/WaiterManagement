@@ -33,7 +33,7 @@ namespace BarManager.ViewModels
         {
             //MessageBox.Show(view.PasswordB.Password);
             //MessageBox.Show("User Name == " + _userName + ", password == " + HashClass.CreateFirstHash(view.PasswordB.Password, _userName));
-            _barDataModel.LogIn();
+            _barDataModel.LogIn(view.UserName.Text, view.PasswordB.Password);
             _accessViewModel.LogIn();
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using ClassLib.DbDataStructures;
 using System.Security;
 using System.Data.Entity;
+using System.ServiceModel;
 using DataAccess.Migrations;
 using ClassLib.DataStructures;
 using ClassLib.ServiceContracts;
@@ -13,6 +14,7 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
     {
         #region Private Fields
@@ -301,12 +303,10 @@ namespace DataAccess
 
             UserContextEntity newWaiterContextEntity = null;
 
-            //TODO: filtrować po kelnerach tylko
-            //TODO: zapisać hasło
             using (var db = new DataAccessProvider())
             {
                 var waiterContextToAdd = new UserContextEntity() { FirstName = firstName, LastName = lastName, Login = login, Role = UserRole.Waiter};
-                var usersSameLogin = db.Users.Where(u => u.Login.Equals(login));
+                var usersSameLogin = db.Users.Where(u => u.Role == UserRole.Waiter && u.Login.Equals(login));
 
                 if (usersSameLogin != null && usersSameLogin.Any())
                 {

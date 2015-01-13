@@ -44,7 +44,7 @@ namespace BarManager.ViewModels
 
         private void InitializeData()
         {
-            Tables = new BindableCollection<Table>(DataModel.GetAllTables());
+            //Tables = new BindableCollection<Table>(DataModel.GetAllTables());
         }
 
         public void AddTable()
