@@ -1,22 +1,22 @@
-﻿using ClassLib.DbDataStructures;
-using DataAccess;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using WaiterClient.Abstract;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Model
 {
     /// <summary>
     /// Klasa odpowiedzialna za dostarczanie i przetwarzanie danych z bazy danych
     /// </summary>
-    public class WaiterClientModel : IWaiterClientModel
+    public class WaiterClientModel : IWaiterClientModel, IDisposable
     {
-        private IWaiterDataAccess WaiterDataAccess;
+        private WaiterDataAccessWCFServiceClient WaiterDataAccess;
+        private UserContext waiterUserContext = null;
 
-        public WaiterClientModel(IWaiterDataAccess waiterDataAccess)
+        public WaiterClientModel(/*IWaiterDataAccess waiterDataAccess*/)
         {
-            WaiterDataAccess = waiterDataAccess;
+            WaiterDataAccess = new WaiterDataAccessWCFServiceClient();
         }
 
         /// <summary>
@@ -25,27 +25,30 @@ namespace WaiterClient.Model
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public UserContext LogInUser(string login, string password)
+        public bool LogInUser(string login, string password)
         {
             try
             {
-                return WaiterDataAccess.LogIn(login, password);
+               waiterUserContext = WaiterDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
             }
             catch
             {
                 throw new Exception("Problem with DB");
             }
+            return waiterUserContext != null;
         }
 
         /// <summary>
         /// Logout waiter
         /// </summary>
-        /// <param name="waiterId"></param>
-        public void LogOut(int waiterId)
+        public bool LogOut()
         {
+            if (waiterUserContext == null)
+                return false;
+
             try
             {
-                WaiterDataAccess.LogOut(waiterId);
+                return WaiterDataAccess.LogOut(waiterUserContext.Id);
             }
             catch
             {
@@ -59,9 +62,12 @@ namespace WaiterClient.Model
         /// <returns></returns>
         public IList<Table> GetTables()
         {
+            if (waiterUserContext == null)
+                return null;
+
             try
             {
-                return WaiterDataAccess.GetTables().ToList();
+                return WaiterDataAccess.GetTables(waiterUserContext.Id).ToList();
             }
             catch
             {
@@ -75,9 +81,12 @@ namespace WaiterClient.Model
         /// <returns></returns>
         public IList<MenuItem> GetMenuItems()
         {
+            if (waiterUserContext == null)
+                return null;
+
             try
             {
-                return WaiterDataAccess.GetMenuItems().ToList();
+                return WaiterDataAccess.GetMenuItems(waiterUserContext.Id).ToList();
             }
             catch
             {
@@ -91,9 +100,12 @@ namespace WaiterClient.Model
         /// <returns></returns>
         public IList<MenuItemCategory> GetCategories()
         {
+            if (waiterUserContext == null)
+                return null;
+
             try
             {
-                return WaiterDataAccess.GetMenuItemCategories().ToList();
+                return WaiterDataAccess.GetMenuItemCategories(waiterUserContext.Id).ToList();
             }
             catch
             {
@@ -106,11 +118,14 @@ namespace WaiterClient.Model
         /// </summary>
         /// <param name="waiterId"></param>
         /// <returns></returns>
-        public IList<Order> GetActiveOrders(int waiterId)
+        public IList<Order> GetActiveOrders()
         {
+            if (waiterUserContext == null)
+                return null;
+
             try
             {
-                return WaiterDataAccess.GetActiveOrders(waiterId).ToList();
+                return WaiterDataAccess.GetActiveOrders(waiterUserContext.Id).ToList();
             }
             catch
             {
@@ -119,55 +134,27 @@ namespace WaiterClient.Model
         }
 
         /// <summary>
-        /// Add new order
-        /// </summary>
-        /// <param name="waiterId"></param>
-        /// <param name="tableId"></param>
-        /// <param name="listOfItems"></param>
-        /// <returns></returns>
-        public Order AddNewOrder(int waiterId ,int tableId, IList<MenuItemQuantity> listOfItems )
-        {
-            var list = listOfItems.Select(i => new Tuple<int, int>(i.MenuItem.Id, i.Quantity)).ToList();
-
-            try
-            {
-                return WaiterDataAccess.AddOrder(0, tableId, waiterId, list);
-            }
-            catch 
-            {
-
-                throw new Exception("Problem with DB");
-            }
-            
-        }
-
-        /// <summary>
         /// Get relized and rejected orders
         /// </summary>
-        /// <param name="waiterId"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        public IList<Order> GetPastOrders(int waiterId, int from, int to)
+        public IList<Order> GetPastOrders(int from, int to)
         {
-            IEnumerable<Order> list;
+            if (waiterUserContext == null)
+                return null;
+
+            IList<Order> list = null;
             try
             {
-                list = WaiterDataAccess.GetPastOrders(waiterId, from, to);
+                list = WaiterDataAccess.GetPastOrders(waiterUserContext.Id, from, to).ToList();
             }
             catch (Exception)
             {
                 throw new Exception("Problem with DB");
             }
-            
 
-            if (list != null)
-            {
-                return list.ToList();
-            }
-            else
-                return new List<Order>();
-           
+            return list;
         }
 
         /// <summary>
@@ -176,9 +163,12 @@ namespace WaiterClient.Model
         /// <param name="waiterId"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public bool CancelOrder(int waiterId , int orderId)
+        public bool CancelOrder(int orderId)
         {
-            return WaiterDataAccess.SetOrderState(waiterId, orderId, OrderState.NotRealized);
+            if (waiterUserContext == null)
+                return false;
+
+            return WaiterDataAccess.SetOrderState(waiterUserContext.Id, orderId, OrderState.NotRealized);
         }
 
         /// <summary>
@@ -187,9 +177,18 @@ namespace WaiterClient.Model
         /// <param name="waiterId"></param>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public bool RelizeOrder(int waiterId, int orderId)
+        public bool RealizeOrder(int orderId)
         {
-            return WaiterDataAccess.SetOrderState(waiterId, orderId, OrderState.Realized);
+            if (waiterUserContext == null)
+                return false;
+
+            return WaiterDataAccess.SetOrderState(waiterUserContext.Id, orderId, OrderState.Realized);
+        }
+
+        //Klasa implementuje interfejs IDisposable, aby móc bezpiecznie zamknąć połączenie z usługą WCF-ową
+        public void Dispose()
+        {
+            WaiterDataAccess.Close();
         }
     }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Abstract
 {
     public interface IShowOrderViewModel
     {
-        void RefreshOrder(ClassLib.DbDataStructures.Order order);
+        void RefreshOrder(Order order);
     }
 }

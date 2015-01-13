@@ -1,18 +1,6 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using WaiterClient.Abstract;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.View
 {
@@ -38,7 +26,7 @@ namespace WaiterClient.View
             this.Hide();
         }
 
-        public bool? ShowDialog(ClassLib.DbDataStructures.Order order)
+        public bool? ShowDialog(Order order)
         {
             ShowOrderViewModel.RefreshOrder(order);
 

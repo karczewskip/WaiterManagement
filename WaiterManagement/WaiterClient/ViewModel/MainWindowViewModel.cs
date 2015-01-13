@@ -24,13 +24,12 @@ namespace WaiterClient.ViewModel
 
         public bool LoginUser(string login, string password, out string error)
         {
-            var waiter = WaiterClientModel.LogInUser(login, password);
-            if( waiter != null )
+            if(WaiterClientModel.LogInUser(login, password))
             {
-                var result = OrderWindowViewModel.InitializeUser(waiter.Id, out error);
+                var result = OrderWindowViewModel.InitializeUser(out error);
                 
                 if(!result)
-                    WaiterClientModel.LogOut(waiter.Id);
+                    WaiterClientModel.LogOut();
                 return result;
             }
             else

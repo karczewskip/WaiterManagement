@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="6h5RV9Cp+S/2/TEtznV7J5GGgV0=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="xGjSaKjHXj003WbY8HqBClKBTXs=">
   <bindingConfigurations>
-    <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IManagerDataAccessWCFService1">
+    <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IManagerDataAccessWCFService">
       <properties>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IManagerDataAccessWCFService1</serializedValue>
+          <serializedValue>BasicHttpBinding_IManagerDataAccessWCFService</serializedValue>
         </property>
         <property path="/closeTimeout" isComplexType="false" isExplicitlyDefined="true" clrType="System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -221,7 +221,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IManagerDataAccessWCFService1" contract="ManagerDataAccessWCFService.IManagerDataAccessWCFService" bindingType="basicHttpBinding" address="http://thestation/DataAccessIISHost/DataAccess.svc/ManagerDataAccess" bindingConfiguration="BasicHttpBinding_IManagerDataAccessWCFService1">
+    <endpoint name="BasicHttpBinding_IManagerDataAccessWCFService" contract="WaiterDataAccessWCFService.IManagerDataAccessWCFService" bindingType="basicHttpBinding" address="http://thestation/DataAccessIISHost/DataAccess.svc/ManagerDataAccess" bindingConfiguration="BasicHttpBinding_IManagerDataAccessWCFService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://thestation/DataAccessIISHost/DataAccess.svc/ManagerDataAccess</serializedValue>
@@ -233,10 +233,10 @@
           <serializedValue>basicHttpBinding</serializedValue>
         </property>
         <property path="/bindingConfiguration" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IManagerDataAccessWCFService1</serializedValue>
+          <serializedValue>BasicHttpBinding_IManagerDataAccessWCFService</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ManagerDataAccessWCFService.IManagerDataAccessWCFService</serializedValue>
+          <serializedValue>WaiterDataAccessWCFService.IManagerDataAccessWCFService</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>
@@ -296,7 +296,7 @@
           <serializedValue>False</serializedValue>
         </property>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IManagerDataAccessWCFService1</serializedValue>
+          <serializedValue>BasicHttpBinding_IManagerDataAccessWCFService</serializedValue>
         </property>
         <property path="/kind" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -306,7 +306,7 @@
         </property>
       </properties>
     </endpoint>
-    <endpoint name="BasicHttpBinding_IWaiterDataAccessWCFService" contract="ManagerDataAccessWCFService.IWaiterDataAccessWCFService" bindingType="basicHttpBinding" address="http://thestation/DataAccessIISHost/DataAccess.svc/WaiterDataAccess" bindingConfiguration="BasicHttpBinding_IWaiterDataAccessWCFService">
+    <endpoint name="BasicHttpBinding_IWaiterDataAccessWCFService" contract="WaiterDataAccessWCFService.IWaiterDataAccessWCFService" bindingType="basicHttpBinding" address="http://thestation/DataAccessIISHost/DataAccess.svc/WaiterDataAccess" bindingConfiguration="BasicHttpBinding_IWaiterDataAccessWCFService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://thestation/DataAccessIISHost/DataAccess.svc/WaiterDataAccess</serializedValue>
@@ -321,7 +321,7 @@
           <serializedValue>BasicHttpBinding_IWaiterDataAccessWCFService</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ManagerDataAccessWCFService.IWaiterDataAccessWCFService</serializedValue>
+          <serializedValue>WaiterDataAccessWCFService.IWaiterDataAccessWCFService</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>

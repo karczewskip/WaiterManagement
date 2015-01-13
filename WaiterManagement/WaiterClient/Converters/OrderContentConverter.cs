@@ -1,11 +1,8 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Converters
 {

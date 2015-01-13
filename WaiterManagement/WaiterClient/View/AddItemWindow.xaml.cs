@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using WaiterClient.Abstract;
-using ClassLib.DbDataStructures;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.View
 {
@@ -46,7 +34,7 @@ namespace WaiterClient.View
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show(((Button)sender).Tag.GetType().ToString());
-            AddItemViewModel.AddItem(((Button)sender).Tag as ClassLib.DbDataStructures.MenuItem);
+            AddItemViewModel.AddItem(((System.Windows.Controls.Button)sender).Tag as MenuItem);
         }
     }
 }

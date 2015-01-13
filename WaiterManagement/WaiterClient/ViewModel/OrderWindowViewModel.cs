@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WaiterClient.Abstract;
-using DataAccess;
-using ClassLib.DbDataStructures;
-using System.Windows;
 using System.Collections.ObjectModel;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.ViewModel
 {
@@ -18,8 +12,6 @@ namespace WaiterClient.ViewModel
     {
         private IWaiterClientModel WaiterClientModel;
         private IArchivedOrdersViewModel ArchivedOrdersViewModel;
-
-        private int WaiterId;
 
         public IList<Table> ListOfTables { get; set; }
         public IList<MenuItem> ListOfMenuItems { get; set; }
@@ -47,23 +39,20 @@ namespace WaiterClient.ViewModel
 
         public void LogOut()
         {
-            WaiterClientModel.LogOut(WaiterId);
+            WaiterClientModel.LogOut();
         }
 
-
-        public bool InitializeUser(int id, out string error)
+        public bool InitializeUser(out string error)
         {
-            WaiterId = id;
-
-            ArchivedOrdersViewModel.InitializeUser(id);
+            ArchivedOrdersViewModel.InitializeUser();
 
             ListOfOrders.Clear();
 
-            IList<Order> ActiveOrdersList;
+            IList<Order> activeOrdersList;
 
             try
             {
-                ActiveOrdersList = WaiterClientModel.GetActiveOrders(id);
+                activeOrdersList = WaiterClientModel.GetActiveOrders();
             }
             catch
             {
@@ -71,32 +60,12 @@ namespace WaiterClient.ViewModel
                 return false;
             }
 
-            foreach (var o in ActiveOrdersList)
+            foreach (var o in activeOrdersList)
                 ListOfOrders.Add(o);
 
             error = "";
             return true;
         }
-
-
-        public bool AddNewOrder(Table SelectedTable, IList<MenuItemQuantity> ListOfItems, out string error)
-        {
-            var addingOrder = WaiterClientModel.AddNewOrder(WaiterId, SelectedTable.Id, ListOfItems);
-
-            if(addingOrder == null)
-            {
-                error = "Failed";
-                return false;
-            }
-            else
-            {
-                ListOfOrders.Add(addingOrder);
-                error = "";
-                return true;
-            }
-
-        }
-
 
         public bool CancelOrder(out string error)
         {
@@ -107,7 +76,7 @@ namespace WaiterClient.ViewModel
             }
             else
             {
-                if (WaiterClientModel.CancelOrder(WaiterId, SelectedOrder.Id))
+                if (WaiterClientModel.CancelOrder(SelectedOrder.Id))
                 {
                     SelectedOrder.State = OrderState.NotRealized;
                     ArchivedOrdersViewModel.AddArchivedOrder(SelectedOrder);
@@ -124,29 +93,25 @@ namespace WaiterClient.ViewModel
         }
 
 
-        public bool RelizeOrder(out string error)
+        public bool RealizeOrder(out string error)
         {
             if (SelectedOrder == null)
             {
                 error = "No Order Is Selected";
                 return false;
             }
-            else
+            if (WaiterClientModel.RealizeOrder(SelectedOrder.Id))
             {
-                if (WaiterClientModel.RelizeOrder(WaiterId, SelectedOrder.Id))
-                {
-                    SelectedOrder.State = OrderState.Realized;
-                    ArchivedOrdersViewModel.AddArchivedOrder(SelectedOrder);
-                    ListOfOrders.Remove(SelectedOrder);
-                    error = "";
-                    return true;
-                }
-                else
-                {
-                    error = "Failed";
-                    return false;
-                }
+                SelectedOrder.State = OrderState.Realized;
+                ArchivedOrdersViewModel.AddArchivedOrder(SelectedOrder);
+                ListOfOrders.Remove(SelectedOrder);
+                error = "";
+                return true;
             }
+
+            error = "Failed";
+            return false;
+            
         }
     }
 }

@@ -1,9 +1,5 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Abstract
 {
@@ -15,12 +11,10 @@ namespace WaiterClient.Abstract
 
         void LogOut();
 
-        bool InitializeUser(int id, out string error);
-
-        bool AddNewOrder(Table SelectedTable, IList<MenuItemQuantity> ListOfItems, out string error);
+        bool InitializeUser(out string error);
 
         bool CancelOrder(out string error);
 
-        bool RelizeOrder(out string error);
+        bool RealizeOrder(out string error);
     }
 }

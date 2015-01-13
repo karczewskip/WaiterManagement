@@ -1,10 +1,6 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WaiterClient.Abstract;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.ViewModel
 {
@@ -23,8 +19,6 @@ namespace WaiterClient.ViewModel
             AddOrderViewModel = addOrderViewModel;
 
             OrderWidnowViewModel = orderWindowViewModel;
-
-
         }
 
         public void AddItem(MenuItem menuItem)

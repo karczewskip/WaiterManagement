@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WaiterClient.Abstract;
-using ClassLib.DbDataStructures;
 using System.Collections.ObjectModel;
-using System.Threading;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.ViewModel
 {
@@ -16,7 +12,6 @@ namespace WaiterClient.ViewModel
     public class ArchivedOrdersViewModel : IArchivedOrdersViewModel
     {
         private IWaiterClientModel WaiterClientModel;
-        private int WaiterId;
 
         public IList<Order> ListOfOrders { get; set; }
 
@@ -28,28 +23,26 @@ namespace WaiterClient.ViewModel
         }
 
 
-        public void InitializeUser(int id)
+        public void InitializeUser()
         {
-            WaiterId = id;
-
             ListOfOrders.Clear();
 
-            foreach ( var o in WaiterClientModel.GetPastOrders(id, 0 , 20))
+            foreach ( var o in WaiterClientModel.GetPastOrders(0 , 20))
             {
                 ListOfOrders.Add(o);
             }
         }
 
 
-        public void AddArchivedOrder(Order SelectedOrder)
+        public void AddArchivedOrder(Order selectedOrder)
         {
-            ListOfOrders.Add(SelectedOrder);
+            ListOfOrders.Add(selectedOrder);
         }
 
 
         public void GetMore()
         {
-            var pastList = WaiterClientModel.GetPastOrders(WaiterId, ListOfOrders.Count, ListOfOrders.Count + 20);
+            var pastList = WaiterClientModel.GetPastOrders(ListOfOrders.Count, ListOfOrders.Count + 20);
             foreach(var o in pastList )
             {
                 App.Current.Dispatcher.Invoke((Action)delegate

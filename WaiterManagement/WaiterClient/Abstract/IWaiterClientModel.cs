@@ -1,17 +1,13 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Abstract
 {
     public interface IWaiterClientModel
     {
-        UserContext LogInUser(string login, string password);
+        bool LogInUser(string login, string password);
 
-        void LogOut(int WaiterId);
+        bool LogOut();
 
         IList<Table> GetTables();
 
@@ -19,15 +15,12 @@ namespace WaiterClient.Abstract
 
         IList<MenuItemCategory> GetCategories();
 
-        IList<Order> GetActiveOrders(int waiterId);
+        IList<Order> GetActiveOrders();
 
-        Order AddNewOrder(int waiterId, int tableId, IList<MenuItemQuantity> listOfItems);
+        IList<Order> GetPastOrders(int from, int to);
 
+        bool CancelOrder(int orderId);
 
-        IList<Order> GetPastOrders(int waiterId, int from, int to);
-
-        bool CancelOrder(int waiterId, int orderId);
-
-        bool RelizeOrder(int WaiterId, int p);
+        bool RealizeOrder(int p);
     }
 }

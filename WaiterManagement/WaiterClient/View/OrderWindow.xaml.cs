@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WaiterClient.Abstract;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.View
 {
@@ -21,15 +11,15 @@ namespace WaiterClient.View
     public partial class OrderWindow : Window, IOrderWindow
     {
         private IOrderWindowViewModel OrderWindowViewModel;
-        private IAddOrderWindow AddOrderWindow;
+        //private IAddOrderWindow AddOrderWindow;
         private IShowOrderWindow ShowOrderWindow;
         private IArchivedOrdersWindow ArchivedOrderWindow;
 
-        public OrderWindow(IOrderWindowViewModel orderWindowViewModel, IAddOrderWindow addOrderWindow, IShowOrderWindow showOrderWindow, IArchivedOrdersWindow archivedOrderWindow)
+        public OrderWindow(IOrderWindowViewModel orderWindowViewModel/*, IAddOrderWindow addOrderWindow*/, IShowOrderWindow showOrderWindow, IArchivedOrdersWindow archivedOrderWindow)
         {
             OrderWindowViewModel = orderWindowViewModel;
 
-            AddOrderWindow = addOrderWindow;
+            //AddOrderWindow = addOrderWindow;
             ShowOrderWindow = showOrderWindow;
             ArchivedOrderWindow = archivedOrderWindow;
 
@@ -38,10 +28,10 @@ namespace WaiterClient.View
             InitializeComponent();
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddOrderWindow.ShowDialog();
-        }
+        //private void AddButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    AddOrderWindow.ShowDialog();
+        //}
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -56,13 +46,13 @@ namespace WaiterClient.View
         private void ShowButton_Click(object sender, RoutedEventArgs e)
         {
             if (OrdersListView.SelectedItem != null)
-                ShowOrderWindow.ShowDialog(OrdersListView.SelectedItem as ClassLib.DbDataStructures.Order);
+                ShowOrderWindow.ShowDialog(OrdersListView.SelectedItem as Order);
         }
 
         private void OrdersListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (OrdersListView.SelectedItem != null)
-                ShowOrderWindow.ShowDialog(OrdersListView.SelectedItem as ClassLib.DbDataStructures.Order);
+                ShowOrderWindow.ShowDialog(OrdersListView.SelectedItem as Order);
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -83,7 +73,7 @@ namespace WaiterClient.View
         private void RelizeButton_Click(object sender, RoutedEventArgs e)
         {
             string error;
-            if (!OrderWindowViewModel.RelizeOrder(out error))
+            if (!OrderWindowViewModel.RealizeOrder(out error))
                 Messaging.ShowMessage(error);
         }
 

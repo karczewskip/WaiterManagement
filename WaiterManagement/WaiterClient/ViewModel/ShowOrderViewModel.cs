@@ -1,11 +1,8 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WaiterClient.Abstract;
+using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.ViewModel
 {
@@ -38,7 +35,7 @@ namespace WaiterClient.ViewModel
             }
         }
 
-        public void RefreshOrder(ClassLib.DbDataStructures.Order order)
+        public void RefreshOrder(Order order)
         {
             CurrentOrder = order;
 

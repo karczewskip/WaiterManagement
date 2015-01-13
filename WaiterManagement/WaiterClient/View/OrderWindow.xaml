@@ -58,8 +58,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="110"/>
             </Grid.ColumnDefinitions>
-            <Button Name="AddButton" Grid.Column="0" Margin="0" Height="25" Width="80" Click="AddButton_Click" HorizontalAlignment="Left">
-                Add</Button>
+            <!--<Button Name="AddButton" Grid.Column="0" Margin="0" Height="25" Width="80" Click="AddButton_Click" HorizontalAlignment="Left">
+                Add</Button> -->
             <Button Name="RelizeButton" Grid.Column="1" Margin="0" Height="25" Width="80" Click="RelizeButton_Click" HorizontalAlignment="Left">
                 Realize</Button>
             <Button Name="CancelButton" Grid.Column="2" Height="25" Width="80" Click="CancelButton_Click"  HorizontalAlignment="Left">

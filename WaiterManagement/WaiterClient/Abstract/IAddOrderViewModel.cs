@@ -1,18 +1,12 @@
-﻿using ClassLib.DbDataStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Abstract
 {
     public interface IAddOrderViewModel
     {
-
         void AddItem(MenuItem menuItem);
 
-        void AddObserverListView(System.Windows.Controls.ListView ItemsListView);
+        void AddObserverListView(System.Windows.Controls.ListView itemsListView);
 
         bool DeleteSelectedItem(out string error);
 

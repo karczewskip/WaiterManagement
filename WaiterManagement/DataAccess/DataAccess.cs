@@ -559,7 +559,7 @@ namespace DataAccess
                 
                 //Kelner obsłużył mniej zamówień niż pierwszy indeks
                 if (sortedList.Count < firstIndex + 1)
-                    return null;
+                    return new Order[0];
 
                 //Indeks końcowy i początkowy taki sam - zwracamy jedną wartość
                 if (firstIndex == lastIndex)

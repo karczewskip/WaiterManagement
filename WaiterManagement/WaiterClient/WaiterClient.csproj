@@ -47,6 +47,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -82,6 +84,11 @@
     <Compile Include="Converters\OrderContentConverter.cs" />
     <Compile Include="Converters\PriceConverter.cs" />
     <Compile Include="Model\WaiterClientModel.cs" />
+    <Compile Include="Service References\WaiterDataAccessWCFService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AddItemViewModel.cs" />
     <Compile Include="ViewModel\AddOrderViewModel.cs" />
     <Compile Include="ViewModel\ArchivedOrdersViewModel.cs" />
@@ -175,6 +182,31 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccessClass.wsdl" />
+    <None Include="Service References\WaiterDataAccessWCFService\WaiterClient.WaiterDataAccessWCFService.MenuItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\WaiterClient.WaiterDataAccessWCFService.MenuItemCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\WaiterClient.WaiterDataAccessWCFService.Order.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\WaiterClient.WaiterDataAccessWCFService.Table.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\WaiterClient.WaiterDataAccessWCFService.UserContext.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -203,6 +235,27 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\error6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\WaiterDataAccessWCFService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Abstract
 {
     public interface IArchivedOrdersViewModel
     {
-        void InitializeUser(int id);
+        void InitializeUser();
 
-        void AddArchivedOrder(ClassLib.DbDataStructures.Order SelectedOrder);
+        void AddArchivedOrder(Order selectedOrder);
 
         void GetMore();
     }
