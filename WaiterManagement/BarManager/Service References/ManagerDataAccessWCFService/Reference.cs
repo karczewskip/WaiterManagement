@@ -229,7 +229,7 @@ namespace BarManager.ManagerDataAccessWCFService {
         private System.DateTime PlacingDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string StateField;
+        private BarManager.ManagerDataAccessWCFService.OrderState StateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private BarManager.ManagerDataAccessWCFService.Table TableField;
@@ -279,13 +279,13 @@ namespace BarManager.ManagerDataAccessWCFService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
-        public string State {
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public BarManager.ManagerDataAccessWCFService.OrderState State {
             get {
                 return this.StateField;
             }
             set {
-                if ((object.ReferenceEquals(this.StateField, value) != true)) {
+                if ((this.StateField.Equals(value) != true)) {
                     this.StateField = value;
                     this.RaisePropertyChanged("State");
                 }
@@ -387,7 +387,7 @@ namespace BarManager.ManagerDataAccessWCFService {
         private string LoginField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string RoleField;
+        private BarManager.ManagerDataAccessWCFService.UserRole RoleField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public string FirstName {
@@ -428,18 +428,33 @@ namespace BarManager.ManagerDataAccessWCFService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
-        public string Role {
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public BarManager.ManagerDataAccessWCFService.UserRole Role {
             get {
                 return this.RoleField;
             }
             set {
-                if ((object.ReferenceEquals(this.RoleField, value) != true)) {
+                if ((this.RoleField.Equals(value) != true)) {
                     this.RoleField = value;
                     this.RaisePropertyChanged("Role");
                 }
             }
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.FlagsAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserRole", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    public enum UserRole : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Client = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Waiter = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Manager = 256,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -501,6 +516,24 @@ namespace BarManager.ManagerDataAccessWCFService {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.FlagsAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Name="OrderState", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    public enum OrderState : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Placed = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Accepted = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Realized = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        NotRealized = 3,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

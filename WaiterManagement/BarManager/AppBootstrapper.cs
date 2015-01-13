@@ -35,7 +35,6 @@ namespace BarManager
             _kernel.Bind<IAddMenuItemViewModel>().To<AddMenuItemViewModel>().InSingletonScope();
             _kernel.Bind<IAddCategoryViewModel>().To<AddCategoryViewModel>().InSingletonScope();
             _kernel.Bind<IEditMenuItemViewModel>().To<EditMenuItemViewModel>().InSingletonScope();
-
           
             //WaiterManager
             _kernel.Bind<IWaiterManagerViewModel>().To<WaiterManagerViewModel>().InSingletonScope();

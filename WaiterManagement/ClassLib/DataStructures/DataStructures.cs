@@ -12,10 +12,14 @@ namespace ClassLib.DataStructures
     /// Wyliczenie możliych ról użytkownika
     /// </summary>
     [DataContract]
+    [Flags]
     public enum UserRole
     {
+        [EnumMember]
         Client = 0x001,
+        [EnumMember]
         Waiter = 0x010,
+        [EnumMember]
         Manager = 0x100,
     }
 
@@ -23,23 +27,28 @@ namespace ClassLib.DataStructures
     /// Stan Zamówienia
     /// </summary>
     [DataContract]
+    [Flags]
     public enum OrderState
     {
         /// <summary>
         /// Złożone
         /// </summary>
+        [EnumMember]
         Placed,
         /// <summary>
         /// Zaakceptowane
         /// </summary>
+        [EnumMember]
         Accepted,
         /// <summary>
         /// Zrealizowane
         /// </summary>
+        [EnumMember]
         Realized,
         /// <summary>
         /// Nie zrealizowane
         /// </summary>
+        [EnumMember]
         NotRealized,
     }
 

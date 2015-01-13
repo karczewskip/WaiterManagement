@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="UserContext">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseTransferObject">
@@ -20,7 +21,27 @@
   </xs:complexType>
   <xs:element name="BaseTransferObject" nillable="true" type="tns:BaseTransferObject" />
   <xs:simpleType name="UserRole">
-    <xs:restriction base="xs:string" />
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Client" />
+          <xs:enumeration value="Waiter">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Manager">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">256</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
   </xs:simpleType>
   <xs:element name="UserRole" nillable="true" type="tns:UserRole" />
   <xs:complexType name="ArrayOfMenuItemCategory">
@@ -129,7 +150,40 @@
   </xs:complexType>
   <xs:element name="MenuItemQuantity" nillable="true" type="tns:MenuItemQuantity" />
   <xs:simpleType name="OrderState">
-    <xs:restriction base="xs:string" />
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Placed">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Accepted">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Realized">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NotRealized">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
   </xs:simpleType>
   <xs:element name="OrderState" nillable="true" type="tns:OrderState" />
 </xs:schema>

@@ -58,7 +58,6 @@ namespace BarManager.Model
             }
         }
 
-
         public MenuItem AddMenuItem(string menuItemName, MenuItemCategory category, double price, string menuItemDescription)
         {
             MenuItem AddingMenuItem;
@@ -79,7 +78,6 @@ namespace BarManager.Model
 
             return AddingMenuItem;
         }
-
 
         public bool DeleteItem(int id)
         {
@@ -139,7 +137,6 @@ namespace BarManager.Model
             return result;
         }
 
-
         public IList<UserContext> GetAllWaiters()
         {
             try
@@ -169,7 +166,6 @@ namespace BarManager.Model
             return result;
         }
 
-
         public UserContext AddWaiter(string login, string firstName, string lastName, string password)
         {
             UserContext AddingWaiter;
@@ -185,7 +181,6 @@ namespace BarManager.Model
 
             return AddingWaiter;
         }
-
 
         public bool EditWaiter(UserContext waiter, string login, string firstName, string lastName, string password)
         {
@@ -227,7 +222,6 @@ namespace BarManager.Model
             return result;
         }
 
-
         public IList<Table> GetAllTables()
         {
             try
@@ -257,7 +251,6 @@ namespace BarManager.Model
             return result;
         }
 
-
         public Table AddTable(int number, string tableDescription)
         {
             Table addingTable;
@@ -274,7 +267,6 @@ namespace BarManager.Model
 
             return addingTable;
         }
-
 
         public bool EditTable(Table table, int number, string tableDescription)
         {
@@ -313,12 +305,10 @@ namespace BarManager.Model
             return access;
         }
 
-
         public void LogIn()
         {
             access = true;
         }
-
 
         public void Register(string firstName, string lastName ,string login, string password)
         {
