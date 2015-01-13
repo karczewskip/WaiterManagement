@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using ClassLib.DataStructures;
 using ClassLib.DbDataStructures;
 using OrderClient.Abstract;
 using System;
@@ -46,7 +47,7 @@ namespace OrderClient.ViewModels
         {
             MenuItems = new List<MenuItem>();
 
-            _allCategoryItem = new MenuItemCategory() { Name = "All", Description = "All" };
+            //_allCategoryItem = new MenuItemCategory() { Name = "All", Description = "All" };
             Categories = new List<MenuItemCategory>() { _allCategoryItem };
 
             foreach (var category in _orderDataModel.GetAllCategories())

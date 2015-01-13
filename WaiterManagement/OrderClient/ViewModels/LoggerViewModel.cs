@@ -14,6 +14,7 @@ namespace OrderClient.ViewModels
     class LoggerViewModel : IDialogLogin
     {
         private IMainWindowViewModel _mainWindow;
+        private IOrderDataModel _orderDataModel;
 
         private string _userName;
         public string UserName
@@ -22,15 +23,15 @@ namespace OrderClient.ViewModels
             set { _userName = value; }
         }
 
-        public LoggerViewModel(IMainWindowViewModel mainWindow)
+        public LoggerViewModel(IMainWindowViewModel mainWindow,IOrderDataModel orderDataModel)
         {
             _mainWindow = mainWindow;
+            _orderDataModel = orderDataModel;
         }
 
         public void LogIn(LoggerView view)
         {
-            MessageBox.Show(view.PasswordB.Password);
-            MessageBox.Show("User Name == " + _userName + ", password == " + HashClass.CreateFirstHash(view.PasswordB.Password, _userName));
+            _orderDataModel.LogIn(_userName, view.PasswordB.Password);
             _mainWindow.LogIn();
         }
         

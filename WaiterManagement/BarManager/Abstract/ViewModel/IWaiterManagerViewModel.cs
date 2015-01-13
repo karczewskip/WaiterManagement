@@ -10,5 +10,7 @@ namespace BarManager.Abstract
         void DeleteWaiter();
 
         void CloseDialogs();
+
+        void RefreshData();
     }
 }

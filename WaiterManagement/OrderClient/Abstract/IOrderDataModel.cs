@@ -1,4 +1,4 @@
-﻿using ClassLib.DbDataStructures;
+﻿using ClassLib.DataStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +24,7 @@ namespace OrderClient.Abstract
         IList<MenuItemCategory> GetAllCategories();
 
         string GetCurrentOrderMessage();
+
+        void LogIn(string _userName, string password);
     }
 }

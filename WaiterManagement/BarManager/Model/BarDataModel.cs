@@ -8,13 +8,13 @@ namespace BarManager.Model
 {
     public class BarDataModel : IBarDataModel, IDisposable
     {
-        private ManagerDataAccessWCFServiceClient ManagerDataAccess;
+        private IManagerDataAccessWCFService ManagerDataAccess;
         private bool access = false;
         private UserContext managerUserContext;
 
-        public BarDataModel(/*IManagerDataAccessWCFService managerDataAccess*/)
+        public BarDataModel(IManagerDataAccessWCFService managerDataAccess)
         {
-            ManagerDataAccess = new ManagerDataAccessWCFServiceClient();//managerDataAccess;
+            ManagerDataAccess = managerDataAccess;
         }
 
         public IList<MenuItemCategory> GetAllCategories()
@@ -333,12 +333,12 @@ namespace BarManager.Model
         public void LogIn(string login, string password)
         {
             managerUserContext = ManagerDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
-            access = true;
         }
 
         public void Register(string firstName, string lastName ,string login, string password)
         {
             ManagerDataAccess.AddManager(firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+            LogIn(login, password);
         }
 
         public void Dispose()

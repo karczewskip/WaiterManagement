@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using ClassLib.DbDataStructures;
+using ClassLib.DataStructures;
 using OrderClient.Abstract;
 using System;
 using System.Collections.Generic;

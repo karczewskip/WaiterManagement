@@ -38,7 +38,10 @@ namespace BarManager.ViewModels
 
         private void InitializeData()
         {
-            //Waiters = new BindableCollection<UserContext>(DataModel.GetAllWaiters());
+            if (!DataModel.IsLogged())
+                return;
+
+            Waiters = new BindableCollection<UserContext>(DataModel.GetAllWaiters());
         }
 
         public void DeleteWaiter()
@@ -94,7 +97,9 @@ namespace BarManager.ViewModels
             ActivateItem(_editWaiterViewModel);
         }
 
-
-        
+        public void RefreshData()
+        {
+            InitializeData();
+        }
     }
 }

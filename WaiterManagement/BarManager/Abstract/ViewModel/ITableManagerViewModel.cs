@@ -8,5 +8,7 @@ namespace BarManager.Abstract
         BindableCollection<Table> Tables { get; set; }
 
         void CloseDialogs();
+
+        void RefreshData();
     }
 }

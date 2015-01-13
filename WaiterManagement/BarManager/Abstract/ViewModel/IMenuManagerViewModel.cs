@@ -25,5 +25,7 @@ namespace BarManager.Abstract
         void AddCategoryToViewModel(MenuItemCategory addingCategory);
 
         void CloseDialogs();
+
+        void RefreshData();
     }
 }

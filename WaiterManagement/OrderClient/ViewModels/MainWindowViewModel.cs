@@ -17,7 +17,7 @@ namespace OrderClient.ViewModels
 
         public MainWindowViewModel(IOrderDataModel orderDataModel)
         {
-            _dialogLogin = new LoggerViewModel(this);
+            _dialogLogin = new LoggerViewModel(this, orderDataModel);
             _orderDataModel = orderDataModel;
             ActivateItem(_dialogLogin);
         }

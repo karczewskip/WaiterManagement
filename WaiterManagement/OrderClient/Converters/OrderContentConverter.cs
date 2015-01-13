@@ -1,4 +1,4 @@
-﻿using ClassLib.DbDataStructures;
+﻿using ClassLib.DataStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;

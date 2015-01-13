@@ -1,4 +1,4 @@
-﻿using ClassLib.DbDataStructures;
+﻿using ClassLib.DataStructures;
 using OrderClient.Abstract;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace OrderClient.Model
 
         public OrderDataModel()
         {
-            CurrentOrder = new Order();
+            //CurrentOrder = new Order();
         }
 
         public void AddToCurrentOrder(MenuItem addingMenuItem)
@@ -23,7 +23,7 @@ namespace OrderClient.Model
 
             if(TypeOfAddingOrder == null)
             {
-                CurrentOrder.MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
+                //CurrentOrder.MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
             }
             else
             {
@@ -46,7 +46,7 @@ namespace OrderClient.Model
 
         public void StartNewOrder()
         {
-            CurrentOrder = new Order();
+            //CurrentOrder = new Order();
         }
 
 
@@ -60,21 +60,30 @@ namespace OrderClient.Model
         {
             return new List<MenuItem>() 
             { 
-                new MenuItem() { Name = "Schabowy", Category = new MenuItemCategory() { Name = "Dania", Description="Dania na ciepło" }, Description = "Świetne Danie" , Price = new Money() { Amount = 20, Currency = "PLN"}},
-                new MenuItem() { Name = "Wódka", Category = new MenuItemCategory() { Name = "Napoje", Description="Alkohole" }, Description = "Świetna Wódka", Price = new Money() { Amount = 30, Currency = "PLN"} } 
+                //new MenuItem() { Name = "Schabowy", Category = new MenuItemCategory() { Name = "Dania", Description="Dania na ciepło" }, Description = "Świetne Danie" , Price = new Money() { Amount = 20, Currency = "PLN"}},
+                //new MenuItem() { Name = "Wódka", Category = new MenuItemCategory() { Name = "Napoje", Description="Alkohole" }, Description = "Świetna Wódka", Price = new Money() { Amount = 30, Currency = "PLN"} } 
             };
         }
 
 
         public IList<MenuItemCategory> GetAllCategories()
         {
-            return new List<MenuItemCategory>() { new MenuItemCategory() { Name = "Dania", Description = "Dania na ciepło" }, new MenuItemCategory() { Name = "Napoje", Description = "Alkohole" } };
+            return new List<MenuItemCategory>() 
+            { 
+                //new MenuItemCategory() { Name = "Dania", Description = "Dania na ciepło" }, new MenuItemCategory() { Name = "Napoje", Description = "Alkohole" } 
+            };
         }
 
 
         public string GetCurrentOrderMessage()
         {
             return "Waiter has taken an order";
+        }
+
+
+        public void LogIn(string _userName, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

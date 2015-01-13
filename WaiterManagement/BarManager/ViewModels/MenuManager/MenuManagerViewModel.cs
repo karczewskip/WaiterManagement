@@ -53,7 +53,10 @@ namespace BarManager.ViewModels
 
         private void InitializeData()
         {
-            //Categories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
+            if (!DataModel.IsLogged())
+                return;
+
+            Categories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
             foreach( var category in Categories)
             {
                 AvailableCategories.Add(category);
@@ -64,7 +67,7 @@ namespace BarManager.ViewModels
 
             SelectedCategory = AllItemsFlag;
 
-            //AllMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
+            AllMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
 
             foreach( var menuItem in AllMenuItems)
             {
@@ -197,5 +200,11 @@ namespace BarManager.ViewModels
             DeactivateItem(_addMenuItemViewModel, true);
         }
 
+
+
+        public void RefreshData()
+        {
+            InitializeData();
+        }
     }
 }

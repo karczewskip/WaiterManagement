@@ -81,8 +81,18 @@ namespace BarManager.ViewModels
                 NotifyOfPropertyChange(() => CanWaiterManager);
                 NotifyOfPropertyChange(() => CanTableManager);
 
+                RefreshData();
+
                 MenuManager();
             }
+        }
+
+        private void RefreshData()
+        {
+            _menuManagerViewModel.RefreshData();
+            _waiterManagerViewModel.RefreshData();
+            _tableManagerViewModel.RefreshData();
+
         }
     }
 }
