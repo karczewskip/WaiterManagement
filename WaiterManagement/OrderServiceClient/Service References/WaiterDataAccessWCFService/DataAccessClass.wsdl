@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DataAccessClass" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IManagerDataAccessWCFService_LogIn_InputMessage">
+    <wsdl:part name="parameters" element="tns:LogIn" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_LogIn_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogInResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_LogOut_InputMessage">
+    <wsdl:part name="parameters" element="tns:LogOut" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_LogOut_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogOutResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetMenuItemCategories_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMenuItemCategories" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetMenuItemCategories_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMenuItemCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetMenuItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMenuItems" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetMenuItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMenuItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetTables_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTables" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetTables_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTablesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddManager_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddManager" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddManager_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddManagerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddMenuItemCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddMenuItemCategory" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddMenuItemCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddMenuItemCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditMenuItemCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditMenuItemCategory" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditMenuItemCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditMenuItemCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveMenuItemCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveMenuItemCategory" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveMenuItemCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveMenuItemCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddMenuItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddMenuItem" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddMenuItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddMenuItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditMenuItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditMenuItem" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditMenuItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditMenuItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveMenuItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveMenuItem" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveMenuItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveMenuItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddWaiter_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddWaiter" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddWaiter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddWaiterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditWaiter_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditWaiter" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditWaiter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditWaiterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveWaiter_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveWaiter" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveWaiter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveWaiterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetWaiters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetWaiters" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetWaiters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetWaitersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddTable" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_AddTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddTableResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditTable" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_EditTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditTableResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveTable" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveTableResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetOrders_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrders" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_GetOrders_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveOrder" />
+  </wsdl:message>
+  <wsdl:message name="IManagerDataAccessWCFService_RemoveOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_GetAllPastOrders_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPastOrders" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_GetAllPastOrders_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPastOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_GetPastOrders_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPastOrders" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_GetPastOrders_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPastOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_GetActiveOrders_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveOrders" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_GetActiveOrders_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_SetOrderState_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetOrderState" />
+  </wsdl:message>
+  <wsdl:message name="IWaiterDataAccessWCFService_SetOrderState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetOrderStateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IManagerDataAccessWCFService">
+    <wsdl:operation name="LogIn">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn" message="tns:IManagerDataAccessWCFService_LogIn_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse" message="tns:IManagerDataAccessWCFService_LogIn_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LogOut">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogOut" message="tns:IManagerDataAccessWCFService_LogOut_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogOutResponse" message="tns:IManagerDataAccessWCFService_LogOut_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItemCategories">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories" message="tns:IManagerDataAccessWCFService_GetMenuItemCategories_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse" message="tns:IManagerDataAccessWCFService_GetMenuItemCategories_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems" message="tns:IManagerDataAccessWCFService_GetMenuItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse" message="tns:IManagerDataAccessWCFService_GetMenuItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTables">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables" message="tns:IManagerDataAccessWCFService_GetTables_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse" message="tns:IManagerDataAccessWCFService_GetTables_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddManager">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddManager" message="tns:IManagerDataAccessWCFService_AddManager_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddManagerResponse" message="tns:IManagerDataAccessWCFService_AddManager_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMenuItemCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemCategory" message="tns:IManagerDataAccessWCFService_AddMenuItemCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemCategoryResponse" message="tns:IManagerDataAccessWCFService_AddMenuItemCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditMenuItemCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemCategory" message="tns:IManagerDataAccessWCFService_EditMenuItemCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemCategoryResponse" message="tns:IManagerDataAccessWCFService_EditMenuItemCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveMenuItemCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItemCategory" message="tns:IManagerDataAccessWCFService_RemoveMenuItemCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItemCategoryResponse" message="tns:IManagerDataAccessWCFService_RemoveMenuItemCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMenuItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItem" message="tns:IManagerDataAccessWCFService_AddMenuItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemResponse" message="tns:IManagerDataAccessWCFService_AddMenuItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditMenuItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItem" message="tns:IManagerDataAccessWCFService_EditMenuItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemResponse" message="tns:IManagerDataAccessWCFService_EditMenuItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveMenuItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItem" message="tns:IManagerDataAccessWCFService_RemoveMenuItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItemResponse" message="tns:IManagerDataAccessWCFService_RemoveMenuItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddWaiter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddWaiter" message="tns:IManagerDataAccessWCFService_AddWaiter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddWaiterResponse" message="tns:IManagerDataAccessWCFService_AddWaiter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditWaiter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditWaiter" message="tns:IManagerDataAccessWCFService_EditWaiter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditWaiterResponse" message="tns:IManagerDataAccessWCFService_EditWaiter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveWaiter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveWaiter" message="tns:IManagerDataAccessWCFService_RemoveWaiter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveWaiterResponse" message="tns:IManagerDataAccessWCFService_RemoveWaiter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWaiters">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/GetWaiters" message="tns:IManagerDataAccessWCFService_GetWaiters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/GetWaitersResponse" message="tns:IManagerDataAccessWCFService_GetWaiters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddTable" message="tns:IManagerDataAccessWCFService_AddTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/AddTableResponse" message="tns:IManagerDataAccessWCFService_AddTable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditTable" message="tns:IManagerDataAccessWCFService_EditTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/EditTableResponse" message="tns:IManagerDataAccessWCFService_EditTable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveTable" message="tns:IManagerDataAccessWCFService_RemoveTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveTableResponse" message="tns:IManagerDataAccessWCFService_RemoveTable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrders">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/GetOrders" message="tns:IManagerDataAccessWCFService_GetOrders_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/GetOrdersResponse" message="tns:IManagerDataAccessWCFService_GetOrders_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveOrder" message="tns:IManagerDataAccessWCFService_RemoveOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveOrderResponse" message="tns:IManagerDataAccessWCFService_RemoveOrder_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IWaiterDataAccessWCFService">
+    <wsdl:operation name="LogIn">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn" message="tns:IManagerDataAccessWCFService_LogIn_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse" message="tns:IManagerDataAccessWCFService_LogIn_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LogOut">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogOut" message="tns:IManagerDataAccessWCFService_LogOut_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/LogOutResponse" message="tns:IManagerDataAccessWCFService_LogOut_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItemCategories">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories" message="tns:IManagerDataAccessWCFService_GetMenuItemCategories_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse" message="tns:IManagerDataAccessWCFService_GetMenuItemCategories_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems" message="tns:IManagerDataAccessWCFService_GetMenuItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse" message="tns:IManagerDataAccessWCFService_GetMenuItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTables">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables" message="tns:IManagerDataAccessWCFService_GetTables_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse" message="tns:IManagerDataAccessWCFService_GetTables_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPastOrders">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/GetAllPastOrders" message="tns:IWaiterDataAccessWCFService_GetAllPastOrders_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/GetAllPastOrdersResponse" message="tns:IWaiterDataAccessWCFService_GetAllPastOrders_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPastOrders">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/GetPastOrders" message="tns:IWaiterDataAccessWCFService_GetPastOrders_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/GetPastOrdersResponse" message="tns:IWaiterDataAccessWCFService_GetPastOrders_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveOrders">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/GetActiveOrders" message="tns:IWaiterDataAccessWCFService_GetActiveOrders_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/GetActiveOrdersResponse" message="tns:IWaiterDataAccessWCFService_GetActiveOrders_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetOrderState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/SetOrderState" message="tns:IWaiterDataAccessWCFService_SetOrderState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWaiterDataAccessWCFService/SetOrderStateResponse" message="tns:IWaiterDataAccessWCFService_SetOrderState_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IManagerDataAccessWCFService" type="tns:IManagerDataAccessWCFService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LogIn">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/LogIn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogOut">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/LogOut" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItemCategories">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItems">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTables">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/GetTables" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddManager">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/AddManager" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMenuItemCategory">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditMenuItemCategory">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveMenuItemCategory">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItemCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMenuItem">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditMenuItem">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveMenuItem">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddWaiter">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/AddWaiter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditWaiter">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/EditWaiter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveWaiter">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveWaiter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWaiters">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/GetWaiters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTable">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/AddTable" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditTable">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/EditTable" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveTable">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveTable" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrders">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/GetOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveOrder">
+      <soap:operation soapAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpBinding_IWaiterDataAccessWCFService" type="tns:IWaiterDataAccessWCFService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LogIn">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/LogIn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogOut">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/LogOut" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItemCategories">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuItems">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTables">
+      <soap:operation soapAction="http://tempuri.org/IBaseDataAccessWCFService/GetTables" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPastOrders">
+      <soap:operation soapAction="http://tempuri.org/IWaiterDataAccessWCFService/GetAllPastOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPastOrders">
+      <soap:operation soapAction="http://tempuri.org/IWaiterDataAccessWCFService/GetPastOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveOrders">
+      <soap:operation soapAction="http://tempuri.org/IWaiterDataAccessWCFService/GetActiveOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetOrderState">
+      <soap:operation soapAction="http://tempuri.org/IWaiterDataAccessWCFService/SetOrderState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DataAccessClass">
+    <wsdl:port name="BasicHttpBinding_IManagerDataAccessWCFService" binding="tns:BasicHttpBinding_IManagerDataAccessWCFService">
+      <soap:address location="http://pawel-komputer/DataAccessIISHost/DataAccess.svc/ManagerDataAccess" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpBinding_IWaiterDataAccessWCFService" binding="tns:BasicHttpBinding_IWaiterDataAccessWCFService">
+      <soap:address location="http://pawel-komputer/DataAccessIISHost/DataAccess.svc/WaiterDataAccess" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

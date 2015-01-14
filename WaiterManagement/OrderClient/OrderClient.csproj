@@ -45,6 +45,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -65,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\IClientDataAccess.cs" />
     <Compile Include="Abstract\ICurrentOrder.cs" />
     <Compile Include="Abstract\IDialogLogin.cs" />
     <Compile Include="Abstract\IDialogMainWindow.cs" />
@@ -79,6 +82,11 @@
     <Compile Include="Converters\PriceConverter.cs" />
     <Compile Include="Model\OrderDataModel.cs" />
     <Compile Include="OrderNotyficator.cs" />
+    <Compile Include="Service References\ClientDataAccessWCFService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AddItemViewModel.cs" />
     <Compile Include="ViewModels\CurrentOrderViewModel.cs" />
     <Compile Include="ViewModels\LoggerViewModel.cs" />
@@ -153,11 +161,26 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItem.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItemCategory.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Order.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Table.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.UserContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -167,6 +190,27 @@
       <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
       <Name>ClassLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ClientDataAccessWCFService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ClientDataAccessWCFService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ClientDataAccessWCFService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ClientDataAccessWCFService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

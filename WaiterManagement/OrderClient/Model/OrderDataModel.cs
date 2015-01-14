@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrderClient.ClientDataAccessWCFService;
 
 namespace OrderClient.Model
 {
@@ -14,7 +15,7 @@ namespace OrderClient.Model
 
         public OrderDataModel()
         {
-            //CurrentOrder = new Order();
+            CurrentOrder = new Order();
         }
 
         public void AddToCurrentOrder(MenuItem addingMenuItem)
@@ -23,7 +24,7 @@ namespace OrderClient.Model
 
             if(TypeOfAddingOrder == null)
             {
-                //CurrentOrder.MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
+                CurrentOrder.MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
             }
             else
             {
@@ -46,7 +47,7 @@ namespace OrderClient.Model
 
         public void StartNewOrder()
         {
-            //CurrentOrder = new Order();
+            CurrentOrder = new Order();
         }
 
 

@@ -1,6 +1,8 @@
 ﻿using Caliburn.Micro;
 using Ninject;
 using OrderServiceClient.Abstract;
+using OrderServiceClient.Model;
+using OrderServiceClient.Service_Communication;
 using OrderServiceClient.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -31,6 +33,8 @@ namespace OrderServiceClient
 
             _kernel.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
 
+            _kernel.Bind<IWaiterDataModel>().To<WaiterDataModel>().InSingletonScope();
+            _kernel.Bind<IWaiterDataAccess>().To<WaiterDataAccess>().InSingletonScope();
             //Order Notyficator
             _kernel.Bind<IOrderNotyficator>().To<OrderNotyficator>().InSingletonScope();
         }

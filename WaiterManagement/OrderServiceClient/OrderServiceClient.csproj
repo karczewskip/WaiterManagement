@@ -45,6 +45,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -68,12 +70,21 @@
     <Compile Include="Abstract\IDialogLogin.cs" />
     <Compile Include="Abstract\IMainWindowViewModel.cs" />
     <Compile Include="Abstract\IOrderNotyficator.cs" />
+    <Compile Include="Abstract\IWaiterDataAccess.cs" />
+    <Compile Include="Abstract\IWaiterDataModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Model\WaiterDataModel.cs" />
     <Compile Include="OrderNotyficator.cs" />
+    <Compile Include="Service Communication\WaiterDataAccess.cs" />
+    <Compile Include="Service References\WaiterDataAccessWCFService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\LoggerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\LoggerView.xaml.cs">
@@ -107,11 +118,38 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccessClass.wsdl" />
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItemCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Order.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Table.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.UserContext.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\LoggerView.xaml">
       <SubType>Designer</SubType>
@@ -121,6 +159,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\WaiterDataAccessWCFService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLib\ClassLib.csproj">
+      <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
+      <Name>ClassLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

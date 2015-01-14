@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{41F66C53-CD5D-4459-A05E-68ABFE7F697A}"
 EndProject
@@ -21,8 +21,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickDatabaseSetup", "QuickDatabaseSetup\QuickDatabaseSetup.csproj", "{2BB148A5-F3CB-4E42-915E-330A35C12164}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderClient", "OrderClient\OrderClient.csproj", "{7E882E03-0332-4D59-AD07-F37B21A8AA14}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85647E76-5E64-435F-AC79-F99C1A974E4E} = {85647E76-5E64-435F-AC79-F99C1A974E4E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderServiceClient", "OrderServiceClient\OrderServiceClient.csproj", "{0A29607E-824B-4279-8641-C09D14088B96}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85647E76-5E64-435F-AC79-F99C1A974E4E} = {85647E76-5E64-435F-AC79-F99C1A974E4E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessIISHost", "DataAccessIISHost\DataAccessIISHost.csproj", "{85647E76-5E64-435F-AC79-F99C1A974E4E}"
 EndProject

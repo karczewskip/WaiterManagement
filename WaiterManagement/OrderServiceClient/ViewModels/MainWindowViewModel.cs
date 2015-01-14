@@ -12,20 +12,22 @@ namespace OrderServiceClient.ViewModels
     class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
     {
         private IDialogLogin _dialogLogin;
+        private IWaiterDataModel _waiterDataModel;
 
-        public MainWindowViewModel(IOrderNotyficator _orderNotyficator)
+        public MainWindowViewModel(IOrderNotyficator _orderNotyficator, IWaiterDataModel waiterDataModel)
         {
+            _waiterDataModel = waiterDataModel;
             _orderNotyficator.SetTarget(this);
 
-            _dialogLogin = new LoggerViewModel(this);
+            _dialogLogin = new LoggerViewModel(this, _waiterDataModel);
             ActivateItem(_dialogLogin);
 
         }
 
         public void LogIn()
         {
-            MessageBox.Show("Loggining");
-            DeactivateItem(_dialogLogin, true);
+            if(_waiterDataModel.IsLogged())
+                DeactivateItem(_dialogLogin, true);
         }
     }
 }
