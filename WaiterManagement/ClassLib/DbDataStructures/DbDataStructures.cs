@@ -87,7 +87,7 @@ namespace ClassLib.DbDataStructures
             MenuItems = new HashSet<MenuItemQuantityEntity>();
         }
 
-        public int UserId { get; set; }
+        public UserContextEntity Client { get; set; }
         public virtual UserContextEntity Waiter { get; set; }
         public virtual TableEntity Table { get; set; }
         //Item1 - menuItemId, Item2 - quantity
@@ -104,7 +104,7 @@ namespace ClassLib.DbDataStructures
             if (!this.MenuItems.OrderBy(mI => mI.Id).SequenceEqual(other.MenuItems.OrderBy(mI => mI.Id)))
                 return false;
 
-            return this.UserId.Equals(other.UserId)
+            return this.Client.Equals(other.Client)
                 && this.Waiter.Equals(other.Waiter)
                 && this.Table.Equals(other.Table)
                 && this.State == other.State

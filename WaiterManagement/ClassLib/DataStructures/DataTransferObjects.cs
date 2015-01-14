@@ -69,7 +69,7 @@ namespace ClassLib.DataStructures
     public class Order : BaseTransferObject
     {
         [DataMember]
-        public int UserId { get; set; }
+        public UserContext Client { get; set; }
         [DataMember]
         public UserContext Waiter { get; set; }
         [DataMember]
@@ -87,7 +87,8 @@ namespace ClassLib.DataStructures
         public Order(OrderEntity order)
             : base(order)
         {
-            UserId = order.UserId;
+            Client = new UserContext(order.Client);
+
             if (order.Waiter != null)
                 Waiter = new UserContext(order.Waiter);
 

@@ -14,17 +14,24 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
     {
         #region Private Fields
         private HashSet<UserContextEntity> loggedInUsers;
+        private Queue<Order> awaitingOrderCollection; 
+        private Dictionary<WaiterRegistrationRecord, Order> waiterOrderDictionary;
+        private HashSet<ClientRegistrationRecord> clientRegistrationRecords; 
         #endregion
 
         #region Constructors
         public DataAccessClass()
         {
             loggedInUsers = new HashSet<UserContextEntity>();
+            awaitingOrderCollection = new Queue<Order>();
+            waiterOrderDictionary = new Dictionary<WaiterRegistrationRecord, Order>();
+            clientRegistrationRecords = new HashSet<ClientRegistrationRecord>();
+
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccessProvider, Configuration>()); 
         }
         #endregion
@@ -94,6 +101,12 @@ namespace DataAccess
 
             if (!CheckIsUserLoggedIn(userContextEntity.Id))
                 loggedInUsers.Add(userContextEntity);
+
+            if (userContextEntity.Role == UserRole.Client)
+                clientRegistrationRecords.Add(new ClientRegistrationRecord(userContextEntity.Id,
+                    OperationContext.Current.GetCallbackChannel<IClientDataAccessCallbackWCFService>()));
+            else if(userContextEntity.Role == UserRole.Waiter)
+                waiterOrderDictionary.Add(new WaiterRegistrationRecord(userContextEntity.Id, OperationContext.Current.GetCallbackChannel<IWaiterDataAccessCallbackWCFService>()), null);
 
             return new UserContext(userContextEntity);
         }
@@ -642,6 +655,7 @@ namespace DataAccess
         {
             if (!CheckHasUserRole(clientId, UserRole.Client))
                 throw new SecurityException(String.Format("Client id={0} is not logged in.", clientId));
+
             var menuItems = menuItemsEnumerable as Tuple<int, int>[] ?? menuItemsEnumerable.ToArray();
             if (menuItems == null || !menuItems.Any())
                 throw new ArgumentNullException("menuItems");
@@ -650,11 +664,17 @@ namespace DataAccess
 
             using (var db = new DataAccessProvider())
             {
+                UserContextEntity client = db.Users.Find(clientId);
+                if(client == null)
+                    throw new ArgumentException(String.Format("No such user (id={0}) exists.", clientId));
+                if(client.Role != UserRole.Client)
+                    throw new ArgumentException(String.Format("User (id={0}) is not a client.", clientId));
+
                 TableEntity table = db.Tables.Find(tableId);
                 if (table == null)
                     throw new ArgumentException(String.Format("No such table (id={0}) exists.", tableId));
 
-                orderEntity = new OrderEntity() { UserId = clientId, Table = table, State = OrderState.Placed, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
+                orderEntity = new OrderEntity() { Client = client, Table = table, State = OrderState.Placed, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
 
                 foreach (var tuple in menuItems)
                 {
@@ -670,8 +690,19 @@ namespace DataAccess
 
                 orderEntity = db.Orders.Add(orderEntity);
                 db.SaveChanges();
-                return new Order(orderEntity);
+
+                var order =  new Order(orderEntity);
+
+                AssignOrder(order);
+
+                return order;
             }
+        }
+
+        public bool PayForOrder(int userId, int orderId)
+        {
+            //TODO
+            return true;
         }
         #endregion
 
@@ -684,7 +715,7 @@ namespace DataAccess
 
         private bool CheckHasUserRole(int userId, UserRole role)
         {
-            UserContextEntity user = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
+            UserContextEntity user = loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
             if (user == null)
                 return false;
             return (user.Role & role) != 0;
@@ -696,7 +727,7 @@ namespace DataAccess
             if (userToRemove == null)
                 return false;
 
-            this.loggedInUsers.Remove(userToRemove);
+            loggedInUsers.Remove(userToRemove);
             return true;
         }
 
@@ -740,6 +771,64 @@ namespace DataAccess
             return new UserContext(newUser);
         }
 
+        private UserContext SetWaiterForOrder(int orderId, int waiterId)
+        {
+            using (var db = new DataAccessProvider())
+            {
+                var waiter = db.Users.Find(waiterId);
+                if (waiter == null)
+                    return null;
+
+                var order = db.Orders.Find(orderId);
+                if (order == null)
+                    return null;
+
+                if (waiter.Role != UserRole.Waiter)
+                    return null;
+
+                order.Waiter = waiter;
+                db.SaveChanges();
+                return new UserContext(waiter);
+            }
+        }
+        #endregion
+
+        #region OrderLogic
+        private void AssignOrder(Order orderToAssign)
+        {
+            if (orderToAssign == null)
+                return;
+
+            var clientRegistrationRecord =
+                clientRegistrationRecords.FirstOrDefault(r => r.ClientId == orderToAssign.Client.Id);
+
+            if (clientRegistrationRecord == null)
+                return;
+
+            foreach (var registrationRecord in waiterOrderDictionary.Keys)
+            {
+                if (waiterOrderDictionary[registrationRecord] == null)
+                {
+                    if (registrationRecord.Callback.AcceptNewOrder(orderToAssign))
+                    {
+                        //zapisujemy, że kelner będzie się zajmował tym zadaniem
+                        waiterOrderDictionary[registrationRecord] = orderToAssign;
+                        //ustawiamy kelnera jako obsługujący zadanie w bazie danych
+                        var waiterContext = SetWaiterForOrder(orderToAssign.Id, registrationRecord.WaiterId);
+                        //stan zamówienia ustawiamy jako zaakceptowany
+                        SetOrderState(registrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
+                        //powiadamiamy klienta o zaakceptowaniu zamówienia
+                        clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
+                        break;
+                    }
+                }
+            }
+
+            //nie udało się przydzielić zamówienia żadnemu kelnerowi
+            awaitingOrderCollection.Enqueue(orderToAssign);
+            //powiadamiamy klienta o braku dostępnych kelnerów
+            clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id);
+        }
         #endregion
 
         #region IDataWipe

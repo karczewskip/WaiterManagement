@@ -61,7 +61,7 @@ namespace ClassLib.ServiceContracts
         bool RemoveOrder(int managerId, int orderId);
     }
 
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IWaiterDataAccessCallbackWCFService))]
     public interface IWaiterDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
@@ -74,12 +74,32 @@ namespace ClassLib.ServiceContracts
         bool SetOrderState(int waiterId, int orderId, OrderState state);
     }
 
-    [ServiceContract]
-    public  interface IClientDataAccessWCFService : IBaseDataAccessWCFService
+    public interface IWaiterDataAccessCallbackWCFService
+    {
+        [OperationContract]
+        bool AcceptNewOrder(Order order);
+        [OperationContract]
+        bool ConfirmUserPaid(int userId);
+    }
+
+    [ServiceContract(CallbackContract = typeof(IClientDataAccessCallbackWCFService))]
+    public interface IClientDataAccessWCFService : IBaseDataAccessWCFService
     {
         [OperationContract]
         UserContext AddClient(string firstName, string lastName, string login, string password);
         [OperationContract]
         Order AddOrder(int userId, int tableId, IEnumerable<Tuple<int, int>> menuItems);
+        [OperationContract]
+        bool PayForOrder(int userId, int orderId);
+    }
+
+    public interface IClientDataAccessCallbackWCFService
+    {
+        [OperationContract]
+        void NotifyOrderAccepted(int orderId, UserContext waiter);
+        [OperationContract]
+        void NotifyOrderOnHold(int orderId);
+        [OperationContract]
+        void NotifyOrderAwaitingDelivery(int oderId);
     }
 }

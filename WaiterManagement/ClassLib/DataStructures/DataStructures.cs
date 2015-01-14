@@ -1,10 +1,12 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using ClassLib.ServiceContracts;
 
 namespace ClassLib.DataStructures
 {
@@ -71,6 +73,42 @@ namespace ClassLib.DataStructures
         {
             return this.Amount.Equals(other.Amount)
                 && this.Currency.Equals(other.Currency);
+        }
+    }
+
+    /// <summary>
+    /// Klasa opakowująca interfejs do komunikacji zwrotnej z klientem
+    /// </summary>
+    public class ClientRegistrationRecord
+    {
+        public int ClientId { get; private set; }
+        public IClientDataAccessCallbackWCFService Callback { get; private set; }
+
+        public ClientRegistrationRecord(int clientId, IClientDataAccessCallbackWCFService callback)
+        {
+            if(callback == null)
+                throw new ArgumentNullException("callback");
+
+            ClientId = clientId;
+            Callback = callback;
+        }
+    }
+
+    /// <summary>
+    /// Klasa opakowująca interfejs do komunikacji zwrotnej z kelnerem
+    /// </summary>
+    public class WaiterRegistrationRecord
+    {
+        public int WaiterId { get; private set; }
+        public IWaiterDataAccessCallbackWCFService Callback { get; private set; }
+
+        public WaiterRegistrationRecord(int waiterId, IWaiterDataAccessCallbackWCFService callback)
+        {
+            if(callback == null)
+                throw new ArgumentNullException("callback");
+
+            WaiterId = waiterId;
+            Callback = callback;
         }
     }
 }
