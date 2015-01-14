@@ -12,14 +12,22 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
-        </Grid.RowDefinitions>   
-        <Label Content="Login" />
-        <TextBox x:Name="UserName" Grid.Row="1" />
-        <Label Content="Password" Grid.Row="2" />
-        <PasswordBox x:Name="PasswordB" Grid.Row="3" />
-        <Button cm:Message.Attach="[Event Click] = [Action LogIn($View)]" Content="Log in" Grid.Row="5" />
+        </Grid.RowDefinitions>
+        <Label Content="FirstName" />
+        <TextBox x:Name="FirstName" Grid.Row="1" />
+        <Label Content="LastName" Grid.Row="2"/>
+        <TextBox x:Name="LastName" Grid.Row="3" />
+        <Label Content="Login" Grid.Row="4"/>
+        <TextBox x:Name="UserName" Grid.Row="5" />
+        <Label Content="Password" Grid.Row="6" />
+        <PasswordBox x:Name="PasswordB" Grid.Row="7" />
+        <Button cm:Message.Attach="[Event Click] = [Action LogIn($View)]" Content="Log in" Grid.Row="9" />
     </Grid>
 </UserControl>

@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
-using ClassLib.DataStructures;
 using OrderClient.Abstract;
+using OrderClient.ClientDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;

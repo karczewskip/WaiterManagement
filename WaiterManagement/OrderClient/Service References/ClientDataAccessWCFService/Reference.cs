@@ -9,17 +9,601 @@
 //------------------------------------------------------------------------------
 
 namespace OrderClient.ClientDataAccessWCFService {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseTransferObject", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(OrderClient.ClientDataAccessWCFService.MenuItemCategory))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(OrderClient.ClientDataAccessWCFService.MenuItem))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(OrderClient.ClientDataAccessWCFService.Table))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(OrderClient.ClientDataAccessWCFService.Order))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(OrderClient.ClientDataAccessWCFService.MenuItemQuantity))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(OrderClient.ClientDataAccessWCFService.UserContext))]
+    public partial class BaseTransferObject : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItemCategory", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    public partial class MenuItemCategory : OrderClient.ClientDataAccessWCFService.BaseTransferObject {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItem", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    public partial class MenuItem : OrderClient.ClientDataAccessWCFService.BaseTransferObject {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.MenuItemCategory CategoryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.Money PriceField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.MenuItemCategory Category {
+            get {
+                return this.CategoryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryField, value) != true)) {
+                    this.CategoryField = value;
+                    this.RaisePropertyChanged("Category");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.Money Price {
+            get {
+                return this.PriceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PriceField, value) != true)) {
+                    this.PriceField = value;
+                    this.RaisePropertyChanged("Price");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Table", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    public partial class Table : OrderClient.ClientDataAccessWCFService.BaseTransferObject {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((this.NumberField.Equals(value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Order", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    public partial class Order : OrderClient.ClientDataAccessWCFService.BaseTransferObject {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.UserContext ClientField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime ClosingDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.MenuItemQuantity[] MenuItemsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime PlacingDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.OrderState StateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.Table TableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.UserContext WaiterField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.UserContext Client {
+            get {
+                return this.ClientField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ClientField, value) != true)) {
+                    this.ClientField = value;
+                    this.RaisePropertyChanged("Client");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime ClosingDate {
+            get {
+                return this.ClosingDateField;
+            }
+            set {
+                if ((this.ClosingDateField.Equals(value) != true)) {
+                    this.ClosingDateField = value;
+                    this.RaisePropertyChanged("ClosingDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.MenuItemQuantity[] MenuItems {
+            get {
+                return this.MenuItemsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MenuItemsField, value) != true)) {
+                    this.MenuItemsField = value;
+                    this.RaisePropertyChanged("MenuItems");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime PlacingDate {
+            get {
+                return this.PlacingDateField;
+            }
+            set {
+                if ((this.PlacingDateField.Equals(value) != true)) {
+                    this.PlacingDateField = value;
+                    this.RaisePropertyChanged("PlacingDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.OrderState State {
+            get {
+                return this.StateField;
+            }
+            set {
+                if ((this.StateField.Equals(value) != true)) {
+                    this.StateField = value;
+                    this.RaisePropertyChanged("State");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.Table Table {
+            get {
+                return this.TableField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TableField, value) != true)) {
+                    this.TableField = value;
+                    this.RaisePropertyChanged("Table");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.UserContext Waiter {
+            get {
+                return this.WaiterField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WaiterField, value) != true)) {
+                    this.WaiterField = value;
+                    this.RaisePropertyChanged("Waiter");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MenuItemQuantity", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    public partial class MenuItemQuantity : OrderClient.ClientDataAccessWCFService.BaseTransferObject {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.MenuItem MenuItemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int QuantityField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.MenuItem MenuItem {
+            get {
+                return this.MenuItemField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MenuItemField, value) != true)) {
+                    this.MenuItemField = value;
+                    this.RaisePropertyChanged("MenuItem");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Quantity {
+            get {
+                return this.QuantityField;
+            }
+            set {
+                if ((this.QuantityField.Equals(value) != true)) {
+                    this.QuantityField = value;
+                    this.RaisePropertyChanged("Quantity");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserContext", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    public partial class UserContext : OrderClient.ClientDataAccessWCFService.BaseTransferObject {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FirstNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LastNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LoginField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private OrderClient.ClientDataAccessWCFService.UserRole RoleField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FirstName {
+            get {
+                return this.FirstNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FirstNameField, value) != true)) {
+                    this.FirstNameField = value;
+                    this.RaisePropertyChanged("FirstName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string LastName {
+            get {
+                return this.LastNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LastNameField, value) != true)) {
+                    this.LastNameField = value;
+                    this.RaisePropertyChanged("LastName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Login {
+            get {
+                return this.LoginField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LoginField, value) != true)) {
+                    this.LoginField = value;
+                    this.RaisePropertyChanged("Login");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public OrderClient.ClientDataAccessWCFService.UserRole Role {
+            get {
+                return this.RoleField;
+            }
+            set {
+                if ((this.RoleField.Equals(value) != true)) {
+                    this.RoleField = value;
+                    this.RaisePropertyChanged("Role");
+                }
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.FlagsAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserRole", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    public enum UserRole : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Client = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Waiter = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Manager = 256,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Money", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    [System.SerializableAttribute()]
+    public partial class Money : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private float AmountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CurrencyField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public float Amount {
+            get {
+                return this.AmountField;
+            }
+            set {
+                if ((this.AmountField.Equals(value) != true)) {
+                    this.AmountField = value;
+                    this.RaisePropertyChanged("Amount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Currency {
+            get {
+                return this.CurrencyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CurrencyField, value) != true)) {
+                    this.CurrencyField = value;
+                    this.RaisePropertyChanged("Currency");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.FlagsAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Name="OrderState", Namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures")]
+    public enum OrderState : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Placed = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Accepted = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Realized = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        NotRealized = 3,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TupleOfintint", Namespace="http://schemas.datacontract.org/2004/07/System")]
+    [System.SerializableAttribute()]
+    public partial class TupleOfintint : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int m_Item1Field;
+        
+        private int m_Item2Field;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int m_Item1 {
+            get {
+                return this.m_Item1Field;
+            }
+            set {
+                if ((this.m_Item1Field.Equals(value) != true)) {
+                    this.m_Item1Field = value;
+                    this.RaisePropertyChanged("m_Item1");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int m_Item2 {
+            get {
+                return this.m_Item2Field;
+            }
+            set {
+                if ((this.m_Item2Field.Equals(value) != true)) {
+                    this.m_Item2Field = value;
+                    this.RaisePropertyChanged("m_Item2");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientDataAccessWCFService.IManagerDataAccessWCFService")]
     public interface IManagerDataAccessWCFService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse")]
-        ClassLib.DataStructures.UserContext LogIn([System.ServiceModel.MessageParameterAttribute(Name="login")] string login1, string password);
+        OrderClient.ClientDataAccessWCFService.UserContext LogIn([System.ServiceModel.MessageParameterAttribute(Name="login")] string login1, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> LogInAsync(string login, string password);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> LogInAsync(string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogOut", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogOutResponse")]
         bool LogOut(int id);
@@ -28,40 +612,40 @@ namespace OrderClient.ClientDataAccessWCFService {
         System.Threading.Tasks.Task<bool> LogOutAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse")]
-        ClassLib.DataStructures.MenuItemCategory[] GetMenuItemCategories(int userId);
+        OrderClient.ClientDataAccessWCFService.MenuItemCategory[] GetMenuItemCategories(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse")]
-        ClassLib.DataStructures.MenuItem[] GetMenuItems(int userId);
+        OrderClient.ClientDataAccessWCFService.MenuItem[] GetMenuItems(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItem[]> GetMenuItemsAsync(int userId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem[]> GetMenuItemsAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse")]
-        ClassLib.DataStructures.Table[] GetTables(int userId);
+        OrderClient.ClientDataAccessWCFService.Table[] GetTables(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.Table[]> GetTablesAsync(int userId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table[]> GetTablesAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddManager", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddManagerResponse")]
-        ClassLib.DataStructures.UserContext AddManager(string firstName, string lastName, string login, string password);
+        OrderClient.ClientDataAccessWCFService.UserContext AddManager(string firstName, string lastName, string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddManager", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddManagerResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> AddManagerAsync(string firstName, string lastName, string login, string password);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> AddManagerAsync(string firstName, string lastName, string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemCategory", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemCategoryResponse")]
-        ClassLib.DataStructures.MenuItemCategory AddMenuItemCategory(int managerId, string name, string description);
+        OrderClient.ClientDataAccessWCFService.MenuItemCategory AddMenuItemCategory(int managerId, string name, string description);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemCategory", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemCategoryResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItemCategory> AddMenuItemCategoryAsync(int managerId, string name, string description);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory> AddMenuItemCategoryAsync(int managerId, string name, string description);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemCategory", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemCategoryResponse")]
-        bool EditMenuItemCategory(int managerId, ClassLib.DataStructures.MenuItemCategory menuItemCategoryToEdit);
+        bool EditMenuItemCategory(int managerId, OrderClient.ClientDataAccessWCFService.MenuItemCategory menuItemCategoryToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemCategory", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemCategoryResponse")]
-        System.Threading.Tasks.Task<bool> EditMenuItemCategoryAsync(int managerId, ClassLib.DataStructures.MenuItemCategory menuItemCategoryToEdit);
+        System.Threading.Tasks.Task<bool> EditMenuItemCategoryAsync(int managerId, OrderClient.ClientDataAccessWCFService.MenuItemCategory menuItemCategoryToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItemCategory", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItemCategoryResponse")]
         bool RemoveMenuItemCategory(int managerId, int categoryId);
@@ -70,16 +654,16 @@ namespace OrderClient.ClientDataAccessWCFService {
         System.Threading.Tasks.Task<bool> RemoveMenuItemCategoryAsync(int managerId, int categoryId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItem", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemResponse")]
-        ClassLib.DataStructures.MenuItem AddMenuItem(int managerId, string name, string description, int categoryId, ClassLib.DataStructures.Money price);
+        OrderClient.ClientDataAccessWCFService.MenuItem AddMenuItem(int managerId, string name, string description, int categoryId, OrderClient.ClientDataAccessWCFService.Money price);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItem", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddMenuItemResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItem> AddMenuItemAsync(int managerId, string name, string description, int categoryId, ClassLib.DataStructures.Money price);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem> AddMenuItemAsync(int managerId, string name, string description, int categoryId, OrderClient.ClientDataAccessWCFService.Money price);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItem", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemResponse")]
-        bool EditMenuItem(int managerId, ClassLib.DataStructures.MenuItem menuItemToEdit);
+        bool EditMenuItem(int managerId, OrderClient.ClientDataAccessWCFService.MenuItem menuItemToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItem", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditMenuItemResponse")]
-        System.Threading.Tasks.Task<bool> EditMenuItemAsync(int managerId, ClassLib.DataStructures.MenuItem menuItemToEdit);
+        System.Threading.Tasks.Task<bool> EditMenuItemAsync(int managerId, OrderClient.ClientDataAccessWCFService.MenuItem menuItemToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItem", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveMenuItemResponse")]
         bool RemoveMenuItem(int managerId, int menuItemId);
@@ -88,16 +672,16 @@ namespace OrderClient.ClientDataAccessWCFService {
         System.Threading.Tasks.Task<bool> RemoveMenuItemAsync(int managerId, int menuItemId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddWaiter", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddWaiterResponse")]
-        ClassLib.DataStructures.UserContext AddWaiter(int managerId, string firstName, string lastName, string login, string password);
+        OrderClient.ClientDataAccessWCFService.UserContext AddWaiter(int managerId, string firstName, string lastName, string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddWaiter", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddWaiterResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> AddWaiterAsync(int managerId, string firstName, string lastName, string login, string password);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> AddWaiterAsync(int managerId, string firstName, string lastName, string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditWaiter", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditWaiterResponse")]
-        bool EditWaiter(int managerId, ClassLib.DataStructures.UserContext waiterToEdit);
+        bool EditWaiter(int managerId, OrderClient.ClientDataAccessWCFService.UserContext waiterToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditWaiter", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditWaiterResponse")]
-        System.Threading.Tasks.Task<bool> EditWaiterAsync(int managerId, ClassLib.DataStructures.UserContext waiterToEdit);
+        System.Threading.Tasks.Task<bool> EditWaiterAsync(int managerId, OrderClient.ClientDataAccessWCFService.UserContext waiterToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveWaiter", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveWaiterResponse")]
         bool RemoveWaiter(int managerId, int waiterId);
@@ -106,22 +690,22 @@ namespace OrderClient.ClientDataAccessWCFService {
         System.Threading.Tasks.Task<bool> RemoveWaiterAsync(int managerId, int waiterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/GetWaiters", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/GetWaitersResponse")]
-        ClassLib.DataStructures.UserContext[] GetWaiters(int managerId);
+        OrderClient.ClientDataAccessWCFService.UserContext[] GetWaiters(int managerId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/GetWaiters", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/GetWaitersResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext[]> GetWaitersAsync(int managerId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext[]> GetWaitersAsync(int managerId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddTable", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddTableResponse")]
-        ClassLib.DataStructures.Table AddTable(int managerId, int tableNumber, string description);
+        OrderClient.ClientDataAccessWCFService.Table AddTable(int managerId, int tableNumber, string description);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/AddTable", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/AddTableResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.Table> AddTableAsync(int managerId, int tableNumber, string description);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table> AddTableAsync(int managerId, int tableNumber, string description);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditTable", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditTableResponse")]
-        bool EditTable(int managerId, ClassLib.DataStructures.Table tableToEdit);
+        bool EditTable(int managerId, OrderClient.ClientDataAccessWCFService.Table tableToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/EditTable", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/EditTableResponse")]
-        System.Threading.Tasks.Task<bool> EditTableAsync(int managerId, ClassLib.DataStructures.Table tableToEdit);
+        System.Threading.Tasks.Task<bool> EditTableAsync(int managerId, OrderClient.ClientDataAccessWCFService.Table tableToEdit);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveTable", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveTableResponse")]
         bool RemoveTable(int managerId, int tableId);
@@ -130,10 +714,10 @@ namespace OrderClient.ClientDataAccessWCFService {
         System.Threading.Tasks.Task<bool> RemoveTableAsync(int managerId, int tableId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/GetOrders", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/GetOrdersResponse")]
-        ClassLib.DataStructures.Order[] GetOrders(int managerId);
+        OrderClient.ClientDataAccessWCFService.Order[] GetOrders(int managerId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/GetOrders", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/GetOrdersResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetOrdersAsync(int managerId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetOrdersAsync(int managerId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IManagerDataAccessWCFService/RemoveOrder", ReplyAction="http://tempuri.org/IManagerDataAccessWCFService/RemoveOrderResponse")]
         bool RemoveOrder(int managerId, int orderId);
@@ -169,11 +753,11 @@ namespace OrderClient.ClientDataAccessWCFService {
                 base(binding, remoteAddress) {
         }
         
-        public ClassLib.DataStructures.UserContext LogIn(string login1, string password) {
+        public OrderClient.ClientDataAccessWCFService.UserContext LogIn(string login1, string password) {
             return base.Channel.LogIn(login1, password);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> LogInAsync(string login, string password) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> LogInAsync(string login, string password) {
             return base.Channel.LogInAsync(login, password);
         }
         
@@ -185,51 +769,51 @@ namespace OrderClient.ClientDataAccessWCFService {
             return base.Channel.LogOutAsync(id);
         }
         
-        public ClassLib.DataStructures.MenuItemCategory[] GetMenuItemCategories(int userId) {
+        public OrderClient.ClientDataAccessWCFService.MenuItemCategory[] GetMenuItemCategories(int userId) {
             return base.Channel.GetMenuItemCategories(userId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId) {
             return base.Channel.GetMenuItemCategoriesAsync(userId);
         }
         
-        public ClassLib.DataStructures.MenuItem[] GetMenuItems(int userId) {
+        public OrderClient.ClientDataAccessWCFService.MenuItem[] GetMenuItems(int userId) {
             return base.Channel.GetMenuItems(userId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItem[]> GetMenuItemsAsync(int userId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem[]> GetMenuItemsAsync(int userId) {
             return base.Channel.GetMenuItemsAsync(userId);
         }
         
-        public ClassLib.DataStructures.Table[] GetTables(int userId) {
+        public OrderClient.ClientDataAccessWCFService.Table[] GetTables(int userId) {
             return base.Channel.GetTables(userId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.Table[]> GetTablesAsync(int userId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table[]> GetTablesAsync(int userId) {
             return base.Channel.GetTablesAsync(userId);
         }
         
-        public ClassLib.DataStructures.UserContext AddManager(string firstName, string lastName, string login, string password) {
+        public OrderClient.ClientDataAccessWCFService.UserContext AddManager(string firstName, string lastName, string login, string password) {
             return base.Channel.AddManager(firstName, lastName, login, password);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> AddManagerAsync(string firstName, string lastName, string login, string password) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> AddManagerAsync(string firstName, string lastName, string login, string password) {
             return base.Channel.AddManagerAsync(firstName, lastName, login, password);
         }
         
-        public ClassLib.DataStructures.MenuItemCategory AddMenuItemCategory(int managerId, string name, string description) {
+        public OrderClient.ClientDataAccessWCFService.MenuItemCategory AddMenuItemCategory(int managerId, string name, string description) {
             return base.Channel.AddMenuItemCategory(managerId, name, description);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItemCategory> AddMenuItemCategoryAsync(int managerId, string name, string description) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory> AddMenuItemCategoryAsync(int managerId, string name, string description) {
             return base.Channel.AddMenuItemCategoryAsync(managerId, name, description);
         }
         
-        public bool EditMenuItemCategory(int managerId, ClassLib.DataStructures.MenuItemCategory menuItemCategoryToEdit) {
+        public bool EditMenuItemCategory(int managerId, OrderClient.ClientDataAccessWCFService.MenuItemCategory menuItemCategoryToEdit) {
             return base.Channel.EditMenuItemCategory(managerId, menuItemCategoryToEdit);
         }
         
-        public System.Threading.Tasks.Task<bool> EditMenuItemCategoryAsync(int managerId, ClassLib.DataStructures.MenuItemCategory menuItemCategoryToEdit) {
+        public System.Threading.Tasks.Task<bool> EditMenuItemCategoryAsync(int managerId, OrderClient.ClientDataAccessWCFService.MenuItemCategory menuItemCategoryToEdit) {
             return base.Channel.EditMenuItemCategoryAsync(managerId, menuItemCategoryToEdit);
         }
         
@@ -241,19 +825,19 @@ namespace OrderClient.ClientDataAccessWCFService {
             return base.Channel.RemoveMenuItemCategoryAsync(managerId, categoryId);
         }
         
-        public ClassLib.DataStructures.MenuItem AddMenuItem(int managerId, string name, string description, int categoryId, ClassLib.DataStructures.Money price) {
+        public OrderClient.ClientDataAccessWCFService.MenuItem AddMenuItem(int managerId, string name, string description, int categoryId, OrderClient.ClientDataAccessWCFService.Money price) {
             return base.Channel.AddMenuItem(managerId, name, description, categoryId, price);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItem> AddMenuItemAsync(int managerId, string name, string description, int categoryId, ClassLib.DataStructures.Money price) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem> AddMenuItemAsync(int managerId, string name, string description, int categoryId, OrderClient.ClientDataAccessWCFService.Money price) {
             return base.Channel.AddMenuItemAsync(managerId, name, description, categoryId, price);
         }
         
-        public bool EditMenuItem(int managerId, ClassLib.DataStructures.MenuItem menuItemToEdit) {
+        public bool EditMenuItem(int managerId, OrderClient.ClientDataAccessWCFService.MenuItem menuItemToEdit) {
             return base.Channel.EditMenuItem(managerId, menuItemToEdit);
         }
         
-        public System.Threading.Tasks.Task<bool> EditMenuItemAsync(int managerId, ClassLib.DataStructures.MenuItem menuItemToEdit) {
+        public System.Threading.Tasks.Task<bool> EditMenuItemAsync(int managerId, OrderClient.ClientDataAccessWCFService.MenuItem menuItemToEdit) {
             return base.Channel.EditMenuItemAsync(managerId, menuItemToEdit);
         }
         
@@ -265,19 +849,19 @@ namespace OrderClient.ClientDataAccessWCFService {
             return base.Channel.RemoveMenuItemAsync(managerId, menuItemId);
         }
         
-        public ClassLib.DataStructures.UserContext AddWaiter(int managerId, string firstName, string lastName, string login, string password) {
+        public OrderClient.ClientDataAccessWCFService.UserContext AddWaiter(int managerId, string firstName, string lastName, string login, string password) {
             return base.Channel.AddWaiter(managerId, firstName, lastName, login, password);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> AddWaiterAsync(int managerId, string firstName, string lastName, string login, string password) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> AddWaiterAsync(int managerId, string firstName, string lastName, string login, string password) {
             return base.Channel.AddWaiterAsync(managerId, firstName, lastName, login, password);
         }
         
-        public bool EditWaiter(int managerId, ClassLib.DataStructures.UserContext waiterToEdit) {
+        public bool EditWaiter(int managerId, OrderClient.ClientDataAccessWCFService.UserContext waiterToEdit) {
             return base.Channel.EditWaiter(managerId, waiterToEdit);
         }
         
-        public System.Threading.Tasks.Task<bool> EditWaiterAsync(int managerId, ClassLib.DataStructures.UserContext waiterToEdit) {
+        public System.Threading.Tasks.Task<bool> EditWaiterAsync(int managerId, OrderClient.ClientDataAccessWCFService.UserContext waiterToEdit) {
             return base.Channel.EditWaiterAsync(managerId, waiterToEdit);
         }
         
@@ -289,27 +873,27 @@ namespace OrderClient.ClientDataAccessWCFService {
             return base.Channel.RemoveWaiterAsync(managerId, waiterId);
         }
         
-        public ClassLib.DataStructures.UserContext[] GetWaiters(int managerId) {
+        public OrderClient.ClientDataAccessWCFService.UserContext[] GetWaiters(int managerId) {
             return base.Channel.GetWaiters(managerId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext[]> GetWaitersAsync(int managerId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext[]> GetWaitersAsync(int managerId) {
             return base.Channel.GetWaitersAsync(managerId);
         }
         
-        public ClassLib.DataStructures.Table AddTable(int managerId, int tableNumber, string description) {
+        public OrderClient.ClientDataAccessWCFService.Table AddTable(int managerId, int tableNumber, string description) {
             return base.Channel.AddTable(managerId, tableNumber, description);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.Table> AddTableAsync(int managerId, int tableNumber, string description) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table> AddTableAsync(int managerId, int tableNumber, string description) {
             return base.Channel.AddTableAsync(managerId, tableNumber, description);
         }
         
-        public bool EditTable(int managerId, ClassLib.DataStructures.Table tableToEdit) {
+        public bool EditTable(int managerId, OrderClient.ClientDataAccessWCFService.Table tableToEdit) {
             return base.Channel.EditTable(managerId, tableToEdit);
         }
         
-        public System.Threading.Tasks.Task<bool> EditTableAsync(int managerId, ClassLib.DataStructures.Table tableToEdit) {
+        public System.Threading.Tasks.Task<bool> EditTableAsync(int managerId, OrderClient.ClientDataAccessWCFService.Table tableToEdit) {
             return base.Channel.EditTableAsync(managerId, tableToEdit);
         }
         
@@ -321,11 +905,11 @@ namespace OrderClient.ClientDataAccessWCFService {
             return base.Channel.RemoveTableAsync(managerId, tableId);
         }
         
-        public ClassLib.DataStructures.Order[] GetOrders(int managerId) {
+        public OrderClient.ClientDataAccessWCFService.Order[] GetOrders(int managerId) {
             return base.Channel.GetOrders(managerId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetOrdersAsync(int managerId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetOrdersAsync(int managerId) {
             return base.Channel.GetOrdersAsync(managerId);
         }
         
@@ -339,14 +923,14 @@ namespace OrderClient.ClientDataAccessWCFService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientDataAccessWCFService.IWaiterDataAccessWCFService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientDataAccessWCFService.IWaiterDataAccessWCFService", CallbackContract=typeof(OrderClient.ClientDataAccessWCFService.IWaiterDataAccessWCFServiceCallback))]
     public interface IWaiterDataAccessWCFService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse")]
-        ClassLib.DataStructures.UserContext LogIn([System.ServiceModel.MessageParameterAttribute(Name="login")] string login1, string password);
+        OrderClient.ClientDataAccessWCFService.UserContext LogIn([System.ServiceModel.MessageParameterAttribute(Name="login")] string login1, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> LogInAsync(string login, string password);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> LogInAsync(string login, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogOut", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogOutResponse")]
         bool LogOut(int id);
@@ -355,46 +939,56 @@ namespace OrderClient.ClientDataAccessWCFService {
         System.Threading.Tasks.Task<bool> LogOutAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse")]
-        ClassLib.DataStructures.MenuItemCategory[] GetMenuItemCategories(int userId);
+        OrderClient.ClientDataAccessWCFService.MenuItemCategory[] GetMenuItemCategories(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse")]
-        ClassLib.DataStructures.MenuItem[] GetMenuItems(int userId);
+        OrderClient.ClientDataAccessWCFService.MenuItem[] GetMenuItems(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItem[]> GetMenuItemsAsync(int userId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem[]> GetMenuItemsAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse")]
-        ClassLib.DataStructures.Table[] GetTables(int userId);
+        OrderClient.ClientDataAccessWCFService.Table[] GetTables(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.Table[]> GetTablesAsync(int userId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table[]> GetTablesAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/GetAllPastOrders", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/GetAllPastOrdersResponse")]
-        ClassLib.DataStructures.Order[] GetAllPastOrders(int waiterId);
+        OrderClient.ClientDataAccessWCFService.Order[] GetAllPastOrders(int waiterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/GetAllPastOrders", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/GetAllPastOrdersResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetAllPastOrdersAsync(int waiterId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetAllPastOrdersAsync(int waiterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/GetPastOrders", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/GetPastOrdersResponse")]
-        ClassLib.DataStructures.Order[] GetPastOrders(int waiterId, int firstIndex, int lastIndex);
+        OrderClient.ClientDataAccessWCFService.Order[] GetPastOrders(int waiterId, int firstIndex, int lastIndex);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/GetPastOrders", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/GetPastOrdersResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetPastOrdersAsync(int waiterId, int firstIndex, int lastIndex);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetPastOrdersAsync(int waiterId, int firstIndex, int lastIndex);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/GetActiveOrders", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/GetActiveOrdersResponse")]
-        ClassLib.DataStructures.Order[] GetActiveOrders(int waiterId);
+        OrderClient.ClientDataAccessWCFService.Order[] GetActiveOrders(int waiterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/GetActiveOrders", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/GetActiveOrdersResponse")]
-        System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetActiveOrdersAsync(int waiterId);
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetActiveOrdersAsync(int waiterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/SetOrderState", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/SetOrderStateResponse")]
-        bool SetOrderState(int waiterId, int orderId, ClassLib.DataStructures.OrderState state);
+        bool SetOrderState(int waiterId, int orderId, OrderClient.ClientDataAccessWCFService.OrderState state);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/SetOrderState", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/SetOrderStateResponse")]
-        System.Threading.Tasks.Task<bool> SetOrderStateAsync(int waiterId, int orderId, ClassLib.DataStructures.OrderState state);
+        System.Threading.Tasks.Task<bool> SetOrderStateAsync(int waiterId, int orderId, OrderClient.ClientDataAccessWCFService.OrderState state);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IWaiterDataAccessWCFServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/AcceptNewOrder", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/AcceptNewOrderResponse")]
+        bool AcceptNewOrder(OrderClient.ClientDataAccessWCFService.Order order);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWaiterDataAccessWCFService/ConfirmUserPaid", ReplyAction="http://tempuri.org/IWaiterDataAccessWCFService/ConfirmUserPaidResponse")]
+        bool ConfirmUserPaid(int userId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -403,32 +997,33 @@ namespace OrderClient.ClientDataAccessWCFService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class WaiterDataAccessWCFServiceClient : System.ServiceModel.ClientBase<OrderClient.ClientDataAccessWCFService.IWaiterDataAccessWCFService>, OrderClient.ClientDataAccessWCFService.IWaiterDataAccessWCFService {
+    public partial class WaiterDataAccessWCFServiceClient : System.ServiceModel.DuplexClientBase<OrderClient.ClientDataAccessWCFService.IWaiterDataAccessWCFService>, OrderClient.ClientDataAccessWCFService.IWaiterDataAccessWCFService {
         
-        public WaiterDataAccessWCFServiceClient() {
+        public WaiterDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public WaiterDataAccessWCFServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public WaiterDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public WaiterDataAccessWCFServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public WaiterDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public WaiterDataAccessWCFServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public WaiterDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public WaiterDataAccessWCFServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public WaiterDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
-        public ClassLib.DataStructures.UserContext LogIn(string login1, string password) {
+        public OrderClient.ClientDataAccessWCFService.UserContext LogIn(string login1, string password) {
             return base.Channel.LogIn(login1, password);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.UserContext> LogInAsync(string login, string password) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> LogInAsync(string login, string password) {
             return base.Channel.LogInAsync(login, password);
         }
         
@@ -440,60 +1035,220 @@ namespace OrderClient.ClientDataAccessWCFService {
             return base.Channel.LogOutAsync(id);
         }
         
-        public ClassLib.DataStructures.MenuItemCategory[] GetMenuItemCategories(int userId) {
+        public OrderClient.ClientDataAccessWCFService.MenuItemCategory[] GetMenuItemCategories(int userId) {
             return base.Channel.GetMenuItemCategories(userId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId) {
             return base.Channel.GetMenuItemCategoriesAsync(userId);
         }
         
-        public ClassLib.DataStructures.MenuItem[] GetMenuItems(int userId) {
+        public OrderClient.ClientDataAccessWCFService.MenuItem[] GetMenuItems(int userId) {
             return base.Channel.GetMenuItems(userId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.MenuItem[]> GetMenuItemsAsync(int userId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem[]> GetMenuItemsAsync(int userId) {
             return base.Channel.GetMenuItemsAsync(userId);
         }
         
-        public ClassLib.DataStructures.Table[] GetTables(int userId) {
+        public OrderClient.ClientDataAccessWCFService.Table[] GetTables(int userId) {
             return base.Channel.GetTables(userId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.Table[]> GetTablesAsync(int userId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table[]> GetTablesAsync(int userId) {
             return base.Channel.GetTablesAsync(userId);
         }
         
-        public ClassLib.DataStructures.Order[] GetAllPastOrders(int waiterId) {
+        public OrderClient.ClientDataAccessWCFService.Order[] GetAllPastOrders(int waiterId) {
             return base.Channel.GetAllPastOrders(waiterId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetAllPastOrdersAsync(int waiterId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetAllPastOrdersAsync(int waiterId) {
             return base.Channel.GetAllPastOrdersAsync(waiterId);
         }
         
-        public ClassLib.DataStructures.Order[] GetPastOrders(int waiterId, int firstIndex, int lastIndex) {
+        public OrderClient.ClientDataAccessWCFService.Order[] GetPastOrders(int waiterId, int firstIndex, int lastIndex) {
             return base.Channel.GetPastOrders(waiterId, firstIndex, lastIndex);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetPastOrdersAsync(int waiterId, int firstIndex, int lastIndex) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetPastOrdersAsync(int waiterId, int firstIndex, int lastIndex) {
             return base.Channel.GetPastOrdersAsync(waiterId, firstIndex, lastIndex);
         }
         
-        public ClassLib.DataStructures.Order[] GetActiveOrders(int waiterId) {
+        public OrderClient.ClientDataAccessWCFService.Order[] GetActiveOrders(int waiterId) {
             return base.Channel.GetActiveOrders(waiterId);
         }
         
-        public System.Threading.Tasks.Task<ClassLib.DataStructures.Order[]> GetActiveOrdersAsync(int waiterId) {
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order[]> GetActiveOrdersAsync(int waiterId) {
             return base.Channel.GetActiveOrdersAsync(waiterId);
         }
         
-        public bool SetOrderState(int waiterId, int orderId, ClassLib.DataStructures.OrderState state) {
+        public bool SetOrderState(int waiterId, int orderId, OrderClient.ClientDataAccessWCFService.OrderState state) {
             return base.Channel.SetOrderState(waiterId, orderId, state);
         }
         
-        public System.Threading.Tasks.Task<bool> SetOrderStateAsync(int waiterId, int orderId, ClassLib.DataStructures.OrderState state) {
+        public System.Threading.Tasks.Task<bool> SetOrderStateAsync(int waiterId, int orderId, OrderClient.ClientDataAccessWCFService.OrderState state) {
             return base.Channel.SetOrderStateAsync(waiterId, orderId, state);
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientDataAccessWCFService.IClientDataAccessWCFService", CallbackContract=typeof(OrderClient.ClientDataAccessWCFService.IClientDataAccessWCFServiceCallback))]
+    public interface IClientDataAccessWCFService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse")]
+        OrderClient.ClientDataAccessWCFService.UserContext LogIn([System.ServiceModel.MessageParameterAttribute(Name="login")] string login1, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogIn", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogInResponse")]
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> LogInAsync(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogOut", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogOutResponse")]
+        bool LogOut(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/LogOut", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/LogOutResponse")]
+        System.Threading.Tasks.Task<bool> LogOutAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse")]
+        OrderClient.ClientDataAccessWCFService.MenuItemCategory[] GetMenuItemCategories(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategories", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemCategoriesResponse")]
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse")]
+        OrderClient.ClientDataAccessWCFService.MenuItem[] GetMenuItems(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItems", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetMenuItemsResponse")]
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem[]> GetMenuItemsAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse")]
+        OrderClient.ClientDataAccessWCFService.Table[] GetTables(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBaseDataAccessWCFService/GetTables", ReplyAction="http://tempuri.org/IBaseDataAccessWCFService/GetTablesResponse")]
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table[]> GetTablesAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/AddClient", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/AddClientResponse")]
+        OrderClient.ClientDataAccessWCFService.UserContext AddClient(string firstName, string lastName, string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/AddClient", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/AddClientResponse")]
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> AddClientAsync(string firstName, string lastName, string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/AddOrder", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/AddOrderResponse")]
+        OrderClient.ClientDataAccessWCFService.Order AddOrder(int userId, int tableId, OrderClient.ClientDataAccessWCFService.TupleOfintint[] menuItems);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/AddOrder", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/AddOrderResponse")]
+        System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order> AddOrderAsync(int userId, int tableId, OrderClient.ClientDataAccessWCFService.TupleOfintint[] menuItems);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/PayForOrder", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/PayForOrderResponse")]
+        bool PayForOrder(int userId, int orderId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/PayForOrder", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/PayForOrderResponse")]
+        System.Threading.Tasks.Task<bool> PayForOrderAsync(int userId, int orderId);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IClientDataAccessWCFServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/NotifyOrderAccepted", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/NotifyOrderAcceptedResponse")]
+        void NotifyOrderAccepted(int orderId, OrderClient.ClientDataAccessWCFService.UserContext waiter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/NotifyOrderOnHold", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/NotifyOrderOnHoldResponse")]
+        void NotifyOrderOnHold(int orderId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientDataAccessWCFService/NotifyOrderAwaitingDelivery", ReplyAction="http://tempuri.org/IClientDataAccessWCFService/NotifyOrderAwaitingDeliveryRespons" +
+            "e")]
+        void NotifyOrderAwaitingDelivery(int oderId);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IClientDataAccessWCFServiceChannel : OrderClient.ClientDataAccessWCFService.IClientDataAccessWCFService, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class ClientDataAccessWCFServiceClient : System.ServiceModel.DuplexClientBase<OrderClient.ClientDataAccessWCFService.IClientDataAccessWCFService>, OrderClient.ClientDataAccessWCFService.IClientDataAccessWCFService {
+        
+        public ClientDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
+        }
+        
+        public ClientDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
+        }
+        
+        public ClientDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public ClientDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public ClientDataAccessWCFServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
+        }
+        
+        public OrderClient.ClientDataAccessWCFService.UserContext LogIn(string login1, string password) {
+            return base.Channel.LogIn(login1, password);
+        }
+        
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> LogInAsync(string login, string password) {
+            return base.Channel.LogInAsync(login, password);
+        }
+        
+        public bool LogOut(int id) {
+            return base.Channel.LogOut(id);
+        }
+        
+        public System.Threading.Tasks.Task<bool> LogOutAsync(int id) {
+            return base.Channel.LogOutAsync(id);
+        }
+        
+        public OrderClient.ClientDataAccessWCFService.MenuItemCategory[] GetMenuItemCategories(int userId) {
+            return base.Channel.GetMenuItemCategories(userId);
+        }
+        
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItemCategory[]> GetMenuItemCategoriesAsync(int userId) {
+            return base.Channel.GetMenuItemCategoriesAsync(userId);
+        }
+        
+        public OrderClient.ClientDataAccessWCFService.MenuItem[] GetMenuItems(int userId) {
+            return base.Channel.GetMenuItems(userId);
+        }
+        
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.MenuItem[]> GetMenuItemsAsync(int userId) {
+            return base.Channel.GetMenuItemsAsync(userId);
+        }
+        
+        public OrderClient.ClientDataAccessWCFService.Table[] GetTables(int userId) {
+            return base.Channel.GetTables(userId);
+        }
+        
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Table[]> GetTablesAsync(int userId) {
+            return base.Channel.GetTablesAsync(userId);
+        }
+        
+        public OrderClient.ClientDataAccessWCFService.UserContext AddClient(string firstName, string lastName, string login, string password) {
+            return base.Channel.AddClient(firstName, lastName, login, password);
+        }
+        
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.UserContext> AddClientAsync(string firstName, string lastName, string login, string password) {
+            return base.Channel.AddClientAsync(firstName, lastName, login, password);
+        }
+        
+        public OrderClient.ClientDataAccessWCFService.Order AddOrder(int userId, int tableId, OrderClient.ClientDataAccessWCFService.TupleOfintint[] menuItems) {
+            return base.Channel.AddOrder(userId, tableId, menuItems);
+        }
+        
+        public System.Threading.Tasks.Task<OrderClient.ClientDataAccessWCFService.Order> AddOrderAsync(int userId, int tableId, OrderClient.ClientDataAccessWCFService.TupleOfintint[] menuItems) {
+            return base.Channel.AddOrderAsync(userId, tableId, menuItems);
+        }
+        
+        public bool PayForOrder(int userId, int orderId) {
+            return base.Channel.PayForOrder(userId, orderId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> PayForOrderAsync(int userId, int orderId) {
+            return base.Channel.PayForOrderAsync(userId, orderId);
         }
     }
 }

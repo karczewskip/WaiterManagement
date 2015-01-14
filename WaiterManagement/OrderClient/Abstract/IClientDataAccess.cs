@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderClient.Abstract
 {
-    interface IClientDataAccess : ICommunicationObject//, OrderClient.ClientDataAccessWCFService.I
+    interface IClientDataAccess : ICommunicationObject, OrderClient.ClientDataAccessWCFService.IClientDataAccessWCFService
     {
     }
 }

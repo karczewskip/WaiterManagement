@@ -1,5 +1,4 @@
-﻿using ClassLib.DataStructures;
-using OrderClient.Abstract;
+﻿using OrderClient.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +10,14 @@ namespace OrderClient.Model
 {
     class OrderDataModel: IOrderDataModel
     {
+        private IClientDataAccess _clientDataAccess;
+
         public Order CurrentOrder { get; set; }
 
-        public OrderDataModel()
+        public OrderDataModel(IClientDataAccess clientDataAccess)
         {
+            _clientDataAccess = clientDataAccess;
+
             CurrentOrder = new Order();
         }
 
@@ -24,7 +27,7 @@ namespace OrderClient.Model
 
             if(TypeOfAddingOrder == null)
             {
-                CurrentOrder.MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
+                //CurrentOrder.MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
             }
             else
             {
@@ -41,7 +44,7 @@ namespace OrderClient.Model
 
         public bool IsEmpty()
         {
-            return CurrentOrder.MenuItems.Count == 0;
+            return true; //CurrentOrder.MenuItems.Count == 0;
         }
 
 
@@ -53,7 +56,7 @@ namespace OrderClient.Model
 
         public void RemoveFromCurrentOrder(MenuItemQuantity removingItem)
         {
-            CurrentOrder.MenuItems.Remove(removingItem);
+            //CurrentOrder.MenuItems.Remove(removingItem);
         }
 
 
@@ -84,7 +87,7 @@ namespace OrderClient.Model
 
         public void LogIn(string _userName, string password)
         {
-            throw new NotImplementedException();
+            //_clientDataAccess.AddClient()
         }
     }
 }

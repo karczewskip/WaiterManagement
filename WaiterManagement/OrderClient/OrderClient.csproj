@@ -82,6 +82,7 @@
     <Compile Include="Converters\PriceConverter.cs" />
     <Compile Include="Model\OrderDataModel.cs" />
     <Compile Include="OrderNotyficator.cs" />
+    <Compile Include="Service Communication\ClientDataAccess.cs" />
     <Compile Include="Service References\ClientDataAccessWCFService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -180,6 +181,9 @@
     <None Include="Service References\ClientDataAccessWCFService\DataAccess2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ClientDataAccessWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +211,21 @@
     <None Include="Service References\ClientDataAccessWCFService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.MenuItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.MenuItemCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.Order.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.Table.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.UserContext.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\ClientDataAccessWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

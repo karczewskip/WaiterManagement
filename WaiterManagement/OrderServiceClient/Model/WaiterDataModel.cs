@@ -22,7 +22,6 @@ namespace OrderServiceClient.Model
         public void LogIn(string login, string password)
         {
             waiterUserContext = _waiterDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
-            waiterUserContext = waiterUserContext;
         }
 
 
