@@ -76,7 +76,7 @@ namespace ClassLib.DataStructures
         public Table Table { get; set; }
         //Item1 - menuItemId, Item2 - quantity
         [DataMember]
-        public ICollection<MenuItemQuantity> MenuItems { get; set; }
+        public List<MenuItemQuantity> MenuItems { get; set; }
         [DataMember]
         public OrderState State { get; set; }
         [DataMember]
