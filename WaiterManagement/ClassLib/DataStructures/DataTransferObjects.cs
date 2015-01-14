@@ -97,7 +97,7 @@ namespace ClassLib.DataStructures
 
             if (order.MenuItems != null)
             {
-                MenuItems = new List<MenuItemQuantity>();
+                MenuItems = new HashSet<MenuItemQuantity>();
                 foreach (var menuItemQuant in order.MenuItems)
                     MenuItems.Add(new MenuItemQuantity(menuItemQuant));
             }
