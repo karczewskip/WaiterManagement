@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace OrderClient.Abstract
 {
-    public interface IMainWindowViewModel
+    interface IChooseTabelViewModel
     {
-        void CancelOrder();
-
-        void LogIn();
-
-        void StartGettingOrders();
+        void InitializeData();
     }
 }

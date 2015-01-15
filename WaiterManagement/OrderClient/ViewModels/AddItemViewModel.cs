@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
-using ClassLib.DataStructures;
 using ClassLib.DbDataStructures;
 using OrderClient.Abstract;
+using OrderClient.ClientDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,18 +47,18 @@ namespace OrderClient.ViewModels
         {
             MenuItems = new List<MenuItem>();
 
-            //_allCategoryItem = new MenuItemCategory() { Name = "All", Description = "All" };
+            _allCategoryItem = new MenuItemCategory() { Name = "All", Description = "All" };
             Categories = new List<MenuItemCategory>() { _allCategoryItem };
 
-            //foreach (var category in _orderDataModel.GetAllCategories())
-            //    Categories.Add(category);
+            foreach (var category in _orderDataModel.GetAllCategories())
+                Categories.Add(category);
 
             SelectedCategory = _allCategoryItem;
         }
         
         public void AddNewItem(MenuItem addingMenuItem)
         {
-            //_orderDataModel.AddToCurrentOrder(addingMenuItem);
+            _orderDataModel.AddToCurrentOrder(addingMenuItem);
         }
 
         public void Exit()
@@ -72,11 +72,11 @@ namespace OrderClient.ViewModels
 
             if(_selectedCategory.Name == "All")
             {
-                //MenuItems = _orderDataModel.GetAllItems();
+                MenuItems = _orderDataModel.GetAllItems();
             }
             else
             {
-                //MenuItems = _orderDataModel.GetAllItems().Where(m => m.Category.Name == _selectedCategory.Name).ToList();
+                MenuItems = _orderDataModel.GetAllItems().Where(m => m.Category.Name == _selectedCategory.Name).ToList();
             }
 
             NotifyOfPropertyChange(() => MenuItems);

@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\IChooseTabelViewModel.cs" />
     <Compile Include="Abstract\IClientDataAccess.cs" />
     <Compile Include="Abstract\ICurrentOrder.cs" />
     <Compile Include="Abstract\IDialogLogin.cs" />
@@ -89,12 +90,16 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AddItemViewModel.cs" />
+    <Compile Include="ViewModels\ChooseTabelViewModel.cs" />
     <Compile Include="ViewModels\CurrentOrderViewModel.cs" />
     <Compile Include="ViewModels\LoggerViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\WaitingViewModel.cs" />
     <Compile Include="Views\AddItemView.xaml.cs">
       <DependentUpon>AddItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChooseTabelView.xaml.cs">
+      <DependentUpon>ChooseTabelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CurrentOrderView.xaml.cs">
       <DependentUpon>CurrentOrderView.xaml</DependentUpon>
@@ -109,6 +114,10 @@
       <DependentUpon>WaitingView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChooseTabelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,6 +194,21 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ClientDataAccessWCFService\DataAccessClass.wsdl" />
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.MenuItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.MenuItemCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.Order.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.Table.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.UserContext.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -211,21 +235,6 @@
     <None Include="Service References\ClientDataAccessWCFService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.MenuItem.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.MenuItemCategory.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.Order.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.Table.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.UserContext.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\ClientDataAccessWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

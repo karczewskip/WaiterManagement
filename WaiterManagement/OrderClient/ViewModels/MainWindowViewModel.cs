@@ -14,10 +14,12 @@ namespace OrderClient.ViewModels
         private IDialogLogin _dialogLogin;
         private IDialogMainWindow _dialogOrderWindow;
         private IOrderDataModel _orderDataModel;
+        private IChooseTabelViewModel _chooseTabelViewModel;
 
         public MainWindowViewModel(IOrderDataModel orderDataModel)
         {
             _dialogLogin = new LoggerViewModel(this, orderDataModel);
+            _chooseTabelViewModel = new ChooseTabelViewModel(this, orderDataModel);
             _orderDataModel = orderDataModel;
             ActivateItem(_dialogLogin);
         }
@@ -36,6 +38,14 @@ namespace OrderClient.ViewModels
         public void LogIn()
         {
             DeactivateItem(_dialogLogin, true);
+            _chooseTabelViewModel.InitializeData();
+            ActivateItem(_chooseTabelViewModel);
+        }
+
+
+        public void StartGettingOrders()
+        {
+            DeactivateItem(_chooseTabelViewModel, true);
         }
     }
 }

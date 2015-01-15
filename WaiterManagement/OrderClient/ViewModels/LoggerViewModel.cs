@@ -23,6 +23,20 @@ namespace OrderClient.ViewModels
             set { _userName = value; }
         }
 
+        private string _firstName;
+        public string FirstName
+        {
+            get { return _firstName; }
+            set { _firstName = value; }
+        }
+
+        private string _lastName;
+        public string LastName
+        {
+            get { return _lastName; }
+            set { _lastName = value; }
+        }
+
         public LoggerViewModel(IMainWindowViewModel mainWindow,IOrderDataModel orderDataModel)
         {
             _mainWindow = mainWindow;
@@ -31,7 +45,7 @@ namespace OrderClient.ViewModels
 
         public void LogIn(LoggerView view)
         {
-            _orderDataModel.LogIn(_userName, view.PasswordB.Password);
+            _orderDataModel.AddClient(FirstName, LastName, _userName, view.PasswordB.Password);
             _mainWindow.LogIn();
         }
         

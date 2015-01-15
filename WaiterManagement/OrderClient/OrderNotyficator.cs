@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace OrderClient
 {
@@ -11,26 +12,24 @@ namespace OrderClient
     {
         private IOrderViewModel _orderViewModel;
 
-        static private OrderNotyficator instance;
-
-        private OrderNotyficator()
-        {
-
-        }
-
-        public static IOrderNotyficator GetInstance()
-        {
-            if(instance == null)
-            {
-                instance = new OrderNotyficator();
-            }
-
-            return instance;
-        }
-
         public void SetTarget(IOrderViewModel orderViewModel)
         {
             _orderViewModel = orderViewModel;
+        }
+
+        public void NotifyOrderAccepted(int orderId, ClientDataAccessWCFService.UserContext waiter)
+        {
+            MessageBox.Show("Accepted");
+        }
+
+        public void NotifyOrderOnHold(int orderId)
+        {
+            MessageBox.Show("OnHold");
+        }
+
+        public void NotifyOrderAwaitingDelivery(int oderId)
+        {
+            MessageBox.Show("AwaitingDelivery");
         }
     }
 }

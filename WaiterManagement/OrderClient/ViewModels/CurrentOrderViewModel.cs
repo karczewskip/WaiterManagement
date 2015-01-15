@@ -56,7 +56,7 @@ namespace OrderClient.ViewModels
 
         public void RefreshOrder()
         {
-            MenuItems = new BindableCollection<MenuItemQuantity>(_orderDataModel.CurrentOrder.MenuItems);
+            MenuItems = new BindableCollection<MenuItemQuantity>(_orderDataModel.MenuItems);
             NotifyOfPropertyChange(() => Salary);
             _orderWindow.CheckIfIsPosibleToAddOrder();
         }

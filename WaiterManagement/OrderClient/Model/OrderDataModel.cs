@@ -5,20 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OrderClient.ClientDataAccessWCFService;
+using System.Windows;
 
 namespace OrderClient.Model
 {
     class OrderDataModel: IOrderDataModel
     {
         private IClientDataAccess _clientDataAccess;
+        private IOrderNotyficator _orderNotyficator;
 
-        public Order CurrentOrder { get; set; }
+        private UserContext _userContext;
+        private int _tableId;
 
-        public OrderDataModel(IClientDataAccess clientDataAccess)
+        public IList<MenuItemQuantity> MenuItems { get; set; }
+
+        public OrderDataModel(IClientDataAccess clientDataAccess, IOrderNotyficator orderNotyficator)
         {
             _clientDataAccess = clientDataAccess;
+            _orderNotyficator = orderNotyficator;
 
-            CurrentOrder = new Order();
+            MenuItems = new List<MenuItemQuantity>();
         }
 
         public void AddToCurrentOrder(MenuItem addingMenuItem)
@@ -27,7 +33,7 @@ namespace OrderClient.Model
 
             if(TypeOfAddingOrder == null)
             {
-                //CurrentOrder.MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
+                MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
             }
             else
             {
@@ -37,45 +43,38 @@ namespace OrderClient.Model
 
         private MenuItemQuantity FindThisTypeOfOrder(MenuItem addingMenuItem)
         {
-            var ThisTypeOfOrder = CurrentOrder.MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
+            var ThisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
 
             return ThisTypeOfOrder;
         }
 
         public bool IsEmpty()
         {
-            return true; //CurrentOrder.MenuItems.Count == 0;
+            return MenuItems.Count == 0;
         }
 
 
         public void StartNewOrder()
         {
-            CurrentOrder = new Order();
+            MenuItems = new List<MenuItemQuantity>();
         }
 
 
         public void RemoveFromCurrentOrder(MenuItemQuantity removingItem)
         {
-            //CurrentOrder.MenuItems.Remove(removingItem);
+            MenuItems.Remove(removingItem);
         }
 
 
         public IList<MenuItem> GetAllItems()
         {
-            return new List<MenuItem>() 
-            { 
-                //new MenuItem() { Name = "Schabowy", Category = new MenuItemCategory() { Name = "Dania", Description="Dania na ciepło" }, Description = "Świetne Danie" , Price = new Money() { Amount = 20, Currency = "PLN"}},
-                //new MenuItem() { Name = "Wódka", Category = new MenuItemCategory() { Name = "Napoje", Description="Alkohole" }, Description = "Świetna Wódka", Price = new Money() { Amount = 30, Currency = "PLN"} } 
-            };
+            return _clientDataAccess.GetMenuItems(_userContext.Id).ToList();
         }
 
 
         public IList<MenuItemCategory> GetAllCategories()
         {
-            return new List<MenuItemCategory>() 
-            { 
-                //new MenuItemCategory() { Name = "Dania", Description = "Dania na ciepło" }, new MenuItemCategory() { Name = "Napoje", Description = "Alkohole" } 
-            };
+            return _clientDataAccess.GetMenuItemCategories(_userContext.Id).ToList();
         }
 
 
@@ -84,10 +83,44 @@ namespace OrderClient.Model
             return "Waiter has taken an order";
         }
 
-
-        public void LogIn(string _userName, string password)
+        public void SetTargetMessage(IOrderViewModel orderViewModel)
         {
-            //_clientDataAccess.AddClient()
+            _orderNotyficator.SetTarget(orderViewModel);
+        }
+
+
+        public void AddClient(string firstName, string lastName, string login, string password)
+        {
+            _clientDataAccess.AddClient(firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+            _userContext = _clientDataAccess.LogIn(firstName, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+
+            if (_userContext != null)
+                MessageBox.Show("Success");
+        }
+
+
+
+
+        public void AddOrder()
+        {
+            var m = new List<TupleOfintint>();
+            foreach(var item in MenuItems)
+            {
+                m.Add(new TupleOfintint() { m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity });
+            }
+            _clientDataAccess.AddOrder(_userContext.Id, _clientDataAccess.GetTables(_userContext.Id)[0].Id, m.ToArray());
+        }
+
+
+        public IList<Table> GetTables()
+        {
+            return _clientDataAccess.GetTables(_userContext.Id).ToList();
+        }
+
+
+        public void SetTableId(int tableId)
+        {
+            _tableId = tableId;
         }
     }
 }

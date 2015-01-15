@@ -9,8 +9,6 @@ namespace OrderClient.Abstract
 {
     interface IOrderDataModel
     {
-        Order CurrentOrder { get; set; }
-
         void AddToCurrentOrder(MenuItem addingMenuItem);
 
         bool IsEmpty();
@@ -25,6 +23,16 @@ namespace OrderClient.Abstract
 
         string GetCurrentOrderMessage();
 
-        void LogIn(string _userName, string password);
+        void SetTargetMessage(IOrderViewModel orderViewModel);
+
+        void AddClient(string firstName, string lastName, string login, string password);
+
+        IList<MenuItemQuantity> MenuItems { get; set; }
+
+        void AddOrder();
+
+        IList<Table> GetTables();
+
+        void SetTableId(int p);
     }
 }

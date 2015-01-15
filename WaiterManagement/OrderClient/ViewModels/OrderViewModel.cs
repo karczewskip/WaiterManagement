@@ -15,7 +15,6 @@ namespace OrderClient.ViewModels
         private ICurrentOrder _currentOrderDialog;
         private IDialogOrder _addItemDialog;
         private IWaitingViewModel _waitingDialog;
-        private IOrderNotyficator _orderNotyficator;
 
         private IOrderDataModel _orderDataModel;
 
@@ -25,11 +24,10 @@ namespace OrderClient.ViewModels
             _currentOrderDialog = new CurrentOrderViewModel(this, orderDataModel);
             _addItemDialog = new AddItemViewModel(this, orderDataModel);
             _waitingDialog = new WaitingViewModel(this, orderDataModel);
-            _orderNotyficator = OrderNotyficator.GetInstance();
-
-            _orderNotyficator.SetTarget(this);
 
             _orderDataModel = orderDataModel;
+
+            _orderDataModel.SetTargetMessage(this);
 
             _orderDataModel.StartNewOrder();
 
@@ -38,6 +36,7 @@ namespace OrderClient.ViewModels
 
         public void AddCurrentOrder()
         {
+            _orderDataModel.AddOrder();
             ActivateItem(_waitingDialog);
         }
 
