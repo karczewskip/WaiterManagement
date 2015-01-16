@@ -14,7 +14,7 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple,UseSynchronizationContext=false)]
     public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
     {
         #region Private Fields

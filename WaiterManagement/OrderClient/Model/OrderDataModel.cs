@@ -108,7 +108,7 @@ namespace OrderClient.Model
             {
                 m.Add(new TupleOfintint() { m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity });
             }
-            _clientDataAccess.AddOrder(_userContext.Id, _clientDataAccess.GetTables(_userContext.Id)[0].Id, m.ToArray());
+            _clientDataAccess.AddOrder(_userContext.Id, _tableId, m.ToArray());
         }
 
 

@@ -36,7 +36,7 @@ namespace OrderClient.ViewModels
 
         public void AddCurrentOrder()
         {
-            _orderDataModel.AddOrder();
+            Task.Factory.StartNew(() => _orderDataModel.AddOrder());
             ActivateItem(_waitingDialog);
         }
 

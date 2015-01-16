@@ -113,6 +113,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItem.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItemCategory.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Order.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Table.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.UserContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -127,22 +132,10 @@
     <None Include="Service References\WaiterDataAccessWCFService\DataAccess2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\WaiterDataAccessWCFService\DataAccessClass.wsdl" />
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItem.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItemCategory.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Order.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Table.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.UserContext.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -173,6 +166,21 @@
     <None Include="Service References\WaiterDataAccessWCFService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItemCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Order.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Table.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.UserContext.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\WaiterDataAccessWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

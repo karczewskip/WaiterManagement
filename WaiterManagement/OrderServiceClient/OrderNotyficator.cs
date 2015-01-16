@@ -15,5 +15,15 @@ namespace OrderServiceClient
         {
             _mainWindow = mainWindow;
         }
+
+        public bool AcceptNewOrder(WaiterDataAccessWCFService.Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ConfirmUserPaid(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
