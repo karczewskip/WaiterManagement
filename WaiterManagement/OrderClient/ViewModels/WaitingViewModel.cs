@@ -1,4 +1,5 @@
-﻿using OrderClient.Abstract;
+﻿using Caliburn.Micro;
+using OrderClient.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrderClient.ViewModels
 {
-    class WaitingViewModel : IWaitingViewModel
+    class WaitingViewModel : PropertyChangedBase, IWaitingViewModel
     {
         private IOrderViewModel _orderViewModel;
         private IOrderDataModel _orderDataModel;
@@ -21,6 +22,11 @@ namespace OrderClient.ViewModels
         public string Message
         {
             get { return _orderDataModel.GetCurrentOrderMessage(); }
+        }
+
+        public void RefreshMessage()
+        {
+            NotifyOfPropertyChange(() => Message);
         }
     }
 }

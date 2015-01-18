@@ -36,7 +36,7 @@ namespace OrderClient.ViewModels
 
         public void AddCurrentOrder()
         {
-            Task.Factory.StartNew(() => _orderDataModel.AddOrder());
+            var t = Task.Factory.StartNew(() => _orderDataModel.AddOrder());
             ActivateItem(_waitingDialog);
         }
 
@@ -66,6 +66,18 @@ namespace OrderClient.ViewModels
         public void CheckIfIsPosibleToAddOrder()
         {
             NotifyOfPropertyChange(() => CanAddCurrentOrder);
+        }
+
+
+        private void RefreshMessage()
+        {
+            _waitingDialog.RefreshMessage();
+        }
+
+        public void SetOrderState(ClientDataAccessWCFService.OrderState state)
+        {
+            _orderDataModel.SetOrderState(state);
+            _waitingDialog.RefreshMessage();
         }
     }
 }

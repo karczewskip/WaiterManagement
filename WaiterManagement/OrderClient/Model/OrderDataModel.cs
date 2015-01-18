@@ -16,6 +16,7 @@ namespace OrderClient.Model
 
         private UserContext _userContext;
         private int _tableId;
+        private OrderState CurrentOrderState { get; set; }
 
         public IList<MenuItemQuantity> MenuItems { get; set; }
 
@@ -80,7 +81,25 @@ namespace OrderClient.Model
 
         public string GetCurrentOrderMessage()
         {
-            return "Waiter has taken an order";
+            if (CurrentOrderState == null)
+                return "Your Order is proccessing";
+
+            switch(CurrentOrderState)
+            {
+                case OrderState.Placed:
+                    return "Order was placed";
+                case OrderState.Accepted:
+                    return "Order was accepted";
+                case OrderState.NotRealized:
+                    return "Order was not realized";
+                case OrderState.Realized:
+                    return "Order was realized";
+                default:
+                    throw new ArgumentException("This error shouldn't be catched");
+
+            }
+
+
         }
 
         public void SetTargetMessage(IOrderViewModel orderViewModel)
@@ -121,6 +140,12 @@ namespace OrderClient.Model
         public void SetTableId(int tableId)
         {
             _tableId = tableId;
+        }
+
+
+        public void SetOrderState(OrderState state)
+        {
+            CurrentOrderState = state;
         }
     }
 }

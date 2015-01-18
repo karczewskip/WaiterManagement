@@ -34,5 +34,7 @@ namespace OrderClient.Abstract
         IList<Table> GetTables();
 
         void SetTableId(int p);
+
+        void SetOrderState(OrderState state);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrderClient.ClientDataAccessWCFService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,7 @@ namespace OrderClient.Abstract
         void CloseAddItemDialog();
 
         void CheckIfIsPosibleToAddOrder();
+
+        void SetOrderState(OrderState state);
     }
 }

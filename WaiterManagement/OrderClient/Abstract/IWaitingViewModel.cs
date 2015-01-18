@@ -8,5 +8,6 @@ namespace OrderClient.Abstract
 {
     interface IWaitingViewModel
     {
+        void RefreshMessage();
     }
 }

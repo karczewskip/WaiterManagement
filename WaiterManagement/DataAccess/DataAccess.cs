@@ -819,7 +819,7 @@ namespace DataAccess
                         SetOrderState(registrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
                         //powiadamiamy klienta o zaakceptowaniu zamówienia
                         clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
-                        break;
+                        return; //break; TODO: Do przedyskutowania!
                     }
                 }
             }
