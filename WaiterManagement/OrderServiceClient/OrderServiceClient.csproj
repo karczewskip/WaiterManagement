@@ -113,11 +113,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItem.datasource" />
-    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItemCategory.datasource" />
-    <None Include="Properties\DataSources\ClassLib.DataStructures.Order.datasource" />
-    <None Include="Properties\DataSources\ClassLib.DataStructures.Table.datasource" />
-    <None Include="Properties\DataSources\ClassLib.DataStructures.UserContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
