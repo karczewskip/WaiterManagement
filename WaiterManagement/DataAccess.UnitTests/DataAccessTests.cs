@@ -566,7 +566,7 @@ namespace DataAccess.UnitTests
             order1 = clientDataAccess.AddOrder(clientContext1.Id, table1.Id, menuItems);
             Assert.IsNotNull(order1);
             Assert.AreNotEqual(order1.Id, 0);
-            Assert.AreEqual(order1.UserId, clientContext1.Id);
+            Assert.AreEqual(order1.Client.Id, clientContext1.Id);
             //Assert.IsNotNull(order1.Waiter);
             //Assert.AreEqual(order1.Waiter.Id, waiterContext1.Id);
             Assert.AreEqual(order1.State, OrderState.Placed);
