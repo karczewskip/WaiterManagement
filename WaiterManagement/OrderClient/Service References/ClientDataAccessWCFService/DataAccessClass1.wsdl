@@ -1220,10 +1220,10 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" />
-      <xsd:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" />
+      <xsd:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IManagerDataAccessWCFService_LogIn_InputMessage">
@@ -2046,23 +2046,23 @@
   </wsdl:binding>
   <wsdl:service name="DataAccessClass">
     <wsdl:port name="BasicHttpBinding_IManagerDataAccessWCFService" binding="tns:BasicHttpBinding_IManagerDataAccessWCFService">
-      <soap:address location="http://pawel-komputer/DataAccessIISHost/DataAccess.svc/ManagerDataAccess" />
+      <soap:address location="http://thestation/DataAccessIISHost/DataAccess.svc/ManagerDataAccess" />
     </wsdl:port>
     <wsdl:port name="WSDualHttpBinding_IWaiterDataAccessWCFService" binding="tns:WSDualHttpBinding_IWaiterDataAccessWCFService">
-      <soap12:address location="http://pawel-komputer/DataAccessIISHost/DataAccess.svc/WaiterDataAccess" />
+      <soap12:address location="http://thestation/DataAccessIISHost/DataAccess.svc/WaiterDataAccess" />
       <wsa10:EndpointReference>
-        <wsa10:Address>http://pawel-komputer/DataAccessIISHost/DataAccess.svc/WaiterDataAccess</wsa10:Address>
+        <wsa10:Address>http://thestation/DataAccessIISHost/DataAccess.svc/WaiterDataAccess</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Spn>host/Pawel-Komputer</Spn>
+          <Spn>host/TheStation</Spn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
     <wsdl:port name="WSDualHttpBinding_IClientDataAccessWCFService" binding="tns:WSDualHttpBinding_IClientDataAccessWCFService">
-      <soap12:address location="http://pawel-komputer/DataAccessIISHost/DataAccess.svc/ClientDataAccess" />
+      <soap12:address location="http://thestation/DataAccessIISHost/DataAccess.svc/ClientDataAccess" />
       <wsa10:EndpointReference>
-        <wsa10:Address>http://pawel-komputer/DataAccessIISHost/DataAccess.svc/ClientDataAccess</wsa10:Address>
+        <wsa10:Address>http://thestation/DataAccessIISHost/DataAccess.svc/ClientDataAccess</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Spn>host/Pawel-Komputer</Spn>
+          <Spn>host/TheStation</Spn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

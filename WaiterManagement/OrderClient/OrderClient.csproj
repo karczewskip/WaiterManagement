@@ -181,19 +181,19 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\ClientDataAccessWCFService\DataAccess.xsd">
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ClientDataAccessWCFService\DataAccess1.xsd">
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess41.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ClientDataAccessWCFService\DataAccess2.xsd">
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess42.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ClientDataAccessWCFService\DataAccess3.xsd">
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess43.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ClientDataAccessWCFService\DataAccessClass.wsdl" />
+    <None Include="Service References\ClientDataAccessWCFService\DataAccessClass1.wsdl" />
     <None Include="Service References\ClientDataAccessWCFService\OrderClient.ClientDataAccessWCFService.MenuItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -226,9 +226,6 @@
     <WCFMetadataStorage Include="Service References\ClientDataAccessWCFService\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ClientDataAccessWCFService\DataAccess.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\ClientDataAccessWCFService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +236,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ClientDataAccessWCFService\DataAccess1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="UserContext">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransferObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Role" type="tns:UserRole" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UserContext" nillable="true" type="tns:UserContext" />
+  <xs:complexType name="BaseTransferObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseTransferObject" nillable="true" type="tns:BaseTransferObject" />
+  <xs:simpleType name="UserRole">
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Client" />
+          <xs:enumeration value="Waiter">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Manager">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">256</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="UserRole" nillable="true" type="tns:UserRole" />
+  <xs:complexType name="ArrayOfMenuItemCategory">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MenuItemCategory" nillable="true" type="tns:MenuItemCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMenuItemCategory" nillable="true" type="tns:ArrayOfMenuItemCategory" />
+  <xs:complexType name="MenuItemCategory">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransferObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MenuItemCategory" nillable="true" type="tns:MenuItemCategory" />
+  <xs:complexType name="ArrayOfMenuItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MenuItem" nillable="true" type="tns:MenuItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMenuItem" nillable="true" type="tns:ArrayOfMenuItem" />
+  <xs:complexType name="MenuItem">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransferObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Category" nillable="true" type="tns:MenuItemCategory" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Price" nillable="true" type="tns:Money" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MenuItem" nillable="true" type="tns:MenuItem" />
+  <xs:complexType name="Money">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:float" />
+      <xs:element minOccurs="0" name="Currency" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Money" nillable="true" type="tns:Money" />
+  <xs:complexType name="ArrayOfTable">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Table" nillable="true" type="tns:Table" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTable" nillable="true" type="tns:ArrayOfTable" />
+  <xs:complexType name="Table">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransferObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Number" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Table" nillable="true" type="tns:Table" />
+  <xs:complexType name="ArrayOfUserContext">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserContext" nillable="true" type="tns:UserContext" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserContext" nillable="true" type="tns:ArrayOfUserContext" />
+  <xs:complexType name="ArrayOfOrder">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Order" nillable="true" type="tns:Order" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOrder" nillable="true" type="tns:ArrayOfOrder" />
+  <xs:complexType name="Order">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransferObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Client" nillable="true" type="tns:UserContext" />
+          <xs:element minOccurs="0" name="ClosingDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="MenuItems" nillable="true" type="tns:ArrayOfMenuItemQuantity" />
+          <xs:element minOccurs="0" name="PlacingDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="State" type="tns:OrderState" />
+          <xs:element minOccurs="0" name="Table" nillable="true" type="tns:Table" />
+          <xs:element minOccurs="0" name="Waiter" nillable="true" type="tns:UserContext" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Order" nillable="true" type="tns:Order" />
+  <xs:complexType name="ArrayOfMenuItemQuantity">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MenuItemQuantity" nillable="true" type="tns:MenuItemQuantity" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMenuItemQuantity" nillable="true" type="tns:ArrayOfMenuItemQuantity" />
+  <xs:complexType name="MenuItemQuantity">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseTransferObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="MenuItem" nillable="true" type="tns:MenuItem" />
+          <xs:element minOccurs="0" name="Quantity" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MenuItemQuantity" nillable="true" type="tns:MenuItemQuantity" />
+  <xs:simpleType name="OrderState">
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Placed">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Accepted">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Realized">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NotRealized">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="OrderState" nillable="true" type="tns:OrderState" />
+</xs:schema>
