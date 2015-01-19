@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace OrderServiceClient
 {
@@ -18,12 +19,14 @@ namespace OrderServiceClient
 
         public bool AcceptNewOrder(WaiterDataAccessWCFService.Order order)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("Accepted order");
+            return true;
         }
 
         public bool ConfirmUserPaid(int userId)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("Confirmed user paid");
+            return true;
         }
     }
 }

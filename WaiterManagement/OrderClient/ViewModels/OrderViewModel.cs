@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using OrderClient.Abstract;
+using OrderClient.ClientDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,6 +67,17 @@ namespace OrderClient.ViewModels
         public void CheckIfIsPosibleToAddOrder()
         {
             NotifyOfPropertyChange(() => CanAddCurrentOrder);
+        }
+
+        private void RefreshMessage()
+        {
+            _waitingDialog.RefreshMessage();
+        }
+
+        public void SetOrderState(OrderState state)
+        {
+            _orderDataModel.SetOrderState(state);
+            _waitingDialog.RefreshMessage();
         }
     }
 }

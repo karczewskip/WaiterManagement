@@ -1,4 +1,5 @@
 ﻿using OrderClient.Abstract;
+using OrderClient.ClientDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,13 @@ namespace OrderClient
 
         public void NotifyOrderAccepted(int orderId, ClientDataAccessWCFService.UserContext waiter)
         {
+            _orderViewModel.SetOrderState(OrderState.Accepted);
             MessageBox.Show("Accepted");
         }
 
         public void NotifyOrderOnHold(int orderId)
         {
+            _orderViewModel.SetOrderState(OrderState.Placed);
             MessageBox.Show("OnHold");
         }
 
