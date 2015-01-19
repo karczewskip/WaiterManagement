@@ -799,6 +799,8 @@ namespace DataAccess
             if (orderToAssign == null)
                 return;
 
+            bool foundWaiter = false;
+
             var clientRegistrationRecord =
                 clientRegistrationRecords.FirstOrDefault(r => r.ClientId == orderToAssign.Client.Id);
 
@@ -811,6 +813,7 @@ namespace DataAccess
                 {
                     if (registrationRecord.Callback.AcceptNewOrder(orderToAssign))
                     {
+                        foundWaiter = true;
                         //zapisujemy, że kelner będzie się zajmował tym zadaniem
                         waiterOrderDictionary[registrationRecord] = orderToAssign;
                         //ustawiamy kelnera jako obsługujący zadanie w bazie danych
@@ -824,10 +827,13 @@ namespace DataAccess
                 }
             }
 
-            //nie udało się przydzielić zamówienia żadnemu kelnerowi
-            awaitingOrderCollection.Enqueue(orderToAssign);
-            //powiadamiamy klienta o braku dostępnych kelnerów
-            clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id);
+            if (!foundWaiter)
+            {
+                //nie udało się przydzielić zamówienia żadnemu kelnerowi
+                awaitingOrderCollection.Enqueue(orderToAssign);
+                //powiadamiamy klienta o braku dostępnych kelnerów
+                clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id);
+            }
         }
         #endregion
 
