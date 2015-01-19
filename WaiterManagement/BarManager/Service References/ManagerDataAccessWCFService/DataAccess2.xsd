@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" />
-  <xs:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" />
   <xs:element name="LogIn">
     <xs:complexType>
       <xs:sequence>
@@ -379,119 +378,6 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="SetOrderStateResult" type="xs:boolean" />
       </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AcceptNewOrder">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="order" nillable="true" type="q21:Order" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AcceptNewOrderResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="AcceptNewOrderResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ConfirmUserPaid">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ConfirmUserPaidResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="ConfirmUserPaidResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddClient">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="firstName" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="lastName" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddClientResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="AddClientResult" nillable="true" type="q22:UserContext" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddOrder">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
-        <xs:element minOccurs="0" name="tableId" type="xs:int" />
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="menuItems" nillable="true" type="q23:ArrayOfTupleOfintint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AddOrderResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="AddOrderResult" nillable="true" type="q24:Order" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="PayForOrder">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
-        <xs:element minOccurs="0" name="orderId" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="PayForOrderResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="PayForOrderResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NotifyOrderAccepted">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="orderId" type="xs:int" />
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" minOccurs="0" name="waiter" nillable="true" type="q25:UserContext" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NotifyOrderAcceptedResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NotifyOrderOnHold">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="orderId" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NotifyOrderOnHoldResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NotifyOrderAwaitingDelivery">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="oderId" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="NotifyOrderAwaitingDeliveryResponse">
-    <xs:complexType>
-      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

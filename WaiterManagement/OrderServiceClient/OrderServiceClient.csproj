@@ -113,11 +113,29 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItem.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.MenuItemCategory.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Order.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.Table.datasource" />
+    <None Include="Properties\DataSources\ClassLib.DataStructures.UserContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -139,25 +157,15 @@
     <WCFMetadataStorage Include="Service References\WaiterDataAccessWCFService\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\WaiterDataAccessWCFService\DataAccess.disco" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Service References\WaiterDataAccessWCFService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\WaiterDataAccessWCFService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\WaiterDataAccessWCFService\DataAccess4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\DataAccess41.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\DataAccess42.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\DataAccess43.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\DataAccessClass1.wsdl" />
     <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItem.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -183,9 +191,6 @@
       <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
       <Name>ClassLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\WaiterDataAccessWCFService\DataAccess1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

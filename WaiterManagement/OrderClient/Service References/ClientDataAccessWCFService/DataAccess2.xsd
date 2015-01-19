@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ClassLib.DataStructures" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="UserContext">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseTransferObject">
@@ -120,12 +120,12 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseTransferObject">
         <xs:sequence>
+          <xs:element minOccurs="0" name="Client" nillable="true" type="tns:UserContext" />
           <xs:element minOccurs="0" name="ClosingDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="MenuItems" nillable="true" type="tns:ArrayOfMenuItemQuantity" />
           <xs:element minOccurs="0" name="PlacingDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="State" type="tns:OrderState" />
           <xs:element minOccurs="0" name="Table" nillable="true" type="tns:Table" />
-          <xs:element minOccurs="0" name="UserId" type="xs:int" />
           <xs:element minOccurs="0" name="Waiter" nillable="true" type="tns:UserContext" />
         </xs:sequence>
       </xs:extension>
