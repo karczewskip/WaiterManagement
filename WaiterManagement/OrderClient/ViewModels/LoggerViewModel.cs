@@ -37,6 +37,13 @@ namespace OrderClient.ViewModels
             set { _lastName = value; }
         }
 
+        private bool _registrationMode;
+        public bool RegistrationMode 
+        {
+            get { return _registrationMode; }
+            set { _registrationMode = value; }
+        }
+
         public LoggerViewModel(IMainWindowViewModel mainWindow,IOrderDataModel orderDataModel)
         {
             _mainWindow = mainWindow;
@@ -45,7 +52,11 @@ namespace OrderClient.ViewModels
 
         public void LogIn(LoggerView view)
         {
-            _orderDataModel.AddClient(FirstName, LastName, _userName, view.PasswordB.Password);
+            if (_registrationMode)
+                _orderDataModel.AddClient(FirstName, LastName, _userName, view.PasswordB.Password);
+            else
+                _orderDataModel.Login(_userName, view.PasswordB.Password);
+
             _mainWindow.LogIn();
         }
         

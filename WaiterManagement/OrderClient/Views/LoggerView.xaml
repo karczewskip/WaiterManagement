@@ -18,6 +18,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Content="FirstName" />
@@ -29,5 +31,6 @@
         <Label Content="Password" Grid.Row="6" />
         <PasswordBox x:Name="PasswordB" Grid.Row="7" />
         <Button cm:Message.Attach="[Event Click] = [Action LogIn($View)]" Content="Log in" Grid.Row="9" />
+        <CheckBox x:Name="RegistrationMode" Grid.Row="11" Content="Login with registration"/>
     </Grid>
 </UserControl>

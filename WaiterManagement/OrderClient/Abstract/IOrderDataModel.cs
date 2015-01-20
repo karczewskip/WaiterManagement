@@ -36,5 +36,7 @@ namespace OrderClient.Abstract
         void SetTableId(int p);
 
         void SetOrderState(OrderState state);
+
+        void Login(string _userName, string p);
     }
 }

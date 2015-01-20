@@ -111,7 +111,7 @@ namespace OrderClient.Model
         public void AddClient(string firstName, string lastName, string login, string password)
         {
             _clientDataAccess.AddClient(firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
-            _userContext = _clientDataAccess.LogIn(firstName, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+            _userContext = _clientDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
 
             if (_userContext != null)
                 MessageBox.Show("Success");
@@ -145,6 +145,12 @@ namespace OrderClient.Model
         public void SetOrderState(OrderState state)
         {
             CurrentOrderState = state;
+        }
+
+
+        public void Login(string login, string password)
+        {
+            _userContext = _clientDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
         }
     }
 }
