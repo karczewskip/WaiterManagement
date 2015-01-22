@@ -623,21 +623,27 @@ namespace DataAccess
                 if (order == null)
                     throw new ArgumentException(String.Format("No such Order (id={0}) exists", orderId));
 
-               
+
+                //Nie można zmienić stan zamówienia innego kelnera
+                if (order.Waiter.Id != waiterId)
+                    return false;
+
                 if (state.Equals(OrderState.Accepted))
                 {
                     //Nie można zaakceptować zamówienia, który jest w stanie innym niż Placed
                     if(!order.State.Equals(OrderState.Placed))
                         return false;
                 }
+                else if (state.Equals(OrderState.AwaitingDelivery))
+                {
+                    //Nie można zakończyć przygotowanie zamówienia, które nie zostało zaakceptowane
+                    if (!order.State.Equals(OrderState.Accepted))
+                        return false;
+                }
                 else if(state.Equals(OrderState.Realized) || state.Equals(OrderState.NotRealized) )
                 {
-                    //Nie można zmienić stan zamówienia innego kelnera
-                    if (order.Waiter.Id != waiterId)
-                        return false;
-
-                    //Nie można zakończyć zamówienie, które nie jest w stanie accepted
-                    if (!order.State.Equals(OrderState.Accepted))
+                    //Nie można zakończyć zamówienie, które nie jest w stanie AwaitingDelivery
+                    if (!order.State.Equals(OrderState.AwaitingDelivery))
                         return false;
 
                     order.ClosingDate = DateTime.Now;
@@ -645,6 +651,14 @@ namespace DataAccess
 
                 order.State = state;
                 db.SaveChanges();
+
+                if (state.Equals(OrderState.AwaitingDelivery))
+                {
+                    var clientRegRec = clientRegistrationRecords.FirstOrDefault(r => r.ClientId == order.Client.Id);
+                    if(clientRegRec != null)
+                        clientRegRec.Callback.NotifyOrderAwaitingDelivery(order.Id);
+                }
+
                 return true;
             }
         }
