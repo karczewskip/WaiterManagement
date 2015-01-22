@@ -11,11 +11,13 @@ namespace OrderServiceClient.Model
     class WaiterDataModel : IWaiterDataModel
     {
         private IWaiterDataAccess _waiterDataAccess;
+        private IOrderNotyficator _orderNotyficator;
         private UserContext waiterUserContext;
 
-        public WaiterDataModel(IWaiterDataAccess waiterDataAccess)
+        public WaiterDataModel(IWaiterDataAccess waiterDataAccess, IOrderNotyficator orderNotyficator)
         {
             _waiterDataAccess = waiterDataAccess;
+            _orderNotyficator = orderNotyficator;
             waiterUserContext = null;
         }
 
@@ -24,10 +26,15 @@ namespace OrderServiceClient.Model
             waiterUserContext = _waiterDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
         }
 
-
         public bool IsLogged()
         {
             return waiterUserContext != null;
+        }
+
+
+        public void AcceptOrder()
+        {
+            _orderNotyficator.AcceptCurrentOrder();
         }
     }
 }

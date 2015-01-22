@@ -9,5 +9,9 @@ namespace OrderServiceClient.Abstract
     interface IMainWindowViewModel
     {
         void LogIn();
+
+        void ShowNewOrder(WaiterDataAccessWCFService.Order order);
+
+        bool GetConfirmFromWaiter(WaiterDataAccessWCFService.Order order);
     }
 }

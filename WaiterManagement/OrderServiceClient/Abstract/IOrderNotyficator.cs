@@ -10,5 +10,7 @@ namespace OrderServiceClient.Abstract
     interface IOrderNotyficator: IWaiterDataAccessWCFServiceCallback
     {
         void SetTarget(IMainWindowViewModel mainWindow);
+
+        void AcceptCurrentOrder();
     }
 }

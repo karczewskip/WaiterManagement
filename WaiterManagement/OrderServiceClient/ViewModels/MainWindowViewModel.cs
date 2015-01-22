@@ -12,10 +12,13 @@ namespace OrderServiceClient.ViewModels
     class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
     {
         private IDialogLogin _dialogLogin;
+        private IOrderDialog _orderDialog;
         private IWaiterDataModel _waiterDataModel;
+        private IWindowManager _windowManager;
 
-        public MainWindowViewModel(IOrderNotyficator _orderNotyficator, IWaiterDataModel waiterDataModel)
+        public MainWindowViewModel(IWindowManager windowManager, IOrderNotyficator _orderNotyficator, IWaiterDataModel waiterDataModel)
         {
+            _windowManager = windowManager;
             _waiterDataModel = waiterDataModel;
             _orderNotyficator.SetTarget(this);
 
@@ -28,6 +31,24 @@ namespace OrderServiceClient.ViewModels
         {
             if(_waiterDataModel.IsLogged())
                 DeactivateItem(_dialogLogin, true);
+        }
+
+
+        public void ShowNewOrder(WaiterDataAccessWCFService.Order order)
+        {
+            _orderDialog = new OrderViewModel(this, _waiterDataModel);
+            ActivateItem(_orderDialog);
+        }
+
+
+        public bool GetConfirmFromWaiter(WaiterDataAccessWCFService.Order order)
+        {
+            var result = _windowManager.ShowDialog(new ConfirmOrderViewModel(order));
+
+            if (result.HasValue)
+                return result.Value;
+
+            return false;
         }
     }
 }

@@ -76,6 +76,7 @@
     </ApplicationDefinition>
     <Compile Include="Abstract\IDialogLogin.cs" />
     <Compile Include="Abstract\IMainWindowViewModel.cs" />
+    <Compile Include="Abstract\IOrderDialog.cs" />
     <Compile Include="Abstract\IOrderNotyficator.cs" />
     <Compile Include="Abstract\IWaiterDataAccess.cs" />
     <Compile Include="Abstract\IWaiterDataModel.cs" />
@@ -92,13 +93,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ConfirmOrderViewModel.cs" />
     <Compile Include="ViewModels\LoggerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="Views\ConfirmOrderView.xaml.cs">
+      <DependentUpon>ConfirmOrderView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoggerView.xaml.cs">
       <DependentUpon>LoggerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrderView.xaml.cs">
+      <DependentUpon>OrderView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -151,11 +160,19 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ConfirmOrderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoggerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

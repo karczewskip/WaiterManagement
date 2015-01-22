@@ -12,5 +12,7 @@ namespace OrderServiceClient.Abstract
         void LogIn(string _userName, string password);
 
         bool IsLogged();
+
+        void AcceptOrder();
     }
 }
