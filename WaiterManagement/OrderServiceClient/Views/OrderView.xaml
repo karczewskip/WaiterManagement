@@ -10,6 +10,7 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Button x:Name="Accept" Grid.Row="1" Content="Accept Order"/>
+        <TextBlock x:Name="OrderDetails" />
+        <Button x:Name="Ready" Grid.Row="1" Content="Ready"/>
     </Grid>
 </UserControl>

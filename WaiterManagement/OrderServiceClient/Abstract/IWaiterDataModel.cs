@@ -14,5 +14,9 @@ namespace OrderServiceClient.Abstract
         bool IsLogged();
 
         void AcceptOrder();
+
+        void SetOrderAwaiting(Order order);
+
+        void NotifyReady(Order order);
     }
 }

@@ -13,5 +13,7 @@ namespace OrderServiceClient.Abstract
         void ShowNewOrder(WaiterDataAccessWCFService.Order order);
 
         bool GetConfirmFromWaiter(WaiterDataAccessWCFService.Order order);
+
+        void ShowAcceptedOrder(WaiterDataAccessWCFService.Order order);
     }
 }

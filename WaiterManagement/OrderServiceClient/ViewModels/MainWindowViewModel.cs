@@ -36,7 +36,7 @@ namespace OrderServiceClient.ViewModels
 
         public void ShowNewOrder(WaiterDataAccessWCFService.Order order)
         {
-            _orderDialog = new OrderViewModel(this, _waiterDataModel);
+            _orderDialog = new OrderViewModel(this, _waiterDataModel, order);
             ActivateItem(_orderDialog);
         }
 
@@ -49,6 +49,14 @@ namespace OrderServiceClient.ViewModels
                 return result.Value;
 
             return false;
+        }
+
+
+
+        public void ShowAcceptedOrder(WaiterDataAccessWCFService.Order order)
+        {
+            _orderDialog = new OrderViewModel(this, _waiterDataModel, order);
+            ActivateItem(_orderDialog);
         }
     }
 }

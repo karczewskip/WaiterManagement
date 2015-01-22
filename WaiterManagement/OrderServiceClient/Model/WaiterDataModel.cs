@@ -36,5 +36,16 @@ namespace OrderServiceClient.Model
         {
             _orderNotyficator.AcceptCurrentOrder();
         }
+
+
+        public void SetOrderAwaiting(Order order)
+        {
+            _waiterDataAccess.SetOrderState(waiterUserContext.Id, order.Id, OrderState.Accepted);
+        }
+
+        public void NotifyReady(Order order)
+        {
+            _waiterDataAccess.SetOrderState(waiterUserContext.Id, order.Id, OrderState.AwaitingDelivery);
+        }
     }
 }

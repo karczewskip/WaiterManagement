@@ -13,7 +13,6 @@ namespace OrderServiceClient
     class OrderNotyficator : IOrderNotyficator
     {
         private IMainWindowViewModel _mainWindow;
-        private CancellationTokenSource _cancelationWaiterResponse;
 
         public void SetTarget(IMainWindowViewModel mainWindow)
         {
@@ -22,12 +21,13 @@ namespace OrderServiceClient
 
         public bool AcceptNewOrder(Order order)
         {
-            return _mainWindow.GetConfirmFromWaiter(order);
-        }
+            if(_mainWindow.GetConfirmFromWaiter(order))
+            {
+                _mainWindow.ShowAcceptedOrder(order);
+                return true;
+            }
 
-        private void WaitForWaiterRespond()
-        {
-            System.Threading.Thread.Sleep(10000);
+            return false;
         }
 
         private void NotifyWaiterAboutNewOrder(Order order)
@@ -44,7 +44,7 @@ namespace OrderServiceClient
 
         public void AcceptCurrentOrder()
         {
-            _cancelationWaiterResponse.Cancel();
+            throw new NotImplementedException();
         }
     }
 }

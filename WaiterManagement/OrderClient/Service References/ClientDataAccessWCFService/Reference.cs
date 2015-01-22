@@ -534,6 +534,9 @@ namespace OrderClient.ClientDataAccessWCFService {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         NotRealized = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        AwaitingDelivery = 4,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]

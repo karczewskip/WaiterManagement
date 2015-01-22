@@ -1,4 +1,5 @@
 ﻿using OrderServiceClient.Abstract;
+using OrderServiceClient.WaiterDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +13,33 @@ namespace OrderServiceClient.ViewModels
     {
         private IMainWindowViewModel _mainWindow;
         private IWaiterDataModel _waiterDataModel;
+        private Order _order;
 
-        public OrderViewModel(IMainWindowViewModel mainWindow, IWaiterDataModel waiterDataModel)
+        public OrderViewModel(IMainWindowViewModel mainWindow, IWaiterDataModel waiterDataModel, Order order)
         {
             _mainWindow = mainWindow;
             _waiterDataModel = waiterDataModel;
+            _order = order;
         }
 
-        public void Accept()
+        public string OrderDetails
         {
-            _waiterDataModel.AcceptOrder();
+            get
+            {
+                var content = new StringBuilder();
+                foreach (var o in _order.MenuItems)
+                {
+                    content.Append(o.MenuItem.Name + "(" + o.Quantity + "),");
+                }
+                return "Client:  " + _order.Client.Login +
+                ",\nTable: " + _order.Table.Description +
+                ",\nContent: " + content.ToString();
+            }
+        }
+
+        public void Ready()
+        {
+            _waiterDataModel.NotifyReady(_order);
         }
     }
 }
