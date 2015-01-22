@@ -37,7 +37,11 @@ namespace OrderServiceClient
 
         public bool ConfirmUserPaid(int userId)
         {
-            MessageBox.Show("Confirmed user paid");
+            //if(_mainWindow.GetConfirmPayd(order))
+            //{
+            //    //_mainWindow.Close
+            //    return true;
+            //}
             return true;
         }
 
