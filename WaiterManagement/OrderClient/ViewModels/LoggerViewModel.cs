@@ -57,6 +57,8 @@ namespace OrderClient.ViewModels
             else
                 _orderDataModel.Login(_userName, view.PasswordB.Password);
 
+            if(_orderDataModel.IsLogged())
+
             _mainWindow.LogIn();
         }
         

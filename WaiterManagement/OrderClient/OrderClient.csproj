@@ -125,6 +125,10 @@
     <Compile Include="Views\WaitingView.xaml.cs">
       <DependentUpon>WaitingView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Style\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\AddItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -2,12 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525" ResizeMode="NoResize">
-    <Grid>
+    <Grid Style="{DynamicResource ResourceKey=BackgroundGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <ContentControl x:Name="ActiveItem" />
-        <Label Grid.Row="1" Content="There is no order for you" />
+        <Label Grid.Row="1" Content="There is no order for you" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </Window>

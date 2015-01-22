@@ -40,5 +40,7 @@ namespace OrderClient.Abstract
         void Login(string _userName, string p);
 
         void Pay();
+
+        bool IsLogged();
     }
 }

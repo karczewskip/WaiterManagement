@@ -113,9 +113,6 @@ namespace OrderClient.Model
         {
             _clientDataAccess.AddClient(firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
             _userContext = _clientDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
-
-            if (_userContext != null)
-                MessageBox.Show("Success");
         }
 
 
@@ -153,12 +150,20 @@ namespace OrderClient.Model
         public void Login(string login, string password)
         {
             _userContext = _clientDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+
+
         }
 
 
         public void Pay()
         {
             _clientDataAccess.PayForOrder(_userContext.Id, _currentOrder.Id);
+        }
+
+
+        public bool IsLogged()
+        {
+            return _userContext != null;
         }
     }
 }

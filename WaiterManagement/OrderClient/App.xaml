@@ -5,9 +5,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="/Style/Style.xaml"/>-->
+                <ResourceDictionary Source="/Style/Style.xaml"/>
                 <ResourceDictionary>
-                    <!--<orderClient:AppBootstrapper x:Key="bootstrapper" />-->
                     <orderClient:AppBootstrapper x:Key="bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
