@@ -52,6 +52,11 @@ namespace ClassLib.DataStructures
         /// </summary>
         [EnumMember]
         NotRealized,
+        /// <summary>
+        /// Oczekujące na dostarczenie
+        /// </summary>
+        [EnumMember]
+        AwaitingDelivery,
     }
 
     /// <summary>
