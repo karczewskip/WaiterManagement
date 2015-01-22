@@ -15,5 +15,9 @@ namespace OrderServiceClient.Abstract
         bool GetConfirmFromWaiter(WaiterDataAccessWCFService.Order order);
 
         void ShowAcceptedOrder(WaiterDataAccessWCFService.Order order);
+
+        bool GetConfirmPayd();
+
+        void CloseCurrentOrder();
     }
 }

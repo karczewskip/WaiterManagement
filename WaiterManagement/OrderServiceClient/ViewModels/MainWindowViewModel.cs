@@ -58,5 +58,22 @@ namespace OrderServiceClient.ViewModels
             _orderDialog = new OrderViewModel(this, _waiterDataModel, order);
             ActivateItem(_orderDialog);
         }
+
+
+        public bool GetConfirmPayd()
+        {
+            var result = _windowManager.ShowDialog(new ConfirmPayViewModel());
+
+            if (result.HasValue)
+                return result.Value;
+
+            return false;
+        }
+
+
+        public void CloseCurrentOrder()
+        {
+            DeactivateItem(_orderDialog, true);
+        }
     }
 }

@@ -53,5 +53,11 @@ namespace OrderClient.ViewModels
         {
             
         }
+
+
+        public void CloseOrder()
+        {
+            DeactivateItem(_dialogOrderWindow, true);
+        }
     }
 }

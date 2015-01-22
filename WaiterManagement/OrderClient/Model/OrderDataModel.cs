@@ -129,6 +129,7 @@ namespace OrderClient.Model
                 m.Add(new TupleOfintint() { m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity });
             }
             _currentOrder = _clientDataAccess.AddOrder(_userContext.Id, _tableId, m.ToArray());
+            CurrentOrderState = OrderState.Placed;
         }
 
 

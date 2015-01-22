@@ -15,5 +15,7 @@ namespace OrderClient.Abstract
         void StartGettingOrders();
 
         void ShowPayingDialog();
+
+        void CloseOrder();
     }
 }

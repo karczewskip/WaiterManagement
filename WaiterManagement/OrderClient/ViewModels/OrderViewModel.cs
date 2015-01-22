@@ -91,7 +91,7 @@ namespace OrderClient.ViewModels
 
         public void CloseOrder()
         {
-            DeactivateItem(_payingWindow, true);
+            _mainWindow.CloseOrder();
         }
     }
 }

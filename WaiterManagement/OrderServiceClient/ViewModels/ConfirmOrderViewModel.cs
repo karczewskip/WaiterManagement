@@ -13,7 +13,6 @@ namespace OrderServiceClient.ViewModels
 
         public ConfirmOrderViewModel(WaiterDataAccessWCFService.Order order)
         {
-            // TODO: Complete member initialization
             this.order = order;
         }
 

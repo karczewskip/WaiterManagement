@@ -37,12 +37,12 @@ namespace OrderServiceClient
 
         public bool ConfirmUserPaid(int userId)
         {
-            //if(_mainWindow.GetConfirmPayd(order))
-            //{
-            //    //_mainWindow.Close
-            //    return true;
-            //}
-            return true;
+            if (_mainWindow.GetConfirmPayd())
+            {
+                _mainWindow.CloseCurrentOrder();
+                return true;
+            }
+            return false;
         }
 
 
