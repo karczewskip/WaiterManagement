@@ -619,7 +619,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var order = db.Orders.Find(orderId);
+                var order = db.Orders.Include("Client").FirstOrDefault( o => o.Id == orderId);
                 if (order == null)
                     throw new ArgumentException(String.Format("No such Order (id={0}) exists", orderId));
 
