@@ -16,6 +16,7 @@ namespace OrderClient.ViewModels
         private ICurrentOrder _currentOrderDialog;
         private IDialogOrder _addItemDialog;
         private IWaitingViewModel _waitingDialog;
+        private IPayingWindow _payingWindow;
 
         private IOrderDataModel _orderDataModel;
 
@@ -78,6 +79,19 @@ namespace OrderClient.ViewModels
         {
             _orderDataModel.SetOrderState(state);
             _waitingDialog.RefreshMessage();
+        }
+
+
+        public void ShowPayingWindow()
+        {
+            _payingWindow = new PayingViewModel(this,_orderDataModel);
+            ActivateItem(_payingWindow);
+        }
+
+
+        public void CloseOrder()
+        {
+            DeactivateItem(_payingWindow, true);
         }
     }
 }

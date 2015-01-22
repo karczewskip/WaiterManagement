@@ -38,5 +38,7 @@ namespace OrderClient.Abstract
         void SetOrderState(OrderState state);
 
         void Login(string _userName, string p);
+
+        void Pay();
     }
 }

@@ -9,5 +9,9 @@ namespace OrderClient.Abstract
         void CheckIfIsPosibleToAddOrder();
 
         void SetOrderState(OrderState state);
+
+        void ShowPayingWindow();
+
+        void CloseOrder();
     }
 }

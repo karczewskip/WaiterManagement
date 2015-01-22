@@ -21,18 +21,16 @@ namespace OrderClient
         public void NotifyOrderAccepted(int orderId, ClientDataAccessWCFService.UserContext waiter)
         {
             _orderViewModel.SetOrderState(OrderState.Accepted);
-            MessageBox.Show("Accepted");
         }
 
         public void NotifyOrderOnHold(int orderId)
         {
             _orderViewModel.SetOrderState(OrderState.Placed);
-            MessageBox.Show("OnHold");
         }
 
         public void NotifyOrderAwaitingDelivery(int oderId)
         {
-            MessageBox.Show("AwaitingDelivery");
+            _orderViewModel.ShowPayingWindow();
         }
     }
 }

@@ -6,14 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderClient.Abstract
 {
-    public interface IMainWindowViewModel
+    interface IPayingWindow
     {
-        void CancelOrder();
-
-        void LogIn();
-
-        void StartGettingOrders();
-
-        void ShowPayingDialog();
     }
 }

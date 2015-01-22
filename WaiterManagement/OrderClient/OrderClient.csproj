@@ -84,6 +84,7 @@
     <Compile Include="Abstract\IOrderDataModel.cs" />
     <Compile Include="Abstract\IOrderNotyficator.cs" />
     <Compile Include="Abstract\IOrderViewModel.cs" />
+    <Compile Include="Abstract\IPayingWindow.cs" />
     <Compile Include="Abstract\IWaitingViewModel.cs" />
     <Compile Include="Converters\IndexConverter.cs" />
     <Compile Include="Converters\OrderContentConverter.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="ViewModels\CurrentOrderViewModel.cs" />
     <Compile Include="ViewModels\LoggerViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\PayingViewModel.cs" />
     <Compile Include="ViewModels\WaitingViewModel.cs" />
     <Compile Include="Views\AddItemView.xaml.cs">
       <DependentUpon>AddItemView.xaml</DependentUpon>
@@ -116,6 +118,9 @@
     </Compile>
     <Compile Include="Views\OrderView.xaml.cs">
       <DependentUpon>OrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PayingView.xaml.cs">
+      <DependentUpon>PayingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WaitingView.xaml.cs">
       <DependentUpon>WaitingView.xaml</DependentUpon>
@@ -151,6 +156,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\OrderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PayingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -47,5 +47,11 @@ namespace OrderClient.ViewModels
         {
             DeactivateItem(_chooseTabelViewModel, true);
         }
+
+
+        public void ShowPayingDialog()
+        {
+            
+        }
     }
 }

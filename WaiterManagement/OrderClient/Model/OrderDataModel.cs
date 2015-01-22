@@ -14,6 +14,7 @@ namespace OrderClient.Model
         private IClientDataAccess _clientDataAccess;
         private IOrderNotyficator _orderNotyficator;
 
+        private Order _currentOrder;
         private UserContext _userContext;
         private int _tableId;
         private OrderState CurrentOrderState { get; set; }
@@ -127,7 +128,7 @@ namespace OrderClient.Model
             {
                 m.Add(new TupleOfintint() { m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity });
             }
-            _clientDataAccess.AddOrder(_userContext.Id, _tableId, m.ToArray());
+            _currentOrder = _clientDataAccess.AddOrder(_userContext.Id, _tableId, m.ToArray());
         }
 
 
@@ -151,6 +152,12 @@ namespace OrderClient.Model
         public void Login(string login, string password)
         {
             _userContext = _clientDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+        }
+
+
+        public void Pay()
+        {
+            _clientDataAccess.PayForOrder(_userContext.Id, _currentOrder.Id);
         }
     }
 }
