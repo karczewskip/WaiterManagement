@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c5445521-060a-4b6e-85b1-2d5da3ff776d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="baa649ee-76e7-464d-910a-6008433f47a6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,12 +22,12 @@
     <MetadataSource Address="http://localhost/DataAccessIISHost/DataAccess.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="DataAccess2.xsd" MetadataType="Schema" ID="79d33020-faa1-4bc8-ba57-95674413fddb" SourceId="1" SourceUrl="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd0" />
-    <MetadataFile FileName="DataAccess3.xsd" MetadataType="Schema" ID="9212016a-86af-4ba5-ad6e-f6a1e16dfe51" SourceId="1" SourceUrl="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd3" />
-    <MetadataFile FileName="DataAccess1.xsd" MetadataType="Schema" ID="30ee248b-e0a8-4aa9-883c-dbe41c7adee4" SourceId="1" SourceUrl="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd2" />
-    <MetadataFile FileName="DataAccess.disco" MetadataType="Disco" ID="cf3eeaa6-532b-44c1-9148-283f72b54624" SourceId="1" SourceUrl="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?disco" />
-    <MetadataFile FileName="DataAccess.xsd" MetadataType="Schema" ID="935ee31b-8396-4473-945e-c39443ca9f92" SourceId="1" SourceUrl="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?xsd=xsd1" />
-    <MetadataFile FileName="DataAccessClass.wsdl" MetadataType="Wsdl" ID="c2587c2f-aeeb-475e-a8da-930c73a0b96f" SourceId="1" SourceUrl="http://pawel-komputer/DataAccessIISHost/DataAccess.svc?wsdl" />
+    <MetadataFile FileName="DataAccess.xsd" MetadataType="Schema" ID="22c45c2e-5869-4d43-81c1-efc19f4e45ab" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd3" />
+    <MetadataFile FileName="DataAccess1.xsd" MetadataType="Schema" ID="3c05ea21-600f-4969-9376-5d3f55ca173a" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd2" />
+    <MetadataFile FileName="DataAccess.disco" MetadataType="Disco" ID="abdc8273-427b-4317-b124-78586de40fd7" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?disco" />
+    <MetadataFile FileName="DataAccess2.xsd" MetadataType="Schema" ID="fecedbb2-42f8-4218-b888-1e20c61e8bb6" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd0" />
+    <MetadataFile FileName="DataAccess3.xsd" MetadataType="Schema" ID="34897b37-ea82-4cf2-b569-eb86e1837d98" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?xsd=xsd1" />
+    <MetadataFile FileName="DataAccessClass.wsdl" MetadataType="Wsdl" ID="71b223e5-6645-4f11-8ab5-1a9f6ea98298" SourceId="1" SourceUrl="http://thestation/DataAccessIISHost/DataAccess.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

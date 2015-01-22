@@ -14,7 +14,7 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple,UseSynchronizationContext=false)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext=false)]
     public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
     {
         #region Private Fields
@@ -105,9 +105,14 @@ namespace DataAccess
             if (userContextEntity.Role == UserRole.Client)
                 clientRegistrationRecords.Add(new ClientRegistrationRecord(userContextEntity.Id,
                     OperationContext.Current.GetCallbackChannel<IClientDataAccessCallbackWCFService>()));
-            else if(userContextEntity.Role == UserRole.Waiter)
-                waiterOrderDictionary.Add(new WaiterRegistrationRecord(userContextEntity.Id, OperationContext.Current.GetCallbackChannel<IWaiterDataAccessCallbackWCFService>()), null);
+            else if (userContextEntity.Role == UserRole.Waiter)
+            {
+                waiterOrderDictionary.Add(
+                    new WaiterRegistrationRecord(userContextEntity.Id,
+                        OperationContext.Current.GetCallbackChannel<IWaiterDataAccessCallbackWCFService>()), null);
 
+                TryAssignAwaitingOrder();
+            }
             return new UserContext(userContextEntity);
         }
 
@@ -701,8 +706,34 @@ namespace DataAccess
 
         public bool PayForOrder(int userId, int orderId)
         {
-            //TODO
-            return true;
+            if(!CheckHasUserRole(userId, UserRole.Client))
+                throw new SecurityException(String.Format("Client id={0} is not logged in.", userId));
+
+            WaiterRegistrationRecord waiterRegRecord = null;
+            foreach(var pair in waiterOrderDictionary)
+                if (pair.Value.Id == orderId)
+                    waiterRegRecord = pair.Key;
+
+            //Zadanie nie jest aktualnie w realizacji
+            if (waiterRegRecord == null)
+                return false;
+
+            //Kelner potwierdził zapłatę
+            if (waiterRegRecord.Callback.ConfirmUserPaid(userId))
+            {
+                //Ustawiamy stan na zrealizowany
+                SetOrderState(waiterRegRecord.WaiterId, orderId, OrderState.Realized);
+                //Kelner jest wolny, gotowy na następne zamówienie
+                waiterOrderDictionary[waiterRegRecord] = null;
+
+                //Jeżeli są zadania oczekujące, próbujemy je przydzielić
+                TryAssignAwaitingOrder();
+
+                return true;
+            }
+
+            //Kelner nie potwierdził zapłatę zamówienia
+            return false;
         }
         #endregion
 
@@ -728,6 +759,16 @@ namespace DataAccess
                 return false;
 
             loggedInUsers.Remove(userToRemove);
+
+            if (userToRemove.Role == UserRole.Client)
+                clientRegistrationRecords.RemoveWhere(r => r.ClientId == userId);
+            else if (userToRemove.Role == UserRole.Waiter)
+            {
+                var waiterRegRec = waiterOrderDictionary.Keys.FirstOrDefault(r => r.WaiterId == userId);
+                if (waiterRegRec != null)
+                    waiterOrderDictionary.Remove(waiterRegRec);
+            }
+
             return true;
         }
 
@@ -834,6 +875,15 @@ namespace DataAccess
                 //powiadamiamy klienta o braku dostępnych kelnerów
                 clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id);
             }
+        }
+
+        private void TryAssignAwaitingOrder()
+        {
+            if (awaitingOrderCollection.Count == 0)
+                return;
+
+            Order order = awaitingOrderCollection.Dequeue();
+            AssignOrder(order);
         }
         #endregion
 

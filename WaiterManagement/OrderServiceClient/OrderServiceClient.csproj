@@ -152,6 +152,21 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\WaiterDataAccessWCFService\DataAccessClass.wsdl" />
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItemCategory.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Order.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Table.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.UserContext.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -178,6 +193,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassLib\ClassLib.csproj">
+      <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
+      <Name>ClassLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
     <WCFMetadataStorage Include="Service References\WaiterDataAccessWCFService\" />
   </ItemGroup>
   <ItemGroup>
@@ -190,31 +214,10 @@
     <None Include="Service References\WaiterDataAccessWCFService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItem.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.MenuItemCategory.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Order.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.Table.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\WaiterDataAccessWCFService\OrderServiceClient.WaiterDataAccessWCFService.UserContext.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\WaiterDataAccessWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ClassLib\ClassLib.csproj">
-      <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
-      <Name>ClassLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

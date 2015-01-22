@@ -221,10 +221,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IManagerDataAccessWCFService" contract="WaiterDataAccessWCFService.IManagerDataAccessWCFService" bindingType="basicHttpBinding" address="http://thestation/DataAccessIISHost/DataAccess.svc/ManagerDataAccess" bindingConfiguration="BasicHttpBinding_IManagerDataAccessWCFService">
+    <endpoint name="BasicHttpBinding_IManagerDataAccessWCFService" contract="WaiterDataAccessWCFService.IManagerDataAccessWCFService" bindingType="basicHttpBinding" address="http://pawel-komputer/DataAccessIISHost/DataAccess.svc/ManagerDataAccess" bindingConfiguration="BasicHttpBinding_IManagerDataAccessWCFService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://thestation/DataAccessIISHost/DataAccess.svc/ManagerDataAccess</serializedValue>
+          <serializedValue>http://pawel-komputer/DataAccessIISHost/DataAccess.svc/ManagerDataAccess</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -306,10 +306,10 @@
         </property>
       </properties>
     </endpoint>
-    <endpoint name="BasicHttpBinding_IWaiterDataAccessWCFService" contract="WaiterDataAccessWCFService.IWaiterDataAccessWCFService" bindingType="basicHttpBinding" address="http://thestation/DataAccessIISHost/DataAccess.svc/WaiterDataAccess" bindingConfiguration="BasicHttpBinding_IWaiterDataAccessWCFService">
+    <endpoint name="BasicHttpBinding_IWaiterDataAccessWCFService" contract="WaiterDataAccessWCFService.IWaiterDataAccessWCFService" bindingType="basicHttpBinding" address="http://pawel-komputer/DataAccessIISHost/DataAccess.svc/WaiterDataAccess" bindingConfiguration="BasicHttpBinding_IWaiterDataAccessWCFService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://thestation/DataAccessIISHost/DataAccess.svc/WaiterDataAccess</serializedValue>
+          <serializedValue>http://pawel-komputer/DataAccessIISHost/DataAccess.svc/WaiterDataAccess</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
