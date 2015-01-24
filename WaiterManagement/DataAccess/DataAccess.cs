@@ -5,6 +5,7 @@ using ClassLib.DbDataStructures;
 using System.Security;
 using System.Data.Entity;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using DataAccess.Migrations;
 using ClassLib.DataStructures;
 using ClassLib.ServiceContracts;
@@ -19,9 +20,13 @@ namespace DataAccess
     {
         #region Private Fields
         private HashSet<UserContextEntity> loggedInUsers;
+        private object loggedInUsersLockObject = new object();
         private Queue<Order> awaitingOrderCollection; 
+        private object awaitingOrderCollectionLockObject = new object();
         private Dictionary<WaiterRegistrationRecord, Order> waiterOrderDictionary;
-        private HashSet<ClientRegistrationRecord> clientRegistrationRecords; 
+        private object waiterOrderDictionaryLockObject = new object();
+        private HashSet<ClientRegistrationRecord> clientRegistrationRecords;
+        private object clientRegistrationRecordsLockObject = new object();
         #endregion
 
         #region Constructors
@@ -100,18 +105,23 @@ namespace DataAccess
             }
 
             if (!CheckIsUserLoggedIn(userContextEntity.Id))
-                loggedInUsers.Add(userContextEntity);
+            {
+                lock(loggedInUsersLockObject)
+                    loggedInUsers.Add(userContextEntity);
+            }
 
             if (userContextEntity.Role == UserRole.Client)
-                clientRegistrationRecords.Add(new ClientRegistrationRecord(userContextEntity.Id,
-                    OperationContext.Current.GetCallbackChannel<IClientDataAccessCallbackWCFService>()));
+                lock(clientRegistrationRecordsLockObject)
+                    clientRegistrationRecords.Add(new ClientRegistrationRecord(userContextEntity.Id,
+                        OperationContext.Current.GetCallbackChannel<IClientDataAccessCallbackWCFService>()));
             else if (userContextEntity.Role == UserRole.Waiter)
             {
-                waiterOrderDictionary.Add(
-                    new WaiterRegistrationRecord(userContextEntity.Id,
-                        OperationContext.Current.GetCallbackChannel<IWaiterDataAccessCallbackWCFService>()), null);
+                lock(waiterOrderDictionary)
+                    waiterOrderDictionary.Add(
+                        new WaiterRegistrationRecord(userContextEntity.Id,
+                            OperationContext.Current.GetCallbackChannel<IWaiterDataAccessCallbackWCFService>()), null);
 
-                TryAssignAwaitingOrder();
+                Task.Run(() => TryAssignAwaitingOrder());
             }
             return new UserContext(userContextEntity);
         }
@@ -654,9 +664,12 @@ namespace DataAccess
 
                 if (state.Equals(OrderState.AwaitingDelivery))
                 {
-                    var clientRegRec = clientRegistrationRecords.FirstOrDefault(r => r.ClientId == order.Client.Id);
-                    if(clientRegRec != null)
-                        clientRegRec.Callback.NotifyOrderAwaitingDelivery(order.Id);
+                    lock (clientRegistrationRecords)
+                    {
+                        var clientRegRec = clientRegistrationRecords.FirstOrDefault(r => r.ClientId == order.Client.Id);
+                        if (clientRegRec != null)
+                            Task.Run(() => clientRegRec.Callback.NotifyOrderAwaitingDelivery(order.Id));
+                    }
                 }
 
                 return true;
@@ -724,9 +737,11 @@ namespace DataAccess
                 throw new SecurityException(String.Format("Client id={0} is not logged in.", userId));
 
             WaiterRegistrationRecord waiterRegRecord = null;
-            foreach(var pair in waiterOrderDictionary)
-                if (pair.Value.Id == orderId)
-                    waiterRegRecord = pair.Key;
+
+            lock(waiterOrderDictionary)
+                foreach(var pair in waiterOrderDictionary)
+                    if (pair.Value.Id == orderId)
+                        waiterRegRecord = pair.Key;
 
             //Zadanie nie jest aktualnie w realizacji
             if (waiterRegRecord == null)
@@ -738,7 +753,8 @@ namespace DataAccess
                 //Ustawiamy stan na zrealizowany
                 SetOrderState(waiterRegRecord.WaiterId, orderId, OrderState.Realized);
                 //Kelner jest wolny, gotowy na następne zamówienie
-                waiterOrderDictionary[waiterRegRecord] = null;
+                lock(waiterOrderDictionary)
+                    waiterOrderDictionary[waiterRegRecord] = null;
 
                 //Jeżeli są zadania oczekujące, próbujemy je przydzielić
                 TryAssignAwaitingOrder();
@@ -755,35 +771,49 @@ namespace DataAccess
 
         private bool CheckIsUserLoggedIn(int userId)
         {
-            return loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId)) != null;
+            lock(loggedInUsersLockObject)
+                return loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId)) != null;
         }
 
         private bool CheckHasUserRole(int userId, UserRole role)
         {
-            UserContextEntity user = loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
-            if (user == null)
-                return false;
-            return (user.Role & role) != 0;
+            lock (loggedInUsersLockObject)
+            {
+                UserContextEntity user = loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
+                if (user == null)
+                    return false;
+                return (user.Role & role) != 0;
+            }
         }
 
         private bool RemoveFromLoggedInUsers(int userId)
         {
-            UserContextEntity userToRemove = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
-            if (userToRemove == null)
-                return false;
-
-            loggedInUsers.Remove(userToRemove);
-
-            if (userToRemove.Role == UserRole.Client)
-                clientRegistrationRecords.RemoveWhere(r => r.ClientId == userId);
-            else if (userToRemove.Role == UserRole.Waiter)
+            lock (loggedInUsersLockObject)
             {
-                var waiterRegRec = waiterOrderDictionary.Keys.FirstOrDefault(r => r.WaiterId == userId);
-                if (waiterRegRec != null)
-                    waiterOrderDictionary.Remove(waiterRegRec);
-            }
+                lock (clientRegistrationRecordsLockObject)
+                {
+                    lock (waiterOrderDictionaryLockObject)
+                    {
+                        UserContextEntity userToRemove = this.loggedInUsers.FirstOrDefault(c => c.Id.Equals(userId));
+                        if (userToRemove == null)
+                            return false;
 
-            return true;
+                        loggedInUsers.Remove(userToRemove);
+
+                        if (userToRemove.Role == UserRole.Client)
+                            clientRegistrationRecords.RemoveWhere(r => r.ClientId == userId);
+                        else if (userToRemove.Role == UserRole.Waiter)
+                        {
+                            var waiterRegRec = waiterOrderDictionary.Keys.FirstOrDefault(r => r.WaiterId == userId);
+                            if (waiterRegRec != null)
+                                waiterOrderDictionary.Remove(waiterRegRec);
+                        }
+
+                        return true;
+                    }
+                }
+            }
+           
         }
 
         private UserContext AddUserToDatabase(string firstName, string lastName, string login, string password, UserRole role)
@@ -856,48 +886,78 @@ namespace DataAccess
 
             bool foundWaiter = false;
 
-            var clientRegistrationRecord =
-                clientRegistrationRecords.FirstOrDefault(r => r.ClientId == orderToAssign.Client.Id);
+            ClientRegistrationRecord clientRegistrationRecord = null;
+
+            lock(clientRegistrationRecordsLockObject)
+                clientRegistrationRecord = clientRegistrationRecords.FirstOrDefault(r => r.ClientId == orderToAssign.Client.Id);
 
             if (clientRegistrationRecord == null)
                 return;
 
-            foreach (var registrationRecord in waiterOrderDictionary.Keys)
+            CheckAreWaitersAvailable();
+
+            lock (waiterOrderDictionary)
             {
-                if (waiterOrderDictionary[registrationRecord] == null)
+                foreach (var registrationRecord in waiterOrderDictionary.Keys)
                 {
-                    if (registrationRecord.Callback.AcceptNewOrder(orderToAssign))
+                    if (waiterOrderDictionary[registrationRecord] == null)
                     {
-                        foundWaiter = true;
-                        //zapisujemy, że kelner będzie się zajmował tym zadaniem
-                        waiterOrderDictionary[registrationRecord] = orderToAssign;
-                        //ustawiamy kelnera jako obsługujący zadanie w bazie danych
-                        var waiterContext = SetWaiterForOrder(orderToAssign.Id, registrationRecord.WaiterId);
-                        //stan zamówienia ustawiamy jako zaakceptowany
-                        SetOrderState(registrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
-                        //powiadamiamy klienta o zaakceptowaniu zamówienia
-                        clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
-                        break;
+                        if (registrationRecord.Callback.AcceptNewOrder(orderToAssign))
+                        {
+                            foundWaiter = true;
+                            //zapisujemy, że kelner będzie się zajmował tym zadaniem
+                            waiterOrderDictionary[registrationRecord] = orderToAssign;
+                            //ustawiamy kelnera jako obsługujący zadanie w bazie danych
+                            var waiterContext = SetWaiterForOrder(orderToAssign.Id, registrationRecord.WaiterId);
+                            //stan zamówienia ustawiamy jako zaakceptowany
+                            SetOrderState(registrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
+                            //powiadamiamy klienta o zaakceptowaniu zamówienia
+                            clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
+                            break;
+                        }
                     }
                 }
             }
+           
 
             if (!foundWaiter)
             {
                 //nie udało się przydzielić zamówienia żadnemu kelnerowi
-                awaitingOrderCollection.Enqueue(orderToAssign);
+                lock(awaitingOrderCollection)
+                    awaitingOrderCollection.Enqueue(orderToAssign);
                 //powiadamiamy klienta o braku dostępnych kelnerów
-                clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id);
+                Task.Run(() => clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id));
             }
         }
 
         private void TryAssignAwaitingOrder()
         {
-            if (awaitingOrderCollection.Count == 0)
-                return;
+            lock (awaitingOrderCollection)
+            {
+                if (awaitingOrderCollection.Count == 0)
+                    return;
 
-            Order order = awaitingOrderCollection.Dequeue();
-            AssignOrder(order);
+                Order order = awaitingOrderCollection.Dequeue();
+                AssignOrder(order);
+            }
+        }
+
+        private bool IsAvailable(ICommunicationObject communicationObject)
+        {
+            return communicationObject.State == CommunicationState.Opened;
+        }
+
+        private void CheckAreWaitersAvailable()
+        {
+            IList<WaiterRegistrationRecord> notLongerAvailableWaiters = new List<WaiterRegistrationRecord>();
+
+            lock(waiterOrderDictionary)
+                foreach (var waiterRegistrationRecord in waiterOrderDictionary.Keys)
+                    if(!IsAvailable(waiterRegistrationRecord.Callback as ICommunicationObject))
+                        notLongerAvailableWaiters.Add(waiterRegistrationRecord);
+
+            foreach (var waiterRegistrationRecord in notLongerAvailableWaiters)
+                RemoveFromLoggedInUsers(waiterRegistrationRecord.WaiterId);
         }
         #endregion
 
