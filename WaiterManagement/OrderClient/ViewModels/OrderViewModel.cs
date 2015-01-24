@@ -1,24 +1,19 @@
-﻿using Caliburn.Micro;
+﻿using System.Threading.Tasks;
+using System.Windows;
+using Caliburn.Micro;
 using OrderClient.Abstract;
 using OrderClient.ClientDataAccessWCFService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace OrderClient.ViewModels
 {
-    class OrderViewModel : Conductor<object>,IOrderViewModel, IDialogMainWindow
+    internal class OrderViewModel : Conductor<object>, IOrderViewModel, IDialogMainWindow
     {
-        private IMainWindowViewModel _mainWindow;
-        private ICurrentOrder _currentOrderDialog;
-        private IDialogOrder _addItemDialog;
-        private IWaitingViewModel _waitingDialog;
+        private readonly IDialogOrder _addItemDialog;
+        private readonly ICurrentOrder _currentOrderDialog;
+        private readonly IMainWindowViewModel _mainWindow;
+        private readonly IOrderDataModel _orderDataModel;
+        private readonly IWaitingViewModel _waitingDialog;
         private IPayingWindow _payingWindow;
-
-        private IOrderDataModel _orderDataModel;
 
         public OrderViewModel(IMainWindowViewModel mainWindow, IOrderDataModel orderDataModel)
         {
@@ -36,15 +31,49 @@ namespace OrderClient.ViewModels
             ActivateItem(_currentOrderDialog);
         }
 
+        public bool CanAddCurrentOrder
+        {
+            get { return !_orderDataModel.IsEmpty(); }
+        }
+
+        public void CloseAddItemDialog()
+        {
+            _currentOrderDialog.RefreshOrder();
+            ActivateItem(_currentOrderDialog);
+            NotifyOfPropertyChange(() => CanAddCurrentOrder);
+        }
+
+        public void CheckIfIsPosibleToAddOrder()
+        {
+            NotifyOfPropertyChange(() => CanAddCurrentOrder);
+        }
+
+        public void SetOrderState(OrderState state)
+        {
+            _orderDataModel.SetOrderState(state);
+            _waitingDialog.RefreshMessage();
+        }
+
+        public void ShowPayingWindow()
+        {
+            _payingWindow = new PayingViewModel(this, _orderDataModel);
+            ActivateItem(_payingWindow);
+        }
+
+        public void CloseOrder()
+        {
+            _mainWindow.CloseOrder();
+        }
+
+        public void NotyfyOrderOnHold()
+        {
+            MessageBox.Show("TODO: NotifyOrderOnHold");
+        }
+
         public void AddCurrentOrder()
         {
             Task.Factory.StartNew(() => _orderDataModel.AddOrder());
             ActivateItem(_waitingDialog);
-        }
-
-        public bool CanAddCurrentOrder
-        {
-            get { return !_orderDataModel.IsEmpty(); }
         }
 
         public void AddItem()
@@ -57,47 +86,9 @@ namespace OrderClient.ViewModels
             _mainWindow.CancelOrder();
         }
 
-        public void CloseAddItemDialog()
-        {
-            _currentOrderDialog.RefreshOrder();
-            ActivateItem(_currentOrderDialog);
-            NotifyOfPropertyChange(() => CanAddCurrentOrder);           
-        }
-
-
-        public void CheckIfIsPosibleToAddOrder()
-        {
-            NotifyOfPropertyChange(() => CanAddCurrentOrder);
-        }
-
         private void RefreshMessage()
         {
             _waitingDialog.RefreshMessage();
-        }
-
-        public void SetOrderState(OrderState state)
-        {
-            _orderDataModel.SetOrderState(state);
-            _waitingDialog.RefreshMessage();
-        }
-
-
-        public void ShowPayingWindow()
-        {
-            _payingWindow = new PayingViewModel(this,_orderDataModel);
-            ActivateItem(_payingWindow);
-        }
-
-
-        public void CloseOrder()
-        {
-            _mainWindow.CloseOrder();
-        }
-
-
-        public void NotyfyOrderOnHold()
-        {
-            MessageBox.Show("TODO: NotifyOrderOnHold");
         }
     }
 }
