@@ -13,5 +13,7 @@ namespace OrderClient.Abstract
         void ShowPayingWindow();
 
         void CloseOrder();
+
+        void NotyfyOrderOnHold();
     }
 }

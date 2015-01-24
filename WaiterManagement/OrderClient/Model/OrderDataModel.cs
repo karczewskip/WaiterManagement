@@ -1,25 +1,26 @@
-﻿using OrderClient.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClassLib.DataStructures;
+using OrderClient.Abstract;
 using OrderClient.ClientDataAccessWCFService;
-using System.Windows;
+using MenuItem = OrderClient.ClientDataAccessWCFService.MenuItem;
+using MenuItemCategory = OrderClient.ClientDataAccessWCFService.MenuItemCategory;
+using MenuItemQuantity = OrderClient.ClientDataAccessWCFService.MenuItemQuantity;
+using Order = OrderClient.ClientDataAccessWCFService.Order;
+using OrderState = OrderClient.ClientDataAccessWCFService.OrderState;
+using Table = OrderClient.ClientDataAccessWCFService.Table;
+using UserContext = OrderClient.ClientDataAccessWCFService.UserContext;
 
 namespace OrderClient.Model
 {
-    class OrderDataModel: IOrderDataModel
+    internal class OrderDataModel : IOrderDataModel
     {
-        private IClientDataAccess _clientDataAccess;
-        private IOrderNotyficator _orderNotyficator;
-
+        private readonly IClientDataAccess _clientDataAccess;
+        private readonly IOrderNotyficator _orderNotyficator;
         private Order _currentOrder;
-        private UserContext _userContext;
         private int _tableId;
-        private OrderState CurrentOrderState { get; set; }
-
-        public IList<MenuItemQuantity> MenuItems { get; set; }
+        private UserContext _userContext;
 
         public OrderDataModel(IClientDataAccess clientDataAccess, IOrderNotyficator orderNotyficator)
         {
@@ -29,13 +30,16 @@ namespace OrderClient.Model
             MenuItems = new List<MenuItemQuantity>();
         }
 
+        private OrderState CurrentOrderState { get; set; }
+        public IList<MenuItemQuantity> MenuItems { get; set; }
+
         public void AddToCurrentOrder(MenuItem addingMenuItem)
         {
             var TypeOfAddingOrder = FindThisTypeOfOrder(addingMenuItem);
 
-            if(TypeOfAddingOrder == null)
+            if (TypeOfAddingOrder == null)
             {
-                MenuItems.Add(new MenuItemQuantity() { MenuItem = addingMenuItem, Quantity = 1 });
+                MenuItems.Add(new MenuItemQuantity {MenuItem = addingMenuItem, Quantity = 1});
             }
             else
             {
@@ -43,51 +47,39 @@ namespace OrderClient.Model
             }
         }
 
-        private MenuItemQuantity FindThisTypeOfOrder(MenuItem addingMenuItem)
-        {
-            var ThisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
-
-            return ThisTypeOfOrder;
-        }
-
         public bool IsEmpty()
         {
             return MenuItems.Count == 0;
         }
-
 
         public void StartNewOrder()
         {
             MenuItems = new List<MenuItemQuantity>();
         }
 
-
         public void RemoveFromCurrentOrder(MenuItemQuantity removingItem)
         {
             MenuItems.Remove(removingItem);
         }
-
 
         public IList<MenuItem> GetAllItems()
         {
             return _clientDataAccess.GetMenuItems(_userContext.Id).ToList();
         }
 
-
         public IList<MenuItemCategory> GetAllCategories()
         {
             return _clientDataAccess.GetMenuItemCategories(_userContext.Id).ToList();
         }
 
+        public string GetCurrentOrderMessage()
+        {
+            if (CurrentOrderState == null)
+                return "Your Order is proccessing";
 
-         public string GetCurrentOrderMessage()
-         {
-           if (CurrentOrderState == null)
-              return "Your Order is proccessing";
-
-            switch(CurrentOrderState)
+            switch (CurrentOrderState)
             {
-               case OrderState.Placed:
+                case OrderState.Placed:
                     return "Order was placed";
                 case OrderState.Accepted:
                     return "Order was accepted";
@@ -97,44 +89,35 @@ namespace OrderClient.Model
                     return "Order was realized";
                 default:
                     throw new ArgumentException("This error shouldn't be catched");
-
             }
-
-
-         }
+        }
 
         public void SetTargetMessage(IOrderViewModel orderViewModel)
         {
             _orderNotyficator.SetTarget(orderViewModel);
         }
 
-
         public void AddClient(string firstName, string lastName, string login, string password)
         {
-            _clientDataAccess.AddClient(firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
-            _userContext = _clientDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+            _clientDataAccess.AddClient(firstName, lastName, login, HashClass.CreateFirstHash(password, login));
+            _userContext = _clientDataAccess.LogIn(login, HashClass.CreateFirstHash(password, login));
         }
-
-
-
 
         public void AddOrder()
         {
             var m = new List<TupleOfintint>();
-            foreach(var item in MenuItems)
+            foreach (var item in MenuItems)
             {
-                m.Add(new TupleOfintint() { m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity });
+                m.Add(new TupleOfintint {m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity});
             }
             _currentOrder = _clientDataAccess.AddOrder(_userContext.Id, _tableId, m.ToArray());
             CurrentOrderState = OrderState.Placed;
         }
 
-
         public IList<Table> GetTables()
         {
             return _clientDataAccess.GetTables(_userContext.Id).ToList();
         }
-
 
         public void SetTableId(int tableId)
         {
@@ -146,24 +129,26 @@ namespace OrderClient.Model
             CurrentOrderState = state;
         }
 
-
         public void Login(string login, string password)
         {
-            _userContext = _clientDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
-
-
+            _userContext = _clientDataAccess.LogIn(login, HashClass.CreateFirstHash(password, login));
         }
-
 
         public void Pay()
         {
             _clientDataAccess.PayForOrder(_userContext.Id, _currentOrder.Id);
         }
 
-
         public bool IsLogged()
         {
             return _userContext != null;
+        }
+
+        private MenuItemQuantity FindThisTypeOfOrder(MenuItem addingMenuItem)
+        {
+            var ThisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
+
+            return ThisTypeOfOrder;
         }
     }
 }

@@ -93,5 +93,11 @@ namespace OrderClient.ViewModels
         {
             _mainWindow.CloseOrder();
         }
+
+
+        public void NotyfyOrderOnHold()
+        {
+            MessageBox.Show("TODO: NotifyOrderOnHold");
+        }
     }
 }

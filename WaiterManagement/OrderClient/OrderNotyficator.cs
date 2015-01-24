@@ -1,15 +1,9 @@
 ﻿using OrderClient.Abstract;
 using OrderClient.ClientDataAccessWCFService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace OrderClient
 {
-    class OrderNotyficator : IOrderNotyficator
+    internal class OrderNotyficator : IOrderNotyficator
     {
         private IOrderViewModel _orderViewModel;
 
@@ -18,14 +12,14 @@ namespace OrderClient
             _orderViewModel = orderViewModel;
         }
 
-        public void NotifyOrderAccepted(int orderId, ClientDataAccessWCFService.UserContext waiter)
+        public void NotifyOrderAccepted(int orderId, UserContext waiter)
         {
             _orderViewModel.SetOrderState(OrderState.Accepted);
         }
 
         public void NotifyOrderOnHold(int orderId)
         {
-            _orderViewModel.SetOrderState(OrderState.Placed);
+            _orderViewModel.NotyfyOrderOnHold();
         }
 
         public void NotifyOrderAwaitingDelivery(int oderId)
