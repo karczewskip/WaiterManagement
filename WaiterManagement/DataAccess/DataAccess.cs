@@ -85,6 +85,9 @@ namespace DataAccess
             if (String.IsNullOrEmpty(password))
                 throw new ArgumentNullException("password");
 
+            CheckAreClientsAvailable();
+            CheckAreWaitersAvailable();
+
             UserContextEntity userContextEntity = null;
 
             using (var db = new DataAccessProvider())
@@ -664,6 +667,8 @@ namespace DataAccess
 
                 if (state.Equals(OrderState.AwaitingDelivery))
                 {
+                    CheckAreClientsAvailable();
+
                     lock (clientRegistrationRecords)
                     {
                         var clientRegRec = clientRegistrationRecords.FirstOrDefault(r => r.ClientId == order.Client.Id);
@@ -757,7 +762,7 @@ namespace DataAccess
                     waiterOrderDictionary[waiterRegRecord] = null;
 
                 //Jeżeli są zadania oczekujące, próbujemy je przydzielić
-                TryAssignAwaitingOrder();
+                Task.Run(() => TryAssignAwaitingOrder());
 
                 return true;
             }
@@ -958,6 +963,19 @@ namespace DataAccess
 
             foreach (var waiterRegistrationRecord in notLongerAvailableWaiters)
                 RemoveFromLoggedInUsers(waiterRegistrationRecord.WaiterId);
+        }
+
+        private void CheckAreClientsAvailable()
+        {
+            IList<ClientRegistrationRecord> notLongerAvailableClients = new List<ClientRegistrationRecord>();
+
+            lock(clientRegistrationRecordsLockObject)
+                foreach(var clientRegistrationRecord in clientRegistrationRecords)
+                    if(!IsAvailable(clientRegistrationRecord.Callback as ICommunicationObject))
+                        notLongerAvailableClients.Add(clientRegistrationRecord);
+
+            foreach (var clientRegistrationRecord in notLongerAvailableClients)
+                RemoveFromLoggedInUsers(clientRegistrationRecord.ClientId);
         }
         #endregion
 
