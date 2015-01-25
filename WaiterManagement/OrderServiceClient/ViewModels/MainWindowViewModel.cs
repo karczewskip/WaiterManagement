@@ -1,22 +1,24 @@
-﻿using Caliburn.Micro;
-using OrderServiceClient.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Net.Mime;
+using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
+using Caliburn.Micro;
+using OrderServiceClient.Abstract;
+using OrderServiceClient.WaiterDataAccessWCFService;
 
 namespace OrderServiceClient.ViewModels
 {
-    class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
+    internal class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
     {
-        private IDialogLogin _dialogLogin;
+        private readonly IDialogLogin _dialogLogin;
+        private readonly IWaiterDataModel _waiterDataModel;
+        private readonly IWindowManager _windowManager;
         private IOrderDialog _orderDialog;
-        private IWaiterDataModel _waiterDataModel;
-        private IWindowManager _windowManager;
+        private IConfirmDialogViewModel _confirmDialogViewModel;
 
-        public MainWindowViewModel(IWindowManager windowManager, IOrderNotyficator _orderNotyficator, IWaiterDataModel waiterDataModel)
+        public MainWindowViewModel(IWindowManager windowManager, IOrderNotyficator _orderNotyficator,
+            IWaiterDataModel waiterDataModel)
         {
             _windowManager = windowManager;
             _waiterDataModel = waiterDataModel;
@@ -24,41 +26,46 @@ namespace OrderServiceClient.ViewModels
 
             _dialogLogin = new LoggerViewModel(this, _waiterDataModel);
             ActivateItem(_dialogLogin);
-
         }
 
         public void LogIn()
         {
-            if(_waiterDataModel.IsLogged())
+            if (_waiterDataModel.IsLogged())
                 DeactivateItem(_dialogLogin, true);
         }
 
-
-        public void ShowNewOrder(WaiterDataAccessWCFService.Order order)
+        public void ShowNewOrder(Order order)
         {
             _orderDialog = new OrderViewModel(this, _waiterDataModel, order);
             ActivateItem(_orderDialog);
         }
 
-
-        public bool GetConfirmFromWaiter(WaiterDataAccessWCFService.Order order)
+        public bool GetConfirmFromWaiter(Order order)
         {
-            var result = _windowManager.ShowDialog(new ConfirmOrderViewModel(order));
+            //var result = _windowManager.ShowDialog(new ConfirmOrderViewModel(order));
+          
+            //if (result.HasValue)
+            //    return result.Value;
 
-            if (result.HasValue)
-                return result.Value;
+            //return false;
 
-            return false;
+            //Caliburn.Micro.Execute.OnUIThreadAsync(() => Acti)
+
+            _confirmDialogViewModel = new ConfirmDialogViewModel(order);
+            ActivateItem(_confirmDialogViewModel);
+            bool result = _confirmDialogViewModel.GetResult();
+            DeactivateItem(_confirmDialogViewModel,true);
+            
+
+            return result;
+
         }
 
-
-
-        public void ShowAcceptedOrder(WaiterDataAccessWCFService.Order order)
+        public void ShowAcceptedOrder(Order order)
         {
             _orderDialog = new OrderViewModel(this, _waiterDataModel, order);
             ActivateItem(_orderDialog);
         }
-
 
         public bool GetConfirmPayd()
         {
@@ -69,7 +76,6 @@ namespace OrderServiceClient.ViewModels
 
             return false;
         }
-
 
         public void CloseCurrentOrder()
         {
