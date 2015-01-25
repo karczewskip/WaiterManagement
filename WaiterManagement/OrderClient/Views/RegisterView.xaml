@@ -6,7 +6,7 @@
              xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              mc:Ignorable="d" 
              d:DesignHeight="310" d:DesignWidth="300">
-    <Grid Height="260">
+    <Grid Height="210">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

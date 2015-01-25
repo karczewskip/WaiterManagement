@@ -40,10 +40,12 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
@@ -74,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\IConfirmDialogViewModel.cs" />
     <Compile Include="Abstract\IDialogLogin.cs" />
     <Compile Include="Abstract\IMainWindowViewModel.cs" />
     <Compile Include="Abstract\IOrderDialog.cs" />
@@ -93,11 +96,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ConfirmDialogViewModel.cs" />
     <Compile Include="ViewModels\ConfirmOrderViewModel.cs" />
     <Compile Include="ViewModels\ConfirmPayViewModel.cs" />
     <Compile Include="ViewModels\LoggerViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="Views\ConfirmDialogView.xaml.cs">
+      <DependentUpon>ConfirmDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConfirmOrderView.xaml.cs">
       <DependentUpon>ConfirmOrderView.xaml</DependentUpon>
     </Compile>
@@ -183,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ConfirmDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConfirmOrderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +219,10 @@
     <ProjectReference Include="..\ClassLib\ClassLib.csproj">
       <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
       <Name>ClassLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaiterClient\WaiterClient.csproj">
+      <Project>{4FF01898-26EE-4172-9691-A39B5E77A32F}</Project>
+      <Name>WaiterClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
