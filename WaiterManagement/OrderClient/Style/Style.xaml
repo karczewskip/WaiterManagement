@@ -64,7 +64,7 @@
     </Style>
     
     <Style TargetType="{x:Type Grid}" x:Key="BackgroundGrid">
-        <Setter Property="Background" Value="#9FFB88">
+        <Setter Property="Background" Value="#B2B2FF">
             <!--<Setter.Value>
                 <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
                     <GradientStop Color="AliceBlue" Offset="0"/>
