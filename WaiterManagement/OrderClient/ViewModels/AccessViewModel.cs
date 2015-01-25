@@ -18,7 +18,7 @@ namespace OrderClient.ViewModels
             _dialogRegister = new RegisterViewModel(mainWindowViewModel, orderDataModel);
             _dialogLogin = new LoginViewModel(_mainWindowViewModel, _orderDataModel);
 
-            ActivateItem(_dialogRegister);
+            ActivateItem(_dialogLogin);
         }
 
         public void ShowLogIn()
