@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using OrderServiceClient.Abstract;
@@ -8,17 +9,32 @@ namespace OrderServiceClient.ViewModels
 {
     public class ConfirmDialogViewModel : IConfirmDialogViewModel
     {
-        private Order _order;
+        public string Message { get; set; }
 
         private bool IsClicked { get; set; }
         private bool Result { get; set; }
 
         public ConfirmDialogViewModel(Order order)
         {
-            // TODO: Complete member initialization
-            this._order = order;
+            Message = SetMessageToConfirmOrder(order);
         }
 
+        private static string SetMessageToConfirmOrder(Order order)
+        {
+            var content = new StringBuilder();
+            foreach(var o in order.MenuItems)
+            {
+                content.Append(o.MenuItem.Name + "(" + o.Quantity + "),");
+            }
+            return "Client:  " + order.Client.Login + 
+                    ",\nTable: " + order.Table.Description + 
+                    ",\nContent: " + content.ToString(); 
+        }
+
+        public ConfirmDialogViewModel(string message)
+        {
+            Message = message;
+        }
 
         public bool GetResult()
         {

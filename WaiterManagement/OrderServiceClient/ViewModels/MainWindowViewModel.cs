@@ -42,23 +42,12 @@ namespace OrderServiceClient.ViewModels
 
         public bool GetConfirmFromWaiter(Order order)
         {
-            //var result = _windowManager.ShowDialog(new ConfirmOrderViewModel(order));
-          
-            //if (result.HasValue)
-            //    return result.Value;
-
-            //return false;
-
-            //Caliburn.Micro.Execute.OnUIThreadAsync(() => Acti)
-
             _confirmDialogViewModel = new ConfirmDialogViewModel(order);
             ActivateItem(_confirmDialogViewModel);
-            bool result = _confirmDialogViewModel.GetResult();
+            var result = _confirmDialogViewModel.GetResult();
             DeactivateItem(_confirmDialogViewModel,true);
-            
 
             return result;
-
         }
 
         public void ShowAcceptedOrder(Order order)
@@ -69,12 +58,12 @@ namespace OrderServiceClient.ViewModels
 
         public bool GetConfirmPayd()
         {
-            var result = _windowManager.ShowDialog(new ConfirmPayViewModel());
+            _confirmDialogViewModel = new ConfirmDialogViewModel("Do you confirm paying?");
+            ActivateItem(_confirmDialogViewModel);
+            var result = _confirmDialogViewModel.GetResult();
+            DeactivateItem(_confirmDialogViewModel,true);
 
-            if (result.HasValue)
-                return result.Value;
-
-            return false;
+            return result;
         }
 
         public void CloseCurrentOrder()
