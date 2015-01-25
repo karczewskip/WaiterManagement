@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using DataAccess;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -16,7 +17,22 @@ namespace WebUI.Controllers
 
         public ViewResult List(int page = 1)
         {
-            return View(_baseDataAccess.GetMenuItems().OrderBy(m => m.Id).Skip((page - 1) * PageSize).Take(PageSize));
+            MenuListViewModel model = new MenuListViewModel
+            {
+                MenuItems = _baseDataAccess.GetMenuItems()
+                    .OrderBy(m => m.Id)
+                    .Skip((page - 1)*PageSize)
+                    .Take(PageSize),
+
+                PagingInfo = new PagingInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = _baseDataAccess.GetMenuItems().Count()
+                }
+            };
+            
+            return View(model);
         }
     }
 }
