@@ -58,10 +58,15 @@ namespace DataAccess
         {
             if (!CheckIsUserLoggedIn(userId))
                 throw new SecurityException(String.Format("User login={0} is not logged in", userId));
+            
+            return GetMenuItems();
+        }
 
+        public IEnumerable<MenuItem> GetMenuItems()
+        {
             using (var db = new DataAccessProvider())
             {
-                var menuItemList = db.MenuItems.Include("Category").Where( mI=> !mI.IsDeleted).ToList();
+                var menuItemList = db.MenuItems.Include("Category").Where(mI => !mI.IsDeleted).ToList();
                 return menuItemList.Select(m => new MenuItem(m)).ToList();
             }
         }
