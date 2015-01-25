@@ -11,7 +11,7 @@ namespace OrderClient.ViewModels
     class WaitingViewModel : PropertyChangedBase, IWaitingViewModel
     {
         private IOrderViewModel _orderViewModel;
-        private IOrderDataModel _orderDataModel;
+        private readonly IOrderDataModel _orderDataModel;
 
         public WaitingViewModel(IOrderViewModel orderViewModel, IOrderDataModel orderDataModel)
         {

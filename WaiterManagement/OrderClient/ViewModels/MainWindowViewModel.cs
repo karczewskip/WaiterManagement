@@ -1,33 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using OrderClient.Abstract;
 
 namespace OrderClient.ViewModels
 {
-    class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
+    internal class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
     {
-        private IDialogLogin _dialogLogin;
+        private readonly IChooseTabelViewModel _chooseTabelViewModel;
+        private readonly IAccessViewModel _accessViewModel;
+        private readonly IOrderDataModel _orderDataModel;
         private IDialogMainWindow _dialogOrderWindow;
-        private IOrderDataModel _orderDataModel;
-        private IChooseTabelViewModel _chooseTabelViewModel;
 
         public MainWindowViewModel(IOrderDataModel orderDataModel)
         {
-            _dialogLogin = new LoggerViewModel(this, orderDataModel);
+            _accessViewModel = new AccessViewModel(this, orderDataModel);
             _chooseTabelViewModel = new ChooseTabelViewModel(this, orderDataModel);
             _orderDataModel = orderDataModel;
-            ActivateItem(_dialogLogin);
-        }
 
-        public void AddNewOrder()
-        {
-            _dialogOrderWindow = new OrderViewModel(this, _orderDataModel);
-            ActivateItem(_dialogOrderWindow);
+            ActivateItem(_accessViewModel);
         }
 
         public void CancelOrder()
@@ -37,27 +26,31 @@ namespace OrderClient.ViewModels
 
         public void LogIn()
         {
-            DeactivateItem(_dialogLogin, true);
+            DeactivateItem(_accessViewModel, true);
             _chooseTabelViewModel.InitializeData();
             ActivateItem(_chooseTabelViewModel);
         }
-
 
         public void StartGettingOrders()
         {
             DeactivateItem(_chooseTabelViewModel, true);
         }
 
-
-        public void ShowPayingDialog()
-        {
-            
-        }
-
-
         public void CloseOrder()
         {
             DeactivateItem(_dialogOrderWindow, true);
+        }
+
+        public void AddNewOrder()
+        {
+            _dialogOrderWindow = new OrderViewModel(this, _orderDataModel);
+            ActivateItem(_dialogOrderWindow);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            _orderDataModel.LogOut();
+            base.OnDeactivate(close);
         }
     }
 }

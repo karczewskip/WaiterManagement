@@ -1,20 +1,24 @@
-﻿using Caliburn.Micro;
+﻿using System.Linq;
+using Caliburn.Micro;
 using OrderClient.Abstract;
 using OrderClient.ClientDataAccessWCFService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderClient.ViewModels
 {
-    class CurrentOrderViewModel : PropertyChangedBase, IDialogOrder, ICurrentOrder
+    internal class CurrentOrderViewModel : PropertyChangedBase, IDialogOrder, ICurrentOrder
     {
-        private IOrderViewModel _orderWindow;
-        private IOrderDataModel _orderDataModel;
-
+        private readonly IOrderDataModel _orderDataModel;
+        private readonly IOrderViewModel _orderWindow;
         private BindableCollection<MenuItemQuantity> _menuItems;
+
+        public CurrentOrderViewModel(IOrderViewModel orderWindow, IOrderDataModel orderDataModel)
+        {
+            _orderWindow = orderWindow;
+            _orderDataModel = orderDataModel;
+
+            _menuItems = new BindableCollection<MenuItemQuantity>();
+        }
+
         public BindableCollection<MenuItemQuantity> MenuItems
         {
             get { return _menuItems; }
@@ -30,35 +34,22 @@ namespace OrderClient.ViewModels
             get { return CalculateSalary() + " PLN to pay"; }
         }
 
-        private float CalculateSalary()
+        public void RefreshOrder()
         {
-            float sum = 0;
-
-            foreach (var m in MenuItems)
-                sum += m.Quantity * m.MenuItem.Price.Amount;
-
-            return sum;
+            MenuItems = new BindableCollection<MenuItemQuantity>(_orderDataModel.MenuItems);
+            NotifyOfPropertyChange(() => Salary);
+            _orderWindow.CheckIfIsPosibleToAddOrder();
         }
 
-        public CurrentOrderViewModel(IOrderViewModel orderWindow, IOrderDataModel orderDataModel)
+        private float CalculateSalary()
         {
-            _orderWindow = orderWindow;
-            _orderDataModel = orderDataModel;
-
-            _menuItems = new BindableCollection<MenuItemQuantity>();
+            return MenuItems.Sum(m => m.Quantity*m.MenuItem.Price.Amount);
         }
 
         public void RemoveItem(MenuItemQuantity removingItem)
         {
             _orderDataModel.RemoveFromCurrentOrder(removingItem);
             RefreshOrder();
-        }
-
-        public void RefreshOrder()
-        {
-            MenuItems = new BindableCollection<MenuItemQuantity>(_orderDataModel.MenuItems);
-            NotifyOfPropertyChange(() => Salary);
-            _orderWindow.CheckIfIsPosibleToAddOrder();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace OrderClient.Abstract
 {
-    interface IOrderViewModel
+    public interface IOrderViewModel
     {
         void CloseAddItemDialog();
 
@@ -13,5 +13,7 @@ namespace OrderClient.Abstract
         void ShowPayingWindow();
 
         void CloseOrder();
+
+        void NotyfyOrderOnHold();
     }
 }
