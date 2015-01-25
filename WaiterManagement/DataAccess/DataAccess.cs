@@ -745,7 +745,7 @@ namespace DataAccess
 
             lock(waiterOrderDictionary)
                 foreach(var pair in waiterOrderDictionary)
-                    if (pair.Value.Id == orderId)
+                    if (pair.Value != null && pair.Value.Id == orderId)
                         waiterRegRecord = pair.Key;
 
             //Zadanie nie jest aktualnie w realizacji
