@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace OrderClient.Views
 {
     /// <summary>
-    /// Interaction logic for LoggerView.xaml
+    /// Interaction logic for AccessView.xaml
     /// </summary>
-    public partial class LoggerView : UserControl
+    public partial class AccessView : UserControl
     {
-        public LoggerView()
+        public AccessView()
         {
             InitializeComponent();
         }

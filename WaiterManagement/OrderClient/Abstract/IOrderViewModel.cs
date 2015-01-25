@@ -2,7 +2,7 @@
 
 namespace OrderClient.Abstract
 {
-    interface IOrderViewModel
+    public interface IOrderViewModel
     {
         void CloseAddItemDialog();
 

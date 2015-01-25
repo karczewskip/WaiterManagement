@@ -35,15 +35,15 @@ namespace OrderClient.Model
 
         public void AddToCurrentOrder(MenuItem addingMenuItem)
         {
-            var TypeOfAddingOrder = FindThisTypeOfOrder(addingMenuItem);
+            var typeOfAddingOrder = FindThisTypeOfOrder(addingMenuItem);
 
-            if (TypeOfAddingOrder == null)
+            if (typeOfAddingOrder == null)
             {
                 MenuItems.Add(new MenuItemQuantity {MenuItem = addingMenuItem, Quantity = 1});
             }
             else
             {
-                TypeOfAddingOrder.Quantity++;
+                typeOfAddingOrder.Quantity++;
             }
         }
 
@@ -74,9 +74,6 @@ namespace OrderClient.Model
 
         public string GetCurrentOrderMessage()
         {
-            if (CurrentOrderState == null)
-                return "Your Order is proccessing";
-
             switch (CurrentOrderState)
             {
                 case OrderState.Placed:
@@ -100,17 +97,11 @@ namespace OrderClient.Model
         public void AddClient(string firstName, string lastName, string login, string password)
         {
             _clientDataAccess.AddClient(firstName, lastName, login, HashClass.CreateFirstHash(password, login));
-            _userContext = _clientDataAccess.LogIn(login, HashClass.CreateFirstHash(password, login));
         }
 
         public void AddOrder()
         {
-            var m = new List<TupleOfintint>();
-            foreach (var item in MenuItems)
-            {
-                m.Add(new TupleOfintint {m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity});
-            }
-            _currentOrder = _clientDataAccess.AddOrder(_userContext.Id, _tableId, m.ToArray());
+            _currentOrder = _clientDataAccess.AddOrder(_userContext.Id, _tableId, MenuItems.Select(item => new TupleOfintint {m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity}).ToArray());
             CurrentOrderState = OrderState.Placed;
         }
 
@@ -146,9 +137,9 @@ namespace OrderClient.Model
 
         private MenuItemQuantity FindThisTypeOfOrder(MenuItem addingMenuItem)
         {
-            var ThisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
+            var thisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
 
-            return ThisTypeOfOrder;
+            return thisTypeOfOrder;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="OrderClient.Views.LoggerView"
+﻿<UserControl x:Class="OrderClient.Views.RegisterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              mc:Ignorable="d" 
              d:DesignHeight="310" d:DesignWidth="300">
-    <Grid Height="310">
+    <Grid Height="260">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -30,7 +30,6 @@
         <TextBox x:Name="UserName" Grid.Row="5" />
         <Label Content="Password" Grid.Row="6" />
         <PasswordBox x:Name="PasswordB" Grid.Row="7" />
-        <Button cm:Message.Attach="[Event Click] = [Action LogIn($View)]" Content="Log in" Grid.Row="9" />
-        <CheckBox x:Name="RegistrationMode" Grid.Row="11" Content="Login with registration"/>
+        <Button cm:Message.Attach="[Event Click] = [Action Register($View)]" Content="Register" Grid.Row="9" />
     </Grid>
 </UserControl>
