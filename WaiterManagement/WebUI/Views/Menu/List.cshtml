@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ClassLib.DataStructures.MenuItem>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+@foreach (var item in Model){
+    <div class="item">
+        <h3>@item.Name</h3>
+        @item.Description
+        <h4>@item.Price.Amount @item.Price.Currency</h4>
+    </div>
+}
