@@ -15,6 +15,8 @@ namespace OrderClient.ViewModels
         private readonly IWaitingViewModel _waitingDialog;
         private IPayingWindow _payingWindow;
 
+        public bool IsAddingElements { get; set; }
+
         public OrderViewModel(IMainWindowViewModel mainWindow, IOrderDataModel orderDataModel)
         {
             _mainWindow = mainWindow;
@@ -28,19 +30,35 @@ namespace OrderClient.ViewModels
 
             _orderDataModel.StartNewOrder();
 
+            IsAddingElements = false;
+
             ActivateItem(_currentOrderDialog);
         }
 
         public bool CanAddCurrentOrder
         {
-            get { return !_orderDataModel.IsEmpty(); }
+            get { return !IsAddingElements && !_orderDataModel.IsEmpty(); }
+        }
+
+        public bool CanAddItem
+        {
+            get { return !IsAddingElements;  }
         }
 
         public void CloseAddItemDialog()
         {
             _currentOrderDialog.RefreshOrder();
             ActivateItem(_currentOrderDialog);
+
+            IsAddingElements = false;
+
+            RefreshAvailableOptions();
+        }
+
+        private void RefreshAvailableOptions()
+        {
             NotifyOfPropertyChange(() => CanAddCurrentOrder);
+            NotifyOfPropertyChange(() => CanAddItem);
         }
 
         public void CheckIfIsPosibleToAddOrder()
@@ -79,6 +97,9 @@ namespace OrderClient.ViewModels
 
         public void AddItem()
         {
+            IsAddingElements = true;
+            RefreshAvailableOptions();
+
             ActivateItem(_addItemDialog);
         }
 
