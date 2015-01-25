@@ -1,17 +1,15 @@
-﻿using OrderServiceClient.Abstract;
-using OrderServiceClient.WaiterDataAccessWCFService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClassLib.DataStructures;
+using OrderServiceClient.Abstract;
+using Order = OrderServiceClient.WaiterDataAccessWCFService.Order;
+using OrderState = OrderServiceClient.WaiterDataAccessWCFService.OrderState;
+using UserContext = OrderServiceClient.WaiterDataAccessWCFService.UserContext;
 
 namespace OrderServiceClient.Model
 {
-    class WaiterDataModel : IWaiterDataModel
+    internal class WaiterDataModel : IWaiterDataModel
     {
-        private IWaiterDataAccess _waiterDataAccess;
-        private IOrderNotyficator _orderNotyficator;
+        private readonly IOrderNotyficator _orderNotyficator;
+        private readonly IWaiterDataAccess _waiterDataAccess;
         private UserContext waiterUserContext;
 
         public WaiterDataModel(IWaiterDataAccess waiterDataAccess, IOrderNotyficator orderNotyficator)
@@ -23,7 +21,7 @@ namespace OrderServiceClient.Model
 
         public void LogIn(string login, string password)
         {
-            waiterUserContext = _waiterDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+            waiterUserContext = _waiterDataAccess.LogIn(login, HashClass.CreateFirstHash(password, login));
         }
 
         public bool IsLogged()
@@ -31,12 +29,10 @@ namespace OrderServiceClient.Model
             return waiterUserContext != null;
         }
 
-
         public void AcceptOrder()
         {
             _orderNotyficator.AcceptCurrentOrder();
         }
-
 
         public void SetOrderAwaiting(Order order)
         {

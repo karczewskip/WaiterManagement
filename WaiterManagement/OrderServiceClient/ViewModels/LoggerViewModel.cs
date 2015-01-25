@@ -1,25 +1,12 @@
 ﻿using OrderServiceClient.Abstract;
 using OrderServiceClient.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace OrderServiceClient.ViewModels
 {
-    class LoggerViewModel : IDialogLogin
+    internal class LoggerViewModel : IDialogLogin
     {
-        private IMainWindowViewModel _mainWindow;
-        private IWaiterDataModel _waiterDataModel;
-
-        private string _userName;
-        public string UserName
-        {
-            get { return _userName; }
-            set { _userName = value; }
-        }
+        private readonly IMainWindowViewModel _mainWindow;
+        private readonly IWaiterDataModel _waiterDataModel;
 
         public LoggerViewModel(IMainWindowViewModel mainWindow, IWaiterDataModel waiterDataModel)
         {
@@ -27,11 +14,12 @@ namespace OrderServiceClient.ViewModels
             _waiterDataModel = waiterDataModel;
         }
 
+        public string UserName { get; set; }
+
         public void LogIn(LoggerView view)
         {
-            _waiterDataModel.LogIn(_userName, view.PasswordB.Password);
+            _waiterDataModel.LogIn(UserName, view.PasswordB.Password);
             _mainWindow.LogIn();
         }
-
     }
 }
