@@ -15,7 +15,7 @@ namespace DataAccess
     public interface IBaseDataAccess
     {
         IEnumerable<MenuItemCategory> GetMenuItemCategories(int userId);
-        IEnumerable<MenuItem> GetMenuItems(int userId);
+        IEnumerable<MenuItem> GetMenuItems();
         IEnumerable<Table> GetTables(int userId);
         UserContext LogIn(string login, string password);
         bool LogOut(int userId);
