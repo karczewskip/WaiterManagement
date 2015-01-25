@@ -67,7 +67,8 @@ namespace OrderClient.ViewModels
 
         public void NotyfyOrderOnHold()
         {
-            MessageBox.Show("TODO: NotifyOrderOnHold");
+            _orderDataModel.SetCurrentOrderOnHold();
+            _waitingDialog.RefreshMessage();
         }
 
         public void AddCurrentOrder()
@@ -84,11 +85,6 @@ namespace OrderClient.ViewModels
         public void CancelOrder()
         {
             _mainWindow.CancelOrder();
-        }
-
-        private void RefreshMessage()
-        {
-            _waitingDialog.RefreshMessage();
         }
     }
 }

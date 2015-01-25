@@ -18,6 +18,8 @@ namespace OrderClient.Model
     {
         private readonly IClientDataAccess _clientDataAccess;
         private readonly IOrderNotyficator _orderNotyficator;
+
+        private bool _isCurrentOrderOnHold;
         private Order _currentOrder;
         private int _tableId;
         private UserContext _userContext;
@@ -55,6 +57,7 @@ namespace OrderClient.Model
         public void StartNewOrder()
         {
             MenuItems = new List<MenuItemQuantity>();
+            _isCurrentOrderOnHold = false;
         }
 
         public void RemoveFromCurrentOrder(MenuItemQuantity removingItem)
@@ -74,6 +77,9 @@ namespace OrderClient.Model
 
         public string GetCurrentOrderMessage()
         {
+            if (_isCurrentOrderOnHold)
+                return "No available waiters now. You need to wait";
+
             switch (CurrentOrderState)
             {
                 case OrderState.Placed:
@@ -140,6 +146,11 @@ namespace OrderClient.Model
             var thisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
 
             return thisTypeOfOrder;
+        }
+
+        public void SetCurrentOrderOnHold()
+        {
+            _isCurrentOrderOnHold = true;
         }
     }
 }
