@@ -46,5 +46,11 @@ namespace OrderClient.ViewModels
             _dialogOrderWindow = new OrderViewModel(this, _orderDataModel);
             ActivateItem(_dialogOrderWindow);
         }
+
+        protected override void OnDeactivate(bool close)
+        {
+            _orderDataModel.LogOut();
+            base.OnDeactivate(close);
+        }
     }
 }

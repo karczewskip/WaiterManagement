@@ -152,5 +152,11 @@ namespace OrderClient.Model
         {
             _isCurrentOrderOnHold = true;
         }
+
+        public void LogOut()
+        {
+            if(IsLogged())
+                _clientDataAccess.LogOut(_userContext.Id);
+        }
     }
 }

@@ -24,5 +24,7 @@ namespace OrderClient.Abstract
         bool IsLogged();
 
         void SetCurrentOrderOnHold();
+
+        void LogOut();
     }
 }
