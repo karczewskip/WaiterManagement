@@ -59,3 +59,5 @@ textarea {
 .validation-summary-valid {
     display: none;
 }
+
+DIV#content { margin-top: 2em; padding: 1em; }

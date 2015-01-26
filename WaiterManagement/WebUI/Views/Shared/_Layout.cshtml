@@ -8,9 +8,19 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">.Net Bar</a>
+        </div>
+    </div>
+</nav>
+<div id="content">
     @RenderBody()
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
+
+@Scripts.Render("~/bundles/jquery")
+@RenderSection("scripts", required: false)
 </body>
 </html>
