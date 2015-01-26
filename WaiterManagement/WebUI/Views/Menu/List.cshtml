@@ -5,16 +5,23 @@
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
+<h2>Menu</h2>
 
-@foreach (var item in Model.MenuItems){
-    <div class="item">
-        <h3>@item.Name</h3>
-        @item.Description
-        <h4>@item.Price.Amount @item.Price.Currency</h4>
+@foreach (var item in Model.MenuItems)
+{
+    <div class="panel panel-primary">
+        <div class="panel-title">
+            @item.Name
+        </div>
+        <div class="panel-body">
+            @item.Description
+        </div>
+        <div class="panel-footer">
+            @item.Price.Amount @item.Price.Currency
+        </div>
     </div>
 }
 
-<div class="pager">
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x}))
+<div class="pagination">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
 </div>
