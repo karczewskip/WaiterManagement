@@ -1,0 +1,19 @@
+﻿@model ClassLib.DataStructures.MenuItem
+
+<div class="panel panel-primary">
+    <div class="panel-title">
+        @Model.Name
+    </div>
+    <div class="panel-body">
+        @Model.Description
+        @using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            @Html.HiddenFor(x => x.Id)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            <input class="btn btn-default" type="submit" value="+ Add to cart" />
+        }
+    </div>
+    <div class="panel-footer">
+        @Model.Price.Amount @Model.Price.Currency
+    </div>
+</div>

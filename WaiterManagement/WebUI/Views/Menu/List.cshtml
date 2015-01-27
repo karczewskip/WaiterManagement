@@ -9,17 +9,7 @@
 
 @foreach (var item in Model.MenuItems)
 {
-    <div class="panel panel-primary">
-        <div class="panel-title">
-            @item.Name
-        </div>
-        <div class="panel-body">
-            @item.Description
-        </div>
-        <div class="panel-footer">
-            @item.Price.Amount @item.Price.Currency
-        </div>
-    </div>
+    Html.RenderPartial("MenuItemSummary", item);
 }
 
 <div class="pagination">

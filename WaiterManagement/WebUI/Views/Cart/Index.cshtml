@@ -1,0 +1,42 @@
+﻿@model WebUI.Models.CartIndexViewModel
+
+@{
+    ViewBag.Title = ".Net Bar: Your Order";
+}
+
+<h2>Your cart</h2>
+<table class="table table-bordered" width="90%" align="center">
+    <thead>
+        <tr>
+            <th align="right">Quantity</th>
+            <th align="left">Item</th>
+            <th align="right">Price</th>
+            <th align="right">Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.Cart.Lines)
+        {
+            <tr>
+                <td align="left">@line.Quantity</td>
+                <td align="left">@line.MenuItem.Name</td>
+                <td align="right">@line.MenuItem.Price.Amount</td>
+                <td align="right">
+                    @((line.Quantity
+                   * line.MenuItem.Price.Amount))
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" align="right">Total:</td>
+            <td align="right">
+                @Model.Cart.ComputeTotalValue().ToString("c")
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<p align="center" class="actionButtons">
+    <a href="@Model.ReturnUrl">Continue shopping</a>
+</p>
