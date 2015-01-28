@@ -3,6 +3,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using ClassLib.DataStructures;
+using WebUI.Binders;
 using WebUI.Infrastructure;
 
 namespace WebUI
@@ -22,6 +24,7 @@ namespace WebUI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
         }
     }
 }
