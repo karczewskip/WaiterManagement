@@ -18,46 +18,35 @@ namespace WebUI.Controllers
             _baseDataAccess = baseDataAccess;
         }
 
-        public ViewResult Index(string returnUrl)
+        public ViewResult Index(Cart cart, string returnUrl)
         {
             return View(new CartIndexViewModel
             {
-                Cart = GetCart(),
+                Cart = cart,
                 ReturnUrl = returnUrl
             });
         }
 
-        public RedirectToRouteResult AddToCart(int id, string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int id, string returnUrl)
         {
             var menuItem = _baseDataAccess.GetMenuItems()
             .FirstOrDefault(m => m.Id == id);
             if (menuItem != null)
             {
-                GetCart().AddItem(menuItem, 1);
+                cart.AddItem(menuItem, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToRouteResult RemoveFromCart(int menuItemId, string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(Cart cart, int menuItemId, string returnUrl)
         {
             var menuItem = _baseDataAccess.GetMenuItems()
             .FirstOrDefault(m => m.Id == menuItemId);
             if (menuItem != null)
             {
-                GetCart().RemoveLine(menuItem);
+                cart.RemoveLine(menuItem);
             }
             return RedirectToAction("Index", new { returnUrl });
-        }
-
-        private Cart GetCart()
-        {
-            var cart = (Cart)Session["Cart"];
-
-            if (cart != null) return cart;
-
-            cart = new Cart();
-            Session["Cart"] = cart;
-            return cart;
         }
     }
 }

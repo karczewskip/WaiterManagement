@@ -23,7 +23,16 @@
                 <td align="right">@line.MenuItem.Price.Amount</td>
                 <td align="right">
                     @((line.Quantity
-                   * line.MenuItem.Price.Amount))
+                       *line.MenuItem.Price.Amount))
+                </td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                    {
+                        @Html.Hidden("MenuItemId", line.MenuItem.Id)
+                        @Html.HiddenFor(x => x.ReturnUrl)
+                        <input class="actionButtons" type="submit"
+                               value="Remove" />
+                    }
                 </td>
             </tr>
         }
