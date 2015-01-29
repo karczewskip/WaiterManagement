@@ -21,9 +21,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li class="@(ViewBag.Title == "Bar.Net: Menu" ? "active" : "")">@Html.ActionLink("Menu", "List", "Menu")</li>
+                <li class="@(ViewBag.Title == "Bar.Net: About" ? "active" : "")">@Html.ActionLink("About","Index","About")</li>
+                <li class="@(ViewBag.Title == "Bar.Net: Contact" ? "active" : "")">@Html.ActionLink("About", "Contact", "About")</li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
                     <ul class="nav nav-pills nav-stacked dropdown-menu" role="menu">
