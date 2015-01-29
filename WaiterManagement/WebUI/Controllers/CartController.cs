@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ClassLib;
 using ClassLib.DataStructures;
 using DataAccess;
 using WebUI.Models;
@@ -12,12 +13,12 @@ namespace WebUI.Controllers
     public class CartController : Controller
     {
         private readonly IBaseDataAccess _baseDataAccess;
-        private readonly IOrderProcessor _orderProcessor;
+        private readonly IProcessOrderCommand _orderProcessorCommand;
 
-        public CartController(IBaseDataAccess baseDataAccess, IOrderProcessor orderProcessor)
+        public CartController(IBaseDataAccess baseDataAccess, IProcessOrderCommand orderProcessor)
         {
             _baseDataAccess = baseDataAccess;
-            _orderProcessor = orderProcessor;
+            _orderProcessorCommand = orderProcessor;
         }
 
         public ViewResult Index(Cart cart, string returnUrl)
@@ -59,25 +60,42 @@ namespace WebUI.Controllers
         [HttpPost]
         public ViewResult Checkout(Cart cart, OrderDetails orderDetails)
         {
-            if (cart.Lines.Count() == 0)
-            {
-                ModelState.AddModelError("", "Sorry, your order is empty!");
-            }
-            if (ModelState.IsValid)
-            {
-                _orderProcessor.ProcessOrder(cart, orderDetails);
-                cart.Clear();
-                return View("Completed");
-            }
-            else
-            {
+            if(CheckCartContent(cart))
+                if (ChcekLogicalContext(orderDetails))
+                    ProcessOrder(cart, orderDetails);
+
+            if (!ModelState.IsValid)
                 return View(orderDetails);
-            }
+
+            cart.Clear();
+            return View("Completed");
+        }
+
+        private bool CheckCartContent(Cart cart)
+        {
+            if (cart.Lines.Any()) return true;
+
+            ModelState.AddModelError("", ApplicationResources.EmptyOrderMessage);
+            return false;
+        }
+
+        private bool ChcekLogicalContext(OrderDetails orderDetails)
+        {
+            //TODO: if your order couldn't be realized from logical reasons
+            return true;
+        }
+
+        private bool ProcessOrder(Cart cart, OrderDetails orderDetails)
+        {
+            if (_orderProcessorCommand.Execute(cart, orderDetails)) return true;
+            
+            ModelState.AddModelError("", ApplicationResources.ProcessingErrorMessage);
+            return false;
         }
 
         public ViewResult Checkout()
         {
-            return View(new OrderDetails());
+            return View(new OrderDetails() { Date = DateTime.Now});
         }
     }
 }

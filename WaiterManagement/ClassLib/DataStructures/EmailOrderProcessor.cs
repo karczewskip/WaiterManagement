@@ -4,10 +4,10 @@ using System.Text;
 
 namespace ClassLib.DataStructures
 {
-    public class EmailOrderProcessor : IOrderProcessor
+    public class EmailOrderProcessor : IProcessOrderCommand
     {
 
-        public void ProcessOrder(Cart cart, OrderDetails orderDetails)
+        public bool Execute(Cart cart, OrderDetails orderDetails)
         {
             var fromAddress = new MailAddress("testdotnetbar@gmail.com", "From Bar");
             var toAddress = new MailAddress("testdotnetbar@gmail.com", "To Me");
@@ -47,6 +47,8 @@ namespace ClassLib.DataStructures
             {
                 smtp.Send(message);
             }
+
+            return true;
         }
     }
 }

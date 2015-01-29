@@ -1,7 +1,7 @@
 ﻿namespace ClassLib.DataStructures
 {
-    public interface IOrderProcessor
+    public interface IProcessOrderCommand
     {
-        void ProcessOrder(Cart cart, OrderDetails orderDetails); 
+        bool Execute(Cart cart, OrderDetails orderDetails); 
     }
 }

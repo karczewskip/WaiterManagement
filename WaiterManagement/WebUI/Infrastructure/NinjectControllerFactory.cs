@@ -28,7 +28,8 @@ namespace WebUI.Infrastructure
         {
             ninjectKernel.Bind<IBaseDataAccess>().To<DataAccessClass>().InSingletonScope();
 
-            ninjectKernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>();
+            ninjectKernel.Bind<IProcessOrderCommand>().To<DbOrderProcessor>();
+            ninjectKernel.Bind<IProcessOrderCommand>().To<EmailOrderProcessor>().WhenInjectedInto<DbOrderProcessor>();
         }
     }
 }

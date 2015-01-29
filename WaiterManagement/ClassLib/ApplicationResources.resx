@@ -120,4 +120,10 @@
   <data name="DefaultCurrency" xml:space="preserve">
     <value>PLN</value>
   </data>
+  <data name="EmptyOrderMessage" xml:space="preserve">
+    <value>Sorry, your order is empty!</value>
+  </data>
+  <data name="ProcessingErrorMessage" xml:space="preserve">
+    <value>Sorry there was a problem to save your order. You can try again.</value>
+  </data>
 </root>

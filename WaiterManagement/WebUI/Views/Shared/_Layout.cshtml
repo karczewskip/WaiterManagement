@@ -17,13 +17,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink(".Net Bar", "List", "Menu")
+            @Html.ActionLink("Bar.Net", "List", "Menu",null, new { @class = "navbar-brand" })
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="@(ViewBag.Title == "Bar.Net: Menu" ? "active" : "")">@Html.ActionLink("Menu", "List", "Menu")</li>
                 <li class="@(ViewBag.Title == "Bar.Net: About" ? "active" : "")">@Html.ActionLink("About","Index","About")</li>
-                <li class="@(ViewBag.Title == "Bar.Net: Contact" ? "active" : "")">@Html.ActionLink("About", "Contact", "About")</li>
+                <li class="@(ViewBag.Title == "Bar.Net: Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "About")</li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
                     <ul class="nav nav-pills nav-stacked dropdown-menu" role="menu">
@@ -39,6 +39,7 @@
     @RenderBody()
 </div>
 @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
 </body>

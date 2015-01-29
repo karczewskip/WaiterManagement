@@ -68,5 +68,23 @@ namespace ClassLib {
                 return ResourceManager.GetString("DefaultCurrency", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, your order is empty!.
+        /// </summary>
+        public static string EmptyOrderMessage {
+            get {
+                return ResourceManager.GetString("EmptyOrderMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry there was a problem to save your order. You can try again..
+        /// </summary>
+        public static string ProcessingErrorMessage {
+            get {
+                return ResourceManager.GetString("ProcessingErrorMessage", resourceCulture);
+            }
+        }
     }
 }
