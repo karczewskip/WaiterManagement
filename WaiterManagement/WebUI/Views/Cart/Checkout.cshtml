@@ -1,0 +1,25 @@
+﻿@model ClassLib.DataStructures.OrderDetails
+
+@{
+    ViewBag.Title = "Bar.Net Checkout";
+}
+
+<h2>Check out now</h2>
+Please enter your details.
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    
+    <h3>Your name</h3>
+    @Html.EditorFor(x => x.Name)
+    
+    <h3>Date</h3>
+    @Html.EditorFor(x => x.Date)
+    
+    <h3>Your number</h3>
+    @Html.EditorFor(x => x.Number)
+    
+    <p align="center">
+        <input class="actionButtons" type="submit" value="Complete order" />
+    </p>
+}

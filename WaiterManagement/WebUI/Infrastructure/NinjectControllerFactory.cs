@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ClassLib.DataStructures;
 using DataAccess;
 using Ninject;
 
@@ -26,6 +27,8 @@ namespace WebUI.Infrastructure
         private void AddBindings()
         {
             ninjectKernel.Bind<IBaseDataAccess>().To<DataAccessClass>().InSingletonScope();
+
+            ninjectKernel.Bind<IOrderProcessor>().To<DbOrderProcessor>();
         }
     }
 }

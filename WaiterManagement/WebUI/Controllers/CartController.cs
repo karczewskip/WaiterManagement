@@ -12,10 +12,12 @@ namespace WebUI.Controllers
     public class CartController : Controller
     {
         private readonly IBaseDataAccess _baseDataAccess;
+        private readonly IOrderProcessor _orderProcessor;
 
-        public CartController(IBaseDataAccess baseDataAccess)
+        public CartController(IBaseDataAccess baseDataAccess, IOrderProcessor orderProcessor)
         {
             _baseDataAccess = baseDataAccess;
+            _orderProcessor = orderProcessor;
         }
 
         public ViewResult Index(Cart cart, string returnUrl)
@@ -52,6 +54,30 @@ namespace WebUI.Controllers
         public PartialViewResult Summary(Cart cart)
         {
             return PartialView(cart);
+        }
+
+        [HttpPost]
+        public ViewResult Checkout(Cart cart, OrderDetails orderDetails)
+        {
+            if (cart.Lines.Count() == 0)
+            {
+                ModelState.AddModelError("", "Sorry, your order is empty!");
+            }
+            if (ModelState.IsValid)
+            {
+                _orderProcessor.ProcessOrder(cart, orderDetails);
+                cart.Clear();
+                return View("Completed");
+            }
+            else
+            {
+                return View(orderDetails);
+            }
+        }
+
+        public ViewResult Checkout()
+        {
+            return View(new OrderDetails());
         }
     }
 }

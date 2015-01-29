@@ -1,7 +1,7 @@
 ﻿@model WebUI.Models.CartIndexViewModel
 
 @{
-    ViewBag.Title = ".Net Bar: Your Order";
+    ViewBag.Title = "Bar.Net: Your Order";
 }
 
 <h2>Your cart</h2>
@@ -47,5 +47,6 @@
     </tfoot>
 </table>
 <p align="center" class="actionButtons">
-    <a href="@Model.ReturnUrl">Continue shopping</a>
+    <a class="btn btn-default btn-sm" href="@Model.ReturnUrl">Continue shopping</a>
+    @Html.ActionLink("Checkout now", "Checkout", "Cart", new { @class = "btn btn-default btn-sm" })
 </p>
