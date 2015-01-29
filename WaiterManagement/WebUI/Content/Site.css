@@ -61,3 +61,13 @@ textarea {
 }
 
 DIV#content { margin-top: 2em; padding: 1em; }
+DIV#cart {
+    float: right;
+    margin: .4em;
+    padding: .4em;
+}
+
+DIV#cart span#checkout A{
+    text-decoration: none;
+    color: Black;
+}
