@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ClassLib;
 
 namespace OrderClient.Converters
 {
@@ -27,7 +28,7 @@ namespace OrderClient.Converters
                 price += menuItem.MenuItem.Price.Amount * menuItem.Quantity;
             }
 
-            return Math.Round( price,2).ToString() + " PLN";
+            return Math.Round( price,2).ToString() + " " + ApplicationResources.DefaultCurrency;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

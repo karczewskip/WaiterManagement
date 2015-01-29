@@ -9,7 +9,7 @@ namespace ClassLib.DataStructures
 
         public string Currency
         {
-            get { return "PLN"; }
+            get { return ApplicationResources.DefaultCurrency; }
         }
 
         public IEnumerable<CartLine> Lines

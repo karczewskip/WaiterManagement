@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ClassLib;
 using WaiterClient.WaiterDataAccessWCFService;
 
 namespace WaiterClient.Converters
@@ -22,7 +23,7 @@ namespace WaiterClient.Converters
                 price += menuItem.MenuItem.Price.Amount * menuItem.Quantity;
             }
 
-            return Math.Round( price,2).ToString() + " PLN";
+            return Math.Round( price,2).ToString() + " " + ApplicationResources.DefaultCurrency;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

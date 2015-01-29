@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Net.Mime;
 using Caliburn.Micro;
+using ClassLib;
 using OrderClient.Abstract;
 using OrderClient.ClientDataAccessWCFService;
 
@@ -31,7 +33,7 @@ namespace OrderClient.ViewModels
 
         public string Salary
         {
-            get { return CalculateSalary() + " PLN to pay"; }
+            get { return CalculateSalary() + " " + ApplicationResources.DefaultCurrency + " to pay"; }
         }
 
         public void RefreshOrder()

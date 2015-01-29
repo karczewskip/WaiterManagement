@@ -3,6 +3,7 @@ using BarManager.ManagerDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ClassLib;
 
 namespace BarManager.Model
 {
@@ -70,7 +71,7 @@ namespace BarManager.Model
             MenuItem addingMenuItem;
             try
             {
-                addingMenuItem = ManagerDataAccess.AddMenuItem(managerUserContext.Id, menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = "PLN" });
+                addingMenuItem = ManagerDataAccess.AddMenuItem(managerUserContext.Id, menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = ApplicationResources.DefaultCurrency });
             }
             catch
             {
@@ -116,7 +117,7 @@ namespace BarManager.Model
             var oldDescription = menuItemToEdit.Description;
 
             menuItemToEdit.Name = newName;
-            menuItemToEdit.Price = new Money() { Amount = (float)newPrice, Currency = "PLN" };
+            menuItemToEdit.Price = new Money() { Amount = (float)newPrice, Currency = ApplicationResources.DefaultCurrency };
             menuItemToEdit.Category = newCategory;
             menuItemToEdit.Description = newMenuItemDescription;
 
