@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="DataStructures\DataStructures.cs" />
     <Compile Include="DataStructures\DataTransferObjects.cs" />
+    <Compile Include="DataStructures\EmailOrderProcessor.cs" />
     <Compile Include="DataStructures\HashClass.cs" />
     <Compile Include="DataStructures\IOrderProcessor.cs" />
     <Compile Include="DataStructures\OrderCart.cs" />
