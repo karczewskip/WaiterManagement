@@ -7,6 +7,11 @@ namespace ClassLib.DataStructures
     {
         private readonly List<CartLine> lineCollection = new List<CartLine>();
 
+        public string Currency
+        {
+            get { return "PLN"; }
+        }
+
         public IEnumerable<CartLine> Lines
         {
             get { return lineCollection; }

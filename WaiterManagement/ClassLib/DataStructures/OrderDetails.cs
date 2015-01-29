@@ -12,6 +12,6 @@ namespace ClassLib.DataStructures
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "Please enter a number")]
-        public string Number { get; set; }
+        public long Number { get; set; }
     }
 }
