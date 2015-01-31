@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using BarManager.Abstract;
+using BarManager.Abstract.Model;
+using BarManager.Abstract.ViewModel;
 using Caliburn.Micro;
 using BarManager.ManagerDataAccessWCFService;
 

@@ -4,6 +4,8 @@ using BarManager.ManagerDataAccessWCFService;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using BarManager.Abstract.Model;
+using BarManager.Abstract.ViewModel;
 
 namespace BarManager.ViewModels
 {

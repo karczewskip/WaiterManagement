@@ -7,6 +7,8 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using BarManager.Abstract.Model;
+using BarManager.Abstract.ViewModel;
 
 namespace BarManager
 {
@@ -50,6 +52,11 @@ namespace BarManager
             _kernel.Bind<IBarDataModel>().To<BarDataModel>().InSingletonScope();
             _kernel.Bind<IManagerDataAccess>().To<ManagerDataAccess>().InSingletonScope();
             _kernel.Bind<IMessagingViewModel>().To<MessagingViewModel>().InSingletonScope();
+
+            //Access view models
+            _kernel.Bind<IAccessViewModel>().To<AccessViewModel>().InSingletonScope();
+            _kernel.Bind<ILoggerViewModel>().To<LoggerViewModel>().InSingletonScope();
+            _kernel.Bind<IRegisterViewModel>().To<RegisterViewModel>().InSingletonScope();
         }
 
         protected override void OnExit(object sender, EventArgs e)

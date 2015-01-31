@@ -1,6 +1,7 @@
 ﻿
 using BarManager.ManagerDataAccessWCFService;
-namespace BarManager.Abstract
+
+namespace BarManager.Abstract.ViewModel
 {
     public interface IEditTableViewModel
     {

@@ -1,4 +1,5 @@
 ﻿using BarManager.Abstract;
+using BarManager.Abstract.Model;
 using BarManager.Abstract.ViewModel;
 using Caliburn.Micro;
 
@@ -7,14 +8,17 @@ namespace BarManager.ViewModels
     internal class AccessViewModel : Conductor<object>, IAccessViewModel
     {
         private readonly ILoggerViewModel _loggerWindow;
-        private readonly IMainWindowViewModel _mainWindow;
         private readonly IRegisterViewModel _registerWindow;
 
-        public AccessViewModel(IMainWindowViewModel mainWindow, IBarDataModel barDataModel)
+        private IMainWindowViewModel _mainWindow;
+
+        public AccessViewModel(ILoggerViewModel loggerViewModel, IRegisterViewModel registerViewModel)
         {
-            _mainWindow = mainWindow;
-            _loggerWindow = new LoggerViewModel(this, barDataModel);
-            _registerWindow = new RegisterViewModel(this, barDataModel);
+            _loggerWindow = loggerViewModel;
+            _loggerWindow.SetParentWindow(this);
+
+            _registerWindow = registerViewModel;
+            _registerWindow.SetParentWindow(this);
         }
 
         public void ShowLogIn()
@@ -30,6 +34,11 @@ namespace BarManager.ViewModels
         public void CreateNewAccount()
         {
             ActivateItem(_registerWindow);
+        }
+
+        public void SetMainWindow(IMainWindowViewModel mainWindowViewModel)
+        {
+            _mainWindow = mainWindowViewModel;
         }
     }
 }

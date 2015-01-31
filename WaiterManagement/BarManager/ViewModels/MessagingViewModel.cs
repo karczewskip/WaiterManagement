@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BarManager.Abstract;
+using BarManager.Abstract.ViewModel;
 
 namespace BarManager.ViewModels
 {

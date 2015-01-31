@@ -1,7 +1,7 @@
-﻿using Caliburn.Micro;
-using BarManager.ManagerDataAccessWCFService;
+﻿using BarManager.ManagerDataAccessWCFService;
+using Caliburn.Micro;
 
-namespace BarManager.Abstract
+namespace BarManager.Abstract.ViewModel
 {
     public interface IWaiterManagerViewModel
     {

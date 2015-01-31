@@ -3,15 +3,15 @@ using BarManager.ManagerDataAccessWCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BarManager.Abstract.Model;
 using ClassLib;
 
 namespace BarManager.Model
 {
     public class BarDataModel : IBarDataModel, IDisposable
     {
-        private IManagerDataAccess ManagerDataAccess;
-        private bool access = false;
-        private UserContext managerUserContext;
+        private readonly IManagerDataAccess ManagerDataAccess;
+        private UserContext _managerUserContext;
 
         public BarDataModel(IManagerDataAccess managerDataAccess)
         {
@@ -20,11 +20,11 @@ namespace BarManager.Model
 
         public IList<MenuItemCategory> GetAllCategories()
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
             try
             {
-                return ManagerDataAccess.GetMenuItemCategories(managerUserContext.Id).ToList();
+                return ManagerDataAccess.GetMenuItemCategories(_managerUserContext.Id).ToList();
             }
             catch
             {
@@ -34,13 +34,13 @@ namespace BarManager.Model
 
         public MenuItemCategory AddCategoryItem(string categoryName, string categoryDescription)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
 
             MenuItemCategory addingCategory = null;
             try
             {
-                addingCategory = ManagerDataAccess.AddMenuItemCategory(managerUserContext.Id, categoryName, categoryDescription);
+                addingCategory = ManagerDataAccess.AddMenuItemCategory(_managerUserContext.Id, categoryName, categoryDescription);
             }
             catch
             {
@@ -51,11 +51,11 @@ namespace BarManager.Model
 
         public IList<MenuItem> GetAllMenuItems()
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
             try
             {
-                return ManagerDataAccess.GetMenuItems(managerUserContext.Id).ToList();
+                return ManagerDataAccess.GetMenuItems(_managerUserContext.Id).ToList();
             }
             catch
             {
@@ -65,13 +65,13 @@ namespace BarManager.Model
 
         public MenuItem AddMenuItem(string menuItemName, MenuItemCategory category, double price, string menuItemDescription)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
 
             MenuItem addingMenuItem;
             try
             {
-                addingMenuItem = ManagerDataAccess.AddMenuItem(managerUserContext.Id, menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = ApplicationResources.DefaultCurrency });
+                addingMenuItem = ManagerDataAccess.AddMenuItem(_managerUserContext.Id, menuItemName, menuItemDescription, category.Id, new Money() { Amount = (float)price, Currency = ApplicationResources.DefaultCurrency });
             }
             catch
             {
@@ -88,13 +88,13 @@ namespace BarManager.Model
 
         public bool DeleteItem(int id)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return false;
 
             bool result;
             try
             {
-                result =  ManagerDataAccess.RemoveMenuItem(managerUserContext.Id, id);
+                result =  ManagerDataAccess.RemoveMenuItem(_managerUserContext.Id, id);
             }
             catch
             {
@@ -106,7 +106,7 @@ namespace BarManager.Model
 
         public bool EditMenuItem(MenuItem menuItemToEdit, string newName, double newPrice, MenuItemCategory newCategory, string newMenuItemDescription)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return false;
 
             bool result;
@@ -123,7 +123,7 @@ namespace BarManager.Model
 
             try
             {
-                result =  ManagerDataAccess.EditMenuItem(managerUserContext.Id, menuItemToEdit);
+                result =  ManagerDataAccess.EditMenuItem(_managerUserContext.Id, menuItemToEdit);
             }
             catch
             {
@@ -150,12 +150,12 @@ namespace BarManager.Model
 
         public IList<UserContext> GetAllWaiters()
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
 
             try
             {
-                return ManagerDataAccess.GetWaiters(managerUserContext.Id).ToList();
+                return ManagerDataAccess.GetWaiters(_managerUserContext.Id).ToList();
             }
             catch
             {
@@ -165,13 +165,13 @@ namespace BarManager.Model
 
         public bool DeleteWaiter(int id)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return false;
 
             bool result;
             try
             {
-                result = ManagerDataAccess.RemoveWaiter(managerUserContext.Id, id);
+                result = ManagerDataAccess.RemoveWaiter(_managerUserContext.Id, id);
             }
             catch
             {
@@ -183,13 +183,13 @@ namespace BarManager.Model
 
         public UserContext AddWaiter(string login, string firstName, string lastName, string password)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
 
             UserContext addingWaiter;
             try
             {
-                addingWaiter = ManagerDataAccess.AddWaiter(managerUserContext.Id, firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+                addingWaiter = ManagerDataAccess.AddWaiter(_managerUserContext.Id, firstName, lastName, login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
             }
             catch(Exception e)
             {
@@ -201,7 +201,7 @@ namespace BarManager.Model
 
         public bool EditWaiter(UserContext waiter, string login, string firstName, string lastName, string password)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return false;
 
             bool result;
@@ -218,7 +218,7 @@ namespace BarManager.Model
 
             try
             {
-                result = ManagerDataAccess.EditWaiter(managerUserContext.Id, waiter);
+                result = ManagerDataAccess.EditWaiter(_managerUserContext.Id, waiter);
             }
             catch
             {
@@ -243,12 +243,12 @@ namespace BarManager.Model
 
         public IList<Table> GetAllTables()
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
 
             try
             {
-                return ManagerDataAccess.GetTables(managerUserContext.Id).ToList();
+                return ManagerDataAccess.GetTables(_managerUserContext.Id).ToList();
             }
             catch
             {
@@ -258,13 +258,13 @@ namespace BarManager.Model
 
         public bool DeleteTable(int id)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return false;
 
             bool result;
             try
             {
-                result =  ManagerDataAccess.RemoveTable(managerUserContext.Id, id);
+                result =  ManagerDataAccess.RemoveTable(_managerUserContext.Id, id);
             }
             catch
             {
@@ -276,13 +276,13 @@ namespace BarManager.Model
 
         public Table AddTable(int number, string tableDescription)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return null;
 
             Table addingTable;
             try
             {
-                addingTable = ManagerDataAccess.AddTable(managerUserContext.Id, number, tableDescription);
+                addingTable = ManagerDataAccess.AddTable(_managerUserContext.Id, number, tableDescription);
             }
             catch
             {
@@ -294,7 +294,7 @@ namespace BarManager.Model
 
         public bool EditTable(Table table, int number, string tableDescription)
         {
-            if (managerUserContext == null)
+            if (_managerUserContext == null)
                 return false;
 
             bool result;
@@ -307,7 +307,7 @@ namespace BarManager.Model
 
             try
             {
-                result = ManagerDataAccess.EditTable(managerUserContext.Id, table);
+                result = ManagerDataAccess.EditTable(_managerUserContext.Id, table);
             }
             catch
             {
@@ -328,12 +328,12 @@ namespace BarManager.Model
 
         public bool IsLogged()
         {
-            return managerUserContext != null;
+            return _managerUserContext != null;
         }
 
         public void LogIn(string login, string password)
         {
-            managerUserContext = ManagerDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
+            _managerUserContext = ManagerDataAccess.LogIn(login, ClassLib.DataStructures.HashClass.CreateFirstHash(password, login));
         }
 
         public void Register(string firstName, string lastName ,string login, string password)

@@ -1,12 +1,7 @@
-﻿using BarManager.ManagerDataAccessWCFService;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using BarManager.ManagerDataAccessWCFService;
 
-namespace BarManager.Abstract
+namespace BarManager.Abstract.Model
 {
     public interface IBarDataModel
     {

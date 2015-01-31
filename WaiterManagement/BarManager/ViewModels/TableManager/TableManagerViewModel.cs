@@ -8,6 +8,8 @@ using Caliburn.Micro;
 using BarManager.ManagerDataAccessWCFService;
 using System.Collections.ObjectModel;
 using System.Windows;
+using BarManager.Abstract.Model;
+using BarManager.Abstract.ViewModel;
 
 namespace BarManager.ViewModels
 {

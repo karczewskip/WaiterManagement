@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BarManager.ManagerDataAccessWCFService;
 using Caliburn.Micro;
 
-namespace BarManager.Abstract
+namespace BarManager.Abstract.ViewModel
 {
     public interface IMenuManagerViewModel
     {

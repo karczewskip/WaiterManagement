@@ -1,4 +1,4 @@
-﻿namespace BarManager.Abstract
+﻿namespace BarManager.Abstract.ViewModel
 {
     public interface IAddWaiterViewModel
     {

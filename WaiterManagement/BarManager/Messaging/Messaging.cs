@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using BarManager.Abstract;
+using BarManager.Abstract.ViewModel;
 
 namespace BarManager.Messaging
 {

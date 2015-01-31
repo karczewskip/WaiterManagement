@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using BarManager.Abstract;
 using System.Windows;
 using System.ComponentModel;
+using BarManager.Abstract.Model;
+using BarManager.Abstract.ViewModel;
 using BarManager.Messaging;
 
 namespace BarManager.ViewModels

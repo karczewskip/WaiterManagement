@@ -2,6 +2,8 @@
 using BarManager.Messaging;
 using System.ComponentModel;
 using System.Linq;
+using BarManager.Abstract.Model;
+using BarManager.Abstract.ViewModel;
 
 namespace BarManager.ViewModels
 {

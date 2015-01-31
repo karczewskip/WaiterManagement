@@ -7,6 +7,8 @@ using BarManager.Abstract;
 using System.ComponentModel;
 using BarManager.ManagerDataAccessWCFService;
 using System.Windows;
+using BarManager.Abstract.Model;
+using BarManager.Abstract.ViewModel;
 using BarManager.Messaging;
 
 namespace BarManager.ViewModels

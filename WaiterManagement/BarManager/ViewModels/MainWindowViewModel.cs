@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using BarManager.Abstract;
+using BarManager.Abstract.Model;
 using Caliburn.Micro;
+using BarManager.Abstract.ViewModel;
 
 namespace BarManager.ViewModels
 {
@@ -10,16 +12,20 @@ namespace BarManager.ViewModels
         private readonly IWaiterManagerViewModel _waiterManagerViewModel;
         private readonly ITableManagerViewModel _tableManagerViewModel;
         private readonly IBarDataModel _barDataModel;
+        private readonly IAccessViewModel _accessViewModel;
 
-        public MainWindowViewModel(IMenuManagerViewModel menuManagerViewModel, IWaiterManagerViewModel waiterManagerViewModel, ITableManagerViewModel tableManagerViewModel, IBarDataModel barDataModel)
+        public MainWindowViewModel(IMenuManagerViewModel menuManagerViewModel, IWaiterManagerViewModel waiterManagerViewModel, ITableManagerViewModel tableManagerViewModel, IBarDataModel barDataModel, IAccessViewModel accessViewModel)
         {
             _barDataModel = barDataModel;
+            _accessViewModel = accessViewModel;
 
             _menuManagerViewModel = menuManagerViewModel;
             _waiterManagerViewModel = waiterManagerViewModel;
             _tableManagerViewModel = tableManagerViewModel;
 
-            ActivateItem(new AccessViewModel(this,_barDataModel));
+            _accessViewModel.SetMainWindow(this);
+
+            ActivateItem(_accessViewModel);
         }
 
 
