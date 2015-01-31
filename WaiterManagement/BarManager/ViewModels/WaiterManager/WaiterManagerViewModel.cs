@@ -12,7 +12,7 @@ namespace BarManager.ViewModels
     /// </summary>
     public class WaiterManagerViewModel : Conductor<object>, IWaiterManagerViewModel 
     {
-        private IBarDataModel DataModel;
+        private readonly IWaiterDataModel _waiterDataModel;
         private IAddWaiterViewModel _addWaiterViewModel;
         private IEditWaiterViewModel _editWaiterViewModel;
 
@@ -29,21 +29,16 @@ namespace BarManager.ViewModels
             }
         }
 
-        public WaiterManagerViewModel(IBarDataModel dataModel)
+        public WaiterManagerViewModel(IWaiterDataModel waiterDataModel)
         {
-            DataModel = dataModel;
+            _waiterDataModel = waiterDataModel;
 
             Waiters = new BindableCollection<UserContext>();
-
-            InitializeData();
         }
 
         private void InitializeData()
         {
-            if (!DataModel.IsLogged())
-                return;
-
-            Waiters = new BindableCollection<UserContext>(DataModel.GetAllWaiters());
+            Waiters = new BindableCollection<UserContext>(_waiterDataModel.GetAllWaiters());
         }
 
         public void DeleteWaiter()
@@ -54,7 +49,7 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            if (DataModel.DeleteWaiter(SelectedWaiter.Id))
+            if (_waiterDataModel.DeleteWaiter(SelectedWaiter.Id))
             {
                 Waiters.Remove(SelectedWaiter);
                 return;

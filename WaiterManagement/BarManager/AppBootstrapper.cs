@@ -49,7 +49,10 @@ namespace BarManager
             _kernel.Bind<IEditTableViewModel>().To<EditTableViewModel>().InSingletonScope();
 
             //DataModel
-            _kernel.Bind<IBarDataModel>().To<BarDataModel>().InSingletonScope();
+            _kernel.Bind<IMenuDataModel>().To<MenuDataModel>().InSingletonScope();
+            _kernel.Bind<ITableDataModel>().To<TableDataModel>().InSingletonScope();
+            _kernel.Bind<IWaiterDataModel>().To<WaiterDataModel>().InSingletonScope();
+            _kernel.Bind<ICredentialDataModel>().To<CredentialsDataModel>().InSingletonScope();
             _kernel.Bind<IManagerDataAccess>().To<ManagerDataAccess>().InSingletonScope();
             _kernel.Bind<IMessagingViewModel>().To<MessagingViewModel>().InSingletonScope();
 

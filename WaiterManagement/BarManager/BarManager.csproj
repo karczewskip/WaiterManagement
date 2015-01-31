@@ -94,6 +94,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Abstract\IManagerDataAccess.cs" />
+    <Compile Include="Abstract\Model\ICredentialDataModel.cs" />
+    <Compile Include="Abstract\Model\IMenuDataModel.cs" />
+    <Compile Include="Abstract\Model\ITableDataModel.cs" />
+    <Compile Include="Abstract\Model\IWaiterDataModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddMenuItemViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddTableViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddWaiterViewModel.cs" />
@@ -106,13 +110,14 @@
     <Compile Include="Abstract\ViewModel\IMessagingViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IRegisterViewModel.cs" />
     <Compile Include="Abstract\ViewModel\ITableManagerViewModel.cs" />
-    <Compile Include="Abstract\Model\IBarDataModel.cs" />
     <Compile Include="Abstract\ViewModel\IAddCategoryViewModel.cs" />
     <Compile Include="Abstract\ViewModel\IWaiterManagerViewModel.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Messaging\Messaging.cs" />
-    <Compile Include="Model\BarDataModel.cs" />
+    <Compile Include="Model\CredentialsDataModel.cs" />
+    <Compile Include="Model\MenuDataModel.cs" />
     <Compile Include="Model\TableDataModel.cs" />
+    <Compile Include="Model\WaiterDataModel.cs" />
     <Compile Include="Service Communication\ManagerDataAccess.cs" />
     <Compile Include="Service References\ManagerDataAccessWCFService\Reference.cs">
       <AutoGen>True</AutoGen>

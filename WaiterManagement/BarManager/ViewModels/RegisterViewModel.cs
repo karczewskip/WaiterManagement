@@ -7,12 +7,12 @@ namespace BarManager.ViewModels
 {
     internal class RegisterViewModel : IRegisterViewModel
     {
-        private readonly IBarDataModel _barDataModel;
+        private readonly ICredentialDataModel _credentialDataModel;
         private IAccessViewModel _accessViewModel;
 
-        public RegisterViewModel( IBarDataModel barDataModel)
+        public RegisterViewModel( ICredentialDataModel credentialDataModel)
         {
-            _barDataModel = barDataModel;
+            _credentialDataModel = credentialDataModel;
         }
 
         public string FirstName { get; set; }
@@ -32,7 +32,7 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            _barDataModel.Register(FirstName, LastName, UserName, view.PasswordB.Password);
+            _credentialDataModel.Register(FirstName, LastName, UserName, view.PasswordB.Password);
             _accessViewModel.LogIn();
         }
     }

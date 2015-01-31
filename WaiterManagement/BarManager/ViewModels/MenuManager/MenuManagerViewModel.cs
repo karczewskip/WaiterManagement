@@ -1,34 +1,43 @@
-﻿using BarManager.Abstract;
-using Caliburn.Micro;
-using BarManager.ManagerDataAccessWCFService;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
+using System.Linq;
 using BarManager.Abstract.Model;
 using BarManager.Abstract.ViewModel;
+using BarManager.ManagerDataAccessWCFService;
+using Caliburn.Micro;
+using Message = BarManager.Messaging.Message;
 
 namespace BarManager.ViewModels
 {
     /// <summary>
-    /// Klasa odpowiedzialna za przetwarzanie danych w menu
+    ///     Klasa odpowiedzialna za przetwarzanie danych w menu
     /// </summary>
     public class MenuManagerViewModel : Conductor<object>, IMenuManagerViewModel
     {
-        private IBarDataModel DataModel;
-        private IAddMenuItemViewModel _addMenuItemViewModel;
+        private static MenuItemCategory AllItemsFlag;
+        private readonly IMenuDataModel _menuDataModel;
         private IAddCategoryViewModel _addCategoryViewModel;
+        private IAddMenuItemViewModel _addMenuItemViewModel;
         private IEditMenuItemViewModel _editMenuItemViewModel;
+        private BindableCollection<MenuItem> _menuItems;
+
+        public MenuManagerViewModel(IMenuDataModel dataModel)
+        {
+            _menuDataModel = dataModel;
+
+            AllMenuItems = new ObservableCollection<MenuItem>();
+            MenuItems = new BindableCollection<MenuItem>();
+
+            Categories = new ObservableCollection<MenuItemCategory>();
+            AvailableCategories = new ObservableCollection<MenuItemCategory>();
+        }
 
         public MenuItemCategory SelectedCategory { get; set; }
         public MenuItem SelectedMenuItem { get; set; }
-
-        private static MenuItemCategory AllItemsFlag;
-
         public IList<MenuItem> AllMenuItems { get; set; }
 
-        private BindableCollection<MenuItem> _menuItems;
-        public BindableCollection<MenuItem> MenuItems 
-        { 
+        public BindableCollection<MenuItem> MenuItems
+        {
             get { return _menuItems; }
             set
             {
@@ -40,102 +49,44 @@ namespace BarManager.ViewModels
         public IList<MenuItemCategory> Categories { get; set; }
         public IList<MenuItemCategory> AvailableCategories { get; set; }
 
-        public MenuManagerViewModel(IBarDataModel dataModel)
-        {
-            DataModel = dataModel;
-
-            AllMenuItems = new ObservableCollection<MenuItem>();
-            MenuItems = new BindableCollection<MenuItem>();
-
-            Categories = new ObservableCollection<MenuItemCategory>();
-            AvailableCategories = new ObservableCollection<MenuItemCategory>();
-
-            InitializeData();
-        }
-
-        private void InitializeData()
-        {
-            if (!DataModel.IsLogged())
-                return;
-
-            Categories = new ObservableCollection<MenuItemCategory>(DataModel.GetAllCategories());
-            foreach( var category in Categories)
-            {
-                AvailableCategories.Add(category);
-            }
-
-            AllItemsFlag = new MenuItemCategory() { Name = "All", Description = "All" };
-            Categories.Add(AllItemsFlag);
-
-            SelectedCategory = AllItemsFlag;
-
-            AllMenuItems = new ObservableCollection<MenuItem>(DataModel.GetAllMenuItems());
-
-            foreach( var menuItem in AllMenuItems)
-            {
-                MenuItems.Add(menuItem);
-            }
-        }
-
-        private MenuItemCategory FindCategory(int id)
-        {
-            foreach(var cat in Categories)
-            {
-                if (cat.Id == id)
-                    return cat;
-            }
-
-            return null;
-        }
-
         public void DeleteItem()
         {
             if (SelectedMenuItem == null)
             {
-                Messaging.Message.Show("No Item Is Selected");
-                return;
+                Message.Show("No Item Is Selected");
             }
             else
             {
-                if (DataModel.DeleteItem(SelectedMenuItem.Id))
+                if (_menuDataModel.DeleteItem(SelectedMenuItem.Id))
                 {
                     AllMenuItems.Remove(SelectedMenuItem);
                     MenuItems.Remove(SelectedMenuItem);
-
-                    return;
                 }
                 else
                 {
-                    Messaging.Message.Show("Failed");
-                    return;
+                    Message.Show("Failed");
                 }
             }
-        }
-
-        public void ChangeSelectedCategory()
-        {
-            ShowCurrentCategory(SelectedCategory);
         }
 
         public void ShowCurrentCategory(MenuItemCategory category)
         {
             MenuItems.Clear();
 
-            if(category == AllItemsFlag)
+            if (category == AllItemsFlag)
             {
-                foreach(var menuItem in AllMenuItems)
+                foreach (var menuItem in AllMenuItems)
                 {
                     MenuItems.Add(menuItem);
                 }
             }
 
-            foreach(var menuItem in AllMenuItems)
+            foreach (var menuItem in AllMenuItems)
             {
                 if (menuItem.Category.Id == category.Id)
                     MenuItems.Add(menuItem);
             }
         }
-
 
         public void AddNewMenuItem(MenuItem addingMenuItem)
         {
@@ -145,11 +96,53 @@ namespace BarManager.ViewModels
                 MenuItems.Add(addingMenuItem);
         }
 
-
         public void AddCategoryToViewModel(MenuItemCategory addingCategory)
         {
             Categories.Add(addingCategory);
             AvailableCategories.Add(addingCategory);
+        }
+
+        public void CloseDialogs()
+        {
+            CloseAddMenuItemDialog();
+            CloseEditMenuItemDialog();
+            CloseAddCategoryDialog();
+        }
+
+        public void RefreshData()
+        {
+            InitializeData();
+        }
+
+        private void InitializeData()
+        {
+            Categories = new ObservableCollection<MenuItemCategory>(_menuDataModel.GetAllCategories());
+            foreach (var category in Categories)
+            {
+                AvailableCategories.Add(category);
+            }
+
+            AllItemsFlag = new MenuItemCategory {Name = "All", Description = "All"};
+            Categories.Add(AllItemsFlag);
+
+            SelectedCategory = AllItemsFlag;
+
+            AllMenuItems = new ObservableCollection<MenuItem>(_menuDataModel.GetAllMenuItems());
+
+            foreach (var menuItem in AllMenuItems)
+            {
+                MenuItems.Add(menuItem);
+            }
+        }
+
+        private MenuItemCategory FindCategory(int id)
+        {
+            return Categories.FirstOrDefault(cat => cat.Id == id);
+        }
+
+        public void ChangeSelectedCategory()
+        {
+            ShowCurrentCategory(SelectedCategory);
         }
 
         public void AddItem()
@@ -161,7 +154,6 @@ namespace BarManager.ViewModels
 
         public void AddCategory()
         {
-            
             _addCategoryViewModel = IoC.Get<IAddCategoryViewModel>();
             _addCategoryViewModel.Clear();
             ActivateItem(_addCategoryViewModel);
@@ -169,7 +161,7 @@ namespace BarManager.ViewModels
 
         public void EditMenuItem()
         {
-            if(SelectedMenuItem == null)
+            if (SelectedMenuItem == null)
             {
                 return;
             }
@@ -179,14 +171,6 @@ namespace BarManager.ViewModels
             ActivateItem(_editMenuItemViewModel);
         }
 
-
-        public void CloseDialogs()
-        {
-            CloseAddMenuItemDialog();
-            CloseEditMenuItemDialog();
-            CloseAddCategoryDialog();
-        }
-
         private void CloseAddCategoryDialog()
         {
             DeactivateItem(_addCategoryViewModel, true);
@@ -194,19 +178,12 @@ namespace BarManager.ViewModels
 
         private void CloseEditMenuItemDialog()
         {
-            DeactivateItem(_editMenuItemViewModel,true);
+            DeactivateItem(_editMenuItemViewModel, true);
         }
 
         private void CloseAddMenuItemDialog()
         {
             DeactivateItem(_addMenuItemViewModel, true);
-        }
-
-
-
-        public void RefreshData()
-        {
-            InitializeData();
         }
     }
 }

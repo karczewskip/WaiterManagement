@@ -1,106 +1,103 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BarManager.Abstract;
-using BarManager.ManagerDataAccessWCFService;
-using System.Windows;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using BarManager.Abstract.Model;
 using BarManager.Abstract.ViewModel;
+using BarManager.ManagerDataAccessWCFService;
 using BarManager.Messaging;
 
 namespace BarManager.ViewModels
 {
     /// <summary>
-    /// Klasa odpowiedzialna za edytowanie pozycji w menu
+    ///     Klasa odpowiedzialna za edytowanie pozycji w menu
     /// </summary>
-    class EditMenuItemViewModel : IEditMenuItemViewModel, INotifyPropertyChanged
+    internal class EditMenuItemViewModel : IEditMenuItemViewModel, INotifyPropertyChanged
     {
-        private IMenuManagerViewModel MenuManagerViewModel;
-        private IBarDataModel DataModel;
+        private readonly IMenuDataModel _menuDataModel;
+        private readonly IMenuManagerViewModel _menuManagerViewModel;
+        private MenuItem _menuItem;
+        private string _menuItemDiscription;
+        private string _menuItemName;
+        private string _priceString;
+        private MenuItemCategory _selectedCategory;
 
-        private MenuItem MenuItem;
-
-        private string menuItemName;
-        public string MenuItemName 
+        public EditMenuItemViewModel(IMenuDataModel menuDataModel, IMenuManagerViewModel menuManagerViewModel)
         {
-            get { return menuItemName; }
+            _menuDataModel = menuDataModel;
+            _menuManagerViewModel = menuManagerViewModel;
+        }
+
+        public string MenuItemName
+        {
+            get { return _menuItemName; }
             set
             {
-                menuItemName = value;
-                if (null != this.PropertyChanged)
+                _menuItemName = value;
+                if (null != PropertyChanged)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("MenuItemName"));
                 }
             }
         }
 
-        private string priceString;
-        public string Price 
+        public string Price
         {
-            get { return priceString; }
-            set 
+            get { return _priceString; }
+            set
             {
-                priceString = value;
-                if (null != this.PropertyChanged)
+                _priceString = value;
+                if (null != PropertyChanged)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("PriceString"));
                 }
             }
         }
 
-        private MenuItemCategory selectedCategory;
-        public MenuItemCategory SelectedCategory 
+        public MenuItemCategory SelectedCategory
         {
-            get { return selectedCategory; }
+            get { return _selectedCategory; }
             set
             {
-                selectedCategory = value;
-                if (null != this.PropertyChanged)
+                _selectedCategory = value;
+                if (null != PropertyChanged)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("SelectedCategory"));
                 }
             }
         }
 
-        private string menuItemDiscription;
-        public string MenuItemDescription 
+        public string MenuItemDescription
         {
-            get { return menuItemDiscription; }
-            set 
+            get { return _menuItemDiscription; }
+            set
             {
-                menuItemDiscription = value;
-                if (null != this.PropertyChanged)
+                _menuItemDiscription = value;
+                if (null != PropertyChanged)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("MenuItemDescription"));
                 }
             }
         }
 
-        public IList<MenuItemCategory> Categories { get { return MenuManagerViewModel.AvailableCategories; } }
-
-        public EditMenuItemViewModel(IBarDataModel dateModel, IMenuManagerViewModel menuManagerViewModel)
+        public IList<MenuItemCategory> Categories
         {
-            DataModel = dateModel;
-            MenuManagerViewModel = menuManagerViewModel;
+            get { return _menuManagerViewModel.AvailableCategories; }
         }
 
         public void RefreshItem(MenuItem menuItem)
         {
-            MenuItem = menuItem;
+            _menuItem = menuItem;
 
             MenuItemName = menuItem.Name;
             Price = menuItem.Price.Amount.ToString();
-            SelectedCategory = Categories.First( c => c.Id == menuItem.Category.Id );
+            SelectedCategory = Categories.First(c => c.Id == menuItem.Category.Id);
             MenuItemDescription = menuItem.Description;
         }
 
-
         public void EditMenuItem()
         {
-            if (string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(Price) || string.IsNullOrEmpty(MenuItemDescription))
+            if (string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(Price) ||
+                string.IsNullOrEmpty(MenuItemDescription))
             {
                 Message.Show("Some Fields are empty");
                 return;
@@ -112,7 +109,7 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            if (MenuManagerViewModel.AllMenuItems.Any(cat => (cat.Name.Equals(MenuItemName) && cat.Id != MenuItem.Id)))
+            if (_menuManagerViewModel.AllMenuItems.Any(cat => (cat.Name.Equals(MenuItemName) && cat.Id != _menuItem.Id)))
             {
                 Message.Show("There is menu item named: " + MenuItemName);
                 return;
@@ -126,25 +123,23 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            var result = DataModel.EditMenuItem(MenuItem, MenuItemName, price, SelectedCategory, MenuItemDescription);
+            var result = _menuDataModel.EditMenuItem(_menuItem, MenuItemName, price, SelectedCategory, MenuItemDescription);
 
             if (result)
             {
-                MenuManagerViewModel.MenuItems.Refresh();
-                MenuManagerViewModel.CloseDialogs();
+                _menuManagerViewModel.MenuItems.Refresh();
+                _menuManagerViewModel.CloseDialogs();
             }
             else
             {
                 Message.Show("Failed");
             }
-
-            return ;
         }
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion
-
-
     }
 }

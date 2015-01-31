@@ -6,12 +6,12 @@ namespace BarManager.ViewModels
 {
     internal class LoggerViewModel : ILoggerViewModel
     {
-        private readonly IBarDataModel _barDataModel;
+        private readonly ICredentialDataModel _credentialDataModel;
         private IAccessViewModel _accessViewModel;
 
-        public LoggerViewModel(IBarDataModel barDataModel)
+        public LoggerViewModel(ICredentialDataModel credentialDataModel)
         {
-            _barDataModel = barDataModel;
+            _credentialDataModel = credentialDataModel;
         }
 
         public string UserName { get; set; }
@@ -23,7 +23,7 @@ namespace BarManager.ViewModels
 
         public void LogIn(LoggerView view)
         {
-            _barDataModel.LogIn(view.UserName.Text, view.PasswordB.Password);
+            _credentialDataModel.LogIn(view.UserName.Text, view.PasswordB.Password);
             _accessViewModel.LogIn();
         }
     }

@@ -1,5 +1,4 @@
-﻿using BarManager.Abstract;
-using BarManager.Messaging;
+﻿using BarManager.Messaging;
 using BarManager.ManagerDataAccessWCFService;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,8 +13,8 @@ namespace BarManager.ViewModels
     /// </summary>
     public class EditWaiterViewModel : IEditWaiterViewModel, INotifyPropertyChanged
     {
-        private IWaiterManagerViewModel WaiterManagerViewModel;
-        private IBarDataModel DataModel;
+        private readonly IWaiterManagerViewModel _waiterManagerViewModel;
+        private readonly IWaiterDataModel _waiterDataModel;
 
         private UserContext Waiter;
 
@@ -75,12 +74,12 @@ namespace BarManager.ViewModels
             }
         }
 
-        public IList<UserContext> ListOfWaiters { get { return WaiterManagerViewModel.Waiters; } }
+        public IList<UserContext> ListOfWaiters { get { return _waiterManagerViewModel.Waiters; } }
 
-        public EditWaiterViewModel(IBarDataModel dataModel, IWaiterManagerViewModel waiterManagerViewModel)
+        public EditWaiterViewModel(IWaiterDataModel waiterDataModel, IWaiterManagerViewModel waiterManagerViewModel)
         {
-            DataModel = dataModel;
-            WaiterManagerViewModel = waiterManagerViewModel;
+            _waiterDataModel = waiterDataModel;
+            _waiterManagerViewModel = waiterManagerViewModel;
         }
 
         public void RefreshItem(UserContext waiter)
@@ -102,18 +101,18 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            if (WaiterManagerViewModel.Waiters.Any(waiter => (waiter.Login.Equals(Login) && waiter.Id != Waiter.Id)))
+            if (_waiterManagerViewModel.Waiters.Any(waiter => (waiter.Login.Equals(Login) && waiter.Id != Waiter.Id)))
             {
                 Message.Show("There is waiter named: " + Login);
                 return;
             }
 
-            var result = DataModel.EditWaiter(Waiter, Login, FirstName, LastName, Password);
+            var result = _waiterDataModel.EditWaiter(Waiter, Login, FirstName, LastName, Password);
 
             if (result)
             {
-                WaiterManagerViewModel.Waiters.Refresh();
-                WaiterManagerViewModel.CloseDialogs();
+                _waiterManagerViewModel.Waiters.Refresh();
+                _waiterManagerViewModel.CloseDialogs();
             }
             else
                 Message.Show("Failed");

@@ -11,23 +11,20 @@ namespace BarManager.ViewModels
         private readonly IMenuManagerViewModel _menuManagerViewModel;
         private readonly IWaiterManagerViewModel _waiterManagerViewModel;
         private readonly ITableManagerViewModel _tableManagerViewModel;
-        private readonly IBarDataModel _barDataModel;
-        private readonly IAccessViewModel _accessViewModel;
+        private readonly ICredentialDataModel _credentialDataModel;
 
-        public MainWindowViewModel(IMenuManagerViewModel menuManagerViewModel, IWaiterManagerViewModel waiterManagerViewModel, ITableManagerViewModel tableManagerViewModel, IBarDataModel barDataModel, IAccessViewModel accessViewModel)
+        public MainWindowViewModel(IMenuManagerViewModel menuManagerViewModel, IWaiterManagerViewModel waiterManagerViewModel, ITableManagerViewModel tableManagerViewModel, IAccessViewModel accessViewModel, ICredentialDataModel credentialDataModel)
         {
-            _barDataModel = barDataModel;
-            _accessViewModel = accessViewModel;
+            _credentialDataModel = credentialDataModel;
 
             _menuManagerViewModel = menuManagerViewModel;
             _waiterManagerViewModel = waiterManagerViewModel;
             _tableManagerViewModel = tableManagerViewModel;
 
-            _accessViewModel.SetMainWindow(this);
+            accessViewModel.SetMainWindow(this);
 
-            ActivateItem(_accessViewModel);
+            ActivateItem(accessViewModel);
         }
-
 
         public void MenuManager() 
         {
@@ -42,7 +39,7 @@ namespace BarManager.ViewModels
 
         private bool IsLogged()
         {
-            return _barDataModel.IsLogged();
+            return _credentialDataModel.IsLogged();
         }
 
         public void WaiterManager()

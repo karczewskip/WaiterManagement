@@ -1,5 +1,4 @@
-﻿using BarManager.Abstract;
-using BarManager.Messaging;
+﻿using BarManager.Messaging;
 using System.ComponentModel;
 using System.Linq;
 using BarManager.Abstract.Model;
@@ -12,18 +11,18 @@ namespace BarManager.ViewModels
     /// </summary>
     public class AddWaiterViewModel : IAddWaiterViewModel , INotifyPropertyChanged
     {
-        private IBarDataModel DataModel;
-        private IWaiterManagerViewModel WaiterManagerViewModel;
+        private readonly IWaiterDataModel _waiterDataModel;
+        private readonly IWaiterManagerViewModel _waiterManagerViewModel;
 
         public string Login { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
 
-        public AddWaiterViewModel(IBarDataModel dataModel, IWaiterManagerViewModel waiterManagerViewModel)
+        public AddWaiterViewModel(IWaiterDataModel waiterDataModel, IWaiterManagerViewModel waiterManagerViewModel)
         {
-            DataModel = dataModel;
-            WaiterManagerViewModel = waiterManagerViewModel;
+            _waiterDataModel = waiterDataModel;
+            _waiterManagerViewModel = waiterManagerViewModel;
         }
 
 
@@ -54,24 +53,22 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            if (WaiterManagerViewModel.Waiters.Any(cat => cat.Login.Equals(Login)))
+            if (_waiterManagerViewModel.Waiters.Any(cat => cat.Login.Equals(Login)))
             {
                 Message.Show("There is login named: " + Login);
                 return;
             }
 
-            var addingWaiter = DataModel.AddWaiter(Login, FirstName, LastName, Password);
+            var addingWaiter = _waiterDataModel.AddWaiter(Login, FirstName, LastName, Password);
             if (addingWaiter != null)
             {
-                WaiterManagerViewModel.Waiters.Add(addingWaiter);
+                _waiterManagerViewModel.Waiters.Add(addingWaiter);
 
-                WaiterManagerViewModel.CloseDialogs();
+                _waiterManagerViewModel.CloseDialogs();
                 return;
             }
 
             Message.Show("Failed");
-            return;
-           
         }
     }
 }

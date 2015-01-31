@@ -12,16 +12,16 @@ namespace BarManager.ViewModels
     /// </summary>
     public class AddCategoryViewModel : IAddCategoryViewModel , INotifyPropertyChanged
     {
-        private IBarDataModel DataModel;
-        private IMenuManagerViewModel MenuManagerViewModel;
+        private readonly IMenuDataModel _menuDataModel;
+        private readonly IMenuManagerViewModel _menuManagerViewModel;
 
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
 
-        public AddCategoryViewModel(IBarDataModel dataModel, IMenuManagerViewModel menuManagerViewModel)
+        public AddCategoryViewModel(IMenuDataModel menuDataModel, IMenuManagerViewModel menuManagerViewModel)
         {
-            DataModel = dataModel;
-            MenuManagerViewModel = menuManagerViewModel;
+            _menuDataModel = menuDataModel;
+            _menuManagerViewModel = menuManagerViewModel;
         }
 
         public void AddCategory()
@@ -32,17 +32,17 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            if( MenuManagerViewModel.Categories.Any(cat => cat.Name.Equals(CategoryName)))
+            if( _menuManagerViewModel.Categories.Any(cat => cat.Name.Equals(CategoryName)))
             {
                 Message.Show("There is category named: " + CategoryName);
                 return;
             }
 
-            var addingCategory = DataModel.AddCategoryItem(CategoryName, CategoryDescription);
+            var addingCategory = _menuDataModel.AddCategoryItem(CategoryName, CategoryDescription);
             if (addingCategory != null)
             {
-                MenuManagerViewModel.AddCategoryToViewModel(addingCategory);
-                MenuManagerViewModel.CloseDialogs();
+                _menuManagerViewModel.AddCategoryToViewModel(addingCategory);
+                _menuManagerViewModel.CloseDialogs();
                 return;
             }
 

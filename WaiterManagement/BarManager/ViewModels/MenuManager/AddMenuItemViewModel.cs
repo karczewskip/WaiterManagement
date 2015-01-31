@@ -1,44 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BarManager.Abstract;
-using BarManager.ManagerDataAccessWCFService;
-using System.Windows;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using BarManager.Abstract.Model;
 using BarManager.Abstract.ViewModel;
+using BarManager.ManagerDataAccessWCFService;
 using BarManager.Messaging;
 
 namespace BarManager.ViewModels
 {
     /// <summary>
-    /// Klasa odpowiedzialna za dodawanie pozycji w menu
+    ///     Klasa odpowiedzialna za dodawanie pozycji w menu
     /// </summary>
     public class AddMenuItemViewModel : IAddMenuItemViewModel, INotifyPropertyChanged
     {
-        private IBarDataModel DataModel;
-        private IMenuManagerViewModel MenuManagerViewModel;
+        private readonly IMenuDataModel _menuDataModel;
+        private readonly IMenuManagerViewModel _menuManagerViewModel;
 
-        public string MenuItemName { get; set; }
-        public string Price { get; set; }
-        public MenuItemCategory SelectedCategory { get; set; }
-        public IList<MenuItemCategory> Categories { get { return MenuManagerViewModel.AvailableCategories; } }
-        public string MenuItemDescription { get; set; }
-
-
-        public AddMenuItemViewModel(IBarDataModel dataModel, IMenuManagerViewModel menuManagerViewModel)
+        public AddMenuItemViewModel(IMenuDataModel dataModel, IMenuManagerViewModel menuManagerViewModel)
         {
-            DataModel = dataModel;
-            MenuManagerViewModel = menuManagerViewModel;
+            _menuDataModel = dataModel;
+            _menuManagerViewModel = menuManagerViewModel;
 
             SelectedCategory = null;
         }
 
+        public string MenuItemName { get; set; }
+        public string Price { get; set; }
+        public MenuItemCategory SelectedCategory { get; set; }
+
+        public IList<MenuItemCategory> Categories
+        {
+            get { return _menuManagerViewModel.AvailableCategories; }
+        }
+
+        public string MenuItemDescription { get; set; }
+
         public void AddItem()
         {
-            if (string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(Price) || string.IsNullOrEmpty(MenuItemDescription))
+            if (string.IsNullOrEmpty(MenuItemName) || string.IsNullOrEmpty(Price) ||
+                string.IsNullOrEmpty(MenuItemDescription))
             {
                 Message.Show("Some Fields are empty");
                 return;
@@ -50,7 +50,7 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            if (MenuManagerViewModel.AllMenuItems.Any(cat => cat.Name.Equals(MenuItemName)))
+            if (_menuManagerViewModel.AllMenuItems.Any(cat => cat.Name.Equals(MenuItemName)))
             {
                 Message.Show("There is menu item named: " + MenuItemName);
                 return;
@@ -65,20 +65,17 @@ namespace BarManager.ViewModels
             }
 
 
-            var AddingMenuItem = DataModel.AddMenuItem(MenuItemName, SelectedCategory, price, MenuItemDescription);
+            var addingMenuItem = _menuDataModel.AddMenuItem(MenuItemName, SelectedCategory, price, MenuItemDescription);
 
-            if (AddingMenuItem != null)
+            if (addingMenuItem != null)
             {
-                MenuManagerViewModel.AddNewMenuItem(AddingMenuItem);
-                MenuManagerViewModel.CloseDialogs();
+                _menuManagerViewModel.AddNewMenuItem(addingMenuItem);
+                _menuManagerViewModel.CloseDialogs();
                 return;
             }
 
             Message.Show("Falied");
-
-            return;
         }
-
 
         public void Clear()
         {
@@ -88,13 +85,12 @@ namespace BarManager.ViewModels
 
             SelectedCategory = null;
 
-            if (null != this.PropertyChanged)
+            if (null != PropertyChanged)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs("MenuItemName"));
                 PropertyChanged(this, new PropertyChangedEventArgs("MenuItemDescription"));
                 PropertyChanged(this, new PropertyChangedEventArgs("PriceString"));
                 PropertyChanged(this, new PropertyChangedEventArgs("SelectedCategory"));
-
             }
         }
 

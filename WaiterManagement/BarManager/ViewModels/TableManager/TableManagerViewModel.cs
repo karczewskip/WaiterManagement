@@ -1,30 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BarManager.Abstract;
-using Caliburn.Micro;
-using BarManager.ManagerDataAccessWCFService;
-using System.Collections.ObjectModel;
-using System.Windows;
-using BarManager.Abstract.Model;
+﻿using BarManager.Abstract.Model;
 using BarManager.Abstract.ViewModel;
+using BarManager.ManagerDataAccessWCFService;
+using Caliburn.Micro;
+using Message = BarManager.Messaging.Message;
 
 namespace BarManager.ViewModels
 {
     /// <summary>
-    /// Klasa odpowiedzialna za przetwarzanie danych stolików
+    ///     Klasa odpowiedzialna za przetwarzanie danych stolików
     /// </summary>
-    public class TableManagerViewModel :Conductor<object>, ITableManagerViewModel
+    public class TableManagerViewModel : Conductor<object>, ITableManagerViewModel
     {
-        private IBarDataModel DataModel;
+        private readonly ITableDataModel _tableDataModel;
         private IAddTableViewModel _addTableViewModel;
         private IEditTableViewModel _editTableViewModel;
+        private BindableCollection<Table> _tables;
+
+        public TableManagerViewModel(ITableDataModel tableDataModel)
+        {
+            _tableDataModel = tableDataModel;
+
+            Tables = new BindableCollection<Table>();
+        }
 
         public Table SelectedTable { get; set; }
 
-        private BindableCollection<Table> _tables;
         public BindableCollection<Table> Tables
         {
             get { return _tables; }
@@ -35,21 +35,20 @@ namespace BarManager.ViewModels
             }
         }
 
-        public TableManagerViewModel(IBarDataModel dataModel)
+        public void CloseDialogs()
         {
-            DataModel = dataModel;
+            CloseAddTableDialog();
+            CloseEditTableDialog();
+        }
 
-            Tables = new BindableCollection<Table>();
-
+        public void RefreshData()
+        {
             InitializeData();
         }
 
         private void InitializeData()
         {
-            if (!DataModel.IsLogged())
-                return;
-
-            Tables = new BindableCollection<Table>(DataModel.GetAllTables());
+            Tables = new BindableCollection<Table>(_tableDataModel.GetAllTables());
         }
 
         public void AddTable()
@@ -63,35 +62,27 @@ namespace BarManager.ViewModels
         {
             if (SelectedTable == null)
             {
-                Messaging.Message.Show("No Item Is Selected");
+                Message.Show("No Item Is Selected");
                 return;
             }
 
-            if (DataModel.DeleteTable(SelectedTable.Id))
+            if (_tableDataModel.DeleteTable(SelectedTable.Id))
             {
                 Tables.Remove(SelectedTable);
                 return;
             }
 
-            Messaging.Message.Show("Failed");
-            return;
-        }
-
-
-        public void CloseDialogs()
-        {
-            CloseAddTableDialog();
-            CloseEditTableDialog();
+            Message.Show("Failed");
         }
 
         private void CloseAddTableDialog()
         {
-            DeactivateItem(_addTableViewModel,true);
+            DeactivateItem(_addTableViewModel, true);
         }
 
         private void CloseEditTableDialog()
         {
-            DeactivateItem(_editTableViewModel,true);
+            DeactivateItem(_editTableViewModel, true);
         }
 
         public void EditTable()
@@ -105,11 +96,6 @@ namespace BarManager.ViewModels
             _editTableViewModel = IoC.Get<IEditTableViewModel>();
             _editTableViewModel.RefreshItem(SelectedTable);
             ActivateItem(_editTableViewModel);
-        }
-
-        public void RefreshData()
-        {
-            InitializeData();
         }
     }
 }

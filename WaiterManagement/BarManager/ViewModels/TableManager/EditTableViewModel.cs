@@ -1,62 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BarManager.Abstract;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using BarManager.ManagerDataAccessWCFService;
-using System.Windows;
+using System.Linq;
 using BarManager.Abstract.Model;
 using BarManager.Abstract.ViewModel;
+using BarManager.ManagerDataAccessWCFService;
 using BarManager.Messaging;
 
 namespace BarManager.ViewModels
 {
     /// <summary>
-    /// Klasa odpowiedzialna za edytowanie stolików
+    ///     Klasa odpowiedzialna za edytowanie stolików
     /// </summary>
     public class EditTableViewModel : IEditTableViewModel, INotifyPropertyChanged
     {
-        private ITableManagerViewModel TableManagerViewModel;
-        private IBarDataModel DataModel;
+        private readonly ITableDataModel _tableDataModel;
+        private readonly ITableManagerViewModel TableManagerViewModel;
+        private string _number;
+        private Table _table;
+        private string description;
 
-        private Table Table;
+        public EditTableViewModel(ITableDataModel tableDataModel, ITableManagerViewModel tableManagerViewModel)
+        {
+            _tableDataModel = tableDataModel;
+            TableManagerViewModel = tableManagerViewModel;
+        }
 
-        private string number;
         public string Number
         {
-            get { return number; }
+            get { return _number; }
             set
             {
-                number = value;
-                if (null != this.PropertyChanged)
+                _number = value;
+                if (null != PropertyChanged)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Number"));
                 }
             }
         }
 
-        private string description;
         public string Description
         {
             get { return description; }
             set
             {
                 description = value;
-                if (null != this.PropertyChanged)
+                if (null != PropertyChanged)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Description"));
                 }
             }
         }
 
-        public IList<Table> ListOfTables { get { return TableManagerViewModel.Tables; } }
-
-        public EditTableViewModel(IBarDataModel dataModel , ITableManagerViewModel tableManagerViewModel)
+        public IList<Table> ListOfTables
         {
-            DataModel = dataModel;
-            TableManagerViewModel = tableManagerViewModel;
+            get { return TableManagerViewModel.Tables; }
         }
 
         public void ChangeTable()
@@ -75,13 +72,13 @@ namespace BarManager.ViewModels
                 return;
             }
 
-            if (TableManagerViewModel.Tables.Any(table => (table.Number.Equals(checkedNumber) && Table.Id != table.Id)))
+            if (TableManagerViewModel.Tables.Any(table => (table.Number.Equals(checkedNumber) && _table.Id != table.Id)))
             {
                 Message.Show("There is table " + checkedNumber);
                 return;
             }
 
-            var result = DataModel.EditTable(Table, checkedNumber, Description);
+            var result = _tableDataModel.EditTable(_table, checkedNumber, Description);
 
             if (result)
             {
@@ -90,20 +87,20 @@ namespace BarManager.ViewModels
             }
             else
                 Message.Show("Failed");
-
-            return;
         }
 
         public void RefreshItem(Table table)
         {
-            Table = table;
+            _table = table;
 
             Number = table.Number.ToString();
             Description = table.Description;
         }
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion
     }
 }
