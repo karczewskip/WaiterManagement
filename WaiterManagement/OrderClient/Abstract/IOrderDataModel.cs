@@ -26,5 +26,7 @@ namespace OrderClient.Abstract
         void SetCurrentOrderOnHold();
 
         void LogOut();
+
+        void RemoveFromCurrentOrder(MenuItemQuantity removingItem, int count);
     }
 }

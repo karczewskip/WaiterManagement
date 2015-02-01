@@ -50,7 +50,7 @@ namespace OrderClient.ViewModels
 
         public void RemoveItem(MenuItemQuantity removingItem)
         {
-            _orderDataModel.RemoveFromCurrentOrder(removingItem);
+            _orderDataModel.RemoveFromCurrentOrder(removingItem,1);
             RefreshOrder();
         }
     }

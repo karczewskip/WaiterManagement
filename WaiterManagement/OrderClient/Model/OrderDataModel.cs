@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ClassLib.DataStructures;
 using OrderClient.Abstract;
@@ -157,6 +158,18 @@ namespace OrderClient.Model
         {
             if(IsLogged())
                 _clientDataAccess.LogOut(_userContext.Id);
+        }
+
+
+        public void RemoveFromCurrentOrder(MenuItemQuantity removingItem, int count)
+        {
+            if(removingItem.Quantity < count)
+                throw new ArgumentException("There is not as mach thist type menu item");
+
+            if(removingItem.Quantity == 1)
+                MenuItems.Remove(removingItem);
+
+            removingItem.Quantity -= count;
         }
     }
 }
