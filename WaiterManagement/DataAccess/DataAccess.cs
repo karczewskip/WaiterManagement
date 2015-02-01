@@ -531,8 +531,8 @@ namespace DataAccess
 
         public IEnumerable<Order> GetOrders(int managerId)
         {
-            //if (!CheckHasUserRole(managerId, UserRole.Manager))
-            //    throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
+            if (!CheckHasUserRole(managerId, UserRole.Manager))
+                throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
 
             using(var db = new DataAccessProvider())
             {
