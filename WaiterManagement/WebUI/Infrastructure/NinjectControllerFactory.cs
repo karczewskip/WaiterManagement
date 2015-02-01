@@ -27,6 +27,7 @@ namespace WebUI.Infrastructure
         private void AddBindings()
         {
             ninjectKernel.Bind<IBaseDataAccess>().To<DataAccessClass>().InSingletonScope();
+            ninjectKernel.Bind<IManagerDataAccess>().To<DataAccessClass>().InSingletonScope();
 
             ninjectKernel.Bind<IProcessOrderCommand>().To<DbOrderProcessor>();
             ninjectKernel.Bind<IProcessOrderCommand>().To<EmailOrderProcessor>().WhenInjectedInto<DbOrderProcessor>();
