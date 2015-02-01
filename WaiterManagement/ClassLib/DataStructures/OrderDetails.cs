@@ -1,17 +1,25 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 
 namespace ClassLib.DataStructures
 {
-    public class DateRangeAttribute : RangeAttribute
+    public class DateRangeAttribute : ValidationAttribute
     {
+        public static DateTime StartDate { get { return DateTime.Today.AddDays(1).AddHours(9); } }
+        static public DateTime EndDate { get { return DateTime.Today.AddMonths(1).AddHours(21); } }
+
         public DateRangeAttribute()
-            : base(
-                typeof (DateTime), DateTime.Now.AddDays(1).ToShortDateString(),
-                DateTime.Now.AddMonths(2).ToShortDateString())
         {
-            
+            ErrorMessage = "Date should be between: " + StartDate.ToShortDateString() + " - " + EndDate.ToShortDateString() + "\nBetween 9-21";
+        }
+
+        public override bool IsValid(object value)
+        {
+            var currentDate = (DateTime) value;
+            if (StartDate > currentDate || currentDate > EndDate)
+                return false;
+
+            return currentDate.Hour >= 9 && currentDate.Hour < 21;
         }
     }
 
@@ -21,7 +29,7 @@ namespace ClassLib.DataStructures
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Please enter a date")]
-        [DateRange(ErrorMessage = "Wrong Date")]
+        [DateRange]
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "Please enter a number")]
