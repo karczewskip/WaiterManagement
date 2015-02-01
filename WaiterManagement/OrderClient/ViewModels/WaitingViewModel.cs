@@ -10,12 +10,10 @@ namespace OrderClient.ViewModels
 {
     class WaitingViewModel : PropertyChangedBase, IWaitingViewModel
     {
-        private IOrderViewModel _orderViewModel;
         private readonly IOrderDataModel _orderDataModel;
 
-        public WaitingViewModel(IOrderViewModel orderViewModel, IOrderDataModel orderDataModel)
+        public WaitingViewModel( IOrderDataModel orderDataModel)
         {
-            _orderViewModel = orderViewModel;
             _orderDataModel = orderDataModel;
         }
 

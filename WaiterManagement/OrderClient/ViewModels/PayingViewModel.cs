@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OrderClient.Abstract;
+﻿using OrderClient.Abstract;
 
 namespace OrderClient.ViewModels
 {
-    class PayingViewModel : IPayingWindow
+    internal class PayingViewModel : IPayingWindow
     {
-        private IOrderDataModel _orderDataModel;
+        private readonly IOrderDataModel _orderDataModel;
         private IOrderViewModel _orderViewModel;
 
-        public PayingViewModel(IOrderViewModel orderViewModel, IOrderDataModel orderDataModel)
+        public PayingViewModel(IOrderDataModel orderDataModel)
+        {
+            _orderDataModel = orderDataModel;
+        }
+
+        public void SetOrderWindowReference(OrderViewModel orderViewModel)
         {
             _orderViewModel = orderViewModel;
-            _orderDataModel = orderDataModel;
         }
 
         public void Pay()

@@ -37,6 +37,12 @@ namespace OrderServiceClient
             _kernel.Bind<IWaiterDataAccess>().To<WaiterDataAccess>().InSingletonScope();
             //Order Notyficator
             _kernel.Bind<IOrderNotyficator>().To<OrderNotyficator>().InSingletonScope();
+
+            _kernel.Bind<IDialogLogin>().To<LoginViewModel>().InSingletonScope();
+
+            //Factories
+            _kernel.Bind<IConfirmDialogFactory>().To<ConfirmDialogFactory>().InSingletonScope();
+            _kernel.Bind<IOrderViewModelFactory>().To<OrderViewModelFactory>().InSingletonScope();
         }
 
         protected override void OnExit(object sender, EventArgs e)

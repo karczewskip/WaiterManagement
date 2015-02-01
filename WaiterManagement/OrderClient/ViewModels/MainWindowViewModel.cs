@@ -6,14 +6,18 @@ namespace OrderClient.ViewModels
     internal class MainWindowViewModel : Conductor<object>, IMainWindowViewModel
     {
         private readonly IChooseTabelViewModel _chooseTabelViewModel;
+        private readonly IOrderViewModelFactory _orderViewModelFactory;
         private readonly IAccessViewModel _accessViewModel;
         private readonly IOrderDataModel _orderDataModel;
-        private IDialogMainWindow _dialogOrderWindow;
+        private IOrderViewModel _dialogOrderWindow;
 
-        public MainWindowViewModel(IOrderDataModel orderDataModel)
+        public MainWindowViewModel(IOrderDataModel orderDataModel, IAccessViewModel accessViewModel, IChooseTabelViewModel chooseTabelViewModel, IOrderViewModelFactory orderViewModelFactory)
         {
-            _accessViewModel = new AccessViewModel(this, orderDataModel);
-            _chooseTabelViewModel = new ChooseTabelViewModel(this, orderDataModel);
+            _accessViewModel = accessViewModel;
+            _accessViewModel.SetMainWindowReference(this);
+            _chooseTabelViewModel = chooseTabelViewModel;
+            _orderViewModelFactory = orderViewModelFactory;
+            _orderViewModelFactory.SetMainWindowReference(this);
             _orderDataModel = orderDataModel;
 
             ActivateItem(_accessViewModel);
@@ -28,6 +32,7 @@ namespace OrderClient.ViewModels
         {
             DeactivateItem(_accessViewModel, true);
             _chooseTabelViewModel.InitializeData();
+            _chooseTabelViewModel.SetMainWindowReference(this);
             ActivateItem(_chooseTabelViewModel);
         }
 
@@ -43,7 +48,7 @@ namespace OrderClient.ViewModels
 
         public void AddNewOrder()
         {
-            _dialogOrderWindow = new OrderViewModel(this, _orderDataModel);
+            _dialogOrderWindow = _orderViewModelFactory.GetOrderViewModel();
             ActivateItem(_dialogOrderWindow);
         }
 

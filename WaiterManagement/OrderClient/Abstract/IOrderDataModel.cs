@@ -18,14 +18,11 @@ namespace OrderClient.Abstract
         IList<Table> GetTables();
         void SetTableId(int p);
         void SetOrderState(OrderState state);
-        void Login(string _userName, string p);
+        void Login(string userName, string p);
         void Pay();
         bool IsLogged();
-
         void SetCurrentOrderOnHold();
-
         void LogOut();
-
         void RemoveFromCurrentOrder(MenuItemQuantity removingItem, int count);
     }
 }

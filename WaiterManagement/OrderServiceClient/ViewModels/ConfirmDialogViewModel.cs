@@ -19,6 +19,11 @@ namespace OrderServiceClient.ViewModels
             Message = SetMessageToConfirmOrder(order);
         }
 
+        public ConfirmDialogViewModel(string message)
+        {
+            Message = message;
+        }
+
         private static string SetMessageToConfirmOrder(Order order)
         {
             var content = new StringBuilder();
@@ -29,11 +34,6 @@ namespace OrderServiceClient.ViewModels
             return "Client:  " + order.Client.Login + 
                     ",\nTable: " + order.Table.Description + 
                     ",\nContent: " + content.ToString(); 
-        }
-
-        public ConfirmDialogViewModel(string message)
-        {
-            Message = message;
         }
 
         public bool GetResult()

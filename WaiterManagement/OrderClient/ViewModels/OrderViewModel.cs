@@ -1,28 +1,31 @@
 ﻿using System.Threading.Tasks;
-using System.Windows;
 using Caliburn.Micro;
 using OrderClient.Abstract;
 using OrderClient.ClientDataAccessWCFService;
 
 namespace OrderClient.ViewModels
 {
-    internal class OrderViewModel : Conductor<object>, IOrderViewModel, IDialogMainWindow
+    internal class OrderViewModel : Conductor<object>, IOrderViewModel
     {
-        private readonly IDialogOrder _addItemDialog;
+        private readonly IDialogAddingItem _addItemDialog;
         private readonly ICurrentOrder _currentOrderDialog;
-        private readonly IMainWindowViewModel _mainWindow;
+        private IMainWindowViewModel _mainWindow;
         private readonly IOrderDataModel _orderDataModel;
         private readonly IWaitingViewModel _waitingDialog;
-        private IPayingWindow _payingWindow;
+        private readonly IPayingWindow _payingWindow;
 
-        public bool IsAddingElements { get; set; }
-
-        public OrderViewModel(IMainWindowViewModel mainWindow, IOrderDataModel orderDataModel)
+        public OrderViewModel(IOrderDataModel orderDataModel, ICurrentOrder currentOrder, IDialogAddingItem addDialogOrder, IWaitingViewModel waitingViewModel, IPayingWindow payingWindow)
         {
-            _mainWindow = mainWindow;
-            _currentOrderDialog = new CurrentOrderViewModel(this, orderDataModel);
-            _addItemDialog = new AddItemViewModel(this, orderDataModel);
-            _waitingDialog = new WaitingViewModel(this, orderDataModel);
+            _currentOrderDialog = currentOrder;
+            _currentOrderDialog.SetOrderWindowReference(this);
+
+            _addItemDialog = addDialogOrder;
+            _addItemDialog.SetOrderWindowReference(this);
+
+            _waitingDialog = waitingViewModel;
+
+            _payingWindow = payingWindow;
+            _payingWindow.SetOrderWindowReference(this);
 
             _orderDataModel = orderDataModel;
 
@@ -31,18 +34,27 @@ namespace OrderClient.ViewModels
             _orderDataModel.StartNewOrder();
 
             IsAddingElements = false;
+            IsProcessingOrder = false;
 
             ActivateItem(_currentOrderDialog);
         }
 
+        public bool IsAddingElements { get; set; }
+        public bool IsProcessingOrder { get; set; }
+
         public bool CanAddCurrentOrder
         {
-            get { return !IsAddingElements && !_orderDataModel.IsEmpty(); }
+            get { return !IsProcessingOrder && !IsAddingElements && !_orderDataModel.IsEmpty(); }
         }
 
         public bool CanAddItem
         {
-            get { return !IsAddingElements;  }
+            get { return !IsProcessingOrder && !IsAddingElements; }
+        }
+
+        public bool CanCancelOrder
+        {
+            get { return !IsProcessingOrder; }
         }
 
         public void CloseAddItemDialog()
@@ -53,12 +65,6 @@ namespace OrderClient.ViewModels
             IsAddingElements = false;
 
             RefreshAvailableOptions();
-        }
-
-        private void RefreshAvailableOptions()
-        {
-            NotifyOfPropertyChange(() => CanAddCurrentOrder);
-            NotifyOfPropertyChange(() => CanAddItem);
         }
 
         public void CheckIfIsPosibleToAddOrder()
@@ -74,7 +80,6 @@ namespace OrderClient.ViewModels
 
         public void ShowPayingWindow()
         {
-            _payingWindow = new PayingViewModel(this, _orderDataModel);
             ActivateItem(_payingWindow);
         }
 
@@ -89,9 +94,18 @@ namespace OrderClient.ViewModels
             _waitingDialog.RefreshMessage();
         }
 
+        private void RefreshAvailableOptions()
+        {
+            NotifyOfPropertyChange(() => CanAddCurrentOrder);
+            NotifyOfPropertyChange(() => CanAddItem);
+            NotifyOfPropertyChange(() => CanCancelOrder);
+        }
+
         public void AddCurrentOrder()
         {
             Task.Factory.StartNew(() => _orderDataModel.AddOrder());
+            IsProcessingOrder = true;
+            RefreshAvailableOptions();
             ActivateItem(_waitingDialog);
         }
 
@@ -106,6 +120,12 @@ namespace OrderClient.ViewModels
         public void CancelOrder()
         {
             _mainWindow.CancelOrder();
+        }
+
+
+        public void SetMainWindowReference(IMainWindowViewModel mainWindowViewModel)
+        {
+            _mainWindow = mainWindowViewModel;
         }
     }
 }

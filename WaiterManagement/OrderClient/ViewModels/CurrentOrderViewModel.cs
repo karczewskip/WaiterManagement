@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net.Mime;
 using Caliburn.Micro;
 using ClassLib;
 using OrderClient.Abstract;
@@ -7,15 +6,14 @@ using OrderClient.ClientDataAccessWCFService;
 
 namespace OrderClient.ViewModels
 {
-    internal class CurrentOrderViewModel : PropertyChangedBase, IDialogOrder, ICurrentOrder
+    internal class CurrentOrderViewModel : PropertyChangedBase, ICurrentOrder
     {
         private readonly IOrderDataModel _orderDataModel;
-        private readonly IOrderViewModel _orderWindow;
         private BindableCollection<MenuItemQuantity> _menuItems;
+        private IOrderViewModel _orderWindow;
 
-        public CurrentOrderViewModel(IOrderViewModel orderWindow, IOrderDataModel orderDataModel)
+        public CurrentOrderViewModel(IOrderDataModel orderDataModel)
         {
-            _orderWindow = orderWindow;
             _orderDataModel = orderDataModel;
 
             _menuItems = new BindableCollection<MenuItemQuantity>();
@@ -43,6 +41,11 @@ namespace OrderClient.ViewModels
             _orderWindow.CheckIfIsPosibleToAddOrder();
         }
 
+        public void SetOrderWindowReference(IOrderViewModel orderViewModel)
+        {
+            _orderWindow = orderViewModel;
+        }
+
         private float CalculateSalary()
         {
             return MenuItems.Sum(m => m.Quantity*m.MenuItem.Price.Amount);
@@ -50,7 +53,7 @@ namespace OrderClient.ViewModels
 
         public void RemoveItem(MenuItemQuantity removingItem)
         {
-            _orderDataModel.RemoveFromCurrentOrder(removingItem,1);
+            _orderDataModel.RemoveFromCurrentOrder(removingItem, 1);
             RefreshOrder();
         }
     }

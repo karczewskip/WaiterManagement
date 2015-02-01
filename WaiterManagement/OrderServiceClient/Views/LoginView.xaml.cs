@@ -18,9 +18,9 @@ namespace OrderServiceClient.Views
     /// <summary>
     /// Interaction logic for LoggerView.xaml
     /// </summary>
-    public partial class LoggerView : UserControl
+    public partial class LoginView : UserControl
     {
-        public LoggerView()
+        public LoginView()
         {
             InitializeComponent();
         }

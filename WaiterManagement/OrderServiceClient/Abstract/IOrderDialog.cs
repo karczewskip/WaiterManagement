@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderServiceClient.Abstract
 {
-    interface IOrderDialog
+    public interface IOrderDialog
     {
     }
 }

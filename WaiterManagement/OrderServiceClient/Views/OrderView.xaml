@@ -7,10 +7,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Height="310">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="2*"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock x:Name="OrderDetails" />
-        <Button x:Name="Ready" Grid.Row="1" Content="Ready"/>
+        <Button x:Name="Ready" Grid.Row="1" Content="Ready" Margin="10"/>
     </Grid>
 </UserControl>

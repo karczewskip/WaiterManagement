@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrderServiceClient.Abstract
+﻿namespace OrderServiceClient.Abstract
 {
-    interface IDialogLogin
+    internal interface IDialogLogin
     {
+        void SetMainWindowReference(IMainWindowViewModel mainWindowViewModel);
     }
 }

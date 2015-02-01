@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Net.Mime;
-using System.Threading;
-using System.Windows;
-using System.Windows.Threading;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
+using ClassLib;
 using OrderServiceClient.Abstract;
 using OrderServiceClient.WaiterDataAccessWCFService;
 
@@ -13,18 +9,22 @@ namespace OrderServiceClient.ViewModels
     {
         private readonly IDialogLogin _dialogLogin;
         private readonly IWaiterDataModel _waiterDataModel;
-        private readonly IWindowManager _windowManager;
-        private IOrderDialog _orderDialog;
         private IConfirmDialogViewModel _confirmDialogViewModel;
+        private readonly IOrderViewModelFactory _orderViewModelFactory;
+        private readonly IConfirmDialogFactory _confirmDialogFactory;
+        private IOrderDialog _orderDialog;
 
-        public MainWindowViewModel(IWindowManager windowManager, IOrderNotyficator _orderNotyficator,
-            IWaiterDataModel waiterDataModel)
+        public MainWindowViewModel(IOrderNotyficator orderNotyficator,
+            IWaiterDataModel waiterDataModel, IDialogLogin dialogLogin, IOrderViewModelFactory orderViewModelFactory, IConfirmDialogFactory confirmDialogFactory)
         {
-            _windowManager = windowManager;
+            _orderViewModelFactory = orderViewModelFactory;
+            _confirmDialogFactory = confirmDialogFactory;
             _waiterDataModel = waiterDataModel;
-            _orderNotyficator.SetTarget(this);
+            orderNotyficator.SetTarget(this);
 
-            _dialogLogin = new LoggerViewModel(this, _waiterDataModel);
+            _dialogLogin = dialogLogin;
+            _dialogLogin.SetMainWindowReference(this);
+            
             ActivateItem(_dialogLogin);
         }
 
@@ -36,32 +36,32 @@ namespace OrderServiceClient.ViewModels
 
         public void ShowNewOrder(Order order)
         {
-            _orderDialog = new OrderViewModel(this, _waiterDataModel, order);
+            _orderDialog = _orderViewModelFactory.GetOrderViewModel(order);
             ActivateItem(_orderDialog);
         }
 
         public bool GetConfirmFromWaiter(Order order)
         {
-            _confirmDialogViewModel = new ConfirmDialogViewModel(order);
+            _confirmDialogViewModel = _confirmDialogFactory.GetConfirmDialog(order);
             ActivateItem(_confirmDialogViewModel);
             var result = _confirmDialogViewModel.GetResult();
-            DeactivateItem(_confirmDialogViewModel,true);
+            DeactivateItem(_confirmDialogViewModel, true);
 
             return result;
         }
 
         public void ShowAcceptedOrder(Order order)
         {
-            _orderDialog = new OrderViewModel(this, _waiterDataModel, order);
+            _orderDialog = _orderViewModelFactory.GetOrderViewModel(order);
             ActivateItem(_orderDialog);
         }
 
         public bool GetConfirmPayd()
         {
-            _confirmDialogViewModel = new ConfirmDialogViewModel("Do you confirm paying?");
+            _confirmDialogViewModel = _confirmDialogFactory.GetConfirmDialog(ApplicationResources.ConfirmPayingMessage);
             ActivateItem(_confirmDialogViewModel);
             var result = _confirmDialogViewModel.GetResult();
-            DeactivateItem(_confirmDialogViewModel,true);
+            DeactivateItem(_confirmDialogViewModel, true);
 
             return result;
         }

@@ -82,12 +82,12 @@
     <Compile Include="Abstract\ICurrentOrder.cs" />
     <Compile Include="Abstract\IDialogLogin.cs" />
     <Compile Include="Abstract\IDialogRegister.cs" />
-    <Compile Include="Abstract\IDialogMainWindow.cs" />
-    <Compile Include="Abstract\IDialogOrder.cs" />
+    <Compile Include="Abstract\IDialogAddingItem.cs" />
     <Compile Include="Abstract\IMainWindowViewModel.cs" />
     <Compile Include="Abstract\IOrderDataModel.cs" />
     <Compile Include="Abstract\IOrderNotyficator.cs" />
     <Compile Include="Abstract\IOrderViewModel.cs" />
+    <Compile Include="Abstract\IOrderViewModelFactory.cs" />
     <Compile Include="Abstract\IPayingWindow.cs" />
     <Compile Include="Abstract\IWaitingViewModel.cs" />
     <Compile Include="Converters\IndexConverter.cs" />
@@ -106,6 +106,7 @@
     <Compile Include="ViewModels\ChooseTabelViewModel.cs" />
     <Compile Include="ViewModels\CurrentOrderViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\OrderViewModelFactory.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\PayingViewModel.cs" />

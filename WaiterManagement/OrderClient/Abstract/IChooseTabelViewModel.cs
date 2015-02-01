@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrderClient.Abstract
+﻿namespace OrderClient.Abstract
 {
-    interface IChooseTabelViewModel
+    internal interface IChooseTabelViewModel
     {
         void InitializeData();
+        void SetMainWindowReference(IMainWindowViewModel mainWindowViewModel);
     }
 }

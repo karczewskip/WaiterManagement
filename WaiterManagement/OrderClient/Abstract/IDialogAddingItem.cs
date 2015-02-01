@@ -1,8 +1,7 @@
 ﻿namespace OrderClient.Abstract
 {
-    internal interface ICurrentOrder
+    internal interface IDialogAddingItem
     {
-        void RefreshOrder();
         void SetOrderWindowReference(IOrderViewModel orderViewModel);
     }
 }

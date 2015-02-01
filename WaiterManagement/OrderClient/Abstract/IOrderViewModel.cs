@@ -15,5 +15,7 @@ namespace OrderClient.Abstract
         void CloseOrder();
 
         void NotyfyOrderOnHold();
+
+        void SetMainWindowReference(IMainWindowViewModel _mainWindowViewModel);
     }
 }

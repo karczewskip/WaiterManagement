@@ -35,6 +35,22 @@ namespace OrderClient
             _kernel.Bind<IOrderNotyficator>().To<OrderNotyficator>().InSingletonScope();
             _kernel.Bind<IOrderDataModel>().To<OrderDataModel>().InSingletonScope();
             _kernel.Bind<IClientDataAccess>().To<ClientDataAccess>().InSingletonScope();
+
+            //Access View Model
+            _kernel.Bind<IAccessViewModel>().To<AccessViewModel>().InSingletonScope();
+            _kernel.Bind<IDialogRegister>().To<RegisterViewModel>().InSingletonScope();
+            _kernel.Bind<IDialogLogin>().To<LoginViewModel>().InSingletonScope();
+
+            _kernel.Bind<IChooseTabelViewModel>().To<ChooseTabelViewModel>().InSingletonScope();
+
+            //Order View Model
+            _kernel.Bind<IOrderViewModelFactory>().To<OrderViewModelFactory>().InSingletonScope();
+            _kernel.Bind<IOrderViewModel>().To<OrderViewModel>().InTransientScope();
+            _kernel.Bind<ICurrentOrder>().To<CurrentOrderViewModel>().InTransientScope();
+            _kernel.Bind<IDialogAddingItem>().To<AddItemViewModel>().InTransientScope();
+            _kernel.Bind<IWaitingViewModel>().To<WaitingViewModel>().InTransientScope();
+            _kernel.Bind<IPayingWindow>().To<PayingViewModel>().InTransientScope();
+
         }
 
         protected override void OnExit(object sender, EventArgs e)

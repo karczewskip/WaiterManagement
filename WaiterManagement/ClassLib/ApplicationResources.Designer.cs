@@ -61,6 +61,15 @@ namespace ClassLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you confirm paying?.
+        /// </summary>
+        public static string ConfirmPayingMessage {
+            get {
+                return ResourceManager.GetString("ConfirmPayingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PLN.
         /// </summary>
         public static string DefaultCurrency {

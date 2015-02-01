@@ -1,32 +1,31 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using Caliburn.Micro;
+using OrderServiceClient.WaiterDataAccessWCFService;
 
 namespace OrderServiceClient.ViewModels
 {
-    class ConfirmOrderViewModel : Screen
+    internal class ConfirmOrderViewModel : Screen
     {
-        private WaiterDataAccessWCFService.Order order;
+        private readonly Order _order;
 
-        public ConfirmOrderViewModel(WaiterDataAccessWCFService.Order order)
+        public ConfirmOrderViewModel(Order order)
         {
-            this.order = order;
+            _order = order;
         }
 
         public string OrderDetails
         {
-            get {
+            get
+            {
                 var content = new StringBuilder();
-                foreach(var o in order.MenuItems)
+                foreach (var o in _order.MenuItems)
                 {
                     content.Append(o.MenuItem.Name + "(" + o.Quantity + "),");
                 }
-                return "Client:  " + order.Client.Login + 
-                ",\nTable: " + order.Table.Description + 
-                ",\nContent: " + content.ToString(); }
+                return "Client:  " + _order.Client.Login +
+                       ",\nTable: " + _order.Table.Description +
+                       ",\nContent: " + content;
+            }
         }
 
         public void Accept()
@@ -38,7 +37,5 @@ namespace OrderServiceClient.ViewModels
         {
             TryClose(false);
         }
-
-
     }
 }

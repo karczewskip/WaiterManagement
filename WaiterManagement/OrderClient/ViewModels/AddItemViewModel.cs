@@ -1,25 +1,26 @@
-﻿using Caliburn.Micro;
-using ClassLib.DbDataStructures;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Caliburn.Micro;
 using OrderClient.Abstract;
 using OrderClient.ClientDataAccessWCFService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace OrderClient.ViewModels
 {
-    class AddItemViewModel : PropertyChangedBase, IDialogOrder
+    internal class AddItemViewModel : PropertyChangedBase, IDialogAddingItem
     {
-        private IOrderViewModel _orderWindow;
-        private IOrderDataModel _orderDataModel;
-
+        private readonly IOrderDataModel _orderDataModel;
         private MenuItemCategory _allCategoryItem;
-
+        private IOrderViewModel _orderWindow;
         private MenuItemCategory _selectedCategory;
-        public MenuItemCategory SelectedCategory 
+
+        public AddItemViewModel(IOrderDataModel orderDataModel)
+        {
+            _orderDataModel = orderDataModel;
+
+            InitializeMenu();
+        }
+
+        public MenuItemCategory SelectedCategory
         {
             get { return _selectedCategory; }
             set
@@ -30,32 +31,27 @@ namespace OrderClient.ViewModels
         }
 
         public MenuItem SelectedMenuItem { get; set; }
-
         public IList<MenuItem> MenuItems { get; set; }
         public IList<MenuItemCategory> Categories { get; set; }
 
-        public AddItemViewModel(IOrderViewModel orderWindow, IOrderDataModel orderDataModel)
+        public void SetOrderWindowReference(IOrderViewModel orderViewModel)
         {
-            _orderWindow = orderWindow;
-            _orderDataModel = orderDataModel;
-
-
-            InitializeMenu();
+            _orderWindow = orderViewModel;
         }
 
         private void InitializeMenu()
         {
             MenuItems = new List<MenuItem>();
 
-            _allCategoryItem = new MenuItemCategory() { Name = "All", Description = "All" };
-            Categories = new List<MenuItemCategory>() { _allCategoryItem };
+            _allCategoryItem = new MenuItemCategory {Name = "All", Description = "All"};
+            Categories = new List<MenuItemCategory> {_allCategoryItem};
 
             foreach (var category in _orderDataModel.GetAllCategories())
                 Categories.Add(category);
 
             SelectedCategory = _allCategoryItem;
         }
-        
+
         public void AddNewItem(MenuItem addingMenuItem)
         {
             _orderDataModel.AddToCurrentOrder(addingMenuItem);
@@ -70,7 +66,7 @@ namespace OrderClient.ViewModels
         {
             MenuItems.Clear();
 
-            if(_selectedCategory.Name == "All")
+            if (_selectedCategory.Name == "All")
             {
                 MenuItems = _orderDataModel.GetAllItems();
             }

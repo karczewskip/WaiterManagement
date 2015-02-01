@@ -3,23 +3,27 @@ using OrderServiceClient.Views;
 
 namespace OrderServiceClient.ViewModels
 {
-    internal class LoggerViewModel : IDialogLogin
+    internal class LoginViewModel : IDialogLogin
     {
-        private readonly IMainWindowViewModel _mainWindow;
         private readonly IWaiterDataModel _waiterDataModel;
+        private IMainWindowViewModel _mainWindow;
 
-        public LoggerViewModel(IMainWindowViewModel mainWindow, IWaiterDataModel waiterDataModel)
+        public LoginViewModel(IWaiterDataModel waiterDataModel)
         {
-            _mainWindow = mainWindow;
             _waiterDataModel = waiterDataModel;
         }
 
         public string UserName { get; set; }
 
-        public void LogIn(LoggerView view)
+        public void LogIn(LoginView view)
         {
             _waiterDataModel.LogIn(UserName, view.PasswordB.Password);
             _mainWindow.LogIn();
+        }
+
+        public void SetMainWindowReference(IMainWindowViewModel mainWindowViewModel)
+        {
+            _mainWindow = mainWindowViewModel;
         }
     }
 }

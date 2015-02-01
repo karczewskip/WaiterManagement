@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OrderClient.ViewModels;
 
 namespace OrderClient.Abstract
 {
-    interface IPayingWindow
+    internal interface IPayingWindow
     {
+        void SetOrderWindowReference(OrderViewModel orderViewModel);
     }
 }

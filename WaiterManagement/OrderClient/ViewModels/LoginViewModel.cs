@@ -5,12 +5,11 @@ namespace OrderClient.ViewModels
 {
     public class LoginViewModel : IDialogLogin
     {
-        private readonly IMainWindowViewModel _mainWindow;
+        private IMainWindowViewModel _mainWindow;
         private readonly IOrderDataModel _orderDataModel;
 
-        public LoginViewModel(IMainWindowViewModel mainWindow, IOrderDataModel orderDataModel)
+        public LoginViewModel(IOrderDataModel orderDataModel)
         {
-            _mainWindow = mainWindow;
             _orderDataModel = orderDataModel;
         }
 
@@ -22,6 +21,11 @@ namespace OrderClient.ViewModels
 
             if (_orderDataModel.IsLogged())
                 _mainWindow.LogIn();
+        }
+
+        public void SetMainWindowReference(IMainWindowViewModel mainWindowViewModel)
+        {
+            _mainWindow = mainWindowViewModel;
         }
     }
 }
