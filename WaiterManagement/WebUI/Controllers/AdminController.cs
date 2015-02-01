@@ -24,7 +24,7 @@ namespace WebUI.Controllers
 
         public ViewResult Index()
         {
-            return View(new List<Order>()); // _managerDataAccess.GetOrders(admin.Id));
+            return View(_managerDataAccess.GetOrders(admin.Id));
         }
 
     }
