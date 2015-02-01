@@ -9,7 +9,6 @@ namespace OrderClient.Abstract
         void AddToCurrentOrder(MenuItem addingMenuItem);
         bool IsEmpty();
         void StartNewOrder();
-        void RemoveFromCurrentOrder(MenuItemQuantity removingItem);
         IList<MenuItem> GetAllItems();
         IList<MenuItemCategory> GetAllCategories();
         string GetCurrentOrderMessage();

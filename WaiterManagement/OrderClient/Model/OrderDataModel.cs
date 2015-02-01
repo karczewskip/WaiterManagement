@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using ClassLib.DataStructures;
 using OrderClient.Abstract;
@@ -19,9 +18,8 @@ namespace OrderClient.Model
     {
         private readonly IClientDataAccess _clientDataAccess;
         private readonly IOrderNotyficator _orderNotyficator;
-
-        private bool _isCurrentOrderOnHold;
         private Order _currentOrder;
+        private bool _isCurrentOrderOnHold;
         private int _tableId;
         private UserContext _userContext;
 
@@ -59,11 +57,6 @@ namespace OrderClient.Model
         {
             MenuItems = new List<MenuItemQuantity>();
             _isCurrentOrderOnHold = false;
-        }
-
-        public void RemoveFromCurrentOrder(MenuItemQuantity removingItem)
-        {
-            MenuItems.Remove(removingItem);
         }
 
         public IList<MenuItem> GetAllItems()
@@ -108,7 +101,9 @@ namespace OrderClient.Model
 
         public void AddOrder()
         {
-            _currentOrder = _clientDataAccess.AddOrder(_userContext.Id, _tableId, MenuItems.Select(item => new TupleOfintint {m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity}).ToArray());
+            _currentOrder = _clientDataAccess.AddOrder(_userContext.Id, _tableId,
+                MenuItems.Select(item => new TupleOfintint {m_Item1 = item.MenuItem.Id, m_Item2 = item.Quantity})
+                    .ToArray());
             CurrentOrderState = OrderState.Placed;
         }
 
@@ -142,13 +137,6 @@ namespace OrderClient.Model
             return _userContext != null;
         }
 
-        private MenuItemQuantity FindThisTypeOfOrder(MenuItem addingMenuItem)
-        {
-            var thisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
-
-            return thisTypeOfOrder;
-        }
-
         public void SetCurrentOrderOnHold()
         {
             _isCurrentOrderOnHold = true;
@@ -156,20 +144,26 @@ namespace OrderClient.Model
 
         public void LogOut()
         {
-            if(IsLogged())
+            if (IsLogged())
                 _clientDataAccess.LogOut(_userContext.Id);
         }
 
-
-        public void RemoveFromCurrentOrder(MenuItemQuantity removingItem, int count)
+        public void RemoveFromCurrentOrder(MenuItemQuantity removingItem, int count = 1)
         {
-            if(removingItem.Quantity < count)
+            if (removingItem.Quantity < count)
                 throw new ArgumentException("There is not as mach thist type menu item");
 
-            if(removingItem.Quantity == 1)
+            if (removingItem.Quantity == 1)
                 MenuItems.Remove(removingItem);
 
             removingItem.Quantity -= count;
+        }
+
+        private MenuItemQuantity FindThisTypeOfOrder(MenuItem addingMenuItem)
+        {
+            var thisTypeOfOrder = MenuItems.FirstOrDefault(a => a.MenuItem.Name == addingMenuItem.Name);
+
+            return thisTypeOfOrder;
         }
     }
 }
