@@ -536,7 +536,7 @@ namespace DataAccess
 
             using(var db = new DataAccessProvider())
             {
-                var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").Where(o => !o.IsDeleted).ToList();
+                var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").Include("Client").Where(o => !o.IsDeleted).ToList();
                 return orderList.Select(o => new Order(o)).ToList();
             }
         }
