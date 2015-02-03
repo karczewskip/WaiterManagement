@@ -62,6 +62,7 @@ namespace DataAccess
     {
         UserContext AddClient(string firstName, string lastName, string login, string password);
         Order AddOrder(int userId, int tableId, IEnumerable<Tuple<int, int>> menuItems);
+        IEnumerable<Order> GetOrders(int clientId);
     }
 
     /// <summary>

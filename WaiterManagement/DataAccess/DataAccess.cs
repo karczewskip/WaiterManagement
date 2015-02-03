@@ -529,7 +529,7 @@ namespace DataAccess
             }
         }        
 
-        public IEnumerable<Order> GetOrders(int managerId)
+        IEnumerable<Order> IManagerDataAccess.GetOrders(int managerId)
         {
             if (!CheckHasUserRole(managerId, UserRole.Manager))
                 throw new SecurityException(String.Format("User id = {0} is not logged in or is no manager", managerId));
@@ -774,6 +774,18 @@ namespace DataAccess
 
             //Kelner nie potwierdził zapłatę zamówienia
             return false;
+        }
+
+        public IEnumerable<Order> GetOrders(int clientId)
+        {
+            if (!CheckHasUserRole(clientId, UserRole.Client))
+                throw new SecurityException(String.Format("Client id={0} is not logged in.", clientId));
+
+            using (var db = new DataAccessProvider())
+            {
+                var orderList = db.Orders.Include("Waiter").Include("Table").Include("MenuItems").Include("Client").Where(o => !o.IsDeleted && o.Client.Id == clientId).ToList();
+                return orderList.Select(o => new Order(o)).ToList();
+            }
         }
         #endregion
 
