@@ -33,6 +33,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessIISHost", "DataAccessIISHost\DataAccessIISHost.csproj", "{85647E76-5E64-435F-AC79-F99C1A974E4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{01B52943-198B-4CA0-AFF3-E12838931A97}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85647E76-5E64-435F-AC79-F99C1A974E4E} = {85647E76-5E64-435F-AC79-F99C1A974E4E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI.Tests", "WebUI.Tests\WebUI.Tests.csproj", "{AE4D875A-4DB2-4A49-AC11-F4CFE61F5B98}"
 EndProject
