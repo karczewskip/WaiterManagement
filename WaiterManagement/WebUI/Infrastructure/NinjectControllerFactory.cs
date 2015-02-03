@@ -4,16 +4,18 @@ using System.Web.Routing;
 using ClassLib.DataStructures;
 using DataAccess;
 using Ninject;
+using WebUI.Infrastructure.Abstract;
+using WebUI.Infrastructure.Concrete;
 
 namespace WebUI.Infrastructure
 {
     public class NinjectControllerFactory : DefaultControllerFactory
     {
-        private IKernel ninjectKernel;
+        private readonly IKernel _kernel;
 
         public NinjectControllerFactory()
         {
-            ninjectKernel = new StandardKernel();
+            _kernel = new StandardKernel();
             AddBindings();
         }
 
@@ -21,16 +23,19 @@ namespace WebUI.Infrastructure
         {
             return controllerType == null
             ? null
-            : (IController)ninjectKernel.Get(controllerType);
+            : (IController)_kernel.Get(controllerType);
         }
 
         private void AddBindings()
         {
-            ninjectKernel.Bind<IBaseDataAccess>().To<DataAccessClass>().InSingletonScope();
-            ninjectKernel.Bind<IManagerDataAccess>().To<DataAccessClass>().InSingletonScope();
+            _kernel.Bind<IBaseDataAccess>().To<DataAccessClass>().InSingletonScope();
+            _kernel.Bind<IClientDataAccess>().To<DataAccessClass>().InSingletonScope();
+            _kernel.Bind<IManagerDataAccess>().To<DataAccessClass>().InSingletonScope();
 
-            ninjectKernel.Bind<IProcessOrderCommand>().To<DbOrderProcessor>();
-            ninjectKernel.Bind<IProcessOrderCommand>().To<EmailOrderProcessor>().WhenInjectedInto<DbOrderProcessor>();
+            _kernel.Bind<IProcessOrderCommand>().To<DbOrderProcessor>();
+            _kernel.Bind<IProcessOrderCommand>().To<EmailOrderProcessor>().WhenInjectedInto<DbOrderProcessor>();
+
+            _kernel.Bind<IAuthProvider>().To<FormsAuthProvider>().InSingletonScope();
         }
     }
 }

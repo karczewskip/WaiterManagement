@@ -1,0 +1,16 @@
+﻿@model WebUI.Infrastructure.Abstract.IAuthProvider
+
+<div id="account" class="jumbotron">
+    <span class="caption">
+@if (Model.IsLogged)
+{
+    <b>Hello: </b>
+    <b>@Model.UserName</b>
+    @Html.ActionLink("Logount" ,"Logout","Account")
+}
+else
+{
+    <b>You are not logged</b>
+}
+    </span>
+</div>

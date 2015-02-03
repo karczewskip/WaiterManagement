@@ -58,6 +58,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ViewResult Checkout(Cart cart, OrderDetails orderDetails)
         {
             if(CheckCartContent(cart))
