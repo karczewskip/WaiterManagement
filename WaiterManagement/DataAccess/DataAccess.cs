@@ -83,7 +83,7 @@ namespace DataAccess
             }
         }
 
-        public UserContext LogIn(string login, string password)
+        UserContext IBaseDataAccessWCFService.LogIn(string login, string password)
         {
             if (String.IsNullOrEmpty(login))
                 throw new ArgumentNullException("login");
@@ -131,6 +131,41 @@ namespace DataAccess
 
                 Task.Run(() => TryAssignAwaitingOrder());
             }
+            return new UserContext(userContextEntity);
+        }
+
+        public UserContext LogIn(string login, string password)
+        {
+            if (String.IsNullOrEmpty(login))
+                throw new ArgumentNullException("login");
+            if (String.IsNullOrEmpty(password))
+                throw new ArgumentNullException("password");
+
+            UserContextEntity userContextEntity = null;
+
+            using (var db = new DataAccessProvider())
+            {
+                userContextEntity = db.Users.FirstOrDefault(u => u.Login.Equals(login));
+                if (userContextEntity == null)
+                    return null;
+
+                var userPassword = db.Passwords.FirstOrDefault(pw => pw.UserId == userContextEntity.Id);
+                if (userPassword == null)
+                    return null;
+
+                if (String.IsNullOrEmpty(userPassword.Hash))
+                    return null;
+
+                if (!HashClass.ValidatePassword(password, userPassword.Hash))
+                    return null;
+            }
+
+            if (!CheckIsUserLoggedIn(userContextEntity.Id))
+            {
+                lock (loggedInUsersLockObject)
+                    loggedInUsers.Add(userContextEntity);
+            }
+
             return new UserContext(userContextEntity);
         }
 
