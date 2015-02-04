@@ -14,7 +14,19 @@ namespace ClassLib.DataStructures
 
         public BaseTransferObject(DbEntity dbEntity)
         {
+            if(dbEntity == null)
+                throw new ArgumentNullException("dbEntity");
+
             Id = dbEntity.Id;
+        }
+
+        /// <summary>
+        /// Konstruktor kopiujący
+        /// </summary>
+        /// <param name="baseTransferObject">obiekt do skopiowania</param>
+        public BaseTransferObject(BaseTransferObject baseTransferObject)
+        {
+            Id = baseTransferObject.Id;
         }
 
         public BaseTransferObject()
@@ -42,6 +54,18 @@ namespace ClassLib.DataStructures
             Price = menuItem.Price;
         }
 
+        public MenuItem(MenuItem menuItemToCopy)
+            :base(menuItemToCopy)
+        {
+            if(menuItemToCopy == null)
+                throw new ArgumentNullException("menuItemToCopy");
+
+            Name = menuItemToCopy.Name;
+            Description = menuItemToCopy.Description;
+            Category = new MenuItemCategory(menuItemToCopy.Category);
+            Price = menuItemToCopy.Price;
+        }
+
         public MenuItem()
         { }
     }
@@ -59,6 +83,20 @@ namespace ClassLib.DataStructures
         {
             Name = menuItemCategory.Name;
             Description = menuItemCategory.Description;
+        }
+
+        /// <summary>
+        /// Konstruktor kopiujący
+        /// </summary>
+        /// <param name="menuItemCategoryToCopy">Kategoria do skopiowania</param>
+        public MenuItemCategory(MenuItemCategory menuItemCategoryToCopy)
+            :base(menuItemCategoryToCopy)
+        {
+            if(menuItemCategoryToCopy == null)
+                throw new ArgumentNullException("menuItemCategoryToCopy");
+
+            Name = menuItemCategoryToCopy.Name;
+            Description = menuItemCategoryToCopy.Description;
         }
 
         public MenuItemCategory() { }
@@ -108,6 +146,37 @@ namespace ClassLib.DataStructures
             ClosingDate = order.ClosingDate;
         }
 
+        /// <summary>
+        /// Konstruktor kopiujący
+        /// </summary>
+        /// <param name="orderToCopy">Zamówienie do skopiowania</param>
+        public Order(Order orderToCopy)
+            :base(orderToCopy)
+        {
+            if(orderToCopy == null)
+                throw new ArgumentNullException("orderToCopy");
+
+            Client = new UserContext(orderToCopy.Client);
+
+            if (orderToCopy.Waiter != null)
+                Waiter = new UserContext(orderToCopy.Waiter);
+
+            if (orderToCopy.Table != null)
+                Table = new Table(orderToCopy.Table);
+
+            if (orderToCopy.MenuItems != null)
+            {
+                MenuItems = new List<MenuItemQuantity>();
+                foreach (var menuItemQuant in orderToCopy.MenuItems)
+                    MenuItems.Add(new MenuItemQuantity(menuItemQuant));
+            }
+
+
+            State = orderToCopy.State;
+            PlacingDate = orderToCopy.PlacingDate;
+            ClosingDate = orderToCopy.ClosingDate;
+        }
+
         public Order()
         {
             MenuItems = new List<MenuItemQuantity>();
@@ -129,6 +198,16 @@ namespace ClassLib.DataStructures
             Quantity = menuItemQuantity.Quantity;
         }
 
+        /// <summary>
+        /// Konstruktor kopiujący
+        /// </summary>
+        /// <param name="menuItemQuantityToCopy"> Element zamówienia do skopiowania</param>
+        public MenuItemQuantity(MenuItemQuantity menuItemQuantityToCopy)
+        {
+            MenuItem = new MenuItem((menuItemQuantityToCopy.MenuItem));
+            Quantity = menuItemQuantityToCopy.Quantity;
+        }
+
         public MenuItemQuantity()
         { }
     }
@@ -146,6 +225,20 @@ namespace ClassLib.DataStructures
         {
             Number = table.Number;
             Description = table.Description;
+        }
+
+        /// <summary>
+        /// Konstruktor kopiujący
+        /// </summary>
+        /// <param name="tableToCopy">Stolik do skopiowania</param>
+        public Table(Table tableToCopy)
+            :base(tableToCopy)
+        {
+            if(tableToCopy == null)
+                throw new ArgumentNullException("tableToCopy");
+
+            Number = tableToCopy.Number;
+            Description = tableToCopy.Description;
         }
 
         public Table()
@@ -171,6 +264,22 @@ namespace ClassLib.DataStructures
             LastName = userContext.LastName;
             Login = userContext.Login;
             Role = userContext.Role;
+        }
+
+        /// <summary>
+        /// Konstruktor kopiujący
+        /// </summary>
+        /// <param name="userContextToCopy">Kontekst uzytkownika do skopiowania</param>
+        public UserContext(UserContext userContextToCopy)
+            :base(userContextToCopy)
+        {
+            if(userContextToCopy == null)
+                throw new ArgumentNullException("userContextToCopy");
+
+            FirstName = userContextToCopy.FirstName;
+            LastName = userContextToCopy.LastName;
+            Login = userContextToCopy.Login;
+            Role = userContextToCopy.Role;
         }
 
         public UserContext()
