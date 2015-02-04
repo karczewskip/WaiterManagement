@@ -18,6 +18,13 @@ namespace DataAccess
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext=false)]
     public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
     {
+        #region Const Fields
+        /// <summary>
+        /// Przerwa pomiędzy kolejnymi wywołaniami schedulera
+        /// </summary>
+        private const long minuteInMilliseconds = 1000*60;
+        #endregion
+
         #region Private Fields
         private HashSet<UserContextEntity> loggedInUsers;
         private object loggedInUsersLockObject = new object();
@@ -27,6 +34,7 @@ namespace DataAccess
         private object waiterOrderDictionaryLockObject = new object();
         private HashSet<ClientRegistrationRecord> clientRegistrationRecords;
         private object clientRegistrationRecordsLockObject = new object();
+        private OrderAssignScheduler orderAssignScheduler;
         #endregion
 
         #region Constructors
@@ -36,6 +44,8 @@ namespace DataAccess
             awaitingOrderCollection = new Queue<Order>();
             waiterOrderDictionary = new Dictionary<WaiterRegistrationRecord, Order>();
             clientRegistrationRecords = new HashSet<ClientRegistrationRecord>();
+
+            orderAssignScheduler = new OrderAssignScheduler( minuteInMilliseconds, FindTableAndAssignOrder);
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccessProvider, Configuration>()); 
         }
@@ -714,6 +724,11 @@ namespace DataAccess
                         var clientRegRec = clientRegistrationRecords.FirstOrDefault(r => r.ClientId == order.Client.Id);
                         if (clientRegRec != null)
                             Task.Run(() => clientRegRec.Callback.NotifyOrderAwaitingDelivery(order.Id));
+                        //klient zamówił przez stronę internetową, co oznacza, że nie posiada interfejsu wywołań zwrotnych. Wysyłamy kelnerowi bezpośrednio potwierdzenie zapłaty.
+                        else
+                        {
+                            PayForOrderInternal(order.Client.Id, order.Id);
+                        }
                     }
                 }
 
@@ -728,14 +743,21 @@ namespace DataAccess
             return AddUserToDatabase(firstName, lastName, login, password, UserRole.Client);
         }
 
-        public Order AddOrder(int clientId, int tableId, IEnumerable<Tuple<int, int>> menuItemsEnumerable)
+        /// <summary>
+        /// Dodawanie zamówienia z terminala klienckiego w lokalu. Znajdywanie kelnera obsługującego zadanie następuje od razu.
+        /// </summary>
+        /// <param name="clientId">Identyfikator klienta</param>
+        /// <param name="tableId">Numer stolika</param>
+        /// <param name="menuItemsEnumerable">Elementy stanowiące zamówienie</param>
+        /// <returns></returns>
+        Order IClientDataAccessWCFService.AddOrder(int clientId, int tableId, IEnumerable<Tuple<int, int>> menuItemsEnumerable)
         {
             if (!CheckHasUserRole(clientId, UserRole.Client))
                 throw new SecurityException(String.Format("Client id={0} is not logged in.", clientId));
 
             var menuItems = menuItemsEnumerable as Tuple<int, int>[] ?? menuItemsEnumerable.ToArray();
             if (menuItems == null || !menuItems.Any())
-                throw new ArgumentNullException("menuItems");
+                throw new ArgumentNullException("menuItemsEnumerable");
 
             OrderEntity orderEntity = null;
 
@@ -776,39 +798,69 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Dodawanie zamówienia z poziomu strony internetowej. Od zamówienia z lokalu różni się tym, iż klient podaje datę, kiedy zamierza przyjść do lokalu.
+        /// Wybór stolika następuje automatycznie
+        /// </summary>
+        /// <param name="userId">Identyfikator klienta</param>
+        /// <param name="orderTime">Czas obsługi zamówienia</param>
+        /// <param name="menuItemsEnumerable">Elementy stanowiące zamówienie</param>
+        /// <returns></returns>
+        public Order AddOrder(int clientId, DateTime orderTime, IEnumerable<Tuple<int, int>> menuItemsEnumerable)
+        {
+            if (!CheckHasUserRole(clientId, UserRole.Client))
+                throw new SecurityException(String.Format("Client id={0} is not logged in.", clientId));
+
+            // Data zamówienia jest w przeszłości
+            if (orderTime.CompareTo(DateTime.Now) < 0)
+                throw new ArgumentException("Specified date already passed.", "orderTime");
+
+            var menuItems = menuItemsEnumerable as Tuple<int, int>[] ?? menuItemsEnumerable.ToArray();
+            if (menuItems == null || !menuItems.Any())
+                throw new ArgumentNullException("menuItemsEnumerable");
+
+            OrderEntity orderEntity = null;
+
+            using (var db = new DataAccessProvider())
+            {
+                UserContextEntity client = db.Users.Find(clientId);
+                if (client == null)
+                    throw new ArgumentException(String.Format("No such user (id={0}) exists.", clientId));
+                if (client.Role != UserRole.Client)
+                    throw new ArgumentException(String.Format("User (id={0}) is not a client.", clientId));
+
+                orderEntity = new OrderEntity() { Client = client, State = OrderState.Placed, PlacingDate = DateTime.Now, ClosingDate = DateTime.MaxValue };
+
+                foreach (var tuple in menuItems)
+                {
+                    MenuItemEntity menuItem = db.MenuItems.Find(tuple.Item1);
+                    if (menuItem == null)
+                        throw new ArgumentException(String.Format("No such menuItem (id={0}) exists", tuple.Item1));
+                    if (tuple.Item2 <= 0)
+                        throw new ArgumentException(String.Format("MenuItem id={0} has quantity={1}", tuple.Item1, tuple.Item2));
+
+                    MenuItemQuantityEntity menuItemQuantity = new MenuItemQuantityEntity() { MenuItem = menuItem, Quantity = tuple.Item2 };
+                    orderEntity.MenuItems.Add(menuItemQuantity);
+                }
+
+                orderEntity = db.Orders.Add(orderEntity);
+                db.SaveChanges();
+
+                var order = new Order(orderEntity);
+
+                orderAssignScheduler.AddOrder(new OrderServicingDateWrapper(order, orderTime));
+
+                return order;
+            }
+            
+        }
+
         public bool PayForOrder(int userId, int orderId)
         {
             if(!CheckHasUserRole(userId, UserRole.Client))
                 throw new SecurityException(String.Format("Client id={0} is not logged in.", userId));
 
-            WaiterRegistrationRecord waiterRegRecord = null;
-
-            lock(waiterOrderDictionary)
-                foreach(var pair in waiterOrderDictionary)
-                    if (pair.Value != null && pair.Value.Id == orderId)
-                        waiterRegRecord = pair.Key;
-
-            //Zadanie nie jest aktualnie w realizacji
-            if (waiterRegRecord == null)
-                return false;
-
-            //Kelner potwierdził zapłatę
-            if (waiterRegRecord.Callback.ConfirmUserPaid(userId))
-            {
-                //Ustawiamy stan na zrealizowany
-                SetOrderState(waiterRegRecord.WaiterId, orderId, OrderState.Realized);
-                //Kelner jest wolny, gotowy na następne zamówienie
-                lock(waiterOrderDictionary)
-                    waiterOrderDictionary[waiterRegRecord] = null;
-
-                //Jeżeli są zadania oczekujące, próbujemy je przydzielić
-                Task.Run(() => TryAssignAwaitingOrder());
-
-                return true;
-            }
-
-            //Kelner nie potwierdził zapłatę zamówienia
-            return false;
+            return PayForOrderInternal(userId, orderId);
         }
 
         public IEnumerable<Order> GetOrders(int clientId)
@@ -1028,6 +1080,80 @@ namespace DataAccess
 
             foreach (var clientRegistrationRecord in notLongerAvailableClients)
                 RemoveFromLoggedInUsers(clientRegistrationRecord.ClientId);
+        }
+
+        private bool FindTableAndAssignOrder(Order orderToAssign)
+        {
+            if(orderToAssign == null)
+                throw new ArgumentNullException("orderToAssign");
+
+            using (var db = new DataAccessProvider())
+            {
+                //znalezienie wolnego stolika
+                var orderEntity = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").FirstOrDefault(o => o.Id == orderToAssign.Id);
+                if (orderEntity == null)
+                    throw new ArgumentException(String.Format("No order of id = {0} exists.", orderToAssign.Id));
+
+                var tableList = db.Tables.ToList();
+
+                //Nie ma w bazie stolików, nie można przydzielić zamówienia
+                if (tableList == null || !tableList.Any())
+                    return false;
+
+                var occupiedTableList =
+                    db.Orders.Include("Table")
+                        .Where(o => o.State == OrderState.Accepted || o.State == OrderState.AwaitingDelivery)
+                        .Select(o => o.Table)
+                        .ToList();
+
+                if(occupiedTableList != null && occupiedTableList.Any())
+                    foreach (var table in occupiedTableList)
+                        tableList.Remove(table);
+
+                //wszystkie stoliki są zajęte
+                if (tableList.Count == 0)
+                    return false;
+
+                orderEntity.Table = tableList.First();
+                db.Entry(orderEntity).State = EntityState.Modified;
+                orderToAssign = new Order(orderEntity);
+                db.SaveChanges();
+
+                AssignOrder(orderToAssign);
+                return true;
+            }
+        }
+
+        private bool PayForOrderInternal(int userId, int orderId)
+        {
+            WaiterRegistrationRecord waiterRegRecord = null;
+
+            lock(waiterOrderDictionary)
+                foreach(var pair in waiterOrderDictionary)
+                    if (pair.Value != null && pair.Value.Id == orderId)
+                        waiterRegRecord = pair.Key;
+
+            //Zadanie nie jest aktualnie w realizacji
+            if (waiterRegRecord == null)
+                return false;
+
+            //Kelner potwierdził zapłatę
+            if (waiterRegRecord.Callback.ConfirmUserPaid(userId))
+            {
+                //Ustawiamy stan na zrealizowany
+                SetOrderState(waiterRegRecord.WaiterId, orderId, OrderState.Realized);
+                //Kelner jest wolny, gotowy na następne zamówienie
+                lock(waiterOrderDictionary)
+                    waiterOrderDictionary[waiterRegRecord] = null;
+
+                //Jeżeli są zadania oczekujące, próbujemy je przydzielić
+                Task.Run(() => TryAssignAwaitingOrder());
+
+                return true;
+            }
+
+            //Kelner nie potwierdził zapłatę zamówienia
+            return false;
         }
         #endregion
 
