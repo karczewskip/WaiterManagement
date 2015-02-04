@@ -6,6 +6,7 @@
 {
     <b>Hello: </b>
     <b>@Model.UserName</b>
+    @HttpContext.Current.User.Identity.Name
     @Html.ActionLink("Logount" ,"Logout","Account")
 }
 else

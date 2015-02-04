@@ -71,3 +71,9 @@ DIV#cart span#checkout A{
     text-decoration: none;
     color: Black;
 }
+
+div#account {
+    float: right;
+    margin: .4em;
+    padding: .4em;
+}

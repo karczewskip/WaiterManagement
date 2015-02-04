@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using System.Web.Security;
 using WebUI.Infrastructure.Abstract;
 using WebUI.Models;
@@ -24,6 +25,7 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 if (authProvider.Authenticate(model.UserName, model.Password))
                 {
                     return Redirect(returnUrl ?? Url.Action("Index", "Cart"));
