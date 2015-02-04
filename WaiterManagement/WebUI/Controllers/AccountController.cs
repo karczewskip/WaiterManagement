@@ -25,7 +25,6 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 if (authProvider.Authenticate(model.UserName, model.Password))
                 {
                     return Redirect(returnUrl ?? Url.Action("Index", "Cart"));
@@ -47,9 +46,11 @@ namespace WebUI.Controllers
             return PartialView(authProvider);
         }
 
-        public void Logout()
+        public ActionResult Logout(string returnUrl)
         {
             FormsAuthentication.SignOut();
+
+            return Redirect(returnUrl);
         }
     }
 }

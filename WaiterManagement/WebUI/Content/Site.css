@@ -77,3 +77,8 @@ div#account {
     margin: .4em;
     padding: .4em;
 }
+
+div#account a {
+    text-decoration: none;
+    color: Black;
+}

@@ -12,17 +12,7 @@ namespace WebUI.Infrastructure.Concrete
         private readonly IClientDataAccess _clientDataAccess;
 
         private UserContext _userContext;
-        private System.Web.HttpCookie _authenticationCookie;
-
-        public string UserName
-        {
-            get
-            {
-                var ticket = FormsAuthentication.Decrypt(_authenticationCookie.Value);
-
-                return ticket.UserData;
-            }
-        }
+        private HttpCookie _authenticationCookie;
 
         public bool IsLogged
         {

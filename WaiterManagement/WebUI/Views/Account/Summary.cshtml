@@ -5,13 +5,17 @@
 @if (Model.IsLogged)
 {
     <b>Hello: </b>
-    <b>@Model.UserName</b>
-    @HttpContext.Current.User.Identity.Name
-    @Html.ActionLink("Logount" ,"Logout","Account")
+    <b>@HttpContext.Current.User.Identity.Name</b>
+    <span id="logout" class="btn btn-default btn-sm">
+    @Html.ActionLink("Logout", "Logout", new { returnUrl = Request.Url })
+    </span>
 }
 else
 {
     <b>You are not logged</b>
+    <span id="login" class="btn btn-default btn-sm">
+    @Html.ActionLink("Login", "Login")
+    </span>
 }
     </span>
 </div>
