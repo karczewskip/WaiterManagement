@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ClassLib.DataStructures.Order>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2>Orders</h2>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Id)</th>
+        <th>@Html.DisplayNameFor(model => model.PlacingDate)</th>
+        <th>@Html.DisplayNameFor(model => model.State)</th>
+        <th>@Html.DisplayNameFor(model => model.MenuItems)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.PlacingDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.State)</td>
+                <td>
+                    @foreach (var menuItem in item.MenuItems)
+                    {
+                        @Html.DisplayFor(modelItem => menuItem.MenuItem.Name)
+                
+                        @Html.DisplayFor(modelItem => menuItem.Quantity)
+                        <br/>
+                    }
+                </td>
+                @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+                </td>*@
+            </tr>
+        }
+</table>

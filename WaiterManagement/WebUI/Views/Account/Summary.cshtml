@@ -7,7 +7,10 @@
     <b>Hello: </b>
     <b>@HttpContext.Current.User.Identity.Name</b>
     <span id="logout" class="btn btn-default btn-sm">
-    @Html.ActionLink("Logout", "Logout", new { returnUrl = Request.Url })
+    @Html.ActionLink("Logout", "Logout", new {returnUrl = Request.Url})
+    </span>
+    <span id="orders" class="btn btn-default btn-sm">
+    @Html.ActionLink("Orders", "Orders")
     </span>
 }
 else

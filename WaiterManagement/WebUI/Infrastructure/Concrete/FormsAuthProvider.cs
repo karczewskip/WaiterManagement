@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using ClassLib.DataStructures;
@@ -39,22 +40,38 @@ namespace WebUI.Infrastructure.Concrete
             if (_userContext != null)
             {
                 const int timeout = 60;
-                var ticket = new FormsAuthenticationTicket(username, true, timeout);
+                var ticket = new FormsAuthenticationTicket(
+                    1,
+                    username, 
+                    DateTime.Now,
+                    DateTime.Now.AddMinutes(timeout), 
+                    true,
+                    _userContext.Id.ToString()
+                    );
                 var encrypted = FormsAuthentication.Encrypt(ticket);
-                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted)
-                {
-                    Expires = System.DateTime.Now.AddMinutes(timeout)
-                };
+                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
 
                 HttpContext.Current.Response.Cookies.Add(cookie);
-                FormsAuthentication.SetAuthCookie(username,false);
 
-                _authenticationCookie = FormsAuthentication.GetAuthCookie(FormsAuthentication.FormsCookieName, false);
+                _authenticationCookie = HttpContext.Current.Request.Cookies.Get(FormsAuthentication.FormsCookieName);
                 
                 return true;
             }
 
             return false;
+        }
+
+
+        public int GetClientId()
+        {
+            _authenticationCookie = HttpContext.Current.Request.Cookies.Get(FormsAuthentication.FormsCookieName);
+
+            var decrypted = FormsAuthentication.Decrypt(_authenticationCookie.Value);
+
+            if (decrypted == null)
+                return -1;
+
+            return int.Parse(decrypted.UserData);
         }
     }
 }
