@@ -32,11 +32,9 @@ namespace WebUI.Controllers
                 {
                     return Redirect(returnUrl ?? Url.Action("Index", "Cart"));
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Incorrect username or password");
-                    return View();
-                }
+
+	            ModelState.AddModelError("", "Incorrect username or password");
+	            return View();
             }
             else
             {

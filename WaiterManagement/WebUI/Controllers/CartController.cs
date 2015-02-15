@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ClassLib;
 using ClassLib.DataStructures;
@@ -64,14 +62,12 @@ namespace WebUI.Controllers
 		[Authorize]
 		public ViewResult Checkout(Cart cart, OrderDetails orderDetails)
 		{
-			//orderDetails.ClientId =
-
-			if (CheckCartContent(cart))
-				if (ChcekLogicalContext(orderDetails))
-					ProcessOrder(cart, orderDetails);
-
 			if (!ModelState.IsValid)
 				return View(orderDetails);
+
+			if (CheckCartContent(cart))
+				if (!ProcessOrder(cart, orderDetails))
+					return View("Error");
 
 			cart.Clear();
 			return View("Completed");
@@ -83,12 +79,6 @@ namespace WebUI.Controllers
 
 			ModelState.AddModelError("", ApplicationResources.EmptyOrderMessage);
 			return false;
-		}
-
-		private bool ChcekLogicalContext(OrderDetails orderDetails)
-		{
-			//TODO: if your order couldn't be realized from logical reasons
-			return true;
 		}
 
 		private bool ProcessOrder(Cart cart, OrderDetails orderDetails)
