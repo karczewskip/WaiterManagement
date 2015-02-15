@@ -1033,7 +1033,8 @@ namespace DataAccess
                 lock(awaitingOrderCollection)
                     awaitingOrderCollection.Enqueue(orderToAssign);
                 //powiadamiamy klienta o braku dostępnych kelnerów
-                Task.Run(() => clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id));
+                if(clientRegistrationRecord != null)
+                    Task.Run(() => clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id));
             }
         }
 
