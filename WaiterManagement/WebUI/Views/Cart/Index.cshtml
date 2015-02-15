@@ -47,6 +47,6 @@
     </tfoot>
 </table>
 <p align="center" class="actionButtons">
-    <a class="btn btn-default btn-sm" href="@Model.ReturnUrl">Continue shopping</a>
+	@Html.ActionLink("Continue shopping", "List", "Menu",new { }, new { @class = "btn btn-default btn-sm" })
     @Html.ActionLink("Checkout now", "Checkout", "Cart", new { @class = "btn btn-default btn-sm" })
 </p>

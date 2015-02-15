@@ -5,29 +5,29 @@ using WebUI.Infrastructure.Abstract;
 
 namespace WebUI.Controllers
 {
-    public class NavController : Controller
-    {
-        private readonly IBaseDataAccess _baseDataAccess;
+	public class NavController : Controller
+	{
+		private readonly IBaseDataAccess _baseDataAccess;
 
-        public NavController(IBaseDataAccess baseDataAccess)
-        {
-            _baseDataAccess = baseDataAccess;
-        }
+		public NavController(IBaseDataAccess baseDataAccess)
+		{
+			_baseDataAccess = baseDataAccess;
+		}
 
-        //
-        // GET: /Nav/
+		//
+		// GET: /Nav/
 
-        public PartialViewResult Menu(string category = null)
-        {
-            ViewBag.SelectedCategory = category;
+		public PartialViewResult Menu(string category = null)
+		{
+			ViewBag.SelectedCategory = category;
 
-            IEnumerable<string> categories = _baseDataAccess.GetMenuItems()
-                .Select(x => x.Category.Name)
-                .Distinct()
-                .OrderBy(x => x);
+			IEnumerable<string> categories = _baseDataAccess.GetMenuItems()
+				.Select(x => x.Category.Name)
+				.Distinct()
+				.OrderBy(x => x);
 
-            return PartialView(categories);
-        }
+			return PartialView(categories);
+		}
 
-    }
+	}
 }
