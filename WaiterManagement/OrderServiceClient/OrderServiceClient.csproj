@@ -184,7 +184,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -223,10 +225,6 @@
     <ProjectReference Include="..\ClassLib\ClassLib.csproj">
       <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
       <Name>ClassLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WaiterClient\WaiterClient.csproj">
-      <Project>{4FF01898-26EE-4172-9691-A39B5E77A32F}</Project>
-      <Name>WaiterClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
