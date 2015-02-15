@@ -146,13 +146,30 @@
     </Compile>
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
+    <Compile Include="Infrastructure\Abstract\IBaseDataAccess.cs" />
+    <Compile Include="Infrastructure\Abstract\IClientDataAccess.cs" />
+    <Compile Include="Infrastructure\Abstract\IManagerDataAccess.cs" />
+    <Compile Include="Infrastructure\Concrete\BaseDataAccess.cs" />
+    <Compile Include="Infrastructure\Concrete\ClientDataAccess.cs" />
+    <Compile Include="Infrastructure\Concrete\DbOrderProcessor.cs" />
     <Compile Include="Infrastructure\Concrete\FormsAuthProvider.cs" />
+    <Compile Include="Infrastructure\Concrete\ManagerDataAccess.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MenuListViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\ClientDataAccessWebWCFService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ManagerDataAccessWebWCFService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -223,25 +240,39 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Properties\DataSources\ClassLib.DataStructures.MenuItem.datasource" />
+    <Content Include="Properties\DataSources\ClassLib.DataStructures.MenuItemCategory.datasource" />
+    <Content Include="Properties\DataSources\ClassLib.DataStructures.Order.datasource" />
+    <Content Include="Properties\DataSources\ClassLib.DataStructures.Table.datasource" />
+    <Content Include="Properties\DataSources\ClassLib.DataStructures.UserContext.datasource" />
     <None Include="Properties\PublishProfiles\Test.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\_references.js" />
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess.disco" />
+    <None Include="Service References\ClientDataAccessWebWCFService\configuration91.svcinfo" />
+    <None Include="Service References\ClientDataAccessWebWCFService\configuration.svcinfo" />
+    <None Include="Service References\ClientDataAccessWebWCFService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess.disco" />
+    <None Include="Service References\ManagerDataAccessWebWCFService\configuration91.svcinfo" />
+    <None Include="Service References\ManagerDataAccessWebWCFService\configuration.svcinfo" />
+    <None Include="Service References\ManagerDataAccessWebWCFService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -267,6 +298,32 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Summary.cshtml" />
     <Content Include="Views\Account\Orders.cshtml" />
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccessClass.wsdl" />
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -279,13 +336,13 @@
       <Project>{0f2c99c2-914c-40d5-a0fe-ff4a79854ace}</Project>
       <Name>ClassLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{41f66c53-cd5d-4459-a05e-68abfe7f697a}</Project>
-      <Name>DataAccess</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ClientDataAccessWebWCFService\" />
+    <WCFMetadataStorage Include="Service References\ManagerDataAccessWebWCFService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

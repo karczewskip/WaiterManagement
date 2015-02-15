@@ -2,10 +2,12 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using ClassLib.DataStructures;
-using DataAccess;
 using Ninject;
 using WebUI.Infrastructure.Abstract;
 using WebUI.Infrastructure.Concrete;
+using IBaseDataAccess = WebUI.Infrastructure.Abstract.IBaseDataAccess;
+using IClientDataAccess = WebUI.Infrastructure.Abstract.IClientDataAccess;
+using IManagerDataAccess = WebUI.Infrastructure.Abstract.IManagerDataAccess;
 
 namespace WebUI.Infrastructure
 {
@@ -28,9 +30,9 @@ namespace WebUI.Infrastructure
 
         private void AddBindings()
         {
-            _kernel.Bind<IBaseDataAccess>().To<DataAccessClass>().InSingletonScope();
-            _kernel.Bind<IClientDataAccess>().To<DataAccessClass>().InSingletonScope();
-            _kernel.Bind<IManagerDataAccess>().To<DataAccessClass>().InSingletonScope();
+            _kernel.Bind<IBaseDataAccess>().To<BaseDataAccess>().InSingletonScope();
+            _kernel.Bind<IClientDataAccess>().To<ClientDataAccess>().InSingletonScope();
+            _kernel.Bind<IManagerDataAccess>().To<ManagerDataAccess>().InSingletonScope();
 
             _kernel.Bind<IProcessOrderCommand>().To<DbOrderProcessor>();
             _kernel.Bind<IProcessOrderCommand>().To<EmailOrderProcessor>().WhenInjectedInto<DbOrderProcessor>();

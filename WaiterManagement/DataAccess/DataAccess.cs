@@ -15,14 +15,14 @@ namespace DataAccess
     /// <summary>
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext=false)]
-    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext=false, IncludeExceptionDetailInFaults = true)]
+    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess, IClientDataAccessWebWCFService, IManagerDataAccessWebWCFService
     {
         #region Const Fields
         /// <summary>
         /// Przerwa pomiędzy kolejnymi wywołaniami schedulera
         /// </summary>
-        private const long minuteInMilliseconds = 1000*60;
+        private const long minuteInMilliseconds = 1000*10;
         #endregion
 
         #region Private Fields
@@ -727,7 +727,7 @@ namespace DataAccess
                         //klient zamówił przez stronę internetową, co oznacza, że nie posiada interfejsu wywołań zwrotnych. Wysyłamy kelnerowi bezpośrednio potwierdzenie zapłaty.
                         else
                         {
-                            PayForOrderInternal(order.Client.Id, order.Id);
+                            Task.Run(() => PayForOrderInternal(order.Client.Id, order.Id));
                         }
                     }
                 }
@@ -1000,9 +1000,6 @@ namespace DataAccess
             lock(clientRegistrationRecordsLockObject)
                 clientRegistrationRecord = clientRegistrationRecords.FirstOrDefault(r => r.ClientId == orderToAssign.Client.Id);
 
-            if (clientRegistrationRecord == null)
-                return;
-
             CheckAreWaitersAvailable();
 
             lock (waiterOrderDictionary)
@@ -1020,8 +1017,9 @@ namespace DataAccess
                             var waiterContext = SetWaiterForOrder(orderToAssign.Id, registrationRecord.WaiterId);
                             //stan zamówienia ustawiamy jako zaakceptowany
                             SetOrderState(registrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
-                            //powiadamiamy klienta o zaakceptowaniu zamówienia
-                            clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
+                            //powiadamiamy klienta o zaakceptowaniu zamówienia (jeżeli istnieje)
+                            if(clientRegistrationRecord != null)
+                                clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
                             break;
                         }
                     }
@@ -1090,7 +1088,7 @@ namespace DataAccess
             using (var db = new DataAccessProvider())
             {
                 //znalezienie wolnego stolika
-                var orderEntity = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").FirstOrDefault(o => o.Id == orderToAssign.Id);
+                var orderEntity = db.Orders.Include("MenuItems").Include("MenuItems.MenuItem").Include("MenuItems.MenuItem.Category").Include("Waiter").Include("Table").Include("Client").FirstOrDefault(o => o.Id == orderToAssign.Id);
                 if (orderEntity == null)
                     throw new ArgumentException(String.Format("No order of id = {0} exists.", orderToAssign.Id));
 
@@ -1119,7 +1117,7 @@ namespace DataAccess
                 orderToAssign = new Order(orderEntity);
                 db.SaveChanges();
 
-                AssignOrder(orderToAssign);
+                Task.Run(() => AssignOrder(orderToAssign));
                 return true;
             }
         }

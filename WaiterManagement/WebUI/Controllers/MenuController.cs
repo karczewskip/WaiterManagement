@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using DataAccess;
 using WebUI.Models;
+using WebUI.Infrastructure.Abstract;
 
 namespace WebUI.Controllers
 {

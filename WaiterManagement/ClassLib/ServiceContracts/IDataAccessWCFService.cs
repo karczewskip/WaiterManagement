@@ -1,7 +1,9 @@
 ﻿using ClassLib.DbDataStructures;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,21 @@ namespace ClassLib.ServiceContracts
         IEnumerable<MenuItem> GetMenuItems(int userId);
         [OperationContract]
         IEnumerable<Table> GetTables(int userId);
+    }
+
+    [ServiceContract]
+    public interface IBaseDataAccessWebWCFService
+    {
+        [OperationContract(Name = "GetMenuItemCategoriesWeb")]
+        IEnumerable<MenuItemCategory> GetMenuItemCategories(int userId);
+        [OperationContract(Name = "GetMenuItemsWeb")]
+        IEnumerable<MenuItem> GetMenuItems();
+        [OperationContract(Name = "GetTablesWeb")]
+        IEnumerable<Table> GetTables(int userId);
+        [OperationContract(Name = "LogInWeb")]
+        UserContext LogIn(string login, string password);
+        [OperationContract(Name = "LogOutWeb")]
+        bool LogOut(int userId);
     }
 
     [ServiceContract]
@@ -58,6 +75,43 @@ namespace ClassLib.ServiceContracts
         [OperationContract]
         IEnumerable<Order> GetOrders(int managerId);
         [OperationContract]
+        bool RemoveOrder(int managerId, int orderId);
+    }
+
+    [ServiceContract]
+    public interface IManagerDataAccessWebWCFService : IBaseDataAccessWebWCFService
+    {
+        [OperationContract(Name = "AddManagerWeb")]
+        UserContext AddManager(string firstName, string lastName, string login, string password);
+        [OperationContract(Name = "AddMenuItemCategoryWeb")]
+        MenuItemCategory AddMenuItemCategory(int managerId, string name, string description);
+        [OperationContract(Name = "EditMenuItemCategoryWeb")]
+        bool EditMenuItemCategory(int managerId, MenuItemCategory menuItemCategoryToEdit);
+        [OperationContract(Name = "RemoveMenuItemCategoryWeb")]
+        bool RemoveMenuItemCategory(int managerId, int categoryId);
+        [OperationContract(Name = "AddMenuItemWeb")]
+        MenuItem AddMenuItem(int managerId, string name, string description, int categoryId, Money price);
+        [OperationContract(Name = "EditMenuItemWeb")]
+        bool EditMenuItem(int managerId, MenuItem menuItemToEdit);
+        [OperationContract(Name = "RemoveMenuItemWeb")]
+        bool RemoveMenuItem(int managerId, int menuItemId);
+        [OperationContract(Name = "AddWaiterWeb")]
+        UserContext AddWaiter(int managerId, string firstName, string lastName, string login, string password);
+        [OperationContract(Name = "EditWaiterWeb")]
+        bool EditWaiter(int managerId, UserContext waiterToEdit);
+        [OperationContract(Name = "RemoveWaiterWeb")]
+        bool RemoveWaiter(int managerId, int waiterId);
+        [OperationContract(Name = "GetWaitersWeb")]
+        IEnumerable<UserContext> GetWaiters(int managerId);
+        [OperationContract(Name = "AddTableWeb")]
+        Table AddTable(int managerId, int tableNumber, string description);
+        [OperationContract(Name = "EditTableWeb")]
+        bool EditTable(int managerId, Table tableToEdit);
+        [OperationContract(Name = "RemoveTableWeb")]
+        bool RemoveTable(int managerId, int tableId);
+        [OperationContract(Name = "GetOrdersWeb")]
+        IEnumerable<Order> GetOrders(int managerId);
+        [OperationContract(Name = "RemoveOrderWeb")]
         bool RemoveOrder(int managerId, int orderId);
     }
 
@@ -101,5 +155,16 @@ namespace ClassLib.ServiceContracts
         void NotifyOrderOnHold(int orderId);
         [OperationContract]
         void NotifyOrderAwaitingDelivery(int oderId);
+    }
+
+    [ServiceContract]
+    public interface IClientDataAccessWebWCFService : IBaseDataAccessWebWCFService
+    {
+        [OperationContract(Name = "AddClientWeb")]
+        UserContext AddClient(string firstName, string lastName, string login, string password);
+        [OperationContract(Name = "AddOrderWeb")]
+        Order AddOrder(int userId, DateTime orderTime, IEnumerable<Tuple<int, int>> menuItems);
+        [OperationContract(Name = "GetOrdersClientWeb")]
+        IEnumerable<Order> GetOrders(int clientId);
     }
 }

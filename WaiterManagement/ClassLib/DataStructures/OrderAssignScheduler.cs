@@ -35,6 +35,7 @@ namespace ClassLib.DataStructures
             checkingTimer = new Timer();
             checkingTimer.Interval = checkingInterval;
             checkingTimer.Elapsed += checkingTimer_Elapse;
+            checkingTimer.Start();
         }
         #endregion
 
@@ -71,6 +72,7 @@ namespace ClassLib.DataStructures
         public void Dispose()
         {
             checkingTimer.Elapsed -= checkingTimer_Elapse;
+            checkingTimer.Stop();
         }
         #endregion
     }

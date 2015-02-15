@@ -1,7 +1,6 @@
-﻿using System;
+﻿using ClassLib.DataStructures;
+using System;
 using System.Collections.Generic;
-using ClassLib.DataStructures;
-
 namespace WebUI.Models
 {
     public class MenuListViewModel

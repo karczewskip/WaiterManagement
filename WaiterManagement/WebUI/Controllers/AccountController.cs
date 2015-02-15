@@ -1,7 +1,5 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
-using DataAccess;
 using WebUI.Infrastructure.Abstract;
 using WebUI.Models;
 

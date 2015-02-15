@@ -94,7 +94,6 @@
       <DependentUpon>201501122237535_Zmiana_nazwy_encji.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DbOrderProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

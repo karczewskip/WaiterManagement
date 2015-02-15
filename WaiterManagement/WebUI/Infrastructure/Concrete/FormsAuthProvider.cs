@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Web;
-using System.Web.Mvc;
 using System.Web.Security;
 using ClassLib.DataStructures;
-using DataAccess;
 using WebUI.Infrastructure.Abstract;
 
 namespace WebUI.Infrastructure.Concrete
@@ -35,7 +33,7 @@ namespace WebUI.Infrastructure.Concrete
 
         public bool Authenticate(string username, string password)
         {
-            _userContext = _clientDataAccess.LogIn(username, HashClass.CreateFirstHash(password, username));
+            _userContext = _clientDataAccess.LogIn(username, ClassLib.DataStructures.HashClass.CreateFirstHash(password, username));
 
             if (_userContext != null)
             {
