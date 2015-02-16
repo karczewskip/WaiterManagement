@@ -60,6 +60,7 @@
     <Compile Include="DataStructures\EmailOrderProcessor.cs" />
     <Compile Include="DataStructures\HashClass.cs" />
     <Compile Include="DataStructures\IOrderProcessor.cs" />
+    <Compile Include="DataStructures\Logger.cs" />
     <Compile Include="DataStructures\OrderAssignScheduler.cs" />
     <Compile Include="DataStructures\OrderCart.cs" />
     <Compile Include="DataStructures\OrderDetails.cs" />

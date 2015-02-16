@@ -26,6 +26,8 @@ namespace DataAccess
         #endregion
 
         #region Private Fields
+        private Logger logger;
+
         private HashSet<UserContextEntity> loggedInUsers;
         private object loggedInUsersLockObject = new object();
         private Queue<Order> awaitingOrderCollection; 
@@ -40,6 +42,8 @@ namespace DataAccess
         #region Constructors
         public DataAccessClass()
         {
+            logger = new Logger();
+
             loggedInUsers = new HashSet<UserContextEntity>();
             awaitingOrderCollection = new Queue<Order>();
             waiterOrderDictionary = new Dictionary<WaiterRegistrationRecord, Order>();
@@ -141,10 +145,22 @@ namespace DataAccess
 
                 Task.Run(() => TryAssignAwaitingOrder());
             }
+
+            logger.Write(String.Format("User {0}({1}) logged in.", userContextEntity.Login, userContextEntity.Role), LoggingCategory.Information);
+            OperationContext.Current.Channel.Faulted += Channel_Faulted;
+
             return new UserContext(userContextEntity);
         }
 
-        public UserContext LogIn(string login, string password)
+        void Channel_Faulted(object sender, EventArgs e)
+        {
+            IContextChannel channel = sender as IContextChannel;
+
+            logger.Write(String.Format("Channel {0} entered faulted state. {1}", channel.GetType(), e), LoggingCategory.Error);
+        }
+        
+        public UserContext 
+            LogIn(string login, string password)
         {
             if (String.IsNullOrEmpty(login))
                 throw new ArgumentNullException("login");
@@ -176,6 +192,7 @@ namespace DataAccess
                     loggedInUsers.Add(userContextEntity);
             }
 
+            logger.Write(String.Format("User {0}({1}) logged in.", userContextEntity.Login, userContextEntity.Role), LoggingCategory.Information);
             return new UserContext(userContextEntity);
         }
 
@@ -791,8 +808,9 @@ namespace DataAccess
                 db.SaveChanges();
 
                 var order =  new Order(orderEntity);
+                logger.Write(String.Format("Order {0} by user {1} was created.", order.Id, order.Client), LoggingCategory.Information);
 
-                AssignOrder(order);
+                Task.Run(() => AssignOrder(order));
 
                 return order;
             }
@@ -849,7 +867,7 @@ namespace DataAccess
                 var order = new Order(orderEntity);
 
                 orderAssignScheduler.AddOrder(new OrderServicingDateWrapper(order, orderTime));
-
+                logger.Write(String.Format("Order {0} by user {1} added to scheduler. Deploy date {2}", order.Id, order.Client, orderTime), LoggingCategory.Information);
                 return order;
             }
             
@@ -918,6 +936,7 @@ namespace DataAccess
                                 waiterOrderDictionary.Remove(waiterRegRec);
                         }
 
+                        logger.Write(String.Format("User {0} ({1}) logged out", userToRemove.Login, userToRemove.Role), LoggingCategory.Information);
                         return true;
                     }
                 }
@@ -1017,9 +1036,26 @@ namespace DataAccess
                             var waiterContext = SetWaiterForOrder(orderToAssign.Id, registrationRecord.WaiterId);
                             //stan zamówienia ustawiamy jako zaakceptowany
                             SetOrderState(registrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
+                            logger.Write(String.Format("Order {0} was accepted by waiter {1}({2})", orderToAssign.Id, waiterContext.Login, registrationRecord.WaiterId), LoggingCategory.Information);
                             //powiadamiamy klienta o zaakceptowaniu zamówienia (jeżeli istnieje)
-                            if(clientRegistrationRecord != null)
+                            if (clientRegistrationRecord != null)
+                            {
                                 clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
+
+                                lock (loggedInUsersLockObject)
+                                {
+                                    var clientContext =
+                                        loggedInUsers.FirstOrDefault(u => u.Id == clientRegistrationRecord.ClientId);
+
+                                    if(clientContext != null)
+                                        logger.Write(
+                                            String.Format(
+                                                "User {0}({1}) was notified of order {2} being accepted by waiter {3}({4})",
+                                                clientContext.Login, clientContext.Id, orderToAssign.Id,
+                                                waiterContext.Login, registrationRecord.WaiterId),
+                                            LoggingCategory.Information);
+                                }
+                            }
                             break;
                         }
                     }
@@ -1030,8 +1066,9 @@ namespace DataAccess
             if (!foundWaiter)
             {
                 //nie udało się przydzielić zamówienia żadnemu kelnerowi
-                lock(awaitingOrderCollection)
+                lock(awaitingOrderCollectionLockObject)
                     awaitingOrderCollection.Enqueue(orderToAssign);
+                logger.Write(String.Format("Order {0} was added to awaitingOrderCollection", orderToAssign.Id), LoggingCategory.Information);
                 //powiadamiamy klienta o braku dostępnych kelnerów
                 if(clientRegistrationRecord != null)
                     Task.Run(() => clientRegistrationRecord.Callback.NotifyOrderOnHold(orderToAssign.Id));
@@ -1040,7 +1077,7 @@ namespace DataAccess
 
         private void TryAssignAwaitingOrder()
         {
-            lock (awaitingOrderCollection)
+            lock (awaitingOrderCollectionLockObject)
             {
                 if (awaitingOrderCollection.Count == 0)
                     return;
@@ -1065,7 +1102,11 @@ namespace DataAccess
                         notLongerAvailableWaiters.Add(waiterRegistrationRecord);
 
             foreach (var waiterRegistrationRecord in notLongerAvailableWaiters)
+            {
                 RemoveFromLoggedInUsers(waiterRegistrationRecord.WaiterId);
+                logger.Write(String.Format("Waiter {0} is no longer available.", waiterRegistrationRecord.WaiterId),
+                    LoggingCategory.Warning);
+            }
         }
 
         private void CheckAreClientsAvailable()
@@ -1078,7 +1119,11 @@ namespace DataAccess
                         notLongerAvailableClients.Add(clientRegistrationRecord);
 
             foreach (var clientRegistrationRecord in notLongerAvailableClients)
+            {
                 RemoveFromLoggedInUsers(clientRegistrationRecord.ClientId);
+                logger.Write(String.Format("Client {0} is no longer available.", clientRegistrationRecord.ClientId),
+                    LoggingCategory.Warning);
+            }
         }
 
         private bool FindTableAndAssignOrder(Order orderToAssign)
@@ -1111,7 +1156,10 @@ namespace DataAccess
 
                 //wszystkie stoliki są zajęte
                 if (tableList.Count == 0)
+                {
+                    logger.Write(String.Format("There is no free table for order {0} by client {1}({2})", orderToAssign.Id, orderToAssign.Client.Login, orderToAssign.Client.Id), LoggingCategory.Warning);
                     return false;
+                }
 
                 orderEntity.Table = tableList.First();
                 db.Entry(orderEntity).State = EntityState.Modified;
@@ -1144,6 +1192,8 @@ namespace DataAccess
                 //Kelner jest wolny, gotowy na następne zamówienie
                 lock(waiterOrderDictionary)
                     waiterOrderDictionary[waiterRegRecord] = null;
+
+                logger.Write(String.Format("Order {0} by user {1} was paid for.", orderId, userId), LoggingCategory.Information);
 
                 //Jeżeli są zadania oczekujące, próbujemy je przydzielić
                 Task.Run(() => TryAssignAwaitingOrder());
