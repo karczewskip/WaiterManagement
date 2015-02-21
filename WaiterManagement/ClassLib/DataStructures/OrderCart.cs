@@ -1,58 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ClassLib.DataStructures
 {
-    public class Cart
-    {
-        private readonly List<CartLine> lineCollection = new List<CartLine>();
+	public class Cart
+	{
+		private readonly List<MenuItemQuantity> lineCollection = new List<MenuItemQuantity>();
 
-        public string Currency
-        {
-            get { return ApplicationResources.DefaultCurrency; }
-        }
+		public string Currency
+		{
+			get { return ApplicationResources.DefaultCurrency; }
+		}
 
-        public IEnumerable<CartLine> Lines
-        {
-            get { return lineCollection; }
-        }
+		public IEnumerable<MenuItemQuantity> Lines
+		{
+			get { return lineCollection; }
+		}
 
-        public void AddItem(MenuItem menuItem, int quantity)
-        {
-            var line = lineCollection.FirstOrDefault(p => p.MenuItem.Id == menuItem.Id);
-            if (line == null)
-            {
-                lineCollection.Add(new CartLine
-                {
-                    MenuItem = menuItem,
-                    Quantity = quantity
-                });
-            }
-            else
-            {
-                line.Quantity += quantity;
-            }
-        }
+		public void AddItem(MenuItem menuItem, int quantity)
+		{
+			var line = lineCollection.FirstOrDefault(p => p.MenuItem.Id == menuItem.Id);
+			if (line == null)
+			{
+				lineCollection.Add(new MenuItemQuantity
+				{
+					MenuItem = menuItem,
+					Quantity = quantity
+				});
+			}
+			else
+			{
+				line.Quantity += quantity;
+			}
+		}
 
-        public void RemoveLine(MenuItem menuItem)
-        {
-            lineCollection.RemoveAll(l => l.MenuItem.Id == menuItem.Id);
-        }
+		public void RemoveLine(MenuItem menuItem)
+		{
+			if(lineCollection.All(l => l.MenuItem.Id != menuItem.Id))
+				throw new ArgumentException("No this type of item");
 
-        public decimal ComputeTotalValue()
-        {
-            return lineCollection.Sum(e => (decimal) (e.MenuItem.Price.Amount*e.Quantity));
-        }
+			lineCollection.RemoveAll(l => l.MenuItem.Id == menuItem.Id);
+		}
 
-        public void Clear()
-        {
-            lineCollection.Clear();
-        }
-    }
+		public decimal ComputeTotalValue()
+		{
+			return lineCollection.Sum(e => (decimal) (e.MenuItem.Price.Amount*e.Quantity));
+		}
 
-    public class CartLine
-    {
-        public MenuItem MenuItem { get; set; }
-        public int Quantity { get; set; }
-    }
+		public void Clear()
+		{
+			lineCollection.Clear();
+		}
+	}
 }

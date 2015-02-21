@@ -259,21 +259,49 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\_references.js" />
-    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess.disco" />
     <None Include="Service References\ClientDataAccessWebWCFService\configuration91.svcinfo" />
     <None Include="Service References\ClientDataAccessWebWCFService\configuration.svcinfo" />
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess41.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess42.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess43.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccessClass1.wsdl" />
     <None Include="Service References\ClientDataAccessWebWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess.disco" />
     <None Include="Service References\ManagerDataAccessWebWCFService\configuration91.svcinfo" />
     <None Include="Service References\ManagerDataAccessWebWCFService\configuration.svcinfo" />
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess41.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess42.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess43.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccessClass1.wsdl" />
     <None Include="Service References\ManagerDataAccessWebWCFService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Web.config" />
+    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess1.disco" />
+    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess1.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -298,32 +326,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Summary.cshtml" />
     <Content Include="Views\Account\Orders.cshtml" />
-    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientDataAccessWebWCFService\DataAccess3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientDataAccessWebWCFService\DataAccessClass.wsdl" />
-    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccess3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ManagerDataAccessWebWCFService\DataAccessClass.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

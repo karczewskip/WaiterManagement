@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using ClassLib;
@@ -34,10 +35,12 @@ namespace WebUI.Controllers
 		{
 			var menuItem = _baseDataAccess.GetMenuItems()
 			.FirstOrDefault(m => m.Id == id);
-			if (menuItem != null)
-			{
-				cart.AddItem(menuItem, 1);
-			}
+
+			if (menuItem == null)
+				throw new ArgumentException("There is no item with this id");
+
+			cart.AddItem(menuItem, 1);
+
 			return RedirectToAction("Index", new { returnUrl });
 		}
 
