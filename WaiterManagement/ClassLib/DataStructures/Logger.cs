@@ -16,6 +16,7 @@ namespace ClassLib.DataStructures
 
         #region Private Fields
         private readonly string fileName;
+        private object fileWritingLockObject = new object();
         #endregion
 
         #region Constructor
@@ -42,7 +43,8 @@ namespace ClassLib.DataStructures
 
             message = String.Format("{0} {1}", CreateBaseMessage(loggingCategory), message);
 
-            File.AppendAllLines(fileName, new[] {message});
+            lock(fileWritingLockObject)
+                File.AppendAllLines(fileName, new[] {message});
         }
         #endregion
 

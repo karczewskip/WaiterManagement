@@ -22,7 +22,7 @@ namespace DataAccess
         /// <summary>
         /// Przerwa pomiędzy kolejnymi wywołaniami schedulera
         /// </summary>
-        private const long minuteInMilliseconds = 1000*10;
+        private const long schedulerInterval = 1000*10;
         #endregion
 
         #region Private Fields
@@ -49,17 +49,26 @@ namespace DataAccess
             waiterOrderDictionary = new Dictionary<WaiterRegistrationRecord, Order>();
             clientRegistrationRecords = new HashSet<ClientRegistrationRecord>();
 
-            orderAssignScheduler = new OrderAssignScheduler( minuteInMilliseconds, FindTableAndAssignOrder);
+            orderAssignScheduler = new OrderAssignScheduler( schedulerInterval, FindTableAndAssignOrder);
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccessProvider, Configuration>()); 
         }
         #endregion
 
         #region IBaseDataAccess
+        /// <summary>
+        /// Zwraca kolekcję kategorii elementów menu
+        /// </summary>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <returns></returns>
         public IEnumerable<MenuItemCategory> GetMenuItemCategories(int userId)
         {
             if (!CheckIsUserLoggedIn(userId))
-                throw new SecurityException(String.Format("User login={0} is not logged in", userId));
+            {
+                string errorMessage = String.Format("User login={0} is not logged in", userId);
+                logger.Write(errorMessage, LoggingCategory.Warning);
+                throw new SecurityException(errorMessage);
+            }
 
             using (var db = new DataAccessProvider())
             {
@@ -68,14 +77,27 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Zwraca kolekcję elementów menu
+        /// </summary>
+        /// <param name="userId">Identyfikator uzytkownika</param>
+        /// <returns></returns>
         public IEnumerable<MenuItem> GetMenuItems(int userId)
         {
             if (!CheckIsUserLoggedIn(userId))
-                throw new SecurityException(String.Format("User login={0} is not logged in", userId));
-            
+            {
+                string errorMessage = String.Format("User login={0} is not logged in", userId);
+                logger.Write(errorMessage, LoggingCategory.Warning);
+                throw new SecurityException(errorMessage);
+            }
+
             return GetMenuItems();
         }
 
+        /// <summary>
+        /// Zwraca kolekcję elementów menu
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<MenuItem> GetMenuItems()
         {
             using (var db = new DataAccessProvider())
@@ -85,10 +107,19 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Zwraca kolekcję stolików zarejestrowanych w systemie
+        /// </summary>
+        /// <param name="userId">Identyfikator klienta</param>
+        /// <returns></returns>
         public IEnumerable<Table> GetTables(int userId)
         {
             if (!CheckIsUserLoggedIn(userId))
-                throw new SecurityException(String.Format("User login={0} is not logged in", userId));
+            {
+                string errorMessage = String.Format("User login={0} is not logged in", userId);
+                logger.Write(errorMessage, LoggingCategory.Warning);
+                throw new SecurityException(errorMessage);
+            }
 
             using (var db = new DataAccessProvider())
             {
@@ -97,6 +128,13 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Metoda logująca użytkownika systemu.
+        /// </summary>
+        /// <param name="login">Login użytkownika</param>
+        /// <param name="password">Hasło użytkownika</param>
+        /// <remarks>Aby poprawnie przeprowadzić logowanie, haslo podane w tej metodzie musi być w postaci pierwszego hasza (haszowane klasą <href>HashClass</href>)</remarks>
+        /// <returns></returns>
         UserContext IBaseDataAccessWCFService.LogIn(string login, string password)
         {
             if (String.IsNullOrEmpty(login))
@@ -132,6 +170,8 @@ namespace DataAccess
                     loggedInUsers.Add(userContextEntity);
             }
 
+            UserContext userContext = new UserContext(userContextEntity);
+
             if (userContextEntity.Role == UserRole.Client)
                 lock(clientRegistrationRecordsLockObject)
                     clientRegistrationRecords.Add(new ClientRegistrationRecord(userContextEntity.Id,
@@ -143,15 +183,20 @@ namespace DataAccess
                         new WaiterRegistrationRecord(userContextEntity.Id,
                             OperationContext.Current.GetCallbackChannel<IWaiterDataAccessCallbackWCFService>()), null);
 
-                Task.Run(() => TryAssignAwaitingOrder());
+                Task.Run(() => TryAssignAwaitingOrder(userContext));
             }
 
             logger.Write(String.Format("User {0}({1}) logged in.", userContextEntity.Login, userContextEntity.Role), LoggingCategory.Information);
             OperationContext.Current.Channel.Faulted += Channel_Faulted;
 
-            return new UserContext(userContextEntity);
+            return userContext;
         }
 
+        /// <summary>
+        /// Przechwytywanie zdarzenia przejścia kanału WCF-owego w stan Faulted. Póki  co raczej nie jest wołana.....
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void Channel_Faulted(object sender, EventArgs e)
         {
             IContextChannel channel = sender as IContextChannel;
@@ -159,6 +204,13 @@ namespace DataAccess
             logger.Write(String.Format("Channel {0} entered faulted state. {1}", channel.GetType(), e), LoggingCategory.Error);
         }
         
+        /// <summary>
+        /// Metoda logująca użytkownika w systemia.
+        /// </summary>
+        /// <param name="login">Login użytkownika</param>
+        /// <param name="password">Hasło uzytkownika</param>
+        /// <remarks>Aby poprawnie przeprowadzić logowanie, haslo podane w tej metodzie musi być w postaci pierwszego hasza (haszowane klasą <href>HashClass</href>)</remarks>
+        /// <returns></returns>
         public UserContext 
             LogIn(string login, string password)
         {
@@ -196,6 +248,11 @@ namespace DataAccess
             return new UserContext(userContextEntity);
         }
 
+        /// <summary>
+        /// Metoda wylogowująca użytkownika ze systemu
+        /// </summary>
+        /// <param name="userId">Identyfikator użytkownika</param>
+        /// <returns></returns>
         public bool LogOut(int userId)
         {
             if (!CheckIsUserLoggedIn(userId))
@@ -207,11 +264,27 @@ namespace DataAccess
         #endregion
 
         #region IManagerDataAccess
+        /// <summary>
+        /// Rejestruje w systemie użytkownika o roli menedżera baru.
+        /// </summary>
+        /// <param name="firstName">Imie użytkownika</param>
+        /// <param name="lastName">Nazwisko użytkownika</param>
+        /// <param name="login">Login użytkownika</param>
+        /// <param name="password">Hasło użytkownika</param>
+        /// <remarks>Aby poprawnie przeprowadzić rejestrowanie, haslo podane w tej metodzie musi być w postaci pierwszego hasza (haszowane klasą <href>HashClass</href>)</remarks>
+        /// <returns></returns>
         public UserContext AddManager(string firstName, string lastName, string login, string password)
         {
             return AddUserToDatabase(firstName, lastName, login, password, UserRole.Manager);
         }
 
+        /// <summary>
+        /// Rejestruje w systemie kategorię elementów menu.
+        /// </summary>
+        /// <param name="managerId">Identyfikator użytkownika o roli menedżera baru.</param>
+        /// <param name="name">Nazwa kategorii</param>
+        /// <param name="description">Opis kategorii</param>
+        /// <returns></returns>
         public MenuItemCategory AddMenuItemCategory(int managerId, string name, string description)
         {
             if (!CheckHasUserRole(managerId, UserRole.Manager))
@@ -249,6 +322,13 @@ namespace DataAccess
             return new MenuItemCategory(newCategoryEntity);
         }
 
+        /// <summary>
+        /// Edytuje kategorię elementów menu
+        /// </summary>
+        /// <param name="managerId">Identyfikator użytkownika o roli menedżera systemu</param>
+        /// <param name="menuItemCategoryToEdit">Kategoria elementów menu do edycji</param>
+        /// <remarks>Identyfikator kategorii musi być taki sam jak identyfikator kategorii do edycji. Pozostałe pola mogą być zmienione.</remarks>
+        /// <returns></returns>
         public bool EditMenuItemCategory(int managerId, MenuItemCategory menuItemCategoryToEdit)
         {
             if (!CheckHasUserRole(managerId, UserRole.Manager))
@@ -274,6 +354,12 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Usuwa z systemu kategorię elementów menu
+        /// </summary>
+        /// <param name="managerId">Identyfikator użytkownika o roli menedżera baru</param>
+        /// <param name="categoryId">Identyfikator kategorii do usunięcia</param>
+        /// <returns></returns>
         public bool RemoveMenuItemCategory(int managerId, int categoryId)
         {
             if (!CheckHasUserRole(managerId, UserRole.Manager))
@@ -1007,10 +1093,17 @@ namespace DataAccess
         #endregion
 
         #region OrderLogic
-        private void AssignOrder(Order orderToAssign)
+        private void AssignOrder(Order orderToAssign, UserContext waiterToAssign = null)
         {
             if (orderToAssign == null)
                 return;
+
+            if (waiterToAssign != null && waiterToAssign.Role != UserRole.Waiter)
+            {
+                string errorMessage = String.Format("Trying to assign order to non-waiter, id={0}", waiterToAssign.Id);
+                logger.Write(errorMessage, LoggingCategory.Warning);
+                throw new ArgumentException(errorMessage, "waiterToAssign");
+            }
 
             bool foundWaiter = false;
 
@@ -1021,44 +1114,35 @@ namespace DataAccess
 
             CheckAreWaitersAvailable();
 
+
             lock (waiterOrderDictionary)
             {
-                foreach (var registrationRecord in waiterOrderDictionary.Keys)
+                if (waiterToAssign != null)
                 {
-                    if (waiterOrderDictionary[registrationRecord] == null)
-                    {
-                        if (registrationRecord.Callback.AcceptNewOrder(orderToAssign))
+                    var waiterRegistrationRecord =
+                        waiterOrderDictionary.Keys.FirstOrDefault(r => r.WaiterId == waiterToAssign.Id);
+                    if(waiterRegistrationRecord != null && waiterOrderDictionary[waiterRegistrationRecord] == null)
+                        if (waiterRegistrationRecord.Callback.AcceptNewOrder(orderToAssign))
                         {
                             foundWaiter = true;
-                            //zapisujemy, że kelner będzie się zajmował tym zadaniem
-                            waiterOrderDictionary[registrationRecord] = orderToAssign;
-                            //ustawiamy kelnera jako obsługujący zadanie w bazie danych
-                            var waiterContext = SetWaiterForOrder(orderToAssign.Id, registrationRecord.WaiterId);
-                            //stan zamówienia ustawiamy jako zaakceptowany
-                            SetOrderState(registrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
-                            logger.Write(String.Format("Order {0} was accepted by waiter {1}({2})", orderToAssign.Id, waiterContext.Login, registrationRecord.WaiterId), LoggingCategory.Information);
-                            //powiadamiamy klienta o zaakceptowaniu zamówienia (jeżeli istnieje)
-                            if (clientRegistrationRecord != null)
+                            AcceptOrderInternal(waiterRegistrationRecord, clientRegistrationRecord, orderToAssign);
+                        }
+                }
+                else
+                {
+                    foreach (var registrationRecord in waiterOrderDictionary.Keys)
+                    {
+                        if (waiterOrderDictionary[registrationRecord] == null)
+                        {
+                            if (registrationRecord.Callback.AcceptNewOrder(orderToAssign))
                             {
-                                clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
-
-                                lock (loggedInUsersLockObject)
-                                {
-                                    var clientContext =
-                                        loggedInUsers.FirstOrDefault(u => u.Id == clientRegistrationRecord.ClientId);
-
-                                    if(clientContext != null)
-                                        logger.Write(
-                                            String.Format(
-                                                "User {0}({1}) was notified of order {2} being accepted by waiter {3}({4})",
-                                                clientContext.Login, clientContext.Id, orderToAssign.Id,
-                                                waiterContext.Login, registrationRecord.WaiterId),
-                                            LoggingCategory.Information);
-                                }
+                                foundWaiter = true;
+                                AcceptOrderInternal(registrationRecord, clientRegistrationRecord, orderToAssign);
+                                break;
                             }
-                            break;
                         }
                     }
+
                 }
             }
            
@@ -1075,16 +1159,59 @@ namespace DataAccess
             }
         }
 
-        private void TryAssignAwaitingOrder()
+        /// <summary>
+        /// Zapisuje w bazie danych odpowiedni stan zamówienia oraz powiadamia klienta o tym, że jego zamówienie zostało przyjęte.
+        /// </summary>
+        /// <param name="waiterRegistrationRecord">Kelner, który przyjął zamówienie</param>
+        /// <param name="clientRegistrationRecord">Klient składający zamówienie</param>
+        /// <param name="orderToAssign">Zamówienie</param>
+        private void AcceptOrderInternal(WaiterRegistrationRecord waiterRegistrationRecord, ClientRegistrationRecord clientRegistrationRecord, Order  orderToAssign)
         {
+            //zapisujemy, że kelner będzie się zajmował tym zadaniem
+            waiterOrderDictionary[waiterRegistrationRecord] = orderToAssign;
+            //ustawiamy kelnera jako obsługujący zadanie w bazie danych
+            var waiterContext = SetWaiterForOrder(orderToAssign.Id, waiterRegistrationRecord.WaiterId);
+            //stan zamówienia ustawiamy jako zaakceptowany
+            SetOrderState(waiterRegistrationRecord.WaiterId, orderToAssign.Id, OrderState.Accepted);
+            logger.Write(String.Format("Order {0} was accepted by waiter {1}({2})", orderToAssign.Id, waiterContext.Login, waiterRegistrationRecord.WaiterId), LoggingCategory.Information);
+            //powiadamiamy klienta o zaakceptowaniu zamówienia (jeżeli istnieje)
+            if (clientRegistrationRecord != null)
+            {
+                clientRegistrationRecord.Callback.NotifyOrderAccepted(orderToAssign.Id, waiterContext);
+
+                lock (loggedInUsersLockObject)
+                {
+                    var clientContext =
+                        loggedInUsers.FirstOrDefault(u => u.Id == clientRegistrationRecord.ClientId);
+
+                    if (clientContext != null)
+                        logger.Write(
+                            String.Format(
+                                "User {0}({1}) was notified of order {2} being accepted by waiter {3}({4})",
+                                clientContext.Login, clientContext.Id, orderToAssign.Id,
+                                waiterContext.Login, waiterRegistrationRecord.WaiterId),
+                            LoggingCategory.Information);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Próbuję przypasować kelnera do oczekującego zadania
+        /// </summary>
+        /// <param name="waiterToAssign">Kelner, któremu ma zostać przypisane zadanie.</param>
+        /// <remarks>Jeżeli <href>waiterToAssign</href> jest równe null, to metoda leci po wszystkich wolnych kelnerach</remarks>
+        private void TryAssignAwaitingOrder(UserContext waiterToAssign = null)
+        {
+            Order order = null;
             lock (awaitingOrderCollectionLockObject)
             {
                 if (awaitingOrderCollection.Count == 0)
                     return;
 
-                Order order = awaitingOrderCollection.Dequeue();
-                AssignOrder(order);
+                order = awaitingOrderCollection.Dequeue();
             }
+            if(order != null)
+                AssignOrder(order, waiterToAssign);
         }
 
         private bool IsAvailable(ICommunicationObject communicationObject)
