@@ -1093,6 +1093,11 @@ namespace DataAccess
         #endregion
 
         #region OrderLogic
+        /// <summary>
+        /// Przyporządkowuje zadanie kelnerom
+        /// </summary>
+        /// <param name="orderToAssign">Zadanie do przyporządkowania</param>
+        /// <param name="waiterToAssign">Jeżeli nie jest nullem, to metoda spróbuje zadanie przyporządkować (tylko) temu kelnerowi</param>
         private void AssignOrder(Order orderToAssign, UserContext waiterToAssign = null)
         {
             if (orderToAssign == null)
@@ -1214,11 +1219,19 @@ namespace DataAccess
                 AssignOrder(order, waiterToAssign);
         }
 
+        /// <summary>
+        /// Sprawdza stan kanału komunikacyjnego.
+        /// </summary>
+        /// <param name="communicationObject">Kanał komunikacyjny</param>
+        /// <returns>Czy kanał jest gotowy do wysyłania wiadomości</returns>
         private bool IsAvailable(ICommunicationObject communicationObject)
         {
             return communicationObject.State == CommunicationState.Opened;
         }
 
+        /// <summary>
+        /// Oczyszcza kolekcję zalogowanych kelnerów z tych, których kanały komunikacyjne nie są otwarte.
+        /// </summary>
         private void CheckAreWaitersAvailable()
         {
             IList<WaiterRegistrationRecord> notLongerAvailableWaiters = new List<WaiterRegistrationRecord>();
@@ -1236,6 +1249,9 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Oczyszcza kolekcję zalogowanych klientów z tych, których kanały komunikacyjne nie są otwarte.
+        /// </summary>
         private void CheckAreClientsAvailable()
         {
             IList<ClientRegistrationRecord> notLongerAvailableClients = new List<ClientRegistrationRecord>();
@@ -1253,6 +1269,12 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Szuka wolnego stolika i próbuje dopasować kelnera do zadania
+        /// </summary>
+        /// <param name="orderToAssign">Zadanie do przyporządkowania</param>
+        /// <remarks>Szukanie stolika odbywa się poprzez usuwanie z kolekcji wszystkich stolików tych, dla których aktualnie istnieją aktywne zamówienia</remarks>
+        /// <returns></returns>
         private bool FindTableAndAssignOrder(Order orderToAssign)
         {
             if(orderToAssign == null)
@@ -1298,6 +1320,12 @@ namespace DataAccess
             }
         }
 
+        /// <summary>
+        /// Wysyła do kelnera zapytanie o potwierdzenie dokonania płatności przez klienta. Jeżeli potwierdzenie zostanie uzyskane, w bazie jest zmieniany stan zamówienia.
+        /// </summary>
+        /// <param name="userId">Identyfikator klienta</param>
+        /// <param name="orderId">Identyfikator zamówienia</param>
+        /// <returns></returns>
         private bool PayForOrderInternal(int userId, int orderId)
         {
             WaiterRegistrationRecord waiterRegRecord = null;
