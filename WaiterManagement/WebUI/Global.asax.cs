@@ -26,5 +26,11 @@ namespace WebUI
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
             ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
         }
+
+		protected void Application_Error()
+		{
+			Server.ClearError();
+			Response.Redirect("/Error/Index");
+		}
     }
 }
