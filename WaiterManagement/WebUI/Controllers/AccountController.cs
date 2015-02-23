@@ -5,56 +5,68 @@ using WebUI.Models;
 
 namespace WebUI.Controllers
 {
-    public class AccountController : Controller
-    {
-        readonly IAuthProvider _authProvider;
-        private readonly IClientDataAccess _clientDataAccess;
+	public class AccountController : Controller
+	{
+		#region Dependencies
 
-        public AccountController(IAuthProvider auth, IClientDataAccess clientDataAccess)
-        {
-            _authProvider = auth;
-            _clientDataAccess = clientDataAccess;
-        }
+		readonly IAuthProvider _authProvider;
+		private readonly IClientDataAccess _clientDataAccess;
 
-        public ViewResult Login()
-        {
-            return View();
-        }
+		#endregion
 
-        [HttpPost]
-        public ActionResult Login(LoginViewModel model, string returnUrl)
-        {
-            if (ModelState.IsValid)
-            {
-                if (_authProvider.Authenticate(model.UserName, model.Password))
-                {
-                    return Redirect(returnUrl ?? Url.Action("Index", "Cart"));
-                }
+		#region Controllers
 
-	            ModelState.AddModelError("", "Incorrect username or password");
-	            return View();
-            }
-            else
-            {
-                return View();
-            }
-        }
+		public AccountController(IAuthProvider auth, IClientDataAccess clientDataAccess)
+		{
+			_authProvider = auth;
+			_clientDataAccess = clientDataAccess;
+		}
 
-        public PartialViewResult Summary()
-        {
-            return PartialView(_authProvider);
-        }
+		#endregion
 
-        public ActionResult Logout(string returnUrl)
-        {
-            FormsAuthentication.SignOut();
+		#region Actions
 
-            return Redirect(returnUrl);
-        }
+		public ViewResult Login()
+		{
+			return View();
+		}
 
-        public ViewResult Orders()
-        {
-            return View(_clientDataAccess.GetOrders(_authProvider.GetClientId()));
-        }
-    }
+		[HttpPost]
+		public ActionResult Login(LoginViewModel model, string returnUrl)
+		{
+			if (ModelState.IsValid)
+			{
+				if (_authProvider.Authenticate(model.UserName, model.Password))
+				{
+					return Redirect(returnUrl ?? Url.Action("Index", "Cart"));
+				}
+
+				ModelState.AddModelError("", "Incorrect username or password");
+				return View();
+			}
+			else
+			{
+				return View();
+			}
+		}
+
+		public PartialViewResult Summary()
+		{
+			return PartialView(_authProvider);
+		}
+
+		public ActionResult Logout(string returnUrl)
+		{
+			FormsAuthentication.SignOut();
+
+			return Redirect(returnUrl);
+		}
+
+		public ViewResult Orders()
+		{
+			return View(_clientDataAccess.GetOrders(_authProvider.GetClientId()));
+		}
+
+		#endregion
+	}
 }

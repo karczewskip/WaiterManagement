@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using ClassLib;
@@ -11,9 +10,15 @@ namespace WebUI.Controllers
 {
 	public class CartController : Controller
 	{
+		#region Dependencies
+
 		private readonly IBaseDataAccess _baseDataAccess;
 		private readonly IProcessOrderCommand _orderProcessorCommand;
 		private readonly IAuthProvider _authProvider;
+
+		#endregion
+
+		#region Constructors
 
 		public CartController(IBaseDataAccess baseDataAccess, IProcessOrderCommand orderProcessor, IAuthProvider authProvider)
 		{
@@ -21,6 +26,10 @@ namespace WebUI.Controllers
 			_orderProcessorCommand = orderProcessor;
 			_authProvider = authProvider;
 		}
+
+		#endregion
+
+		#region Actions
 
 		public ViewResult Index(Cart cart, string returnUrl)
 		{
@@ -75,6 +84,15 @@ namespace WebUI.Controllers
 			return View("Completed");
 		}
 
+		public ViewResult Checkout()
+		{
+			return View(new OrderDetails() { Date = DateTime.Now });
+		}
+
+		#endregion
+
+		#region Private methods
+
 		private bool CheckCartContent(Cart cart)
 		{
 			if (cart.Lines.Any()) return true;
@@ -93,9 +111,6 @@ namespace WebUI.Controllers
 			return false;
 		}
 
-		public ViewResult Checkout()
-		{
-			return View(new OrderDetails() { Date = DateTime.Now });
-		}
+		#endregion
 	}
 }

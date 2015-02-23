@@ -113,6 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CartControllerTests.cs" />
+    <Compile Include="Controllers\MenuControllerTests.cs" />
+    <Compile Include="Controllers\NavControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

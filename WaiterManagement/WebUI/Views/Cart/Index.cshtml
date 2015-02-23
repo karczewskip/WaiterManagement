@@ -1,52 +1,52 @@
 ﻿@model WebUI.Models.CartIndexViewModel
 
 @{
-    ViewBag.Title = "Bar.Net: Your Order";
+	ViewBag.Title = "Bar.Net: Your Order";
 }
 
 <h2>Your cart</h2>
 <table class="table table-bordered" width="90%" align="center">
-    <thead>
-        <tr>
-            <th align="right">Quantity</th>
-            <th align="left">Item</th>
-            <th align="right">Price</th>
-            <th align="right">Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var line in Model.Cart.Lines)
-        {
-            <tr>
-                <td align="left">@line.Quantity</td>
-                <td align="left">@line.MenuItem.Name</td>
-                <td align="right">@line.MenuItem.Price.Amount</td>
-                <td align="right">
-                    @((line.Quantity
-                       *line.MenuItem.Price.Amount))
-                </td>
-                <td>
-                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
-                    {
-                        @Html.Hidden("MenuItemId", line.MenuItem.Id)
-                        @Html.HiddenFor(x => x.ReturnUrl)
-                        <input class="actionButtons" type="submit"
-                               value="Remove" />
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" align="right">Total:</td>
-            <td align="right">
-                @Model.Cart.ComputeTotalValue() @Model.Cart.Currency
-            </td>
-        </tr>
-    </tfoot>
+	<thead>
+		<tr>
+			<th align="right">Quantity</th>
+			<th align="left">Item</th>
+			<th align="right">Price</th>
+			<th align="right">Subtotal</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var line in Model.Cart.Lines)
+		{
+			<tr>
+				<td align="left">@line.Quantity</td>
+				<td align="left">@line.MenuItem.Name</td>
+				<td align="right">@line.MenuItem.Price.Amount</td>
+				<td align="right">
+					@((line.Quantity
+					   * line.MenuItem.Price.Amount))
+				</td>
+				<td>
+					@using (Html.BeginForm("RemoveFromCart", "Cart"))
+					{
+						@Html.Hidden("MenuItemId", line.MenuItem.Id)
+						@Html.HiddenFor(x => x.ReturnUrl)
+						<input class="actionButtons" type="submit"
+							   value="Remove" />
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="3" align="right">Total:</td>
+			<td align="right">
+				@Model.Cart.ComputeTotalValue() @Model.Cart.Currency
+			</td>
+		</tr>
+	</tfoot>
 </table>
 <p align="center" class="actionButtons">
-	@Html.ActionLink("Continue shopping", "List", "Menu",new { }, new { @class = "btn btn-default btn-sm" })
-    @Html.ActionLink("Checkout now", "Checkout", "Cart", new { @class = "btn btn-default btn-sm" })
+	@Html.ActionLink("Continue shopping", "List", "Menu", new { }, new { @class = "btn btn-default btn-sm" })
+	@Html.ActionLink("Checkout now", "Checkout", "Cart", new { @class = "btn btn-default btn-sm" })
 </p>

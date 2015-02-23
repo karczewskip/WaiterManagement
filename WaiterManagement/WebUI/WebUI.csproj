@@ -137,7 +137,6 @@
     <Compile Include="Binders\CartModelBinder.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\NavController.cs" />
@@ -322,7 +321,6 @@
     <Content Include="Views\About\Index.cshtml" />
     <Content Include="Views\About\Contact.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Summary.cshtml" />
     <Content Include="Views\Account\Orders.cshtml" />

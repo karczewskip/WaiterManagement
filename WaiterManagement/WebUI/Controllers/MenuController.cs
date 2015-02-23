@@ -7,13 +7,31 @@ namespace WebUI.Controllers
 {
 	public class MenuController : Controller
 	{
+		#region Consts
+
+		public static int PageSize
+		{
+			get { return 4; }
+		}
+
+		#endregion
+
+		#region Dependencies
+
 		private readonly IBaseDataAccess _baseDataAccess;
-		public int PageSize = 4;
+
+		#endregion
+
+		#region Constructors
 
 		public MenuController(IBaseDataAccess baseDataAccess)
 		{
 			_baseDataAccess = baseDataAccess;
 		}
+
+		#endregion
+
+		#region Actions
 
 		public ViewResult List(string category, int page = 1)
 		{
@@ -40,5 +58,7 @@ namespace WebUI.Controllers
 
 			return View(model);
 		}
+
+		#endregion
 	}
 }
