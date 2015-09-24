@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{41F66C53-CD5D-4459-A05E-68ABFE7F697A}"
 EndProject
@@ -10,15 +10,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarManager", "BarManager\Ba
 		{85647E76-5E64-435F-AC79-F99C1A974E4E} = {85647E76-5E64-435F-AC79-F99C1A974E4E}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaiterClient", "WaiterClient\WaiterClient.csproj", "{4FF01898-26EE-4172-9691-A39B5E77A32F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.UnitTests", "DataAccess.UnitTests\DataAccess.UnitTests.csproj", "{035A8554-C8F1-4577-A66C-2FF4F8CDED51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLib", "ClassLib\ClassLib.csproj", "{0F2C99C2-914C-40D5-A0FE-FF4A79854ACE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarManager.UnitTests", "BarManager.UnitTests\BarManager.UnitTests.csproj", "{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickDatabaseSetup", "QuickDatabaseSetup\QuickDatabaseSetup.csproj", "{2BB148A5-F3CB-4E42-915E-330A35C12164}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderClient", "OrderClient\OrderClient.csproj", "{7E882E03-0332-4D59-AD07-F37B21A8AA14}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -55,10 +51,6 @@ Global
 		{5F853BF4-96E1-4C06-8F50-898E77C3C9B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F853BF4-96E1-4C06-8F50-898E77C3C9B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F853BF4-96E1-4C06-8F50-898E77C3C9B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4FF01898-26EE-4172-9691-A39B5E77A32F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4FF01898-26EE-4172-9691-A39B5E77A32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4FF01898-26EE-4172-9691-A39B5E77A32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4FF01898-26EE-4172-9691-A39B5E77A32F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{035A8554-C8F1-4577-A66C-2FF4F8CDED51}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,10 +63,6 @@ Global
 		{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C81B96FD-EE31-40BA-9CAE-1CCC90996BD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BB148A5-F3CB-4E42-915E-330A35C12164}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E882E03-0332-4D59-AD07-F37B21A8AA14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E882E03-0332-4D59-AD07-F37B21A8AA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E882E03-0332-4D59-AD07-F37B21A8AA14}.Release|Any CPU.ActiveCfg = Release|Any CPU

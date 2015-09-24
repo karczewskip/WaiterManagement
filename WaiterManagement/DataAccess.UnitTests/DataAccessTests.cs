@@ -301,7 +301,7 @@ namespace DataAccess.UnitTests
             bool result = managerDataAccess.EditMenuItem(managerContext1.Id, menuItem1);
             Assert.IsTrue(result);
 
-            var menuItems = managerDataAccess.GetMenuItems(managerContext1.Id);
+            var menuItems = managerDataAccess.GetMenuItems();
             Assert.IsTrue(menuItems != null && menuItems.Any());
 
             var editedMenuItem = menuItems.FirstOrDefault(m => m.Id == menuItem1.Id);
@@ -418,7 +418,7 @@ namespace DataAccess.UnitTests
             bool result = managerDataAccess.RemoveMenuItem(managerContext1.Id, menuItem1.Id);
             Assert.IsTrue(result);
 
-            var menuItems = managerDataAccess.GetMenuItems(managerContext1.Id);
+            var menuItems = managerDataAccess.GetMenuItems();
 
             if (menuItem1 != null && menuItems.Any())
             {
@@ -563,7 +563,7 @@ namespace DataAccess.UnitTests
                 new Tuple<int, int>(menuItem3.Id, menuItemQuantity3)
             };
 
-            order1 = clientDataAccess.AddOrder(clientContext1.Id, table1.Id, menuItems);
+            order1 = clientDataAccess.AddOrder(clientContext1.Id, DateTime.Now, menuItems);
             Assert.IsNotNull(order1);
             Assert.AreNotEqual(order1.Id, 0);
             Assert.AreEqual(order1.Client.Id, clientContext1.Id);
