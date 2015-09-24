@@ -13,9 +13,9 @@ namespace DataAccess
     /// </summary>
     public class DataAccessProvider : DbContext
     {
-		public DataAccessProvider()
+        public DataAccessProvider()
 			:base("Connection")
-		{ }
+        { }
 
         public DbSet<MenuItemEntity> MenuItems { get; set; }
         public DbSet<UserContextEntity> Users { get; set; }
