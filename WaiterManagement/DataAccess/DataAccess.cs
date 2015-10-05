@@ -492,6 +492,9 @@ namespace DataAccess
                 var waiterContextToAdd = new UserContextEntity() { FirstName = firstName, LastName = lastName, Login = login, Role = UserRole.Waiter};
                 var usersSameLogin = db.Users.Where(u => u.Role == UserRole.Waiter && u.Login.Equals(login));
 
+				if(usersSameLogin.Any(x => !x.IsDeleted))
+					throw new ArgumentException("Login is busy.");
+
                 if (usersSameLogin != null && usersSameLogin.Any())
                 {
                     foreach (UserContextEntity userContextEntity in usersSameLogin)
