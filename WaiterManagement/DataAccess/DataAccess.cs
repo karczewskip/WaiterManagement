@@ -6,6 +6,7 @@ using System.Security;
 using System.Data.Entity;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using ClassLib;
 using DataAccess.Migrations;
 using ClassLib.DataStructures;
 using ClassLib.ServiceContracts;
@@ -16,16 +17,19 @@ namespace DataAccess
     /// Klasa agregująca metody dostępu do bazy danych
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext=false, IncludeExceptionDetailInFaults = true)]
-    public class DataAccessClass : IManagerDataAccessWCFService, IWaiterDataAccessWCFService, IClientDataAccessWCFService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess, IClientDataAccessWebWCFService, IManagerDataAccessWebWCFService
+    public class DataAccessClass : IManagerDataAccessWcfService, IWaiterDataAccessWcfService, IClientDataAccessWcfService, IDataWipe, IManagerDataAccess, IWaiterDataAccess, IClientDataAccess, IClientDataAccessWebWcfService, IManagerDataAccessWebWCFService
     {
         #region Const Fields
+
         /// <summary>
         /// Przerwa pomiędzy kolejnymi wywołaniami schedulera
         /// </summary>
         private const long schedulerInterval = 1000*10;
+
         #endregion
 
         #region Private Fields
+
         private Logger logger;
 
         private HashSet<UserContextEntity> loggedInUsers;
@@ -37,10 +41,17 @@ namespace DataAccess
         private HashSet<ClientRegistrationRecord> clientRegistrationRecords;
         private object clientRegistrationRecordsLockObject = new object();
         private OrderAssignScheduler orderAssignScheduler;
+
         #endregion
 
-        #region Constructors
-        public DataAccessClass()
+		#region Dependencies
+
+		public ITokenGenerator TokenGenerator { get; set; }
+
+		#endregion
+
+		#region Constructors
+		public DataAccessClass()
         {
             logger = new Logger();
 
@@ -56,6 +67,7 @@ namespace DataAccess
         #endregion
 
         #region IBaseDataAccess
+
         /// <summary>
         /// Zwraca kolekcję kategorii elementów menu
         /// </summary>
@@ -135,7 +147,7 @@ namespace DataAccess
         /// <param name="password">Hasło użytkownika</param>
         /// <remarks>Aby poprawnie przeprowadzić logowanie, haslo podane w tej metodzie musi być w postaci pierwszego hasza (haszowane klasą <href>HashClass</href>)</remarks>
         /// <returns></returns>
-        UserContext IBaseDataAccessWCFService.LogIn(string login, string password)
+        string IBaseDataAccessWcfService.LogIn(string login, string password)
         {
             if (String.IsNullOrEmpty(login))
                 throw new ArgumentNullException("login");
@@ -189,7 +201,7 @@ namespace DataAccess
             logger.Write(String.Format("User {0}({1}) logged in.", userContextEntity.Login, userContextEntity.Role), LoggingCategory.Information);
             OperationContext.Current.Channel.Faulted += Channel_Faulted;
 
-            return userContext;
+            return "xxx";
         }
 
         /// <summary>
@@ -210,8 +222,8 @@ namespace DataAccess
         /// <param name="login">Login użytkownika</param>
         /// <param name="password">Hasło uzytkownika</param>
         /// <remarks>Aby poprawnie przeprowadzić logowanie, haslo podane w tej metodzie musi być w postaci pierwszego hasza (haszowane klasą <href>HashClass</href>)</remarks>
-        /// <returns></returns>
-        public UserContext 
+        /// <returns>Token</returns>
+        public string 
             LogIn(string login, string password)
         {
             if (String.IsNullOrEmpty(login))
@@ -245,7 +257,7 @@ namespace DataAccess
             }
 
             logger.Write(String.Format("User {0}({1}) logged in.", userContextEntity.Login, userContextEntity.Role), LoggingCategory.Information);
-            return new UserContext(userContextEntity);
+            return TokenGenerator.GetToken();
         }
 
         /// <summary>
@@ -272,10 +284,9 @@ namespace DataAccess
         /// <param name="login">Login użytkownika</param>
         /// <param name="password">Hasło użytkownika</param>
         /// <remarks>Aby poprawnie przeprowadzić rejestrowanie, haslo podane w tej metodzie musi być w postaci pierwszego hasza (haszowane klasą <href>HashClass</href>)</remarks>
-        /// <returns></returns>
-        public UserContext AddManager(string firstName, string lastName, string login, string password)
+        public void AddManager(string firstName, string lastName, string login, string password)
         {
-            return AddUserToDatabase(firstName, lastName, login, password, UserRole.Manager);
+            AddUserToDatabase(firstName, lastName, login, password, UserRole.Manager);
         }
 
         /// <summary>
@@ -856,7 +867,7 @@ namespace DataAccess
         /// <param name="tableId">Numer stolika</param>
         /// <param name="menuItemsEnumerable">Elementy stanowiące zamówienie</param>
         /// <returns></returns>
-        Order IClientDataAccessWCFService.AddOrder(int clientId, int tableId, IEnumerable<Tuple<int, int>> menuItemsEnumerable)
+        Order IClientDataAccessWcfService.AddOrder(int clientId, int tableId, IEnumerable<Tuple<int, int>> menuItemsEnumerable)
         {
             if (!CheckHasUserRole(clientId, UserRole.Client))
                 throw new SecurityException(String.Format("Client id={0} is not logged in.", clientId));

@@ -64,9 +64,27 @@
     <Compile Include="DataStructures\OrderAssignScheduler.cs" />
     <Compile Include="DataStructures\OrderCart.cs" />
     <Compile Include="DataStructures\OrderDetails.cs" />
-    <Compile Include="DbDataStructures\DbDataStructures.cs" />
+    <Compile Include="DbDataStructures\UserContextEntity.cs" />
+    <Compile Include="DbDataStructures\DbEntity.cs" />
+    <Compile Include="DbDataStructures\MenuItemCategoryEntity.cs" />
+    <Compile Include="DbDataStructures\MenuItemEntity.cs" />
+    <Compile Include="DbDataStructures\MenuItemQuantityEntity.cs" />
+    <Compile Include="DbDataStructures\OrderEntity.cs" />
+    <Compile Include="DbDataStructures\PasswordEntity.cs" />
+    <Compile Include="DbDataStructures\TableEntity.cs" />
+    <Compile Include="ITokenGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceContracts\IDataAccessWCFService.cs" />
+    <Compile Include="ServiceContracts\IBaseDataAccessWcfService.cs" />
+    <Compile Include="ServiceContracts\IBaseDataAccessWebWCFService.cs" />
+    <Compile Include="ServiceContracts\IClientDataAccessCallbackWCFService.cs" />
+    <Compile Include="ServiceContracts\IClientDataAccessWCFService.cs" />
+    <Compile Include="ServiceContracts\IClientDataAccessWebWcfService.cs" />
+    <Compile Include="ServiceContracts\IManagerDataAccessWCFService.cs" />
+    <Compile Include="ServiceContracts\IManagerDataAccessWebWCFService.cs" />
+    <Compile Include="ServiceContracts\IWaiterDataAccessCallbackWCFService.cs" />
+    <Compile Include="ServiceContracts\IWaiterDataAccessWcfService.cs" />
+    <Compile Include="SystemTime.cs" />
+    <Compile Include="TokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
